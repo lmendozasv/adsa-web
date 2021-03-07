@@ -4,7 +4,7 @@
   "description": "Material App Pro - React Admin & Dashboard Template",
   "author": "Paul Laros <support@bootlab.io>",
   "engines": {
-    "node": "14.x"
+    "node": "14.15.4"
   },
   "private": true,
   "scripts": {

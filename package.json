@@ -1,7 +1,7 @@
 {
   "name": "plandy-app",
   "version": "1.0.8",
-  "description": "Material App Pro - React Admin & Dashboard Template",
+  "description": "Plandy App Pro - React Admin & Dashboard Template",
   "author": "Paul Laros <support@bootlab.io>",
   "engines": {
     "node": "14.x",

@@ -1,2 +1,2 @@
-web : node server.js
+web : npm start
 worker: node workers/match.js

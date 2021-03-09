@@ -135,7 +135,7 @@ const pagesRoutes = {
 
 const profileRoutes = {
   id: "Inicio",
-  path: "/profile",
+  path: "/",
   icon: <HomeIcon />,
   component: Profile,
   children: null

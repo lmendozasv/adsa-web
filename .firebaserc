@@ -1,5 +1,6 @@
 {
   "projects": {
-    "ola": "ola-app-58e31"
+    "dev": "plandy-c38e0",
+    "default": "plandy-c38e0"
   }
 }

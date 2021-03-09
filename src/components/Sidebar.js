@@ -317,14 +317,16 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
       >
         {/* <BrandIcon />  */}
         <img         
-        src={"http://plandy.net/static/logo-white-042f56bb406a4cc770fe9624a26fd393.png"}
-        alt="AES El Salvador"        
+        src={"https://plandy.net/static/logo-white-042f56bb406a4cc770fe9624a26fd393.png"}
+        alt="Plandy"        
         style=
         {
           {maxHeight: "70%",
           maxWidth:"50%"
         }
-      }                
+      }           
+
+      
         />
         {/* <Box ml={1}>Material App <BrandChip label="PRO" />
         </Box>  */}

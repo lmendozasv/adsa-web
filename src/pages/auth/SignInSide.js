@@ -17,8 +17,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://plandy.net/">
+        Plandy LLC
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -70,7 +70,7 @@ export default function SignInSide() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Bienvenido
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -79,7 +79,7 @@ export default function SignInSide() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Correo electrónico"
               name="email"
               autoComplete="email"
               autoFocus
@@ -90,14 +90,14 @@ export default function SignInSide() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Recordarme"
             />
             <Button
               type="submit"
@@ -106,17 +106,17 @@ export default function SignInSide() {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Acceder
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                    ¿Olvidó su contraseña?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"¿No tienes una cuenta? Regístrate"}
                 </Link>
               </Grid>
             </Grid>

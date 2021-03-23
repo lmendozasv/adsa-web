@@ -264,22 +264,22 @@ const darkVariant = {
   name: "Dark",
   palette: {
     primary: {
-      main: "#FA292A",
+      main: "#F42441",
       contrastText: "#FFF"
     },
     secondary: {
-      main: "#FA292A",
+      main: "#F42441",
       contrastText: "#FFF"
     }
   },
   header: {
-    color: "#FA292A",
+    color: "#F42441",
     background: "#FFF",
     search: {
-      color: "#FA292A"
+      color: "#F42441"
     },
     indicator: {
-      background: "#FA292A"
+      background: "#F42441"
     }
   },
   sidebar: {
@@ -287,14 +287,14 @@ const darkVariant = {
     background: "#FFF",
     header: {
       color: "#FFF",
-      background: "#FA292A",
+      background: "#F42441",
       brand: {
         color: blue[500]
       }
     },
     footer: {
       color: "#FFF",
-      background: "#FA292A",
+      background: "#F42441",
       online: {
         background: green[500]
       }

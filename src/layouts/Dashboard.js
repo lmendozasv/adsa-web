@@ -80,6 +80,7 @@ const Dashboard = ({children, routes, width}) => {
     <Root>
       <CssBaseline />
       <GlobalStyle />
+
       <Drawer>
         <Hidden mdUp implementation="js">
           <Sidebar
@@ -97,6 +98,7 @@ const Dashboard = ({children, routes, width}) => {
           />
         </Hidden>
       </Drawer>
+      
       <AppContent>
         <Header onDrawerToggle={handleDrawerToggle} />
         <MainContent p={isWidthUp("lg", width) ? 10 : 5}>

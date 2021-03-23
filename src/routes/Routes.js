@@ -4,7 +4,8 @@ import { dashboard as dashboardRoutes, auth as authRoutes } from "./index";
 
 import DashboardLayout from "../layouts/Dashboard";
 import AuthLayout from "../layouts/Auth";
-import Page404 from "../pages/auth/Page404";
+// import Page404 from "../pages/auth/Page404";
+import Page404 from "../pages/auth/SignInSide";
 
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>
@@ -44,9 +45,9 @@ const Routes = () => (
       {childRoutes(AuthLayout, authRoutes)}
       <Route
         render={() => (
-          <AuthLayout>
+          // <AuthLayout>
             <Page404 />
-          </AuthLayout>
+          // </AuthLayout>
         )}
       />
     </Switch>

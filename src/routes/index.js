@@ -438,13 +438,13 @@ const privateRoutes = {
   component: Blank,
   children: null
 };
-
+//rutas libres
 export const dashboard = [
   // dashboardsRoutes,
   // pagesRoutes,
-  profileRoutes,
-  projectsRoutes,
-  orderRoutes,
+  // profileRoutes,
+  // projectsRoutes,
+  // orderRoutes,
   // invoiceRoutes,
   // tasksRoutes,
   // calendarRoutes,
@@ -459,7 +459,7 @@ export const dashboard = [
   // changelogRoutes,
   // privateRoutes
 ];
-
+//rutas con auth
 export const auth = [authRoutes];
 
 export default [

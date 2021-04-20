@@ -317,7 +317,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
       >
         {/* <BrandIcon />  */}
         <img         
-        src={"https://plandy.net/static/logo-white-042f56bb406a4cc770fe9624a26fd393.png"}
+        src={"https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/plandy_ic.png?alt=media&token=1e0f4176-6f34-4438-b5af-8b2808854ba0"}
         alt="Plandy"        
         style=
         {
@@ -396,12 +396,12 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
               }}
               variant="dot"
             >
-              <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
+              <Avatar alt="Lucy Lavender" src="https://lh3.googleusercontent.com/ogw/ADGmqu-RGSDUxdeByPj0gE2jc24wAlMR-xWotwwLucEjedc=s64-c-mo" />
             </StyledBadge>
           </Grid>
           <Grid item>
             <SidebarFooterText variant="body2">
-              Patricia Rodriguez
+              Luis Mendoza (1.0)
             </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
               Datos verificados

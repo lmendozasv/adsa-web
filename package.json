@@ -2,13 +2,14 @@
   "name": "plandy-app",
   "version": "1.0.8",
   "description": "Plandy App",
-  "author": "Paul Laros <support@bootlab.io>",
+  "author": "Ismael Parson <info@plandy.net>",
   "engines": {
     "node": "14.x",
     "npm": "6.x"
   },
   "private": true,
-  "main":"server.js",
+  "proxy":"http://localhost:3000/",
+  "main": "server.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build"
@@ -36,9 +37,11 @@
     "@material-ui/pickers": "3.2.10",
     "@material-ui/styles": "4.9.10",
     "@material-ui/system": "4.9.10",
+    "axios": "^0.21.1",
     "chart.js": "2.9.3",
     "css-vendor": "2.0.8",
     "date-fns": "2.10.0",
+    "firebase": "^8.4.1",
     "google-map-react": "1.1.7",
     "jss": "10.1.1",
     "material-ui-dropzone": "2.4.9",
@@ -58,6 +61,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
     "redux": "4.0.5",
+    "sendbird-desk": "^1.0.17",
     "styled-components": "5.1.0"
   }
 }

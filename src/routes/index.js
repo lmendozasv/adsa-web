@@ -68,7 +68,7 @@ const InvoiceDetails = async(() => import("../pages/pages/InvoiceDetails"));
 const InvoiceList = async(() => import("../pages/pages/InvoiceList"));
 const Orders = async(() => import("../pages/pages/Orders"));
 const Pricing = async(() => import("../pages/pages/Pricing"));
-const Profile = async(() => import("../pages/pages/Profile"));
+const Profile = async(() => import("../pages/pages/HomePlandy"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/Projects"));
@@ -142,7 +142,7 @@ const profileRoutes = {
 };
 
 const projectsRoutes = {
-  id: "Mis clústers",
+  id: "Mis grupos",
   path: "/projects",
   icon: <GroupWorkIcon />,
   // badge: "",
@@ -169,7 +169,7 @@ const invoiceRoutes = {
 };
 
 const orderRoutes = {
-  id: "Nuevo clúster",
+  id: "Nuevo grupo",
   path: "/orders",
   icon: <AddIcon />,
   component: Orders,

@@ -198,7 +198,7 @@ const Header = ({ onDrawerToggle }) => (
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <Input placeholder="Buscar en clústers" />
+              <Input placeholder="Busca grupos" />
             </Search>
           </Grid>
           <Grid item xs />

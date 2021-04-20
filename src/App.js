@@ -16,8 +16,8 @@ function App({ theme }) {
   return (
     <React.Fragment>
       <Helmet
-        titleTemplate="%s | Material App"
-        defaultTitle="Material App - React Admin & Dashboard Template"
+        titleTemplate="%s | Plandy"
+        defaultTitle="Plandy"
       />
       <StylesProvider injectFirst>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

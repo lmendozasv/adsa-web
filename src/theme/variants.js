@@ -273,7 +273,7 @@ const darkVariant = {
     }
   },
   header: {
-    color: "#F42441",
+    color: "#172449",
     background: "#FFF",
     search: {
       color: "#F42441"
@@ -283,7 +283,7 @@ const darkVariant = {
     }
   },
   sidebar: {
-    color: "#585858",
+    color: "#172449",
     background: "#FFF",
     header: {
       color: "#FFF",

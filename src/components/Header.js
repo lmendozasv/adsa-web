@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled, { withTheme } from "styled-components";
 import { connect } from "react-redux";
 import { darken } from "polished";
-
+import firebase from "firebase";
 import {
   Badge,
   Grid,
@@ -106,6 +106,8 @@ function LanguageMenu() {
     setAnchorMenu(null);
   };
 
+  
+
   return (
     <React.Fragment>
       <IconButton
@@ -150,6 +152,16 @@ function UserMenu() {
     setAnchorMenu(null);
   };
 
+  const logout = () => {
+    try {    
+      firebase.auth().signOut();
+      localStorage.clear();
+      window.location.reload();
+    } catch (err) {
+     console.log('err:', err);
+    }
+   }
+
   return (
     <React.Fragment>
       <IconButton
@@ -167,10 +179,10 @@ function UserMenu() {
         onClose={closeMenu}
       >
         <MenuItem onClick={closeMenu}>
-          Profile
+          Mi cuenta
         </MenuItem>
-        <MenuItem onClick={closeMenu}>
-          Sign out
+        <MenuItem onClick={logout}>
+          Cerrar sesión
         </MenuItem>
       </Menu>
     </React.Fragment>
@@ -204,14 +216,14 @@ const Header = ({ onDrawerToggle }) => (
           <Grid item xs />
           <Grid item>
             <IconButton color="inherit">
-              <Indicator badgeContent={3}>
+              {/* <Indicator badgeContent={3}> */}
                 <MessageSquare />
-              </Indicator>
+              {/* </Indicator> */}
             </IconButton>
             <IconButton color="inherit">
-              <Indicator badgeContent={7}>
+              {/* <Indicator badgeContent={7}> */}
                 <Bell />
-              </Indicator>
+              {/* </Indicator> */}
             </IconButton>
             {/* <LanguageMenu /> */}
             <UserMenu />

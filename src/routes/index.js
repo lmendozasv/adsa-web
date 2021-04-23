@@ -29,7 +29,7 @@ const SignUp = async(() => import("../pages/auth/SignUp"));
 const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 const Page404 = async(() => import("../pages/auth/Page404"));
 const Page500 = async(() => import("../pages/auth/Page500"));
-
+const Login = async(() => import("../pages/auth/SignInSide"));
 // Components components
 const Alerts = async(() => import("../pages/components/Alerts"));
 const Avatars = async(() => import("../pages/components/Avatars"));
@@ -199,9 +199,9 @@ const authRoutes = {
   icon: <Users />,
   children: [
     {
-      path: "/auth/sign-in",
-      name: "Sign In",
-      component: SignIn
+      path: "login",
+      name: "Login",
+      component: Login
     },
     {
       path: "/auth/sign-up",
@@ -439,12 +439,13 @@ const privateRoutes = {
   children: null
 };
 //rutas libres
-export const dashboard = [
+
+export const dashboard = [  
   // dashboardsRoutes,
   // pagesRoutes,
-  // profileRoutes,
-  // projectsRoutes,
-  // orderRoutes,
+  profileRoutes,
+  projectsRoutes,
+  orderRoutes,
   // invoiceRoutes,
   // tasksRoutes,
   // calendarRoutes,

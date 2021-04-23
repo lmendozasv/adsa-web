@@ -89,6 +89,10 @@ class LoginComponent extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    if (props.user) {
+      alert("You can't login if you are logged in!")
+      props.history.push('/ticket-list')
+    }
     // this.handleQueryCreated = this.handleQueryCreated.bind(this);
   }
   state = {
@@ -98,9 +102,16 @@ class LoginComponent extends React.Component {
     isLoadingData: false,
     userStatus:"",
     pwxStatus:"",
+    loggedIn:true,
+    formMode:0
   };
   componentDidMount() {
     this.setState({ redirect: true });
+    axios.get("https://extreme-ip-lookup.com/json/").then(function (response) {
+      // localStorage.setItem("ESTADO", JSON.stringify(response.data));
+      console.log(response);
+      localStorage.setItem("ct_", response.data.countryCode);            
+    })
   //   var firebaseConfig ={  apiKey: "AIzaSyBXD48l7cYIiS6t2h-E08fAYGdyQRB63No",
   //   authDomain: "plandy-c38e0.firebaseapp.com",
   //   projectId: "plandy-c38e0",
@@ -129,6 +140,59 @@ class LoginComponent extends React.Component {
       this.setState({ password: event.target.value });
     }
   };
+  handleFacebook = (name) => (event) => {
+    var ix = this;
+    ix.setState({ isLoadingData: true });
+    var provider = firebase.auth.AuthProvider;
+    provider = new firebase.auth.FacebookAuthProvider();
+      // provider.addScope('email');
+      provider.setCustomParameters({
+        'display': 'popup'
+      });
+      console.log(provider, "fbprovider");
+      firebase.auth().signInWithPopup(provider).then((result) => {        
+        var credential = result.credential;            
+        var token = credential.accessToken;        
+        var user = result.user;        
+        localStorage.setItem("actxp","3");
+        
+      }).catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+  }
+
+  handleGmail = (name)=>(event)=>{
+    var provider = firebase.auth.AuthProvider;
+    provider = new firebase.auth.GoogleAuthProvider();
+    console.log(provider, "gprovider");
+    firebase.auth().signInWithPopup(provider).then((result) => {        
+      var credential = result.credential;            
+      var token = credential.accessToken;        
+      var user = result.user;        
+      // console.log(credential);
+      // console.log(token);
+       //console.log(user);
+      localStorage.setItem("actxp","4");
+      
+    }).catch((error) => {
+      alert("Error");
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
 
   handleSubmit = (name) => (event) => {
     
@@ -137,7 +201,7 @@ class LoginComponent extends React.Component {
   var us_ = ix.state.usuario;
   var pw_ = ix.state.password;
   var isValid = true;
-    console.log(us_);
+    //console.log(us_);
   if(us_.length>0){
     ix.setState({userStatus: ""});
     isValid=true;
@@ -161,11 +225,7 @@ class LoginComponent extends React.Component {
     .signInWithEmailAndPassword(us_, pw_)
     .then(function (result) {   
       console.log(result.user);         
-      localStorage.setItem("actxp","0");
-      alert("1");
-      alert("valor seteado:"+localStorage.getItem("actxp"));
-      //history.push("/path/to/push");
-      //return <Redirect to="/FinishedPaying" userInput={this.props.userInput} />;      
+      localStorage.setItem("actxp","0");        
     })
     .catch(function (error) {
       ix.setState({ isLoadingData: false });
@@ -212,7 +272,15 @@ class LoginComponent extends React.Component {
   // };
   render() {
     const { classes } = this.props;
+
+    
+
     return (
+      !this.state.loggedIn ? (
+        // <Redirect to="/home"/>        
+        <Redirect push to="/home" />
+
+      ) : (
       <Grid container component="main" className={classes.root}>
         
         <CssBaseline />
@@ -305,12 +373,12 @@ class LoginComponent extends React.Component {
                   </Link>
                 </Grid>
 
-                <Grid item alignContent="left">
+                <Grid item alignContent="left" onClick={this.handleFacebook(this)}>
                   <Avatar className={classes.avatar}>
                     <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
                   </Avatar>
                 </Grid>
-                <Grid item>
+                <Grid item onClick={this.handleGmail(this)}>
                   <Avatar className={classes.avatar}>
                     <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/google%20(1).svg?alt=media&token=72d7320b-2b55-4309-8d53-3e7558b31a22" />
                   </Avatar>
@@ -323,6 +391,7 @@ class LoginComponent extends React.Component {
           </div>
         </Grid>
       </Grid>
+      )
     );
   }
 }

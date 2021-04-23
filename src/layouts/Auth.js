@@ -26,11 +26,12 @@ const Root = styled.div`
 
 function Auth({ children }) {
   return (
-    <Root>
-      <CssBaseline />
-      <GlobalStyle />
-      {children}
-    </Root>
+    <div>
+      {/* <CssBaseline />
+      <GlobalStyle /> */}
+      {
+      children}
+    </div>
   );
 }
 

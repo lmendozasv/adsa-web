@@ -36,12 +36,12 @@ function Footer() {
         <Hidden smDown>
           <Grid container item xs={12} md={6}>
             <List>
-              <ListItem component="a" href="#">
+              {/* <ListItem component="a" href="#">
                 <ListItemText primary="Support" />
               </ListItem>
               <ListItem component="a" href="#">
                 <ListItemText primary="Help Center" />
-              </ListItem>
+              </ListItem> */}
               <ListItem component="a" href="#">
                 <ListItemText primary="Privacy" />
               </ListItem>
@@ -51,13 +51,13 @@ function Footer() {
             </List>
           </Grid>
         </Hidden>
-        <Grid container item xs={12} md={6} justify="flex-end">
+        {/* <Grid container item xs={12} md={6} justify="flex-center">
           <List>
             <ListItem>
               <ListItemText primary={`© ${new Date().getFullYear()} - Plandy LLC`} />
             </ListItem>
           </List>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Wrapper>
   );

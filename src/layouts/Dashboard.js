@@ -77,7 +77,8 @@ const Dashboard = ({children, routes, width}) => {
   };
 
   return (
-    <Root>
+    
+      <Root>
       <CssBaseline />
       <GlobalStyle />
 
@@ -107,8 +108,9 @@ const Dashboard = ({children, routes, width}) => {
         <Footer />
       </AppContent>
       <Settings />
-    </Root>
-  )
-}
+    </Root>   
+    
+  );
+  }
 
 export default withWidth()(Dashboard);

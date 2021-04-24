@@ -18,6 +18,7 @@ import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import firebase from "./firebases";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import Helmet from 'react-helmet';
 // import  { Redirect } from 'react-router-dom'
@@ -48,6 +49,21 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`,
   };
 }
+
+const themeAvatar = createMuiTheme({
+  overrides: {
+    // Style sheet name ⚛️
+    MuiAvatar: {
+      // Name of the rule
+      root: {
+        // Some CSS
+        display:"compact",
+        margin:0
+      },
+    },
+  },
+});
+
 
 const blueLink = {
   color: "#172449",
@@ -89,6 +105,7 @@ const style = (theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#FFF",
+    display:"compact" 
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -389,26 +406,32 @@ class LoginComponent extends React.Component {
               <br />
               <br />
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2" style={blueLink}>
-                    También, puedes iniciar sesión con:
-                  </Link>
+                <Grid item xs>                  
+                  <Typography variant="body2" color="textSecondary" style={blueLink} align="left">
+                  También, puedes iniciar sesión con:
+                  </Typography>
                 </Grid>
-
+                <ThemeProvider theme={themeAvatar}>                                    
                 <Grid
-                  item
-                  alignContent="left"
+                  item                 
                   onClick={this.handleFacebook(this)}
                 >
+                  
                   <Avatar className={classes.avatar}>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
+                    <img                      
+                     src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77"
+                      />
                   </Avatar>
+                  
                 </Grid>
                 <Grid item onClick={this.handleGmail(this)}>
+                
                   <Avatar className={classes.avatar}>
                     <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/google%20(1).svg?alt=media&token=72d7320b-2b55-4309-8d53-3e7558b31a22" />
                   </Avatar>
+                
                 </Grid>
+                </ThemeProvider>
               </Grid>
 
               <Box mt={5}></Box>
@@ -564,9 +587,9 @@ class LoginComponent extends React.Component {
               <br />
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2" style={blueLink}>
-                    También, puedes registrarte con:
-                  </Link>
+                <Typography variant="body2" color="textSecondary" style={blueLink} align="left">
+                  Tambiéns, puedes iniciar sesión con:
+                  </Typography>
                 </Grid>
 
                 <Grid
@@ -574,14 +597,18 @@ class LoginComponent extends React.Component {
                   alignContent="left"
                   onClick={this.handleFacebook(this)}
                 >
+                  <ThemeProvider theme={themeAvatar}>      
                   <Avatar className={classes.avatar}>
                     <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
                   </Avatar>
+                  </ThemeProvider>
                 </Grid>
                 <Grid item onClick={this.handleGmail(this)}>
+                <ThemeProvider theme={themeAvatar}>      
                   <Avatar className={classes.avatar}>
                     <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/google%20(1).svg?alt=media&token=72d7320b-2b55-4309-8d53-3e7558b31a22" />
                   </Avatar>
+                  </ThemeProvider>      
                 </Grid>
               </Grid>
 

@@ -22,8 +22,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Helmet from 'react-helmet';
 // import  { Redirect } from 'react-router-dom'
 //import { useHistory } from 'react-router-dom';
-import DateFnsUtils from '@date-io/date-fns'; // choose your lib 
-import { DatePicker, TimePicker, DateTimePicker, MuiPickersUtilsProvider, } from '@material-ui/pickers';
 
 function Copyright() {
   return (
@@ -56,18 +54,6 @@ const blueLink = {
 const style = (theme) => ({
   root: {
     height: "100vh",
-  },
-  image_register:{
-    //
-    backgroundImage:
-      "url(https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_register_alt_2.png?alt=media&token=36856896-803f-4eb8-a236-2fd4888a542c)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
   },
   image: {
     backgroundImage:
@@ -119,7 +105,7 @@ class LoginComponent extends React.Component {
     userStatus: "",
     pwxStatus: "",
     loggedIn: true,
-    formMode: 1,
+    formMode: 0,
   };
   componentDidMount() {
     this.setState({ redirect: true });
@@ -280,28 +266,21 @@ class LoginComponent extends React.Component {
       ix.setState({ isLoadingData: false });
     }
   };
-  handleFormMode = (name) => (event) =>{
-    if(this.state.formMode==0){
-      this.setState({ formMode: 1 });
-    }
-    if(this.state.formMode==1){
-      this.setState({ formMode: 0 });
-    }
-  }
+  // renderRedirect = () => {
+  //   if (this.state.redirect) {
+  //     return <Redirect to="/FinishedPaying" userInput={this.props.userInput} />;
+  //   }
+  // };
   render() {
     const { classes } = this.props;
 
-    return !this.state.loggedIn ? (      
+    return !this.state.loggedIn ? (
+      // <Redirect to="/home"/>
       <Redirect push to="/home" />
     ) : (
-
-      this.state.formMode==0 ? 
-        //Login State 0
-         <Grid container component="main" className={classes.root}>
-        <Helmet title="Bienvenido" />
+      <Grid container component="main" className={classes.root}>
+        <Helmet title="Crear cuenta" />
         <CssBaseline />
-        
-        
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
@@ -311,7 +290,7 @@ class LoginComponent extends React.Component {
             {/* </Avatar> */}
 
             <Typography component="h1" variant="h1">
-              Bienvenido a Plandy
+              Crea tu cuenta gratis
             </Typography>
             <br />
             <br />
@@ -376,9 +355,7 @@ class LoginComponent extends React.Component {
                 
                 
                 <Grid item>
-                  <Link href="#" variant="body2"
-                  onClick={this.handleFormMode(this)}
-                  >
+                  <Link href="#" variant="body2">
                     {"¿No tienes una cuenta? Regístrate"}
                   </Link>
                   
@@ -416,188 +393,7 @@ class LoginComponent extends React.Component {
             <Copyright />
           </div>
         </Grid>
-      
       </Grid>
-        :       
-        //Register State 1
-        <Grid container component="main" className={classes.root}>
-        <Helmet title="Crea tu cuenta" />
-        <CssBaseline />                      
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            {/* <Avatar  className={classes.avatar}> */}
-            {/* <LockOutlinedIcon /> */}
-            {/* <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/logo_1.png?alt=media&token=f903ad4c-9350-4adf-bf81-fd6b7d363f05"/> */}
-            {/* </Avatar> */}
-
-            <Typography component="h1" variant="h1">
-              Crea tu cuenta y comparte tus servicios
-            </Typography>
-            <br />
-            
-            {this.state.isLoadingData ? <CircularProgress /> : ""}
-            <form className={classes.form} noValidate>
-
-            <Grid container spacing={3}>
-        
-        <Grid item xs={6}>
-        <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="nombres"
-                label="Nombres"
-                helperText={this.state.userStatus}
-                error={this.state.userStatus}
-                onChange={this.handleChange("nombres")}
-                name="nombres"                
-                autoFocus
-              />
-        </Grid>
-        <Grid item xs={6}>
-        <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="apellidos"
-                label="Apellidos"                
-                id="apellidos"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
-                onChange={this.handleChange("apellidos")}
-              />
-        </Grid>
-
-
-        <Grid item xs={6}>
-        <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="correo"
-                label="Correo electrónico"                
-                id="correo"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
-                onChange={this.handleChange("correo")}
-              />
-        </Grid>
-
-
-        <Grid item xs={6}>
-        <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="telefono"
-                label="Número telefónico"                
-                id="telefono"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
-                onChange={this.handleChange("telefono")}
-              />
-        </Grid>
-
-
-        <Grid item xs={6}>        
-        {/* <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="telefono"
-                label="Fecha de nacimiento"                
-                id="telefono"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
-                onChange={this.handleChange("telefono")}
-              /> */}
-        </Grid>
-        
-      </Grid>
-      
-             
-             
-              <FormControlLabel
-                control={
-                  <Link>
-                  <Checkbox value="remember" color="primary" />
-                  </Link>
-                
-              }
-                label="Acepto los términos y condiciones de Plandy"
-              />
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={this.handleSubmit(this)}
-              >
-                Crear cuenta
-              </Button>
-
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    ¿Olvidó su contraseña?
-                  </Link>
-                </Grid>
-                
-                
-                <Grid item>
-                  <Link href="#" variant="body2"
-                  onClick={this.handleFormMode(this)}
-                  >
-                    {"¿Ya tienes tu cuenta? Inicia sesión"}
-                  </Link>
-                  
-                </Grid>
-              </Grid>
-
-              <br />
-              <br />
-              <br />
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2" style={blueLink}>
-                    También, puedes registrarte con:
-                  </Link>
-                </Grid>
-
-                <Grid
-                  item
-                  alignContent="left"
-                  onClick={this.handleFacebook(this)}
-                >
-                  <Avatar className={classes.avatar}>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
-                  </Avatar>
-                </Grid>
-                <Grid item onClick={this.handleGmail(this)}>
-                  <Avatar className={classes.avatar}>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/google%20(1).svg?alt=media&token=72d7320b-2b55-4309-8d53-3e7558b31a22" />
-                  </Avatar>
-                </Grid>
-              </Grid>
-
-              <Box mt={5}></Box>
-            </form>
-            <Copyright />
-          </div>
-        </Grid>
-        <Grid item xs={false} sm={4} md={7} className={classes.image_register} />
-      </Grid>
-        
-        
-
-
-     
-      
     );
   }
 }

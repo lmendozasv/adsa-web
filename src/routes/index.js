@@ -30,6 +30,7 @@ const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 const Page404 = async(() => import("../pages/auth/Page404"));
 const Page500 = async(() => import("../pages/auth/Page500"));
 const Login = async(() => import("../pages/auth/SignInSide"));
+// const RegisterForm = async(() => import("../pages/auth/RegisterForm"));
 // Components components
 const Alerts = async(() => import("../pages/components/Alerts"));
 const Avatars = async(() => import("../pages/components/Avatars"));
@@ -195,7 +196,7 @@ const calendarRoutes = {
 
 const authRoutes = {
   id: "Auth",
-  path: "/auth",
+  path: "/",
   icon: <Users />,
   children: [
     {
@@ -203,11 +204,11 @@ const authRoutes = {
       name: "Login",
       component: Login
     },
-    {
-      path: "/auth/sign-up",
-      name: "Sign Up",
-      component: SignUp
-    },
+    // {
+    //   path: "register",
+    //   name: "Registrate",
+    //   component: RegisterForm
+    // },
     {
       path: "/auth/reset-password",
       name: "Reset Password",
@@ -472,7 +473,7 @@ export default [
   // invoiceRoutes,
   // tasksRoutes,
   // calendarRoutes,
-  // authRoutes,
+  //authRoutes,
   // componentsRoutes,
   // chartRoutes,
   // formsRoutes,

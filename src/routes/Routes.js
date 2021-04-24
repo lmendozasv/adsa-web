@@ -6,6 +6,7 @@ import DashboardLayout from "../layouts/Dashboard";
 import AuthLayout from "../layouts/Auth";
 // import Page404 from "../pages/auth/Page404";
 import Page404 from "../pages/auth/SignInSide";
+import Page403 from "../pages/auth/RegisterForm";
 
 const isLogged = ()=>{
   
@@ -76,8 +77,8 @@ const RoutesV20 = () => {
       <Switch>      
       {childRoutes(AuthLayout, authRoutes)}   
       <AuthLayout>
-          <Page404/>
-          </AuthLayout>  
+          <Page404/>                    
+          </AuthLayout>                      
       </Switch> 
 </Router> ;
   else

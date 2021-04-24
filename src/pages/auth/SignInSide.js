@@ -119,7 +119,7 @@ class LoginComponent extends React.Component {
     userStatus: "",
     pwxStatus: "",
     loggedIn: true,
-    formMode: 1,
+    formMode: 0,
   };
   componentDidMount() {
     this.setState({ redirect: true });
@@ -524,9 +524,9 @@ class LoginComponent extends React.Component {
              
               <FormControlLabel
                 control={
-                  <Link>
+                  <div>
                   <Checkbox value="remember" color="primary" />
-                  </Link>
+                  </div>
                 
               }
                 label="Acepto los términos y condiciones de Plandy"

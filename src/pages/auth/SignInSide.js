@@ -19,7 +19,7 @@ import { withStyles } from "@material-ui/core/styles";
 import firebase from "./firebases";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-
+import InputMask from "react-input-mask";
 import Helmet from 'react-helmet';
 // import  { Redirect } from 'react-router-dom'
 //import { useHistory } from 'react-router-dom';
@@ -137,6 +137,17 @@ class LoginComponent extends React.Component {
     pwxStatus: "",
     loggedIn: true,
     formMode: 0,
+    nameStatus:"",
+    lnameStatus:"",
+    emailStatus:"",
+    phoneStatus:"",
+    nombres:"",
+    apellidos:"",
+    correo:"",
+    telefono:"",
+    terminos:false,
+    pwxStatusnew: "",
+    pwnew:""
   };
   componentDidMount() {
     this.setState({ redirect: true });
@@ -157,6 +168,7 @@ class LoginComponent extends React.Component {
   }
 
   handleChange = (name) => (event) => {
+
     this.setState({
       [name]: event.target.value,
     });
@@ -232,7 +244,105 @@ class LoginComponent extends React.Component {
         // ...
       });
   };
+  handleSignup = (name) => (event) => {
+    var ix = this;
+    ix.setState({ isLoadingData: true });
+    var pnam,plname,pemail,pphone;
+    var isValidRegister = true;
+    var cntx = 0;
+    
+    var pnam = ix.state.nombres;
+    var plname = ix.state.apellidos;
+    var pemail = ix.state.correo;
+    var pphone = ix.state.telefono;
 
+    var termix = ix.state.terminos;
+    var pxx = ix.state.pwnew;
+    var re = new RegExp("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/");
+    //alert(termix);
+    if(pxx.length>8){
+      ix.setState({ pwxStatusnew: "" });
+      isValidRegister = true;
+     
+    }
+    else{
+      cntx++;
+      ix.setState({ pwxStatusnew: "Intenta cumplir con los requisitos para la contraseña de tu nueva cuenta" });
+      isValidRegister = false;     
+    }
+    
+    if (pnam.length > 0 ) {
+      ix.setState({ nameStatus: "" });
+      isValidRegister = true;
+    } else {
+      cntx++;
+      ix.setState({ nameStatus: "Campo requerido" });
+      isValidRegister = false;
+    }
+    
+    if (plname.length > 0  ) {
+      ix.setState({ lnameStatus: "" });
+      isValidRegister = true;
+    } else {
+      cntx++;
+      ix.setState({ lnameStatus: "Campo requerido" });
+      isValidRegister = false;
+    }
+
+    if (pemail.length > 0 ) {
+      ix.setState({ emailStatus: "" });
+      isValidRegister = true;
+    } else {
+      cntx++;
+      ix.setState({ emailStatus: "Campo requerido" });
+      isValidRegister = false;
+    }
+
+
+    if (pphone.length > 0 ) {
+      ix.setState({ phoneStatus: "" });
+      isValidRegister = true;
+    } else {
+      cntx++;
+      ix.setState({ phoneStatus: "Campo requerido" });
+      isValidRegister = false;
+    }
+
+
+    if (termix) {      
+      isValidRegister = true;
+    } else {
+      alert("Por favor, revisa nuestros términos y condiciones para poder continuar con el registro")
+      isValidRegister = false;
+    }
+
+    
+    if(isValidRegister && cntx ==0){
+      // alert("final isvalid")
+      firebase.auth().createUserWithEmailAndPassword(pemail, pxx)
+      .then((userCredential) => {        
+        var user = userCredential.user;        
+        localStorage.setItem("actxp", "6");
+
+    
+      localStorage.setItem("nx",pnam);
+      localStorage.setItem("lnx",plname);
+      localStorage.setItem("emx",pemail);
+      localStorage.setItem("pph",pphone);
+
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ..
+      });
+    }
+    else{
+      ix.setState({ isLoadingData: false });
+    }
+
+
+  }
   handleSubmit = (name) => (event) => {
     var ix = this;
     ix.setState({ isLoadingData: true });
@@ -240,14 +350,14 @@ class LoginComponent extends React.Component {
     var pw_ = ix.state.password;
     var isValid = true;
     //console.log(us_);
-    if (us_.length > 0) {
+    if (us_.length > 0 && isValid) {
       ix.setState({ userStatus: "" });
       isValid = true;
     } else {
       ix.setState({ userStatus: "Campo requerido" });
       isValid = false;
     }
-    if (pw_.length > 0) {
+    if (pw_.length > 0 && isValid) {
       ix.setState({ pwxStatus: "" });
       isValid = true;
     } else {
@@ -330,16 +440,7 @@ class LoginComponent extends React.Component {
             <Typography component="h1" variant="h1">
               Bienvenido a Plandy
             </Typography>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+            
             {this.state.isLoadingData ? <CircularProgress /> : ""}
             <form className={classes.form} noValidate>
               <TextField
@@ -446,6 +547,7 @@ class LoginComponent extends React.Component {
         <Grid container component="main" className={classes.root}>
         <Helmet title="Crea tu cuenta" />
         <CssBaseline />                      
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             {/* <Avatar  className={classes.avatar}> */}
@@ -471,8 +573,8 @@ class LoginComponent extends React.Component {
                 fullWidth
                 id="nombres"
                 label="Nombres"
-                helperText={this.state.userStatus}
-                error={this.state.userStatus}
+                helperText={this.state.nameStatus}
+                error={this.state.nameStatus}
                 onChange={this.handleChange("nombres")}
                 name="nombres"                
                 autoFocus
@@ -487,8 +589,8 @@ class LoginComponent extends React.Component {
                 name="apellidos"
                 label="Apellidos"                
                 id="apellidos"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
+                helperText={this.state.lnameStatus}
+                error={this.state.lnameStatus}
                 onChange={this.handleChange("apellidos")}
               />
         </Grid>
@@ -503,15 +605,26 @@ class LoginComponent extends React.Component {
                 name="correo"
                 label="Correo electrónico"                
                 id="correo"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
+                helperText={this.state.emailStatus}
+                error={this.state.emailStatus}
                 onChange={this.handleChange("correo")}
               />
         </Grid>
 
 
         <Grid item xs={6}>
-        <TextField
+        <InputMask
+  mask="+999 9999999999"  
+  disabled={false}
+  maskChar=" "
+  value={this.state.telefono}
+  onChange={this.handleChange("telefono")}
+>
+  {() => <TextField label="Número telefónico" margin="normal"  
+   helperText={this.state.phoneStatus}
+                error={this.state.phoneStatus} required fullWidth variant="outlined" />}
+</InputMask>
+        {/* <TextField
                 variant="outlined"
                 margin="normal"
                 required
@@ -519,26 +632,30 @@ class LoginComponent extends React.Component {
                 name="telefono"
                 label="Número telefónico"                
                 id="telefono"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
+                helperText={this.state.phoneStatus}
+                error={this.state.phoneStatus}
                 onChange={this.handleChange("telefono")}
-              />
+              /> */}
         </Grid>
 
 
         <Grid item xs={6}>        
-        {/* <TextField
+        <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                name="telefono"
-                label="Fecha de nacimiento"                
-                id="telefono"                
-                helperText={this.state.pwxStatus}
-                error={this.state.pwxStatus}
-                onChange={this.handleChange("telefono")}
-              /> */}
+                name="passwordnew"
+                label="Contraseña"
+                type="password"
+                id="passwordnew"
+                autoComplete="current-password"
+                helperText={<ul>
+                  <li>Al menos 8 carácteres</li>                  
+                  </ul>}
+                error={this.state.pwxStatusnew}
+                onChange={this.handleChange("pwnew")}
+              />
         </Grid>
         
       </Grid>
@@ -548,28 +665,32 @@ class LoginComponent extends React.Component {
               <FormControlLabel
                 control={
                   <div>
-                  <Checkbox value="remember" color="primary" />
+                  <Checkbox
+                  onChange={e => {
+                    // console.log(e.target.checked);
+                    this.setState({ terminos: e.target.checked });
+                  }}
+                   value={this.state.terminos} color="primary" />
+                  <Link
+                  href="https://www.google.com"
+                  >Acepto los términos y condiciones de Plandy</Link>
                   </div>
                 
               }
-                label="Acepto los términos y condiciones de Plandy"
+                label=""
               />
               <Button
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={this.handleSubmit(this)}
+                onClick={this.handleSignup(this)}
               >
                 Crear cuenta
               </Button>
 
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    ¿Olvidó su contraseña?
-                  </Link>
-                </Grid>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
                 
                 
                 <Grid item>
@@ -578,7 +699,6 @@ class LoginComponent extends React.Component {
                   >
                     {"¿Ya tienes tu cuenta? Inicia sesión"}
                   </Link>
-                  
                 </Grid>
               </Grid>
 
@@ -595,8 +715,9 @@ class LoginComponent extends React.Component {
                 <Grid
                   item
                   alignContent="left"
-                  onClick={this.handleFacebook(this)}
-                >
+                  onClick={this.handleFacebook(this)}g
+
+>
                   <ThemeProvider theme={themeAvatar}>      
                   <Avatar className={classes.avatar}>
                     <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
@@ -617,7 +738,7 @@ class LoginComponent extends React.Component {
             <Copyright />
           </div>
         </Grid>
-        <Grid item xs={false} sm={4} md={7} className={classes.image_register} />
+        
       </Grid>
         
         

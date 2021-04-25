@@ -121,8 +121,32 @@ firebase.auth().onAuthStateChanged(async function (user) {
 
           }
         }
+        
+        if(actiontype=="6"){
+          vurl = "https://plandy-api.herokuapp.com/register";
+          var country = localStorage.getItem("ct_");
+          var nx = localStorage.getItem("nx");
+          var lnx = localStorage.getItem("lnx");
+          var emx = localStorage.getItem("emx");
+          var pph = localStorage.getItem("pph");
 
-        if (UIDTOKEN.length > 0 && (actiontype == "0" || actiontype == "1" || actiontype == "3"|| actiontype == "4")) {
+          payload = {
+            names:nx,
+            lastname:lnx,
+            firebaseuuid:UIDTOKEN,
+            email:emx,
+            phonenumber:pph,
+            verifyphone:0,
+            emailverified:0,
+            countrycode:country,
+            birthday:"01/01/1900",
+            picurl:"https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_profile_plandy.png?alt=media&token=d12372cd-5ae7-46b3-a941-c2a6ffacfbe9",
+            provider:"email-password"
+          }
+
+        }
+
+        if (UIDTOKEN.length > 0 && (actiontype == "0" || actiontype == "1" || actiontype == "3"|| actiontype == "4" || actiontype == "6")) {
           // handle jwttoken
           axios
             .post(

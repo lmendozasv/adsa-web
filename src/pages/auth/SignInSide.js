@@ -556,7 +556,7 @@ class LoginComponent extends React.Component {
             {/* </Avatar> */}
 
             <Typography component="h1" variant="h1">
-              Crea tu cuenta y comparte tus servicios
+              Crea tu cuenta y comparte tus servicios de forma segura y legal
             </Typography>
             <br />
             

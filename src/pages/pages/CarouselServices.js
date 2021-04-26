@@ -93,8 +93,8 @@ const useStylesCard = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('xl')]: {
-       maxWidth:"80vw",   
-       width:"80vw",   
+       maxWidth:"100vw",   
+       width:"100vw",   
       //maxWidth:1350,   
       //width:1350,
     },

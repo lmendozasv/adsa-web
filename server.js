@@ -7,8 +7,10 @@ const port = process.env.PORT || 8080;
 // const sslRedirect = require("heroku-ssl-redirect");
 var sslRedirect = require('heroku-ssl-redirect');
 
+
+app.use(sslRedirect(['production'], 301));
 app.use(express.static(path.join(__dirname, "build")));
-app.use(sslRedirect);
+
 // This route serves the React app
 app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, "build", "index.html")));
 

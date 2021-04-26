@@ -1,10 +1,11 @@
+import sslRedirect from 'heroku-ssl-redirect';
 const express = require("express");
 // eslint-disable-next-line no-unused-vars
 // const bodyParser = require('body-parser');
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 8080;
-
+app.use(sslRedirect());
 app.use(express.static(path.join(__dirname, "build")));
 
 // This route serves the React app

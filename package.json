@@ -43,6 +43,7 @@
     "date-fns": "2.10.0",
     "firebase": "^8.4.1",
     "google-map-react": "1.1.7",
+    "heroku-ssl-redirect": "^0.1.1",
     "jss": "10.1.1",
     "material-ui-dropzone": "2.4.9",
     "polished": "3.5.1",

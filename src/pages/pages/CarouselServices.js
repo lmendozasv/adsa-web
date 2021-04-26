@@ -26,10 +26,11 @@ import Container from '@material-ui/core/Container';
 
 
 const useStylesCard = makeStyles((theme) => ({
-  root: {
-    // display: 'flex',
-    maxWidth: 45,
-  },
+  // root: {
+  //   // display: 'flex',
+  //   maxWidth: 5,
+  //   width:5
+  // },
   details: {
     // display: 'flex',
     // flexDirection: 'column',    
@@ -72,7 +73,7 @@ const useStylesCard = makeStyles((theme) => ({
       width:1280,
     },
 
-    [theme.breakpoints.down('xl')]: {
+    [theme.breakpoints.only('xl')]: {
        maxWidth:"80vw",   
        width:"80vw",   
       //maxWidth:1350,   
@@ -80,35 +81,35 @@ const useStylesCard = makeStyles((theme) => ({
     },
     
   },
-  mainBox:{
-    [theme.breakpoints.down('xs')]: {
-      maxWidth:"100vw",   
-      width:"100vw",   
-     //maxWidth:600,   
-     //width:600,
-   },  
-    [theme.breakpoints.down('sm')]: {
-       maxWidth:"100vw",   
-       width:"100vw",   
-      //maxWidth:600,   
-      //width:600,
-    },  
-    [theme.breakpoints.down('md')]: {
-      maxWidth:960,   
-      width:960,
-    },
-    [theme.breakpoints.down('lg')]: {
-      maxWidth:"1vw", 
-      width:"1vw",  
-    },
+  // mainBox:{
+  //   [theme.breakpoints.down('xs')]: {
+  //     maxWidth:"100vw",   
+  //     width:"100vw",   
+  //    //maxWidth:600,   
+  //    //width:600,
+  //  },  
+  //   [theme.breakpoints.down('sm')]: {
+  //      maxWidth:"100vw",   
+  //      width:"100vw",   
+  //     //maxWidth:600,   
+  //     //width:600,
+  //   },  
+  //   [theme.breakpoints.down('md')]: {
+  //     maxWidth:960,   
+  //     width:960,
+  //   },
+  //   [theme.breakpoints.down('lg')]: {
+  //     maxWidth:"1vw", 
+  //     width:"1vw",  
+  //   },
 
-    [theme.breakpoints.down('xl')]: {
-       maxWidth:"50vw",   
-       width:"50vw",   
-      //maxWidth:1350,   
-      //width:1350,
-    },
-  }
+  //   [theme.breakpoints.down('xl')]: {
+  //      maxWidth:"80vw",   
+  //      width:"80vw",   
+  //     //maxWidth:1350,   
+  //     //width:1350,
+  //   },
+  // }
 }));
 
 export default function SingleLineGridList({ dataList, instx }) {
@@ -122,7 +123,7 @@ export default function SingleLineGridList({ dataList, instx }) {
   return (
     <div        
      id="OUT" 
-     className={classes.mainBox} 
+     className={classes.maix} 
     //  style={{ 
     //   width: '90vw',
     //    overflow:'auto' }}

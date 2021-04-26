@@ -182,7 +182,7 @@ class ServicesList extends React.Component {
 
       <Grid 
       container      
-       spacing={3} xs={12} sm={12} lg={12} xl={12} id="OUT000AFUERA">
+       spacing={3}  id="OUT000AFUERA">
       <CustomGridList dataList={this.state.personas} instx={this.onCardClick} />
 
       </Grid>

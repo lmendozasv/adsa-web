@@ -169,47 +169,24 @@ firebase.auth().onAuthStateChanged(async function (user) {
               // alert(response.data.msg);
               // history.push("/path/to/push");
               //read nics and store in paths
-              window.location.reload();
-            })
-            .catch(function (error) {
-              localStorage.setItem("1eRROR", error);
-              console.log(error);
-              if (
-                error.message ==
-                "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address."
-              ) {
-                alert(
-                  "Estimado usuario, este correo electrónico ha iniciado sesión anteriormente con un método diferente, pruebe iniciar sesión con Google."
-                );
-                window.location.reload(false);
-              }
-            });
-        }
+               //gt profile
+               //alert(response.data.jwt);
+               axios.get(`https://plandy-api.herokuapp.com/profile`, {
+                  headers: {
+                  Authorization: "Bearer " + response.data.jwt                  
+                  },
+                })
+              .then((res) => {
+                //alert(res.data[0]);
+               
+                 var nx = res.data.data[0].names+" "+res.data.data[0].last_names;
+                 localStorage.setItem("unx",nx);
+                 window.location.reload();
+               })
+              
 
-        if (UIDTOKEN.length > 0 && (actiontype == "0" || actiontype == "1")) {
-          // handle jwttoken
-          axios
-            .post(
-              vurl,
-              {
-                firebaseuuid: UIDTOKEN,
-              },
-              {
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              }
-            )
-            .then(function (response) {
-              // localStorage.setItem("ESTADO", JSON.stringify(response.data));
-              localStorage.setItem("token_sec", response.data.jwt);
-              localStorage.setItem("actxp", null);
-              // localStorage.setItem("paths", []);
-              // alert(response.data.msg);
-              // history.push("/path/to/push");
-              //read nics and store in paths
-              window.location.reload();
+             
+
             })
             .catch(function (error) {
               localStorage.setItem("1eRROR", error);
@@ -225,6 +202,52 @@ firebase.auth().onAuthStateChanged(async function (user) {
               }
             });
         }
+        // alert(actiontype);
+        // if (UIDTOKEN.length > 0 && (actiontype == "0" || actiontype == "1")) {
+        //   // handle jwttoken
+        //   axios
+        //     .post(
+        //       vurl,
+        //       {
+        //         firebaseuuid: UIDTOKEN,
+        //       },
+        //       {
+        //         headers: {
+        //           Accept: "application/json",
+        //           "Content-Type": "application/json",
+        //         },
+        //       }
+        //     )
+        //     .then(function (response) {
+        //       // localStorage.setItem("ESTADO", JSON.stringify(response.data));
+        //       localStorage.setItem("token_sec", response.data.jwt);
+        //       localStorage.setItem("actxp", null);
+        //       // localStorage.setItem("paths", []);
+        //       // alert(response.data.msg);
+        //       // history.push("/path/to/push");
+        //       //read nics and store in paths
+        //       alert('login');
+        //       axios.get(`https://plandy-api.herokuapp.com/profile`)
+        //        .then(res => {
+        //          var nx = res.data.names+res.data.last_names;
+        //          localStorage.setItem("unx",nx);
+        //          window.location.reload();
+        //        })
+        //     })
+        //     .catch(function (error) {
+        //       localStorage.setItem("1eRROR", error);
+        //       console.log(error);
+        //       if (
+        //         error.message ==
+        //         "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address."
+        //       ) {
+        //         alert(
+        //           "Estimado usuario, este correo electrónico ha iniciado sesión anteriormente con un método diferente, pruebe iniciar sesión con Google."
+        //         );
+        //         window.location.reload(false);
+        //       }
+        //     });
+        // }
       })
       .catch(function (error) {
         // Handle error

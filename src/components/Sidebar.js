@@ -258,8 +258,12 @@ function SidebarCategory({
     </Category>
   );
 }
-
+function returnUser(){
+  return localStorage.getItem("unx");
+  return localStorage.getItem("ppc");
+}
 function SidebarLink({ name, to, badge }) {
+  
   return (
     <Link
       button
@@ -306,6 +310,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
   }
 
   return (
+    
     <Drawer variant="permanent" {...rest}>
       <Brand
       style={
@@ -401,7 +406,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
           </Grid>
           <Grid item>
             <SidebarFooterText variant="body2">
-              Luis Mendoza (1.0)
+              {returnUser()}
             </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
               Datos verificados

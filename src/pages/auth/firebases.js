@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import axios from "axios";
 //import { useHistory } from 'react-router-dom';
+import SendBird from "sendbird";
 
 require("firebase/auth");
 require("firebase/firestore");
@@ -25,7 +26,7 @@ const auth = firebase.auth();
 
 firebase.auth().onAuthStateChanged(async function (user) {
   // alert("2AUTHCHANGED - 00");
-  var name, email, photoUrl, uid, emailVerified, provider,payload;
+  var name, email, photoUrl, uid, emailVerified, provider, payload;
   var UIDTOKEN = "";
   var vurl = "000000";
   var actiontype = localStorage.getItem("actxp");
@@ -43,9 +44,9 @@ firebase.auth().onAuthStateChanged(async function (user) {
         if (actiontype === "0" && UIDTOKEN.length > 0) {
           //login
           vurl = "https://plandy-api.herokuapp.com/login";
-          payload = {            
-            firebaseuuid:UIDTOKEN            
-          }
+          payload = {
+            firebaseuuid: UIDTOKEN,
+          };
           // alert("2");
         }
         if (actiontype == "1") {
@@ -54,32 +55,29 @@ firebase.auth().onAuthStateChanged(async function (user) {
         }
         //
         if (actiontype == "3" || actiontype == "4") {
-          
           //Social
           //login
           vurl = "https://plandy-api.herokuapp.com/signinsocial";
-          
-          var fullname = ""
+
+          var fullname = "";
           var country = localStorage.getItem("ct_");
 
-          var  email, photoUrl, uid, emailVerified, provider;
+          var email, photoUrl, uid, emailVerified, provider;
 
           if (user != null) {
-            
             name = user.displayName;
             //alert(user.displayName);
             email = user.email;
             photoUrl = user.photoURL;
             emailVerified = user.emailVerified;
-            if(actiontype==3){
-              provider="facebook.com"
+            if (actiontype == 3) {
+              provider = "facebook.com";
             }
-            if(actiontype==4){
-              provider="google.com"
+            if (actiontype == 4) {
+              provider = "google.com";
             }
-            //uid = user.uid;  
-          
-                    
+            //uid = user.uid;
+
             var allSections = name.split(" ");
 
             var names_ = "";
@@ -102,27 +100,23 @@ firebase.auth().onAuthStateChanged(async function (user) {
               lastNames_ = allSections[2] + " " + allSections[3];
             }
 
-
             payload = {
-              names:names_,
-              lastname:lastNames_,
-              firebaseuuid:UIDTOKEN,
-              email:email,
-              phonenumber:"",
-              verifyphone:0,
-              emailverified:1,
-              countrycode:country,
-              birthday:"01/01/1900",
-              picurl:photoUrl,
-              provider:provider
-            }
-
-            
-
+              names: names_,
+              lastname: lastNames_,
+              firebaseuuid: UIDTOKEN,
+              email: email,
+              phonenumber: "",
+              verifyphone: 0,
+              emailverified: 1,
+              countrycode: country,
+              birthday: "01/01/1900",
+              picurl: photoUrl,
+              provider: provider,
+            };
           }
         }
-        
-        if(actiontype=="6"){
+
+        if (actiontype == "6") {
           vurl = "https://plandy-api.herokuapp.com/register";
           var country = localStorage.getItem("ct_");
           var nx = localStorage.getItem("nx");
@@ -131,29 +125,35 @@ firebase.auth().onAuthStateChanged(async function (user) {
           var pph = localStorage.getItem("pph");
 
           payload = {
-            names:nx,
-            lastname:lnx,
-            firebaseuuid:UIDTOKEN,
-            email:emx,
-            phonenumber:pph,
-            verifyphone:0,
-            emailverified:0,
-            countrycode:country,
-            birthday:"01/01/1900",
-            picurl:"https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_profile_plandy.png?alt=media&token=d12372cd-5ae7-46b3-a941-c2a6ffacfbe9",
-            provider:"email-password"
-          }
-
+            names: nx,
+            lastname: lnx,
+            firebaseuuid: UIDTOKEN,
+            email: emx,
+            phonenumber: pph,
+            verifyphone: 0,
+            emailverified: 0,
+            countrycode: country,
+            birthday: "01/01/1900",
+            picurl:
+              "https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_profile_plandy.png?alt=media&token=d12372cd-5ae7-46b3-a941-c2a6ffacfbe9",
+            provider: "email-password",
+          };
         }
 
-        if (UIDTOKEN.length > 0 && (actiontype == "0" || actiontype == "1" || actiontype == "3"|| actiontype == "4" || actiontype == "6")) {
+        if (
+          UIDTOKEN.length > 0 &&
+          (actiontype == "0" ||
+            actiontype == "1" ||
+            actiontype == "3" ||
+            actiontype == "4" ||
+            actiontype == "6")
+        ) {
           // handle jwttoken
           axios
             .post(
               vurl,
-              
-                payload
-              ,
+
+              payload,
               {
                 headers: {
                   Accept: "application/json",
@@ -169,34 +169,56 @@ firebase.auth().onAuthStateChanged(async function (user) {
               // alert(response.data.msg);
               // history.push("/path/to/push");
               //read nics and store in paths
-               //gt profile
-               //alert(response.data.jwt);
-               axios.get(`https://plandy-api.herokuapp.com/profile`, {
+              //gt profile
+              //alert(response.data.jwt);
+              axios
+                .get(`https://plandy-api.herokuapp.com/profile`, {
                   headers: {
-                  Authorization: "Bearer " + response.data.jwt                  
+                    Authorization: "Bearer " + response.data.jwt,
                   },
                 })
-              .then((res) => {
-                //alert(res.data[0]);
-               
-                 var nx = res.data.data[0].names+" "+res.data.data[0].last_names;
-                 var npx = res.data.data[0].pic_url;
-                 var v1 = res.data.data[0].email_verified;
-                 var v2 = res.data.data[0].phone_verified;
-                 localStorage.setItem("unx",nx);
-                 localStorage.setItem("pcx",npx);
-                  if(v1+v2==2){
-                    localStorage.setItem("vex",true);
-                  }
-                  else{
-                    localStorage.setItem("vex",false);
-                  }
-                 window.location.reload();
-               })
-              
-
-             
-
+                .then((res) => {
+                  //alert(res.data[0]);
+                  var npx = res.data.data[0].pic_url;
+                  var nx =
+                    res.data.data[0].names + " " + res.data.data[0].last_names;
+                    var nickname =
+                    res.data.data[0].names + "_" + res.data.data[0].last_names;                  
+                  // var sb = new SendBird({
+                  //   appId: "A366089E-7472-461F-9BC8-76A8EA1E31E1",
+                  // });
+                  // sb.connect(user.uid, function (user, error) {
+                  //   if (error) {
+                  //     alert(
+                  //       "No hemos podido conectarte correctamente, refresca la página e intenta de nuevo"
+                  //     );
+                  //   }
+                  //   //updating chat status
+                  //   sb.updateCurrentUserInfo(
+                  //     nickname,
+                  //     npx,
+                  //     function (response, error) {
+                  //       if (error) {
+                  //         alert(error);
+                  //         // Handle error.
+                  //       } else {
+                          var npx = res.data.data[0].pic_url;
+                          var v1 = res.data.data[0].email_verified;
+                          var v2 = res.data.data[0].phone_verified;
+                          localStorage.setItem("unx", nx);
+                          localStorage.setItem("pcx", npx);
+                          if (v1 + v2 == 2) {
+                            localStorage.setItem("vex", true);
+                          } else {
+                            localStorage.setItem("vex", false);
+                          }
+                          window.location.reload();
+                    //     }
+                    //   }
+                    // );
+                    ///updating end
+                  //});
+                });
             })
             .catch(function (error) {
               localStorage.setItem("1eRROR", error);

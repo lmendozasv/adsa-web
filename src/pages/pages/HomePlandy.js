@@ -123,8 +123,12 @@ class ServicesList extends React.Component {
     }
     componentDidMount() {
       this._isMounted = true;
-
-      axios.get(`https://plandy-api.herokuapp.com/getServicesList`)
+      var tk = localStorage.getItem("token_sec");
+      axios.get(`https://plandy-api.herokuapp.com/getServicesList`, {
+                  headers: {
+                  Authorization: "Bearer " + tk
+                  },
+                })
         .then(res => {
           if (this._isMounted) {
           const personas = res.data.data;
@@ -132,7 +136,12 @@ class ServicesList extends React.Component {
           }
         })
         
-        axios.get(`https://plandy-api.herokuapp.com/getLatestGroups`)
+        // axios.get(`https://plandy-api.herokuapp.com/getLatestGroups`)
+        axios.get(`https://plandy-api.herokuapp.com/getLatestGroups`, {
+                  headers: {
+                  Authorization: "Bearer " + tk
+                  },
+                })
         .then(res => {
           if (this._isMounted) {
           const grupos = res.data.data;
@@ -171,7 +180,9 @@ class ServicesList extends React.Component {
 
       <Divider my={6} />
 
-      <Grid container spacing={6}>
+      <Grid 
+      container      
+       spacing={6} xs={12} sm={12} lg={12} xl={12} id="OUT000AFUERA">
       <CustomGridList dataList={this.state.personas} instx={this.onCardClick} />
 
       </Grid>

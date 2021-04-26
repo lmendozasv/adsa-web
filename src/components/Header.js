@@ -3,6 +3,7 @@ import styled, { withTheme } from "styled-components";
 import { connect } from "react-redux";
 import { darken } from "polished";
 import firebase from "firebase";
+import SendBird from 'sendbird';
 import {
   Badge,
   Grid,
@@ -16,7 +17,8 @@ import {
 } from "@material-ui/core";
 
 import { Menu as MenuIcon } from "@material-ui/icons";
-
+import MonetizationOnSharpIcon from '@material-ui/icons/MonetizationOnSharp';
+import LocalAtmRoundedIcon from '@material-ui/icons/LocalAtmRounded';
 import {
   Bell,
   MessageSquare,
@@ -154,7 +156,9 @@ function UserMenu() {
 
   const logout = () => {
     try {    
+      var sb = new SendBird({appId: "A366089E-7472-461F-9BC8-76A8EA1E31E1"});
       firebase.auth().signOut();
+      sb.disconnect(function() {});
       localStorage.clear();
       window.location.reload();
     } catch (err) {
@@ -215,16 +219,24 @@ const Header = ({ onDrawerToggle }) => (
           </Grid>
           <Grid item xs />
           <Grid item>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit"> */}
               {/* <Indicator badgeContent={3}> */}
-                <MessageSquare />
+                {/* <MessageSquare /> */}
               {/* </Indicator> */}
-            </IconButton>
+            {/* </IconButton> */}
+
             <IconButton color="inherit">
               {/* <Indicator badgeContent={7}> */}
                 <Bell />
               {/* </Indicator> */}
             </IconButton>
+
+            <IconButton color="inherit">
+              {/* <Indicator badgeContent={7}> */}
+                <LocalAtmRoundedIcon />
+              {/* </Indicator> */}
+            </IconButton>
+
             {/* <LanguageMenu /> */}
             <UserMenu />
           </Grid>

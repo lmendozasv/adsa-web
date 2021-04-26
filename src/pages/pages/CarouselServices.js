@@ -22,6 +22,9 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import ButtonBase from '@material-ui/core/ButtonBase';
 
+import Container from '@material-ui/core/Container';
+
+
 const useStylesCard = makeStyles((theme) => ({
   root: {
     // display: 'flex',
@@ -47,10 +50,13 @@ const useStylesCard = makeStyles((theme) => ({
   },
   maix:{    
     overflow:'auto',
-    height:90,    
+    height:90,  
+      
     [theme.breakpoints.down('sm')]: {
-      maxWidth:600,   
-      width:600,
+       maxWidth:"100vw",   
+       width:"100vw",   
+      //maxWidth:600,   
+      //width:600,
     },  
     [theme.breakpoints.down('md')]: {
       maxWidth:960,   
@@ -62,10 +68,36 @@ const useStylesCard = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('xl')]: {
-      maxWidth:1350,   
-      width:1350,
+       maxWidth:"800vw",   
+       width:"80vw",   
+      //maxWidth:1350,   
+      //width:1350,
     },
     
+  },
+  mainBox:{
+    
+    [theme.breakpoints.down('sm')]: {
+       maxWidth:"100vw",   
+       width:"100vw",   
+      //maxWidth:600,   
+      //width:600,
+    },  
+    [theme.breakpoints.down('md')]: {
+      maxWidth:960,   
+      width:960,
+    },
+    [theme.breakpoints.down('lg')]: {
+      maxWidth:"1vw", 
+      width:"1vw",  
+    },
+
+    [theme.breakpoints.down('xl')]: {
+       maxWidth:"80vw",   
+       width:"80vw",   
+      //maxWidth:1350,   
+      //width:1350,
+    },
   }
 }));
 
@@ -74,11 +106,18 @@ export default function SingleLineGridList({ dataList, instx }) {
 
   const classes = useStylesCard();
   const theme = useTheme();
-
+  
   // https://firebasestorage.googleapis.com/v0/b/aes-app-755d2.appspot.com/o/aes_oficinascomerciales.1280x0-2-2-2.jpg?alt=media&token=5afef333-27c9-44b4-a428-215c57eaa49e
 
   return (
-    <div style={{ width: '100%', overflow:'auto' }}>
+    <div        
+     id="OUT" 
+     className={classes.mainBox} 
+    //  style={{ 
+    //   width: '90vw',
+    //    overflow:'auto' }}
+       >
+          
     <Box
       display="flex"
       flexWrap="nowrap"
@@ -87,8 +126,8 @@ export default function SingleLineGridList({ dataList, instx }) {
       m={1}
       borderRadius={15}      
       elevation10  
-      className={classes.maix} 
-
+      className={classes.maix}     
+      id="OUT1"
     >
 {dataList.map((tile) => (                       
           <Card             
@@ -127,7 +166,9 @@ export default function SingleLineGridList({ dataList, instx }) {
       
     ))}
       </Box>
-      </div>
+       
+       </div>
+      
                   
   );
 }

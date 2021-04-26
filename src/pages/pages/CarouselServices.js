@@ -51,7 +51,12 @@ const useStylesCard = makeStyles((theme) => ({
   maix:{    
     overflow:'auto',
     height:90,  
-      
+    [theme.breakpoints.down('xs')]: {
+      maxWidth:"100vw",   
+      width:"100vw",   
+     //maxWidth:600,   
+     //width:600,
+   },    
     [theme.breakpoints.down('sm')]: {
        maxWidth:"100vw",   
        width:"100vw",   
@@ -68,7 +73,7 @@ const useStylesCard = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('xl')]: {
-       maxWidth:"800vw",   
+       maxWidth:"80vw",   
        width:"80vw",   
       //maxWidth:1350,   
       //width:1350,
@@ -76,7 +81,12 @@ const useStylesCard = makeStyles((theme) => ({
     
   },
   mainBox:{
-    
+    [theme.breakpoints.down('xs')]: {
+      maxWidth:"100vw",   
+      width:"100vw",   
+     //maxWidth:600,   
+     //width:600,
+   },  
     [theme.breakpoints.down('sm')]: {
        maxWidth:"100vw",   
        width:"100vw",   

@@ -21,6 +21,8 @@
     <script>
       var host = "app.plandy.net";
       console.log("hos:"+window.location.host);
+      console.log("hos:"+window.location.protocol);
+      console.log("hos:"+window.location.port);
       if ((host == window.location.host) && (window.location.protocol != "https:")){
       window.location.protocol = "https";
       }

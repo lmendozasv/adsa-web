@@ -260,8 +260,15 @@ function SidebarCategory({
 }
 function returnUser(){
   return localStorage.getItem("unx");
-  return localStorage.getItem("ppc");
+  
 }
+function returnPicture(){
+return localStorage.getItem("pcx");
+}
+//vex
+function returnVerified(){
+  return localStorage.getItem("vex");
+  }
 function SidebarLink({ name, to, badge }) {
   
   return (
@@ -401,7 +408,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
               }}
               variant="dot"
             >
-              <Avatar alt="Lucy Lavender" src="https://lh3.googleusercontent.com/ogw/ADGmqu-RGSDUxdeByPj0gE2jc24wAlMR-xWotwwLucEjedc=s64-c-mo" />
+              <Avatar alt={returnUser()} src={returnPicture()} />
             </StyledBadge>
           </Grid>
           <Grid item>
@@ -409,7 +416,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
               {returnUser()}
             </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              Datos verificados
+              {returnVerified()?"Datos verificados":"Verifica tus datos"}
             </SidebarFooterSubText>
           </Grid>
         </Grid>

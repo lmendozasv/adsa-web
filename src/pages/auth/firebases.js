@@ -180,7 +180,17 @@ firebase.auth().onAuthStateChanged(async function (user) {
                 //alert(res.data[0]);
                
                  var nx = res.data.data[0].names+" "+res.data.data[0].last_names;
+                 var npx = res.data.data[0].pic_url;
+                 var v1 = res.data.data[0].email_verified;
+                 var v2 = res.data.data[0].phone_verified;
                  localStorage.setItem("unx",nx);
+                 localStorage.setItem("pcx",npx);
+                  if(v1+v2==2){
+                    localStorage.setItem("vex",true);
+                  }
+                  else{
+                    localStorage.setItem("vex",false);
+                  }
                  window.location.reload();
                })
               

@@ -163,8 +163,8 @@ class ServicesList extends React.Component {
             <React.Fragment>
       <Helmet title="Bienvenido" />
       
-      <Typography variant="h3" gutterBottom display="inline">
-        Servicios populares
+      <Typography variant="subtitle1">
+        Servicios más buscados
       </Typography>
 
 
@@ -178,7 +178,7 @@ class ServicesList extends React.Component {
         <Typography>Profile</Typography>
       </Breadcrumbs> */}
 
-      <Divider my={6} />
+      {/* <Divider my={1} /> */}
 
       <Grid 
       container      
@@ -191,10 +191,10 @@ class ServicesList extends React.Component {
       
       
 
-      <Typography variant="h3" gutterBottom display="inline">
+      <Typography variant="subtitle1">
         Únete a tu grupo        
       </Typography>
-      <Divider my={6} />
+      <Divider my={2} />
       
       
       <RecentClusters dataList={this.state.grupos} instx={this.onCardClick} />

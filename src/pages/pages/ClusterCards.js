@@ -38,15 +38,47 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
     height: 210,
-    width: 290,
+    // width: 205,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
+
+    [theme.breakpoints.down('xs')]: {
+      maxWidth:"10vw",   
+      width:"10vw",   
+     //maxWidth:600,   
+     //width:600,
+   },    
+    [theme.breakpoints.down('sm')]: {
+       maxWidth:"10vw",   
+       width:"10vw",   
+      //maxWidth:600,   
+      //width:600,
+    },  
+    [theme.breakpoints.down('md')]: {
+      maxWidth:960,   
+      width:960,
+    },
+    [theme.breakpoints.down('lg')]: {
+      maxWidth:1280,   
+      width:1280,
+    },
+
+    [theme.breakpoints.down('xl')]: {
+       maxWidth:"10vw",   
+       width:"10vw",   
+      //maxWidth:1350,   
+      //width:1350,
+    },
+
   },
   control: {
     padding: theme.spacing(2),
@@ -138,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
 }));
-
+const Spacer = styled.div(spacing);
 const StyledBadge = withStyles((theme) => ({
   badge: {
     // width:'10px',
@@ -307,7 +339,7 @@ export default function SingleLineGridList({ dataList, instx }) {
                     title={
                       <Typography
                         className={classes.titleName}
-                        variant="subtitle1"
+                        variant="subtitle2"
                       >
                         {tile.user_name}
                       </Typography>
@@ -321,10 +353,24 @@ export default function SingleLineGridList({ dataList, instx }) {
                         value={tile.rating}
                       />
                     }
+                    // content={
+                    //   <img   src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"/>
+                    // }
                   />
 
+{/* <CardActionArea>
+        <CardMedia          
+          image="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"
+          title="Contemplative Reptile"
+        />
+        </CardActionArea> */}
+
                   <CardContent className={classes.cardContent}>
+                  <img width="100%" height="20"   src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"/>
+                  <Spacer mb={2} />
                     <Typography variant="h5">{tile.service_name}</Typography>
+                    {/* <Spacer m={5} /> */}
+                    
                     <div>
                       <StyledRating
                         className={classes.ratingAdjust}
@@ -346,6 +392,7 @@ export default function SingleLineGridList({ dataList, instx }) {
                         ({tile.free_spots}/{tile.total_spots})
                       </Typography>
                     </div>
+                    
                     <Typography
                       variant="body2"
                       color="textSecondary"

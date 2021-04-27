@@ -285,18 +285,16 @@ export default function SingleLineGridList({ dataList, instx }) {
             xl={2}
             
           >
-            {/* <Dialog 
-               open={open}
-               disableEnforceFocus={true} 
-               open={open}
+            <Dialog 
+               open={open}               
                onClose={handleClose}
                aria-labelledby="simple-modal-title"
                aria-describedby="simple-modal-description"
                onClose={handleClose}>
                 <div style={modalStyle} className={classes.paperDialog}>
-                {tile}
+                {tile.service_name}
                 </div>
-              </Dialog> */}
+              </Dialog>
 
             <Paper
               // className={classes.paper}

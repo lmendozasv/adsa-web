@@ -43,10 +43,11 @@ const useStylesCard = makeStyles((theme) => ({
     height: "auto",
     marginLeft:50    
   },
-  newx:{
-    
-    marginRight:10,
+  newx:{    
+    marginRight:30,
     overflow:"visible",
+    maxWidth:900,   
+      width:900,   
     // flexGrow:"unset"
   },
   maix:{    
@@ -80,8 +81,10 @@ const useStylesCard = makeStyles((theme) => ({
     [theme.breakpoints.up('xl')]: {
        maxWidth:"80vw",   
        width:"80vw",   
-      //maxWidth:1350,   
-      //width:1350,
+      // maxWidth:1350,   
+      // width:1350,
+      // maxWidth:"90%",   
+      // width:"90%", 
     },
     
   },
@@ -120,9 +123,10 @@ export default function SingleLineGridList({ dataList, instx }) {
           <Card             
           variant="outlined" 
           key={tile}
-          className={classes.newx}>
+          className={classes.newx}
+          >
              <ButtonBase  
-             className={classes.newx}
+            //  className={classes.newx}
             //  onClick={event => { alert("saskjdhas"); }}
             onClick={event => { instx(tile) }}
             >

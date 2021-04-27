@@ -31,13 +31,13 @@ const useStylesCard = makeStyles((theme) => ({
   //   maxWidth: 5,
   //   width:5
   // },
-  details: {
-    // display: 'flex',
-    // flexDirection: 'column',    
-  },
-  content: {
-    // flex: '1 0 auto',    
-  },
+  // details: {
+  //   // display: 'flex',
+  //   // flexDirection: 'column',    
+  // },
+  // content: {
+  //   // flex: '1 0 auto',    
+  // },
   cover: {
     width: 100,    
     height: "auto",
@@ -50,30 +50,34 @@ const useStylesCard = makeStyles((theme) => ({
     // flexGrow:"unset"
   },
   maix:{    
-    overflow:'auto',
-    height:90,  
-    [theme.breakpoints.down('xs')]: {
-      maxWidth:"100vw",   
-      width:"100vw",   
+    // overflow:'auto',
+    // height:90,  
+    margin:0,    
+    [theme.breakpoints.up('xs')]: {
+      maxWidth:"93vw",   
+      width:"93vw",   
      //maxWidth:600,   
      //width:600,
    },    
-    [theme.breakpoints.down('sm')]: {
-       maxWidth:"100vw",   
-       width:"100vw",   
+    [theme.breakpoints.up('sm')]: {
+       maxWidth:"96vw",   
+       width:"96vw",   
       //maxWidth:600,   
       //width:600,
     },  
-    [theme.breakpoints.down('md')]: {
-      maxWidth:960,   
-      width:960,
+    [theme.breakpoints.up('md')]: {
+      maxWidth:"76vw",   
+       width:"76vw",   
+      // maxWidth:960,   
+      // width:960,
     },
-    [theme.breakpoints.down('lg')]: {
-      maxWidth:1280,   
-      width:1280,
+    [theme.breakpoints.up('lg')]: {
+      maxWidth:"76vw",   
+       width:"76vw",   
+      // maxWidth:1280,   
+      // width:1280,
     },
-
-    [theme.breakpoints.down('xl')]: {
+    [theme.breakpoints.up('xl')]: {
        maxWidth:"80vw",   
        width:"80vw",   
       //maxWidth:1350,   
@@ -81,35 +85,7 @@ const useStylesCard = makeStyles((theme) => ({
     },
     
   },
-  // mainBox:{
-  //   [theme.breakpoints.down('xs')]: {
-  //     maxWidth:"100vw",   
-  //     width:"100vw",   
-  //    //maxWidth:600,   
-  //    //width:600,
-  //  },  
-  //   [theme.breakpoints.down('sm')]: {
-  //      maxWidth:"100vw",   
-  //      width:"100vw",   
-  //     //maxWidth:600,   
-  //     //width:600,
-  //   },  
-  //   [theme.breakpoints.down('md')]: {
-  //     maxWidth:960,   
-  //     width:960,
-  //   },
-  //   [theme.breakpoints.down('lg')]: {
-  //     maxWidth:"1vw", 
-  //     width:"1vw",  
-  //   },
-
-  //   [theme.breakpoints.down('xl')]: {
-  //      maxWidth:"80vw",   
-  //      width:"80vw",   
-  //     //maxWidth:1350,   
-  //     //width:1350,
-  //   },
-  // }
+  
 }));
 
 export default function SingleLineGridList({ dataList, instx }) {
@@ -121,13 +97,13 @@ export default function SingleLineGridList({ dataList, instx }) {
   // https://firebasestorage.googleapis.com/v0/b/aes-app-755d2.appspot.com/o/aes_oficinascomerciales.1280x0-2-2-2.jpg?alt=media&token=5afef333-27c9-44b4-a428-215c57eaa49e
 
   return (
-    <div        
-     id="OUT" 
-     className={classes.maix} 
-    //  style={{ 
-    //   width: '90vw',
-    //    overflow:'auto' }}
-       >
+    // <div        
+    //  id="OUT" 
+    //  className={classes.maix} 
+    // //  style={{ 
+    // //   width: '90vw',
+    // //    overflow:'auto' }}
+    //    >
           
     <Box
       display="flex"
@@ -178,7 +154,7 @@ export default function SingleLineGridList({ dataList, instx }) {
     ))}
       </Box>
        
-       </div>
+      //  </div>
       
                   
   );

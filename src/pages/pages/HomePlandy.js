@@ -180,12 +180,12 @@ class ServicesList extends React.Component {
 
       {/* <Divider my={1} /> */}
 
-      <Grid 
+      {/* <Grid 
       container      
-       spacing={3}  id="OUT000AFUERA">
+       spacing={3}  id="OUT000AFUERA"> */}
       <CustomGridList dataList={this.state.personas} instx={this.onCardClick} />
 
-      </Grid>
+      {/* </Grid> */}
 
       <Grid container mt={10}>
       

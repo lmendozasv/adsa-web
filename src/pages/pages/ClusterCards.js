@@ -34,12 +34,12 @@ import Button from "@material-ui/core/Button";
 import { spacing } from "@material-ui/system";
 
 import DotsIcon from "@material-ui/icons/FiberManualRecord";
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
 
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardMedia from "@material-ui/core/CardMedia";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,38 +47,29 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     height: 210,
+    maxHeight: 210,
+    minHeight: 210,
     // width: 205,
+    marginBottom: "6%",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
 
-    [theme.breakpoints.down('xs')]: {
-      maxWidth:"10vw",   
-      width:"10vw",   
-     //maxWidth:600,   
-     //width:600,
-   },    
-    [theme.breakpoints.down('sm')]: {
-       maxWidth:"10vw",   
-       width:"10vw",   
-      //maxWidth:600,   
-      //width:600,
-    },  
-    [theme.breakpoints.down('md')]: {
-      maxWidth:960,   
-      width:960,
-    },
-    [theme.breakpoints.down('lg')]: {
-      maxWidth:1280,   
-      width:1280,
-    },
+    //   [theme.breakpoints.down('xs')]: {
+    //     marginBottom: "50%",
+    //  },
+    //   [theme.breakpoints.down('sm')]: {
+    //     marginBottom: "50%",
+    //   },
+    //   [theme.breakpoints.down('md')]: {
+    //     marginBottom: "6%",
+    //   },
+    //   [theme.breakpoints.down('lg')]: {
+    //     marginBottom: "6%",
+    //   },
 
-    [theme.breakpoints.down('xl')]: {
-       maxWidth:"10vw",   
-       width:"10vw",   
-      //maxWidth:1350,   
-      //width:1350,
-    },
-
+    //   [theme.breakpoints.down('xl')]: {
+    //     marginBottom: "60%",
+    //   },
   },
   control: {
     padding: theme.spacing(2),
@@ -162,10 +153,10 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "bottom",
   },
   paperDialog: {
-    position: 'absolute',
+    position: "absolute",
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -273,17 +264,28 @@ export default function SingleLineGridList({ dataList, instx }) {
     // <div style={{ width: '100%', overflow:'auto' }}>
 
     <Grid p={1} container className={classes.root} spacing={2}>
-      <Grid item xs={12}>
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-          spacing={5}
-        >
-          {dataList.slice(0, 15).map((tile) => (
-            <Grid p={1} key={tile} item>
-              <Dialog 
+      {/* <Grid item        
+      > */}
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="flex-start"
+        spacing={5}
+        className={classes.paper}
+      >
+        {dataList.slice(0, 15).map((tile) => (
+          <Grid
+            key={tile.id}
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            
+          >
+            {/* <Dialog 
                open={open}
                disableEnforceFocus={true} 
                open={open}
@@ -294,23 +296,27 @@ export default function SingleLineGridList({ dataList, instx }) {
                 <div style={modalStyle} className={classes.paperDialog}>
                 {tile}
                 </div>
-              </Dialog>
+              </Dialog> */}
 
-              <Paper variant="outlined" elevation24 className={classes.paper}>
-                <Card onClick={handleOpen} className={classes.rootCard}>
-                  <CardHeader
-                    classes={{
-                      root: classes.header,
-                      content: classes.contentCard,
-                    }}
-                    avatar={
-                      <Box
-                        className={classes.avatarHalo}
-                        border={3}
-                        borderRadius="50%"
-                        borderColor="primary.main"
-                      >
-                        {/* <StyledBadge
+            <Paper
+              // className={classes.paper}
+              variant="outlined"
+              elevation24
+            >
+              <Card onClick={handleOpen} className={classes.rootCard}>
+                <CardHeader
+                  classes={{
+                    root: classes.header,
+                    content: classes.contentCard,
+                  }}
+                  avatar={
+                    <Box
+                      className={classes.avatarHalo}
+                      border={3}
+                      borderRadius="50%"
+                      borderColor="primary.main"
+                    >
+                      {/* <StyledBadge
         overlap="circle"
         anchorOrigin={{
           vertical: 'bottom',
@@ -319,116 +325,126 @@ export default function SingleLineGridList({ dataList, instx }) {
         variant="dot"
       > */}
 
-                        <Avatar
-                          src={tile.pic_url}
-                          aria-label="recipe"
-                          className={classes.avatar}
-                        >
-                          {tile.user_name}
-                        </Avatar>
-                        {tile.verified && 
-                          <Avatar className={classes.avatarVerify}>
-                          <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
-                        </Avatar>
-                        }
-                        
-
-                        {/* </StyledBadge> */}
-                      </Box>
-                    }
-                    title={
-                      <Typography
-                        className={classes.titleName}
-                        variant="subtitle2"
+                      <Avatar
+                        src={tile.pic_url}
+                        aria-label="recipe"
+                        className={classes.avatar}
                       >
                         {tile.user_name}
-                      </Typography>
-                    }
-                    subheader={
-                      <Rating
-                        className={classes.ratingAdjust}
-                        size="small"
-                        readOnly
-                        name="simple-controlled"
-                        value={tile.rating}
-                      />
-                    }
-                    // content={
-                    //   <img   src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"/>
-                    // }
-                  />
+                      </Avatar>
+                      {tile.verified && (
+                        <Avatar className={classes.avatarVerify}>
+                          <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
+                        </Avatar>
+                      )}
 
-{/* <CardActionArea>
+                      {/* </StyledBadge> */}
+                    </Box>
+                  }
+                  title={
+                    <Typography className={classes.titleName} variant="caption">
+                      {tile.user_name}
+                    </Typography>
+                  }
+                  subheader={
+                    <Rating
+                      className={classes.ratingAdjust}
+                      size="small"
+                      readOnly
+                      name="simple-controlled"
+                      value={tile.rating}
+                    />
+                  }
+                  // content={
+                  //   <img   src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"/>
+                  // }
+                />
+
+                {/* <CardActionArea>
         <CardMedia          
           image="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"
           title="Contemplative Reptile"
         />
         </CardActionArea> */}
 
-                  <CardContent className={classes.cardContent}>
-                  <img width="100%" height="20"   src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"/>
-                  <Spacer mb={2} />
-                    <Typography variant="h5">{tile.service_name}</Typography>
-                    {/* <Spacer m={5} /> */}
-                    
-                    <div>
-                      <StyledRating
-                        className={classes.ratingAdjust}
-                        name="customized-color"
-                        defaultValue={tile.total_spots-tile.free_spots}
-                        getLabelText={(value) =>
-                          `${value} Seat${value !== 1 ? "s" : ""}`
-                        }
-                        precision={0.5}
-                        max={tile.total_spots}
-                        readOnly
-                        icon={<DotsIcon fontSize="inherit" />}
-                      />
-                      <Typography
-                        variant="caption"
-                        color="textSecondary"
-                        component="span"
-                      >
-                        ({tile.free_spots}/{tile.total_spots})
-                      </Typography>
-                    </div>
-                    
+                <CardContent className={classes.cardContent}>
+                  {/* <img width="30%" height="30"   
+                  // src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/Netflix_2015_logo.svg?alt=media&token=67c2111d-a0c6-4e8d-b4c4-00ee8821a568"
+                  src={tile.pic_url_service}
+                  /> */}
+                  {/* <Spacer mb={2} /> */}
+                  <Typography noWrap={true} >
+                    <Box fontWeight="fontWeightBold" m={1}>
+                      {tile.service_name}
+                    </Box>
+                  </Typography>
+                  {/* <Spacer m={5} /> */}
+
+                  <div>
+                    <StyledRating
+                      className={classes.ratingAdjust}
+                      name="customized-color"
+                      defaultValue={tile.total_spots - tile.free_spots}
+                      getLabelText={(value) =>
+                        `${value} Seat${value !== 1 ? "s" : ""}`
+                      }
+                      precision={0.5}
+                      max={tile.total_spots}
+                      readOnly
+                      icon={<DotsIcon fontSize="inherit" />}
+                    />
                     <Typography
-                      variant="body2"
+                      variant="caption"
                       color="textSecondary"
+                      component="span"
+                    >
+                      ({tile.free_spots}/{tile.total_spots})
+                    </Typography>
+                  </div>
+
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {tile.group_name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {tile.cluster_code}
+                  </Typography>
+                  {/* <Spacer mb={1} /> */}
+                </CardContent>
+
+                <CardActions className={classes.footerStyles}>
+                  <div className={classes.footerAdjustCenter}>
+                    <Typography
+                      variant="h6"
+                      className={classes.footerText}
                       component="p"
                     >
-                      {tile.group_name}
+                      $1.99/Mes
                     </Typography>
-                    {/* <Spacer mb={1} /> */}
-                  </CardContent>
+                  </div>
 
-                  <CardActions className={classes.footerStyles}>
-                    <div className={classes.footerAdjustCenter}>
-                      <Typography
-                        variant="h6"
-                        className={classes.footerText}
-                        component="p"
-                      >
-                        $1.99/Mes
-                      </Typography>
-                    </div>
-
-                    <div className={classes.footerAdjustRight}>
-                      {/* <Typography variant="h6" className={classes.footerText} component="p">     
+                  <div className={classes.footerAdjustRight}>
+                    {/* <Typography variant="h6" className={classes.footerText} component="p">     
           IMGEN  
         </Typography> */}
-                      <img
-                        className={classes.footerText}
-                        src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-                      />
-                    </div>
-                  </CardActions>
-                </Card>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+                    <img
+                      className={classes.footerText}
+                      src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                    />
+                  </div>
+                </CardActions>
+              </Card>
+            </Paper>
+          </Grid>
+        ))}
+        {/* </Grid> */}
       </Grid>
     </Grid>
   );

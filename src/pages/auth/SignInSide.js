@@ -233,7 +233,8 @@ class LoginComponent extends React.Component {
         localStorage.setItem("actxp", "4");
       })
       .catch((error) => {
-        alert("Error");
+        alert(error);
+        // alert("Error");
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;

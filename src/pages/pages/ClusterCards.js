@@ -173,6 +173,23 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+
+  avatarHaloDialog: {
+    marginTop: "0px",
+    width: "55px",
+    height: "55px",
+    background: "#FFFFFF",
+  },
+
+  avatarVerifyDialog: {
+    width: "15px",
+    height: "15px",
+    marginTop: "-15px",
+    marginLeft: "37px",
+    overflow: "visible",
+  },
+
+
 }));
 const Spacer = styled.div(spacing);
 const StyledBadge = withStyles((theme) => ({
@@ -258,7 +275,7 @@ export default function SingleLineGridList({ dataList, instx }) {
   };
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Grid p={1} container className={classes.root} spacing={2}>
@@ -272,8 +289,7 @@ export default function SingleLineGridList({ dataList, instx }) {
         spacing={5}
         className={classes.paper}
       >
-        <Dialog
-          fullScreen={fullScreen}
+        <Dialog          
           open={open}
           onClose={handleClose}
           aria-labelledby="responsive-dialog-title"
@@ -284,22 +300,22 @@ export default function SingleLineGridList({ dataList, instx }) {
           </DialogTitle>
           <DialogContent dividers>
             {/* START */}
-           
+            
                   <Box
-                    className={classes.avatarHalo}
+                    className={classes.avatarHaloDialog}
                     border={3}
                     borderRadius="50%"
                     borderColor="primary.main"
                   >
                     <Avatar
-                      src={setTileSelected.pic_url}
+                      src={tileSelected.pic_url}
                       aria-label="recipe"
                       className={classes.avatar}
                     >
-                      {setTileSelected.user_name}
+                      {tileSelected.user_name}
                     </Avatar>
-                    {setTileSelected.verified && (
-                      <Avatar className={classes.avatarVerify}>
+                    {tileSelected.verified && (
+                      <Avatar className={classes.avatarVerifyDialog}>
                         <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
                       </Avatar>
                     )}                    

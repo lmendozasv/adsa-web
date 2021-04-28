@@ -187,14 +187,14 @@ class ServicesList extends React.Component {
 
       {/* </Grid> */}
 
-      <Grid container mt={10}>
+      <Grid container mt={0}>
       
       
 
       <Typography variant="subtitle1">
         Únete a tu grupo        
       </Typography>
-      <Divider my={2} />
+      <Divider my={4} />
       
       
       <RecentClusters dataList={this.state.grupos} instx={this.onCardClick} />

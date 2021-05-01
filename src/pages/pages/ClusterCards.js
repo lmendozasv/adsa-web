@@ -144,14 +144,19 @@ const useStyles = makeStyles((theme) => ({
     overflow: "visible",
     paddingTop:"2px",
     paddingBottom:"0px",
-    paddingLeft:"30px",
+    paddingLeft:"10px",
     paddingRight:"8px",
+  },
+  guarantedStyle:{
+    width:"20px",
+    height:"20px",
+    marginTop:"5px",
   },
   footerText: {
     color: "#EEF4CE",
   },
   footerAdjustCenter: {
-    textAlign: "end",
+    // textAlign: "end",
     alignItems: "end",
     alignContent: "end",
     width: "100%",
@@ -471,11 +476,14 @@ export default function SingleLineGridList({ dataList, instx }) {
                 <CardActions className={classes.footerStyles}>
                   <div className={classes.footerAdjustCenter}>
                     <Typography
-                      variant="h6"
+                      variant="subtitle2"
                       className={classes.footerText}
-                      component="p"
+                      component="h6"
                     >
-                      $1.99/Mes
+                      
+                      ${
+                      parseFloat(tile.service_price+tile.commission).toFixed(2)
+                      }
                     </Typography>
                   </div>
 
@@ -484,7 +492,7 @@ export default function SingleLineGridList({ dataList, instx }) {
           IMGEN  
         </Typography> */}
                     <img
-                      className={classes.footerText}
+                      className={classes.guarantedStyle}
                       src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
                     />
                   </div>

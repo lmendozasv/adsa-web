@@ -86,15 +86,15 @@ const useStyles = makeStyles((theme) => ({
     borderTopRightRadius: 4,
     color: "#000",
     overflow: "visible",
-    height: "60px",
+    height: "51px",
     paddingLeft: "8px",
-    paddingTop: "10px",
+    paddingTop: "15px",
   },
 
   avatar: {
     marginTop: "0px",
-    width: "45px",
-    height: "45px",
+    width: "30px",
+    height: "30px",
     marginLeft: "1.9px",
     marginTop: "1.5px",
     marginBlockEnd: "5px",
@@ -104,32 +104,33 @@ const useStyles = makeStyles((theme) => ({
     overflow: "visible",
   },
   contentCard: {
-    marginTop: "25px",
+    marginTop: "0px",
     marginLeft: "-10px",
     // lineHeight:'0.05'
   },
   avatarHalo: {
-    marginTop: "31px",
-    width: "55px",
-    height: "55px",
+    marginTop: "0px",
+    width: "40px",
+    height: "40px",
     background: "#FFFFFF",
   },
   avatarVerify: {
     width: "15px",
     height: "15px",
     marginTop: "-15px",
-    marginLeft: "37px",
+    marginLeft: "23px",
     overflow: "visible",
   },
   titleName: {
     lineHeight: "1.00",
+    marginTop:"1px"
   },
   ratingAdjust: {
     marginLeft: "-3px",
     verticalAlign: "bottom",
   },
   cardContent: {
-    marginTop: "12px",
+    marginTop: "0px",
     // height:"50px"
   },
   footerStyles: {
@@ -138,9 +139,13 @@ const useStyles = makeStyles((theme) => ({
     borderBottomRightRadius: 5,
     color: "#EEF4CE",
     paddingLeft: "8px",
-    paddingTop: "10px",
-    textAlign: "center",
+    // paddingTop: "10px",
+    // textAlign: "center",
     overflow: "visible",
+    paddingTop:"2px",
+    paddingBottom:"0px",
+    paddingLeft:"30px",
+    paddingRight:"8px",
   },
   footerText: {
     color: "#EEF4CE",
@@ -188,7 +193,31 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "37px",
     overflow: "visible",
   },
+  avatarDialog: {
+    marginTop: "0px",
+    width: "45px",
+    height: "45px",
+    marginLeft: "1.9px",
+    // marginTop: "1.5px",
+    marginBlockEnd: "5px",
+    background: "#15244C",
+      [theme.breakpoints.down('xs')]: {
+        marginTop: "2.5px",
+     },
+      [theme.breakpoints.down('sm')]: {
+        marginTop: "1.5px",
+      },
+      [theme.breakpoints.down('md')]: {
+        marginTop: "1.5px",
+      },
+      [theme.breakpoints.down('lg')]: {
+        marginTop: "1.5px",
+      },
 
+      [theme.breakpoints.down('xl')]: {
+        marginTop: "1.5px",
+      },
+  },
 
 }));
 const Spacer = styled.div(spacing);
@@ -310,7 +339,7 @@ export default function SingleLineGridList({ dataList, instx }) {
                     <Avatar
                       src={tileSelected.pic_url}
                       aria-label="recipe"
-                      className={classes.avatar}
+                      className={classes.avatarDialog}
                     >
                       {tileSelected.user_name}
                     </Avatar>
@@ -378,7 +407,7 @@ export default function SingleLineGridList({ dataList, instx }) {
                     </Box>
                   }
                   title={
-                    <Typography className={classes.titleName} variant="caption">
+                    <Typography className={classes.titleName} variant="subtitle2">
                       {tile.user_name}
                     </Typography>
                   }

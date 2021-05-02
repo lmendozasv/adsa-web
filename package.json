@@ -37,6 +37,8 @@
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "4.9.10",
     "@material-ui/system": "4.9.10",
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.14.0",
     "axios": "^0.21.1",
     "chart.js": "2.9.3",
     "css-vendor": "2.0.8",
@@ -65,6 +67,7 @@
     "redux": "4.0.5",
     "sendbird": "^3.0.149",
     "sendbird-desk": "^1.0.17",
+    "stripe": "^8.145.0",
     "styled-components": "5.1.0"
   }
 }

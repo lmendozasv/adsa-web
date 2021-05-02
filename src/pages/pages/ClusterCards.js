@@ -430,7 +430,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
             </Button>
           </DialogActions>
         </Dialog> */}
-        {dataList.slice(0, 15).map((tile) => (
+        {dataList.slice(0, 15).map((tile) => (          
           <Grid key={tile.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Paper
               // className={classes.paper}
@@ -542,9 +542,8 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                       component="h6"
                     >
                       $
-                      {parseFloat(tile.service_price + tile.commission).toFixed(
-                        2
-                      )}
+                      {parseFloat(tile.service_price) + parseFloat(tile.commission)
+                      }
                     </Typography>
                   </div>
 

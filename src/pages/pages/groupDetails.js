@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { spacing } from "@material-ui/system";
 // import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import DotsIcon from "@material-ui/icons/FiberManualRecord";
 import {
   Avatar as MuiAvatar,
   Box,
@@ -26,46 +28,41 @@ import {
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Rating from "@material-ui/lab/Rating";
+import Helmet from "react-helmet";
 const Spacer = styled.div(spacing);
+
 const Divider = styled(MuiDivider)(spacing);
 class JoinToGroup extends React.Component {
   componentDidMount() {
-    console.log(this.props.location.state.groupData);
+    // console.log(this.props.location.state.groupData);
     this.setState({ data: this.props.location.state.groupData });
+    var xspots =
+      this.props.location.state.groupData.total_spots -
+      this.props.location.state.groupData.free_spots;
+
+    //console.log(xspots);
+    this.setState({ tspots: xspots });
+    localStorage.setItem("xspots", xspots);
   }
 
   constructor() {
     super();
     this.state = {
-      data: [
-        {
-          id: 1,
-          name: "Foo",
-          age: "20",
-        },
-        {
-          id: 2,
-          name: "Bar",
-          age: "30",
-        },
-        {
-          id: 3,
-          name: "Baz",
-          age: "40",
-        },
-      ],
+      data: [],
+      tspots: 0,
     };
   }
   render() {
     return (
       <div>
+        <Helmet title="Detalles de grupo" />
         <Grid container spacing={3}>
           <Grid alignItems="center" item xl={3} lg={6} md={6} sm={6} xs={12}>
             <UserProfile data={this.state.data} />
           </Grid>
 
           <Grid item xl={8} lg={6} md={6} sm={6} xs={12}>
-            <UserProfile data={this.state.data} />
+            <GroupDataDetails data={this.state.data} ins={this.state} />
           </Grid>
         </Grid>
       </div>
@@ -255,6 +252,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledRatings = withStyles({
+  iconFilled: {
+    color: "#F42441",
+  },
+  iconHover: {
+    color: "#F42441",
+  },
+})(Rating);
+
 function UserProfile({ data, ins }) {
   const classes = useStyles();
 
@@ -343,7 +349,7 @@ function UserProfile({ data, ins }) {
 
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Typography variant="body2" gutterBottom display="block">
-              Documento de identidad
+              Doc. Identidad
             </Typography>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -359,12 +365,35 @@ function UserProfile({ data, ins }) {
               />
             </Typography>
           </Grid>
+
+
+
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Typography variant="body2" gutterBottom display="block">
+              Credenciales
+            </Typography>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Typography
+              variant="body2"
+              align="right"
+              gutterBottom
+              display="block"
+            >
+              <img
+                className={classes.guarantedStyle}
+                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+              />
+            </Typography>
+          </Grid>
+
+        
+
         </Grid>
+        <Divider/>
         <Spacer mb={2} />
         {/* <Divider /> */}
         <Spacer mb={2} />
-
-
 
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -398,23 +427,153 @@ function UserProfile({ data, ins }) {
               3
             </Typography>
           </Grid>
-
-          
         </Grid>
-
-
       </Paper>
     </div>
   );
 }
+//https://stripe.com/docs/stripe-js/react
+function GroupDataDetails({ data, ins }) {
+  const classes = useStyles();
+  var xpo = localStorage.getItem("xspots");
+  return (
+    <div className={classes.ckroot}>
+      <Paper id="OP" className={classes.ckpaper} elevation={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="h2.fontSize"
+              fontWeight="fontWeightBold"
+              m={1}
+              color="#172449"
+            >
+              {data.service_name}
+            </Box>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightLight"
+              m={1}
+            >
+              {data.service_name}
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightLight"
+              m={1}
+            >
+              <StyledRatings
+                className={classes.ratingAdjust}
+                defaultValue={xpo}
+                precision={0.5}
+                max={data.total_spots}
+                readOnly
+                icon={<DotsIcon fontSize="inherit" />}
+              />
+              <br/>
+              <Typography variant="h6" color="textSecondary" component="span">
+                ({data.free_spots} libre de {data.total_spots})
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
 
-// class UserProfile extends React.Component {
+        <Spacer mb={10} />
 
-//   render() {
-//     return (
+        <Spacer mb={10} />
 
-//     );
-//   }
-// }
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightRegular"
+              m={1}
+            >
+              Período de facturación
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              <Typography variant="button" component="span">
+                Mensual
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightRegular"
+              m={1}
+            >
+              Fecha de creación
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              <Typography variant="button" component="span">
+                01/01/2021
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Spacer mb={2} />
+        <Divider />
+        <Spacer mb={2} />
+
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="h2.fontSize"
+              fontWeight="fontWeightRegular"
+              m={1}
+            >
+              Total
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="h2.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              ${parseFloat(data.service_price) + parseFloat(data.commission)}
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Spacer mb={8} />
+
+        <Button backgroundColor="#172449" fullWidth variant="contained" color="primary">
+          Solicitar acceso al grupo
+        </Button>
+      </Paper>
+    </div>
+  );
+}
 
 export default JoinToGroup;

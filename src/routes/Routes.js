@@ -54,22 +54,22 @@ const childRoutes = (Layout, routes) =>
     )
   );
 
-const Routes = () => (  
-  <Router>
-    <Switch>
-      {childRoutes(DashboardLayout, dashboardRoutes)}
-      {childRoutes(AuthLayout, authRoutes)}            
-        {
-        isLogged()?
-        <AuthLayout>
-          <Page404/>
-          </AuthLayout>
-        :        
-        <DashboardLayout/>      
-        }
-    </Switch>
-  </Router>
-);
+// const Routes = () => (  
+//   <Router>
+//     <Switch>
+//       {childRoutes(DashboardLayout, dashboardRoutes)}
+//       {childRoutes(AuthLayout, authRoutes)}            
+//         {
+//         isLogged()?
+//         <AuthLayout>
+//           <Page404/>
+//           </AuthLayout>
+//         :        
+//         <DashboardLayout/>      
+//         }
+//     </Switch>
+//   </Router>
+// );
 
 const RoutesV20 = () => {
   if (isLogged())
@@ -90,19 +90,19 @@ const RoutesV20 = () => {
       </Router>;
 };
 
-const RoutesV2 = isLogged() ?  
-<Router>
-      <Switch>      
-      {childRoutes(AuthLayout, authRoutes)}   
-      <AuthLayout>
-          <Page404/>
-          </AuthLayout>  
-      </Switch> 
-</Router> : <Router>
-<Switch>
-      {childRoutes(DashboardLayout, dashboardRoutes)}
-      <DashboardLayout/>      
-      </Switch>
-</Router>;
+// const RoutesV2 = isLogged() ?  
+// <Router>
+//       <Switch>      
+//       {childRoutes(AuthLayout, authRoutes)}   
+//       <AuthLayout>
+//           <Page404/>
+//           </AuthLayout>  
+//       </Switch> 
+// </Router> : <Router>
+// <Switch>
+//       {childRoutes(DashboardLayout, dashboardRoutes)}
+//       <DashboardLayout/>      
+//       </Switch>
+// </Router>;
 
 export default RoutesV20;

@@ -41,11 +41,13 @@ firebase.auth().onAuthStateChanged(async function (user) {
         localStorage.setItem("token", UIDTOKEN);
         console.log(UIDTOKEN);
         // alert("2.2: =====> "+UIDTOKEN);
+        var ctp = localStorage.getItem("ct_");
         if (actiontype === "0" && UIDTOKEN.length > 0) {
           //login
           vurl = "https://plandy-api.herokuapp.com/login";
           payload = {
             firebaseuuid: UIDTOKEN,
+            countrycode:ctp
           };
           // alert("2");
         }

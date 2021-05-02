@@ -119,7 +119,7 @@ class ServicesList extends React.Component {
   _isMounted = false;
     constructor(props) {
       super(props);
-
+      //console.log(props);
     }
     componentDidMount() {
       this._isMounted = true;
@@ -197,7 +197,7 @@ class ServicesList extends React.Component {
       <Divider my={4} />
       
       
-      <RecentClusters dataList={this.state.grupos} instx={this.onCardClick} />
+      <RecentClusters dataList={this.state.grupos} instx={this.onCardClick} context = {this.props} />
       
         {/* <Grid item xs={12} lg={4} xl={6}>
           <Details />

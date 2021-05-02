@@ -5,6 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import { borders } from "@material-ui/system";
 import GridList from "@material-ui/core/GridList";
+// import { browserHistory } from 'react-router';
+import { createBrowserHistory } from 'history'
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,6 +17,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import AppBar from "@material-ui/core/AppBar";
+import  { Redirect } from 'react-router-dom';
 import Toolbar from "@material-ui/core/Toolbar";
 import Divider from "@material-ui/core/Divider";
 //import tileData from './tileData';
@@ -123,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleName: {
     lineHeight: "1.00",
-    marginTop:"1px"
+    marginTop: "1px",
   },
   ratingAdjust: {
     marginLeft: "-3px",
@@ -142,15 +145,15 @@ const useStyles = makeStyles((theme) => ({
     // paddingTop: "10px",
     // textAlign: "center",
     overflow: "visible",
-    paddingTop:"2px",
-    paddingBottom:"0px",
-    paddingLeft:"10px",
-    paddingRight:"8px",
+    paddingTop: "2px",
+    paddingBottom: "0px",
+    paddingLeft: "10px",
+    paddingRight: "8px",
   },
-  guarantedStyle:{
-    width:"20px",
-    height:"20px",
-    marginTop:"5px",
+  guarantedStyle: {
+    width: "20px",
+    height: "20px",
+    marginTop: "5px",
   },
   footerText: {
     color: "#EEF4CE",
@@ -206,22 +209,33 @@ const useStyles = makeStyles((theme) => ({
     // marginTop: "1.5px",
     marginBlockEnd: "5px",
     background: "#15244C",
-      [theme.breakpoints.down('xs')]: {
-        marginTop: "2.5px",
-     },
-      [theme.breakpoints.down('sm')]: {
-        marginTop: "1.5px",
-      },
-      [theme.breakpoints.down('md')]: {
-        marginTop: "1.5px",
-      },
-      [theme.breakpoints.down('lg')]: {
-        marginTop: "1.5px",
-      },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "2.5px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "1.5px",
+    },
+    [theme.breakpoints.down("md")]: {
+      marginTop: "1.5px",
+    },
+    [theme.breakpoints.down("lg")]: {
+      marginTop: "1.5px",
+    },
 
-      [theme.breakpoints.down('xl')]: {
-        marginTop: "1.5px",
-      },
+    [theme.breakpoints.down("xl")]: {
+      marginTop: "1.5px",
+    },
+  },
+
+  droot: {
+    flexGrow: 1,
+    overflow: 'hidden',
+    padding: theme.spacing(0, 3),
+  },
+  dpaper: {
+    maxWidth: 400,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
   },
 
 }));
@@ -283,7 +297,7 @@ function getModalStyle() {
   };
 }
 
-export default function SingleLineGridList({ dataList, instx }) {
+export default function SingleLineGridList({ dataList, instx, context }) {
   //modal
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -303,10 +317,16 @@ export default function SingleLineGridList({ dataList, instx }) {
     setTileSelected(t);
     setOpen(true);
   };
-
+  
   const handleClose = () => {
     setOpen(false);
   };
+  const handleViewDetail = (t) => {    
+    context.history.push({ 
+      pathname: "/groupDetails",
+      state: {groupData: t}
+    });  
+  }
 
   const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -323,39 +343,77 @@ export default function SingleLineGridList({ dataList, instx }) {
         spacing={5}
         className={classes.paper}
       >
-        <Dialog          
+        {/* <Dialog
           open={open}
           onClose={handleClose}
           aria-labelledby="responsive-dialog-title"
           dividers
         >
           <DialogTitle id="responsive-dialog-title">
-            Únete a {userOffering}
+            Comparte {tileSelected.service_name}
           </DialogTitle>
           <DialogContent dividers>
-            {/* START */}
             
-                  <Box
-                    className={classes.avatarHaloDialog}
-                    border={3}
-                    borderRadius="50%"
-                    borderColor="primary.main"
-                  >
-                    <Avatar
-                      src={tileSelected.pic_url}
-                      aria-label="recipe"
-                      className={classes.avatarDialog}
-                    >
-                      {tileSelected.user_name}
-                    </Avatar>
-                    {tileSelected.verified && (
-                      <Avatar className={classes.avatarVerifyDialog}>
-                        <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
-                      </Avatar>
-                    )}                    
-                  </Box>
-               
-            {/* END */}
+
+            <div className={classes.droot}>
+      <Paper className={classes.dpaper}>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item>
+            <Avatar>W</Avatar>
+          </Grid>
+          <Grid item xs zeroMinWidth>
+            <Typography noWrap>{tileSelected.user_name}</Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper className={classes.dpaper}>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item>
+            <Avatar>W</Avatar>
+          </Grid>
+          <Grid item xs>
+            <Typography noWrap>{tileSelected.user_name}</Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper className={classes.dpaper}>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item>
+            <Avatar>W</Avatar>
+          </Grid>
+          <Grid item xs>
+            <Typography>{tileSelected.user_name}</Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+    </div>
+
+            <Typography className={classes.titleName} variant="subtitle2">
+              Datos del propietario
+            </Typography>
+            <br />
+            <Box
+              className={classes.avatarHaloDialog}
+              border={3}
+              borderRadius="50%"
+              borderColor="primary.main"
+            >
+              <Avatar
+                src={tileSelected.pic_url}
+                aria-label="recipe"
+                className={classes.avatarDialog}
+              >
+                {tileSelected.user_name}
+              </Avatar>
+              {tileSelected.verified && (
+                <Avatar className={classes.avatarVerifyDialog}>
+                  <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
+                </Avatar>
+              )}
+              <hr />
+            </Box>
+
+            
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">
@@ -371,7 +429,7 @@ export default function SingleLineGridList({ dataList, instx }) {
               Continuar
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
         {dataList.slice(0, 15).map((tile) => (
           <Grid key={tile.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Paper
@@ -380,7 +438,7 @@ export default function SingleLineGridList({ dataList, instx }) {
               elevation24
             >
               <Card
-                onClick={() => handleOpen(tile)}
+                onClick={() => handleViewDetail(tile)}
                 className={classes.rootCard}
               >
                 <CardHeader
@@ -412,7 +470,10 @@ export default function SingleLineGridList({ dataList, instx }) {
                     </Box>
                   }
                   title={
-                    <Typography className={classes.titleName} variant="subtitle2">
+                    <Typography
+                      className={classes.titleName}
+                      variant="subtitle2"
+                    >
                       {tile.user_name}
                     </Typography>
                   }
@@ -480,10 +541,10 @@ export default function SingleLineGridList({ dataList, instx }) {
                       className={classes.footerText}
                       component="h6"
                     >
-                      
-                      ${
-                      parseFloat(tile.service_price+tile.commission).toFixed(2)
-                      }
+                      $
+                      {parseFloat(tile.service_price + tile.commission).toFixed(
+                        2
+                      )}
                     </Typography>
                   </div>
 

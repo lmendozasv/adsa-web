@@ -73,7 +73,7 @@ const Profile = async(() => import("../pages/pages/HomePlandy"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/Projects"));
-const Calendar = async(() => import("../pages/pages/Calendar"));
+const Calendar = async(() => import("../pages/pages/groupDetails"));
 
 // Tables components
 const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
@@ -139,6 +139,13 @@ const profileRoutes = {
   path: "/",
   icon: <HomeIcon />,
   component: Profile,
+  children: null
+};
+
+const groupDetails = {
+  id: "Detalle",
+  path: "/groupDetails",  
+  component: Calendar,
   children: null
 };
 
@@ -445,6 +452,7 @@ export const dashboard = [
   // dashboardsRoutes,
   // pagesRoutes,
   profileRoutes,
+  groupDetails,
   projectsRoutes,
   orderRoutes,
   // invoiceRoutes,
@@ -467,7 +475,7 @@ export const auth = [authRoutes];
 export default [
   // dashboardsRoutes,
   // pagesRoutes,
-  profileRoutes,
+  profileRoutes,  
   projectsRoutes,
   orderRoutes,
   // invoiceRoutes,

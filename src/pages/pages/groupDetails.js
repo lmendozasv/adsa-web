@@ -361,7 +361,7 @@ function UserProfile({ data, ins }) {
           </Grid>
         </Grid>
         <Spacer mb={2} />
-        <Divider />
+        {/* <Divider /> */}
         <Spacer mb={2} />
 
 
@@ -369,7 +369,7 @@ function UserProfile({ data, ins }) {
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Typography variant="body2" gutterBottom display="block">
-              Correo electrónico
+              Últ. conexión
             </Typography>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -379,16 +379,13 @@ function UserProfile({ data, ins }) {
               gutterBottom
               display="block"
             >
-              <img
-                className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-              />
+              Ayer
             </Typography>
           </Grid>
 
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Typography variant="body2" gutterBottom display="block">
-              Número telefónico
+              Grupos activos
             </Typography>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -398,31 +395,11 @@ function UserProfile({ data, ins }) {
               gutterBottom
               display="block"
             >
-              <img
-                className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-              />
+              3
             </Typography>
           </Grid>
 
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography variant="body2" gutterBottom display="block">
-              Documento de identidad
-            </Typography>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography
-              variant="body2"
-              align="right"
-              gutterBottom
-              display="block"
-            >
-              <img
-                className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-              />
-            </Typography>
-          </Grid>
+          
         </Grid>
 
 

@@ -7,7 +7,12 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import DotsIcon from "@material-ui/icons/FiberManualRecord";
 import Alert from "@material-ui/lab/Alert";
-
+import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import {
   Avatar as MuiAvatar,
   Box,
@@ -32,12 +37,13 @@ import Grid from "@material-ui/core/Grid";
 import Rating from "@material-ui/lab/Rating";
 import Helmet from "react-helmet";
 import { margin } from "polished";
+import axios from "axios";
 const Spacer = styled.div(spacing);
 
 const Divider = styled(MuiDivider)(spacing);
+
 class JoinToGroup extends React.Component {
   componentDidMount() {
-      //console.log(this.props);
     // console.log(this.props.location.state.groupData);
     this.setState({ data: this.props.location.state.groupData });
     var xspots =
@@ -48,49 +54,68 @@ class JoinToGroup extends React.Component {
     this.setState({ tspots: xspots });
     localStorage.setItem("xspots", xspots);
     localStorage.setItem("ratx", this.props.location.state.groupData.rating);
+    getRelTypes(this.props.location.state.groupData.id, this);
   }
 
   constructor() {
     super();
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       data: [],
       tspots: 0,
+      dataRelations: [],
+      selectedRel: 1,
     };
   }
+
+  handleChange = (event) => {
+    console.log(this.state);
+    console.log("1state: " + this.state.selectedRel);
+    this.state.selectedRel = parseInt(event.target.value);
+    console.log("2state: " + this.state.selectedRel);
+    // setValue(event.target.value);
+    //selectedRel
+    //this.setState({ selectedRel: event.target.value });
+    // console.log(""+event.target.value);
+  };
   render() {
     return (
       <div>
-        <Helmet title="Detalles de grupo" />
+        <Helmet title="Ingresa al grupo" />
 
         <Grid container spacing={1}>
-          <Grid
-            alignItems="center"
-            item
-            xl={12}
-            lg={12}
-            md={12}
-            sm={12}
-            xs={12}
-          >
-            <Typography padding={10} variant="h3" gutterBottom display="inline">
-              Detalles de grupo
-            </Typography>
-            <hr />
-            <Spacer mb={5} />
-          </Grid>
-          <Grid alignItems="center" item xl={3} lg={6} md={6} sm={6} xs={12}>
-            <UserProfile data={this.state.data} />
+          <Grid alignItems="center" item xl={6} lg={6} md={6} sm={6} xs={12}>
+            <UserProfile
+              data={this.state.data}
+              relations={this.state.dataRelations}
+              ins={this}
+            />
           </Grid>
 
-          <Grid item xl={9} lg={6} md={6} sm={6} xs={12}>
-            <GroupDataDetails data={this.state.data} ins={this.props} />
+          <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+            <GroupDataDetails data={this.state.data} ins={this.state} />
           </Grid>
         </Grid>
-        <Spacer mb={5} />
-        <Alert color="success" fullWidth severity="info">
+        {/* <Spacer mb={2} /> */}
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+          <Button
+              backgroundColor="#172449"
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              UNIRME AHORA
+            </Button>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            
+          </Grid>
+        </Grid>
+        {/* <Alert color="success" fullWidth severity="info">
           El servicio de <b>{this.state.data.service_name} </b>tiene una alta
           demanda en Plandy. ¡Apresúrate a unirte al grupo!
-        </Alert>
+        </Alert> */}
       </div>
     );
   }
@@ -297,180 +322,122 @@ const StyledRatings = withStyles({
   },
 })(Rating);
 
+const getRelTypes = (id, ins) => {
+  var tk = localStorage.getItem("token_sec");
+  axios
+    .post(
+      "https://plandy-api.herokuapp.com/getRelType",
+      {
+        group_id: id,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + tk,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      var dt = [];
+      response.data.data.forEach(function (entry) {
+        //console.log(entry);
+        var itemx = {
+          id: entry.id,
+          rel_name: entry.rel_name,
+        };
+        console.log(itemx);
+        dt.push(itemx);
+      });
+      // console.log(response.data.data);
+      ins.setState({ dataRelations: dt });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 
-const handleJoinNow = (t,ns) => {    
-    console.log(ns);
-    ns.history.push({ 
-      pathname: "/join",
-      state: {groupData: t}
-    });  
-  }
+function UserProfile({ data, ins, relations }) {
+  const [value, setValue] = React.useState(0);
 
-function UserProfile({ data, ins }) {
+  const handleChange = (event) => {
+    setValue(parseInt(event.target.value));
+    ins.setState({ selectedRel: parseInt(event.target.value) });
+    console.log(event.target.value);
+  };
+
   const classes = useStyles();
   var xra = localStorage.getItem("ratx");
   return (
-      
     <div className={classes.ckroot}>
       <Paper id="OP" className={classes.ckpaper} elevation={3}>
-        <Box textAlign="center" fontWeight="fontWeightRegular" m={1}>
-          Administrador del grupo
-        </Box>
-        <div className={classes.centeredDiv}>
-          <Box
-            className={classes.avatarHaloDialog}
-            border={3}
-            borderRadius="50%"
-            borderColor="primary.main"
-          >
-            <Avatar
-              src={data.pic_url}
-              aria-label="recipe"
-              className={classes.avatarDialog}
-            >
-              {data.user_name}
-            </Avatar>
-            {data.verified && (
-              <Avatar className={classes.avatarVerifyDialog}>
-                <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
-              </Avatar>
-            )}
-          </Box>
-        </div>
         <Box
-          textAlign="center"
-          fontSize="button.fontSize"
+          fontSize="h2.fontSize"
+          textAlign="left"
           fontWeight="fontWeightBold"
           m={1}
         >
-          {data.user_name}
-
-          <Box textAlign="center" fontWeight="fontWeightRegular" m={1}></Box>
-          <Rating
-            className={classes.ratingAdjust}
-            size="small"
-            readOnly
-            name="simple-controlled"
-            value={xra}
-          />
+          Solicitar acceso
         </Box>
-        {/* <Divider /> */}
-        <Spacer mb={5} />
-
-        <Box
-          textAlign="center"
-          fontSize="caption.fontSize"
-          fontWeight="fontWeightRegular"
-          color="#F42441"
-          m={1}
-        >
-          {data.group_name} ({data.cluster_code})
-        </Box>
-        <Spacer mb={5} />
-        <Grid container spacing={3}>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography variant="body2" gutterBottom display="block">
-              Correo electrónico
-            </Typography>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-          {data.email_verified==1?
-              <Typography
-              variant="body2"
-              align="right"
-              gutterBottom
-              display="block"
-            >
-              <img
-                className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-              />
-            </Typography>
-              :""}
-          </Grid>
-
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography variant="body2" gutterBottom display="block">
-              Número telefónico
-            </Typography>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-              {data.phone_verified==1?
-              <Typography
-              variant="body2"
-              align="right"
-              gutterBottom
-              display="block"
-            >
-              <img
-                className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-              />
-            </Typography>
-              :""}
-            
-          </Grid>
-
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography variant="body2" gutterBottom display="block">
-              Doc. Identidad
-            </Typography>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-          {data.id_verified==1?
-              <Typography
-              variant="body2"
-              align="right"
-              gutterBottom
-              display="block"
-            >
-              <img
-                className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-              />
-            </Typography>
-              :""}
-          </Grid>
-
-          
-        
-        </Grid>
         <Divider />
-        <Spacer mb={2} />
-        {/* <Divider /> */}
-        <Spacer mb={2} />
+        <Spacer mt={5} />
+        <Box
+          textAlign="left"
+          fontSize="button.fontSize"
+          fontWeight="fontWeightBold"
+          color="#F42441"
+          gutterBottom
+        >
+          Selecciona tu relación con {data.user_name} (Administrador del grupo)
+        </Box>
+
+        <Spacer mb={5} />
+
+        <FormControl fullWidth component="fieldset">
+          <RadioGroup
+            aria-label="gender"
+            name="gender1"
+            value={value}
+            onChange={handleChange}
+          >
+            {relations.map((tile) => (
+              <Grid container spacing={3}>
+                <Grid item xs={6} md={6} lg={6} xl={6}>
+                  <Typography variant="body2" gutterBottom display="block">
+                    {tile.rel_name}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6} xl={6}>
+                  <Box textAlign="right">
+                    <FormControlLabel
+                      value={tile.id}
+                      control={<Radio />}
+                      label={tile.service_name}
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+            ))}
+          </RadioGroup>
+        </FormControl>
+        <Divider />
+        <Spacer mt={5} />
 
         <Grid container spacing={3}>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography variant="body2" gutterBottom display="block">
-              Últ. conexión
+          <Grid item xs={6} md={6} lg={6} xl={10}>
+            <Typography variant="caption" gutterBottom display="block">
+              Confirmo que entiendo que Plandy no está asociado o
+              afiliado a {data.service_name} y que he leído, entendido y he aceptado
+              cumplir con los términos y condiciones de uso para compartir {data.service_name}.
             </Typography>
           </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography
-              variant="body2"
-              align="right"
-              gutterBottom
-              display="block"
-            >
-              {data.user_last_seen}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography variant="body2" gutterBottom display="block">
-              Grupos activos
-            </Typography>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Typography
-              variant="body2"
-              align="right"
-              gutterBottom
-              display="block"
-            >
-              {data.active_groups}
-            </Typography>
+          <Grid item xs={6} md={6} lg={6} xl={2}>
+            <Box textAlign="right" marginRight={4} >
+              <Checkbox
+                mr={10}                                
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
+            </Box>
           </Grid>
         </Grid>
       </Paper>
@@ -480,7 +447,26 @@ function UserProfile({ data, ins }) {
 //https://stripe.com/docs/stripe-js/react
 function GroupDataDetails({ data, ins }) {
   const classes = useStyles();
-  var xpo = localStorage.getItem("xspots");  
+  var xpo = localStorage.getItem("xspots");
+
+  var Sdate = new Date(); 
+  var Edate = new Date(); 
+  Edate.setDate(Edate.getDate() + 30); 
+  // console.log(date);
+
+  let sye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(Sdate);
+  let smo = new Intl.DateTimeFormat('en', { month: 'short' }).format(Sdate);
+  let sda = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(Sdate);
+
+  let eye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(Edate);
+  let emo = new Intl.DateTimeFormat('en', { month: 'short' }).format(Edate);
+  let eda = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(Edate);
+
+  var startDate = `${sda}-${smo}-${sye}`;
+  var endDate = `${eda}-${emo}-${eye}`; 
+  
+  // console.log(`${da}-${mo}-${ye}`);
+
   return (
     <div className={classes.ckroot}>
       <Paper id="OP" className={classes.ckpaper} elevation={3}>
@@ -501,90 +487,79 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightLight"
               m={1}
             >
-              {data.service_desc}
+              {data.service_desc}              
             </Box>
-          </Grid>
 
-          
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Box
-              textAlign="right"
-              fontSize="button.fontSize"
-              fontWeight="fontWeightLight"
-              m={1}
-            >
-              <StyledRatings
-                className={classes.ratingAdjust}
-                defaultValue={xpo}
-                precision={0.5}
-                max={data.total_spots}
-                readOnly
-                icon={<DotsIcon fontSize="inherit" />}
-              />
-              <Spacer mb={2} />
-              <Typography variant="h6" color="textSecondary" component="span">
-                ({data.free_spots} puesto libre de {data.total_spots})
-              </Typography>
-            </Box>
           </Grid>
         </Grid>
 
-        <Spacer mb={10} />
-
-        <Spacer mb={10} />
-        <Divider/>
-        <Grid container spacing={3}>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Box
-              textAlign="left"
-              fontSize="button.fontSize"
-              fontWeight="fontWeightRegular"
-              m={1}
-            >
-              Período de facturación
-            </Box>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            <Box
-              textAlign="right"
-              fontSize="button.fontSize"
-              fontWeight="fontWeightBold"
-              color="#F42441"
-              m={1}
-            >
-              <Typography variant="button" component="span">
-                Mensual
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-        <Grid item xs={6} md={6} lg={6} xl={6}>
         <Box
               textAlign="left"
               fontSize="button.fontSize"
+              fontWeight="fontWeightLight"
+              m={1}
+              color="#172449"
+            >              
+              Código de grupo ({data.cluster_code})
+            </Box>
+
+        <Spacer mb={10} />
+
+        <Spacer mb={10} />
+        <Divider />
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
               fontWeight="fontWeightRegular"
               m={1}
             >
-              Credenciales de acceso
+              {startDate}
             </Box>
-          </Grid>          
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-          {data.credential_status==1?
-             <Box
-             textAlign="right"
-             fontSize="button.fontSize"
-             fontWeight="fontWeightBold"
-             color="#F42441"
-             m={1}
-           >
-             <Typography variant="button" component="span">
-               Garantizadas
-             </Typography>
-           </Box>
-              :"Pendientes de validar"}
           </Grid>
-</Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"              
+              m={1}
+            >
+              <Typography variant="button" component="span">
+                {endDate}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightRegular"
+              m={1}
+            >
+              Período
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            {data.credential_status == 1 ? (
+              <Box
+                textAlign="right"
+                fontSize="button.fontSize"
+                fontWeight="fontWeightBold"
+                color="#F42441"
+                m={1}
+              >
+                <Typography variant="button" component="span">
+                  Garantizadas
+                </Typography>
+              </Box>
+            ) : (
+              "Pendientes de validar"
+            )}
+          </Grid>
+        </Grid>
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Box
@@ -647,20 +622,7 @@ function GroupDataDetails({ data, ins }) {
           pago.
         </Alert>
         <Spacer mb={2} />
-        <Grid container spacing={3}>
-          <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
-          <Grid item xs={6} md={6} lg={6} xl={12}>
-            <Button
-              backgroundColor="#172449"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={() => handleJoinNow(data,ins)}
-            >
-              SOLICITAR ACCESO AL GRUPO
-            </Button>
-          </Grid>
-        </Grid>
+        
         <Spacer mb={4} />
       </Paper>
     </div>

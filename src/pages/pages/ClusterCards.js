@@ -324,7 +324,9 @@ export default function SingleLineGridList({ dataList, instx, context }) {
   const handleViewDetail = (t) => {    
     context.history.push({ 
       pathname: "/groupDetails",
-      state: {groupData: t}
+      state: {
+        groupData: t,
+      }
     });  
   }
 

@@ -74,6 +74,7 @@ const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/Projects"));
 const Calendar = async(() => import("../pages/pages/groupDetails"));
+const JoinToGroup = async(() => import("../pages/pages/joinToGroup"));
 
 // Tables components
 const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
@@ -146,6 +147,13 @@ const groupDetails = {
   id: "Detalle",
   path: "/groupDetails",  
   component: Calendar,
+  children: null
+};
+
+const groupDetailsJoinNow = {
+  id: "Detalle",
+  path: "/join",  
+  component: JoinToGroup,
   children: null
 };
 
@@ -453,6 +461,7 @@ export const dashboard = [
   // pagesRoutes,
   profileRoutes,
   groupDetails,
+  groupDetailsJoinNow,
   projectsRoutes,
   orderRoutes,
   // invoiceRoutes,

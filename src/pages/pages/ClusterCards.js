@@ -544,7 +544,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                       component="h6"
                     >
                       $
-                      {parseFloat(tile.service_price) + parseFloat(tile.commission)
+                      {(parseFloat(tile.service_price) + parseFloat(tile.commission))/100
                       }
                     </Typography>
                   </div>
@@ -553,10 +553,24 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                     {/* <Typography variant="h6" className={classes.footerText} component="p">     
           IMGEN  
         </Typography> */}
+        {tile.credential_status==0 && (
+                    <img
+                      className={classes.guarantedStyle}
+                      src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                    />)
+        }
+        {tile.credential_status==1 && (
                     <img
                       className={classes.guarantedStyle}
                       src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
-                    />
+                    />)
+        }
+        {/* {tile.credential_status==2 && (
+                    <img
+                      className={classes.guarantedStyle}
+                      src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                    />)
+        } */}
                   </div>
                 </CardActions>
               </Card>

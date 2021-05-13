@@ -13,6 +13,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+// import { SnackbarProvider } from 'notistack';
+
 import {
   Avatar as MuiAvatar,
   Box,
@@ -64,15 +66,16 @@ class JoinToGroup extends React.Component {
       data: [],
       tspots: 0,
       dataRelations: [],
-      selectedRel: 1,
+      selectedRel: 0,
+      isTrue:false
     };
   }
 
   handleChange = (event) => {
-    console.log(this.state);
-    console.log("1state: " + this.state.selectedRel);
+    //console.log(this.state);
+    //console.log("1state: " + this.state.selectedRel);
     this.state.selectedRel = parseInt(event.target.value);
-    console.log("2state: " + this.state.selectedRel);
+    //console.log("2state: " + this.state.selectedRel);
     // setValue(event.target.value);
     //selectedRel
     //this.setState({ selectedRel: event.target.value });
@@ -104,8 +107,9 @@ class JoinToGroup extends React.Component {
               fullWidth
               variant="contained"
               color="primary"
+              onClick={() => handleJoinNow(this.state.data,this)}
             >
-              UNIRME AHORA
+              SOLICITAR ACCESO AL GRUPO
             </Button>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -356,14 +360,36 @@ const getRelTypes = (id, ins) => {
       console.log(error);
     });
 };
+const handleJoinNow = (t,ns) => {    
 
+  var relaion = ns.state.selectedRel;
+  var isTrues = ns.state.isTrue;
+
+  // console.log(ns);
+  // console.log(relaion);
+  // console.log(isTrues);
+
+  if(relaion>0&&isTrues){
+    ns.props.history.push({ 
+      pathname: "/pay",
+      state: {groupData: t}
+    });  
+  }
+  else{
+    alert("Para continuar es necesario seleccionar las opciones, intenta nuevamente");
+  }
+
+  
+
+}
 function UserProfile({ data, ins, relations }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event) => {
     setValue(parseInt(event.target.value));
     ins.setState({ selectedRel: parseInt(event.target.value) });
-    console.log(event.target.value);
+    //console.log(event.target.value);
+
   };
 
   const classes = useStyles();
@@ -436,6 +462,10 @@ function UserProfile({ data, ins, relations }) {
               <Checkbox
                 mr={10}                                
                 inputProps={{ "aria-label": "primary checkbox" }}
+                onChange={e => {
+                  console.log(e.target.checked);
+                  ins.setState({ isTrue: e.target.checked });
+                }}
               />
             </Box>
           </Grid>
@@ -610,7 +640,7 @@ function GroupDataDetails({ data, ins }) {
               color="#F42441"
               m={1}
             >
-              ${parseFloat(data.service_price) + parseFloat(data.commission)}
+              ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}
             </Box>
           </Grid>
         </Grid>
@@ -618,7 +648,7 @@ function GroupDataDetails({ data, ins }) {
         <Spacer mb={12} />
 
         <Alert fullWidth severity="info" variant="outlined">
-          Puedes solicitar un reembolso hasta 25 días después de realizar el
+          Puedes solicitar un reembolso total hasta 25 días después de realizar el
           pago.
         </Alert>
         <Spacer mb={2} />

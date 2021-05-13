@@ -91,11 +91,28 @@ const useStylesCard = makeStyles((theme) => ({
   
 }));
 
-export default function SingleLineGridList({ dataList, instx }) {
+export default function SingleLineGridList({ dataList, instx,context }) {
   //const classes = useStyles();
 
   const classes = useStylesCard();
   const theme = useTheme();
+
+  const handleViewDetail = (t) => {  
+    document.location = "?c="+t.id; 
+// const params = new URLSearchParams(context.location.search);
+// params.set('test', 123);
+// params.set('cheese', 'yummy');
+
+// params.toString(); // => test=123&cheese=yummy
+// window.history.replaceState({}, '', `${context.location.pathname}?${params.toString()}`);
+
+    // context.history.push({ 
+    //   pathname: "?c=1",
+    //   state: {
+    //     groupData: t,
+    //   }
+    // });  
+  }
   
   // https://firebasestorage.googleapis.com/v0/b/aes-app-755d2.appspot.com/o/aes_oficinascomerciales.1280x0-2-2-2.jpg?alt=media&token=5afef333-27c9-44b4-a428-215c57eaa49e
 
@@ -128,7 +145,8 @@ export default function SingleLineGridList({ dataList, instx }) {
              <ButtonBase  
             //  className={classes.newx}
             //  onClick={event => { alert("saskjdhas"); }}
-            onClick={event => { instx(tile) }}
+            // onClick={event => { instx(tile) }}
+            onClick={() => handleViewDetail(tile)}
             >
           <CardMedia
         className={classes.cover}

@@ -3,8 +3,8 @@ import styled, { withTheme } from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import CustomGridList from "./CarouselServices";
 import RecentClusters from "./ClusterCards";
-import Helmet from 'react-helmet';
-import axios from 'axios';
+import Helmet from "react-helmet";
+import axios from "axios";
 import "../../vendor/roundedBarCharts";
 import { Bar } from "react-chartjs-2";
 
@@ -27,7 +27,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
+  Typography,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
@@ -41,7 +41,7 @@ import {
   Instagram,
   MapPin,
   ShoppingBag,
-  Twitter
+  Twitter,
 } from "react-feather";
 
 const NavLink = React.forwardRef((props, ref) => (
@@ -76,7 +76,7 @@ const Avatar = styled(MuiAvatar)`
 
 const AboutIcon = styled.span`
   display: flex;
-  padding-right: ${props => props.theme.spacing(2)}px;
+  padding-right: ${(props) => props.theme.spacing(2)}px;
 
   svg {
     width: 14px;
@@ -97,7 +97,7 @@ const StatsIcon = styled.div`
   svg {
     width: 32px;
     height: 32px;
-    color: ${props => props.theme.palette.secondary.main};
+    color: ${(props) => props.theme.palette.secondary.main};
   }
 `;
 
@@ -105,70 +105,105 @@ const ProductsChip = styled(Chip)`
   height: 20px;
   padding: 4px 0;
   font-size: 90%;
-  background-color: ${props => props.rgbcolor};
-  color: ${props => props.theme.palette.common.white};
+  background-color: ${(props) => props.rgbcolor};
+  color: ${(props) => props.theme.palette.common.white};
 `;
 
 const TableWrapper = styled.div`
   overflow-y: auto;
-  max-width: calc(100vw - ${props => props.theme.spacing(12)}px);
+  max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 `;
-
 
 class ServicesList extends React.Component {
   _isMounted = false;
-    constructor(props) {
-      super(props);
-      //console.log(props);
-    }
-    componentDidMount() {
-      this._isMounted = true;
-      var tk = localStorage.getItem("token_sec");
-      axios.get(`https://plandy-api.herokuapp.com/getServicesList`, {
-                  headers: {
-                  Authorization: "Bearer " + tk
-                  },
-                })
-        .then(res => {
-          if (this._isMounted) {
+  constructor(props) {
+    super(props);
+    //console.log(props);
+  }
+  componentDidMount() {
+    var cat_selected = "0";
+    const urlParams = new URLSearchParams(window.location.search);
+    cat_selected = urlParams.get("c");
+
+    //console.log("PARAMETRO: "+cat_selected);
+
+    this._isMounted = true;
+    var ins = this;
+    var tk = localStorage.getItem("token_sec");
+    axios
+      .get(`https://plandy-api.herokuapp.com/getServicesList`, {
+        headers: {
+          Authorization: "Bearer " + tk,
+        },
+      })
+      .then((res) => {
+        if (this._isMounted) {
           const personas = res.data.data;
           this.setState({ personas });
+        }
+      });
+    if (parseInt(cat_selected) > 0) {
+        console.log(cat_selected);
+      var token = localStorage.getItem("token_sec");
+      axios
+        .post(
+          "https://plandy-api.herokuapp.com/getServicesByType",
+          {
+            catid: cat_selected
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
+        )
+        .then(function (res) {
+          //if (this._isMounted) {
+            const grupos = res.data.data;
+            ins.setState({ grupos });
+            console.log("setting state");
+            console.log(ins.state.grupos);
+          //}
         })
-        
-        // axios.get(`https://plandy-api.herokuapp.com/getLatestGroups`)
-        axios.get(`https://plandy-api.herokuapp.com/getLatestGroups`, {
-                  headers: {
-                  Authorization: "Bearer " + tk
-                  },
-                })
-        .then(res => {
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(`https://plandy-api.herokuapp.com/getLatestGroups`, {
+          headers: {
+            Authorization: "Bearer " + tk,
+          },
+        })
+        .then((res) => {
           if (this._isMounted) {
-          const grupos = res.data.data;
-          this.setState({ grupos });
+            const grupos = res.data.data;
+            this.setState({ grupos });
           }
-        })
-        // firebase.auth();
-    
+        });
+      // firebase.auth();
     }
-    componentWillUnmount() {
-      this._isMounted = false;
-    }
-    state = {
-      personas:[],
-      grupos:[]
-    }
-    render(){
-        return(
-            <React.Fragment>
-      <Helmet title="Bienvenido" />
-      
-      <Typography variant="subtitle1">
-        Servicios más buscados
-      </Typography>
+  }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  state = {
+    personas: [],
+    grupos: [],
+  };
+  render() {
+    return (
+      <React.Fragment>
+        <Helmet title="Bienvenido" />
 
-      {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+        <Typography variant="subtitle1">
+          Servicios más buscados por la comunidad
+        </Typography>
+
+        {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
           Dashboard
         </Link>
@@ -178,28 +213,30 @@ class ServicesList extends React.Component {
         <Typography>Profile</Typography>
       </Breadcrumbs> */}
 
-      {/* <Divider my={1} /> */}
+        {/* <Divider my={1} /> */}
 
-      {/* <Grid 
+        {/* <Grid 
       container      
        spacing={3}  id="OUT000AFUERA"> */}
-      <CustomGridList dataList={this.state.personas} instx={this.onCardClick} />
+        <CustomGridList
+          dataList={this.state.personas}
+          instx={this.onCardClick}
+          context={this.props}
+        />
 
-      {/* </Grid> */}
+        {/* </Grid> */}
 
-      <Grid container mt={0}>
-      
-      
+        <Grid container mt={0}>
+          <Typography variant="subtitle1">Únete a tu grupo</Typography>
+          <Divider my={4} />
 
-      <Typography variant="subtitle1">
-        Únete a tu grupo        
-      </Typography>
-      <Divider my={4} />
-      
-      
-      <RecentClusters dataList={this.state.grupos} instx={this.onCardClick} context = {this.props} />
-      
-        {/* <Grid item xs={12} lg={4} xl={6}>
+          <RecentClusters
+            dataList={this.state.grupos}
+            instx={this.onCardClick}
+            context={this.props}
+          />
+
+          {/* <Grid item xs={12} lg={4} xl={6}>
           <Details />
           <Skills />
           <About />
@@ -220,10 +257,10 @@ class ServicesList extends React.Component {
           </Grid>
           <Products />
         </Grid> */}
-      </Grid>
-    </React.Fragment>
-        )
-    }
+        </Grid>
+      </React.Fragment>
+    );
+  }
 }
 function Details() {
   return (
@@ -575,7 +612,7 @@ const SalesRevenue = withTheme(({ theme }) => {
       "Sep",
       "Oct",
       "Nov",
-      "Dec"
+      "Dec",
     ],
     datasets: [
       {
@@ -586,7 +623,7 @@ const SalesRevenue = withTheme(({ theme }) => {
         hoverBorderColor: theme.palette.secondary.main,
         data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
         barPercentage: 0.625,
-        categoryPercentage: 0.5
+        categoryPercentage: 0.5,
       },
       {
         label: "Revenue",
@@ -596,38 +633,38 @@ const SalesRevenue = withTheme(({ theme }) => {
         hoverBorderColor: theme.palette.grey[200],
         data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
         barPercentage: 0.625,
-        categoryPercentage: 0.5
-      }
-    ]
+        categoryPercentage: 0.5,
+      },
+    ],
   };
 
   const options = {
     maintainAspectRatio: false,
     cornerRadius: 2,
     legend: {
-      display: false
+      display: false,
     },
     scales: {
       yAxes: [
         {
           gridLines: {
-            display: false
+            display: false,
           },
           stacked: false,
           ticks: {
-            stepSize: 20
-          }
-        }
+            stepSize: 20,
+          },
+        },
       ],
       xAxes: [
         {
           stacked: false,
           gridLines: {
-            color: "transparent"
-          }
-        }
-      ]
-    }
+            color: "transparent",
+          },
+        },
+      ],
+    },
   };
 
   return (
@@ -651,11 +688,10 @@ const SalesRevenue = withTheme(({ theme }) => {
 //   return (
 //     <React.Fragment>
 //       <Helmet title="Plandy" />
-      
+
 //       <Typography variant="h3" gutterBottom display="inline">
 //         Servicios populares
 //       </Typography>
-
 
 //       {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
 //         <Link component={NavLink} exact to="/">

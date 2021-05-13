@@ -386,7 +386,19 @@ function UserProfile({ data, ins }) {
                 src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
               />
             </Typography>
-              :""}
+              :
+              <Typography
+              variant="body2"
+              align="right"
+              gutterBottom
+              display="block"
+            >
+              <img
+                className={classes.guarantedStyle}
+                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+              />
+            </Typography>
+              }
           </Grid>
 
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -407,7 +419,19 @@ function UserProfile({ data, ins }) {
                 src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
               />
             </Typography>
-              :""}
+              :
+              <Typography
+              variant="body2"
+              align="right"
+              gutterBottom
+              display="block"
+            >
+              <img
+                className={classes.guarantedStyle}
+                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+              />
+            </Typography>
+            }
             
           </Grid>
 
@@ -429,7 +453,19 @@ function UserProfile({ data, ins }) {
                 src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
               />
             </Typography>
-              :""}
+              :
+              <Typography
+              variant="body2"
+              align="right"
+              gutterBottom
+              display="block"
+            >
+              <img
+                className={classes.guarantedStyle}
+                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+              />
+            </Typography>
+              }
           </Grid>
 
           
@@ -443,7 +479,7 @@ function UserProfile({ data, ins }) {
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Typography variant="body2" gutterBottom display="block">
-              Últ. conexión
+              Últ. conexión a Plandy
             </Typography>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -523,7 +559,7 @@ function GroupDataDetails({ data, ins }) {
               />
               <Spacer mb={2} />
               <Typography variant="h6" color="textSecondary" component="span">
-                ({data.free_spots} puesto libre de {data.total_spots})
+                ({data.free_spots} libres de {data.total_spots} disponibles)
               </Typography>
             </Box>
           </Grid>
@@ -581,8 +617,20 @@ function GroupDataDetails({ data, ins }) {
              <Typography variant="button" component="span">
                Garantizadas
              </Typography>
-           </Box>
-              :"Pendientes de validar"}
+           </Box >
+              :
+              <Box
+             textAlign="right"
+             fontSize="button.fontSize"
+             fontWeight="fontWeightBold"
+             color="#F42441"
+             m={1}
+           >
+             <Typography variant="button" component="span">
+               Pendientes de validar
+             </Typography>
+           </Box >
+              }
           </Grid>
 </Grid>
         <Grid container spacing={3}>
@@ -635,7 +683,7 @@ function GroupDataDetails({ data, ins }) {
               color="#F42441"
               m={1}
             >
-              ${parseFloat(data.service_price) + parseFloat(data.commission)}
+              ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}
             </Box>
           </Grid>
         </Grid>

@@ -56,7 +56,6 @@
     "react-app-polyfill": "1.0.6",
     "react-chartjs-2": "2.9.0",
     "react-credit-card-input": "^1.1.5",
-    "react-credit-card-kit": "^0.0.43",
     "react-credit-cards": "^0.8.3",
     "react-dom": "16.13.1",
     "react-dragula": "1.1.17",

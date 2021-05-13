@@ -73,7 +73,7 @@
     <div id="root"></div>
 
 
-    <script type="text/javascript" >var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "ab7b55d29cdd4fc34004920c0f4cf2add14d7b8849ea0d4d8b20634699219729", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);d.write("<div id='zsiqwidget'></div>");</script>
+    <!-- <script type="text/javascript" >var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "ab7b55d29cdd4fc34004920c0f4cf2add14d7b8849ea0d4d8b20634699219729", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);d.write("<div id='zsiqwidget'></div>");</script> -->
 <!--     
 
     <script type="text/javascript" >
@@ -85,6 +85,37 @@
       m.parentNode.insertBefore(sc,m);   
       })(document, 'script', '//d2p078bqz5urf7.cloudfront.net/jsapi/ehform.js');
       </script>  -->
+    
+
+
+
+      <!-- Messenger plugin del chat Code -->
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v10.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/es_LA/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Your plugin del chat code -->
+    <div class="fb-customerchat"
+      attribution="biz_inbox"
+      page_id="100908308854613">
+    </div>
+
+
+
     
   </body>
 </html>

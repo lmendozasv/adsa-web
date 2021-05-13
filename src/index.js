@@ -8,7 +8,16 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './redux/store/index';
 
+var MessengerPlugin = require("react-messenger-plugin");
+
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>, document.getElementById('root'));
+  
+  <Provider store={store}>      
+    <App>
+    <MessengerPlugin
+  appId="825826504691044"
+  pageId="100908308854613"
+/>,
+      </App>
+  </Provider>,  
+   document.getElementById('root'));

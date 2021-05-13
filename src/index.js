@@ -12,6 +12,7 @@ var MessengerPlugin = require("react-messenger-plugin");
 
 ReactDOM.render(
   
+  
   <Provider store={store}>      
     <App>
     <MessengerPlugin

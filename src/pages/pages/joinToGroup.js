@@ -361,14 +361,8 @@ const getRelTypes = (id, ins) => {
     });
 };
 const handleJoinNow = (t,ns) => {    
-
   var relaion = ns.state.selectedRel;
   var isTrues = ns.state.isTrue;
-
-  // console.log(ns);
-  // console.log(relaion);
-  // console.log(isTrues);
-
   if(relaion>0&&isTrues){
     ns.props.history.push({ 
       pathname: "/pay",
@@ -378,10 +372,8 @@ const handleJoinNow = (t,ns) => {
   else{
     alert("Para continuar es necesario seleccionar las opciones, intenta nuevamente");
   }
-
-  
-
 }
+
 function UserProfile({ data, ins, relations }) {
   const [value, setValue] = React.useState(0);
 
@@ -403,7 +395,7 @@ function UserProfile({ data, ins, relations }) {
           fontWeight="fontWeightBold"
           m={1}
         >
-          Solicitar acceso
+          Confirma tu solicitud
         </Box>
         <Divider />
         <Spacer mt={5} />
@@ -497,6 +489,12 @@ function GroupDataDetails({ data, ins }) {
   
   // console.log(`${da}-${mo}-${ye}`);
 
+  var comissionformated = (data.commission)/100;
+  comissionformated = comissionformated.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+  var priceFrmated = (data.service_price)/100;
+  priceFrmated = priceFrmated.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
   return (
     <div className={classes.ckroot}>
       <Paper id="OP" className={classes.ckpaper} elevation={3}>
@@ -532,12 +530,12 @@ function GroupDataDetails({ data, ins }) {
             >              
               Código de grupo ({data.cluster_code})
             </Box>
+        
 
-        <Spacer mb={10} />
-
-        <Spacer mb={10} />
+        <Spacer mb={5} />
         <Divider />
-        <Grid container spacing={3}>
+        <Spacer mb={5} />
+        {/* <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Box
               textAlign="left"
@@ -560,7 +558,7 @@ function GroupDataDetails({ data, ins }) {
               </Typography>
             </Box>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Box
@@ -569,11 +567,11 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightRegular"
               m={1}
             >
-              Período
+              Período de acceso al servicio
             </Box>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
-            {data.credential_status == 1 ? (
+            
               <Box
                 textAlign="right"
                 fontSize="button.fontSize"
@@ -582,12 +580,10 @@ function GroupDataDetails({ data, ins }) {
                 m={1}
               >
                 <Typography variant="button" component="span">
-                  Garantizadas
+                del {startDate} al {endDate}
                 </Typography>
               </Box>
-            ) : (
-              "Pendientes de validar"
-            )}
+            
           </Grid>
         </Grid>
         <Grid container spacing={3}>
@@ -598,7 +594,7 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightRegular"
               m={1}
             >
-              Fecha de creación
+              Contribución de gastos
             </Box>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -610,11 +606,42 @@ function GroupDataDetails({ data, ins }) {
               m={1}
             >
               <Typography variant="button" component="span">
-                01/01/2021
+              {/* $ {(data.service_price)/100} */}
+              $ {priceFrmated}
               </Typography>
             </Box>
           </Grid>
         </Grid>
+
+
+
+
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightRegular"
+              m={1}
+            >
+              Gastos administrativos
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              <Typography variant="button" component="span">
+              $ {comissionformated}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+
 
         <Spacer mb={2} />
         <Divider />
@@ -645,7 +672,7 @@ function GroupDataDetails({ data, ins }) {
           </Grid>
         </Grid>
 
-        <Spacer mb={12} />
+        <Spacer mb={5} />
 
         <Alert fullWidth severity="info" variant="outlined">
           Puedes solicitar un reembolso total hasta 25 días después de realizar el

@@ -121,6 +121,7 @@ class ServicesList extends React.Component {
     //console.log(props);
   }
   componentDidMount() {
+    console.log(this.props);
     var cat_selected = "0";
     const urlParams = new URLSearchParams(window.location.search);
     cat_selected = urlParams.get("c");

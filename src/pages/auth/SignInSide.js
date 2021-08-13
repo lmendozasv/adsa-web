@@ -420,7 +420,7 @@ class LoginComponent extends React.Component {
     const { classes } = this.props;
 
     return !this.state.loggedIn ? (      
-      <Redirect push to="/home" />
+      <Redirect push to="/" />
     ) : (
 
       this.state.formMode==0 ? 

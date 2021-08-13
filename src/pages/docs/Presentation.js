@@ -142,11 +142,11 @@ function Introduction() {
 }
 
 function Demo({ dispatch, id, title, img }) {
-  const history = useHistory();
+  // const history = useHistory();
 
   const toggleDemo = id => {
     dispatch(setTheme(id));
-    history.push("/dashboard/analytics");
+    // history.push("/dashboard/analytics");
   };
 
   return (

@@ -6,7 +6,7 @@ import Badge from "@material-ui/core/Badge";
 import { borders } from "@material-ui/system";
 import GridList from "@material-ui/core/GridList";
 // import { browserHistory } from 'react-router';
-import { createBrowserHistory } from 'history'
+// import { createBrowserHistory } from 'history'
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
@@ -298,6 +298,7 @@ function getModalStyle() {
 }
 
 export default function SingleLineGridList({ dataList, instx, context }) {
+  console.log(context);
   //modal
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -322,6 +323,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
     setOpen(false);
   };
   const handleViewDetail = (t) => {    
+    console.error(context);
     context.history.push({ 
       pathname: "/groupDetails",
       state: {

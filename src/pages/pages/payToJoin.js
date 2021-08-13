@@ -18,6 +18,9 @@ import FormLabel from "@material-ui/core/FormLabel";
 import CreditCardInput from "react-credit-card-input";
 import { OutlinedInput } from "@material-ui/core";
 import InputMask from "react-input-mask";
+import Modal from '@material-ui/core/Modal';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 // import { SnackbarProvider } from 'notistack';
 import Cards from "react-credit-cards";
 // import {loadStripe} from '@stripe/stripe-js';
@@ -68,16 +71,31 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const Spacer = styled.div(spacing);
 const Divider = styled(MuiDivider)(spacing);
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+
+    var cardElement = elements.getElement('card');
+    
+    //console.log(cardElement);
+
+
     finalx(stripe, elements.getElement(CardElement));
     // const pm = await stripe.createPaymentMethod({
     //   type: "card",
@@ -94,7 +112,7 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement options={{hidePostalCode: true}} />
+      <CardElement onChange={console.log("")} options={{hidePostalCode: true}} />
       <button id="AGREGAR" hidden type="submit" disabled={!stripe}>
         Pay
       </button>
@@ -104,6 +122,7 @@ const CheckoutForm = () => {
 const stripePromise = loadStripe("pk_test_NkTmrIX79f2DM4LYqoJNbiBK");
 
 class JoinToGroup extends React.Component {
+  
   componentDidMount() {
     // console.log(stripe_instance);
     // console.log(this.props.location.state.groupData);
@@ -117,6 +136,15 @@ class JoinToGroup extends React.Component {
     localStorage.setItem("xspots", xspots);
     localStorage.setItem("ratx", this.props.location.state.groupData.rating);
     getRelTypes(this.props.location.state.groupData.id, this);
+
+    var stripes = window.Stripe("pk_test_NkTmrIX79f2DM4LYqoJNbiBK");
+    var elements = stripes.elements();
+    // console.log(elements);
+    console.info("DIDMOUNT");
+    console.info(elements);
+    var cardElement = elements.getElement('card');    
+    console.info(cardElement);
+    
   }
 
   handleCardNumberChange = () => {
@@ -145,6 +173,11 @@ class JoinToGroup extends React.Component {
       number: "",
       cn: "",
       expiry: "",
+      addCard:false,
+      addingCard:false,
+      selectedRela: true,
+      isLoadingCard:false,
+      addingToCluster:false,
     };
   }
 
@@ -177,8 +210,172 @@ class JoinToGroup extends React.Component {
   render() {
     return (
       <div>
-        <Helmet title="Ingresa al grupo" />
 
+
+
+
+
+<Dialog
+        open={this.state.addingToCluster}
+        TransitionComponent={Transition}
+        keepMounted
+        // onClose={handleClose}
+        onClose={() => handleCloseJoinRequest(this)}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"Se ha enviado tu solicitud al administrador del grupo"}</DialogTitle>
+        <DialogContent>
+        <Divider />
+          {/* <DialogContentText id="alert-dialog-slide-description">
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText> */}
+          <Spacer mb={5} />
+          {/* <Box
+          textAlign="left"
+          fontSize="button.fontSize"
+          fontWeight="fontWeightRegular"
+          color="#F42441"
+        >
+          Por favor, rellena los campos de tu tarjeta de débito o crédito
+        </Box> */}
+          <Spacer mb={15} />
+              <Grid container spacing={3}>
+              <Grid item xs={12} md={12} lg={12} xl={12}>
+                
+              <Box
+          textAlign="left"
+          fontSize="button.fontSize"
+          fontWeight="fontWeightRegular"
+          color="#15244C"
+        >
+          Tu solicitud ha sido enviada al administrador del grupo, recibirás una notificación cuando el administrador acepte o decline tu solicitud.
+          <br/>
+          <br/>
+
+          <Box
+          textAlign="left"
+          fontSize="button.fontSize"
+          fontWeight="fontWeightRegular"
+          color="#F42441"
+        >
+          <b>Realizaremos el cargo de la cuota, hasta que el administrador acepte tu solicitud.</b>
+
+        </Box>
+
+          
+        </Box>
+
+              </Grid>
+
+            
+            </Grid>
+            <Spacer mb={15} />
+            <Divider />
+            
+{/* 
+            <Grid item xs={12} md={12} lg={12} xl={12}>
+            <Alert fullWidth severity="success" variant="outlined">
+              Los datos de tu método de pago y transacciones estan protegidos
+              por Stripe
+            </Alert>            
+          </Grid> */}
+
+
+        </DialogContent>
+        <DialogActions>          
+          
+          <Button 
+          onClick={() => handleCloseJoinRequest(this)}
+          variant="contained"
+          color="primary">
+            Aceptar
+          </Button>
+          
+          
+        </DialogActions>
+      </Dialog>
+
+
+
+
+
+
+
+      <Dialog
+        open={this.state.addingCard}
+        TransitionComponent={Transition}
+        keepMounted
+        // onClose={handleClose}
+        onClose={() => handleCloseAddCard(this)}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"Agregar nuevo método de pago"}</DialogTitle>
+        <DialogContent>
+        <Divider />
+          {/* <DialogContentText id="alert-dialog-slide-description">
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText> */}
+          <Spacer mb={5} />
+          <Box
+          textAlign="left"
+          fontSize="button.fontSize"
+          fontWeight="fontWeightRegular"
+          color="#F42441"
+        >
+          Por favor, rellena los campos de tu tarjeta de débito o crédito
+        </Box>
+          <Spacer mb={15} />
+              <Grid container spacing={3}>
+              <Grid item xs={12} md={12} lg={12} xl={12}>
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm />
+                </Elements>
+              </Grid>
+
+            
+            </Grid>
+            <Spacer mb={15} />
+            <Divider />
+            
+
+            <Grid item xs={12} md={12} lg={12} xl={12}>
+            <Alert fullWidth severity="success" variant="outlined">
+              Los datos de tu método de pago y transacciones estan protegidos
+              por Stripe
+            </Alert>
+            {/* <Typography variant="caption" gutterBottom display="block">              
+              <b>Los datos de tu método de pago y transacciones estan protegidos por Stripe.</b>            
+            </Typography> */}
+          </Grid>
+
+
+        </DialogContent>
+        <DialogActions>
+          <Button 
+          // onClick={handleClose} 
+          onClick={() => handleCloseAddCard(this)}
+          color="secondary">
+            Cancelar
+          </Button>
+          {this.state.isLoadingCard?
+          <CircularProgress color="secondary" />
+          :
+          <Button 
+          onClick={() => handleJoinNow(null,this)}
+          variant="contained"
+          color="primary">
+            Agregar tarjeta
+          </Button>
+          }
+          
+        </DialogActions>
+      </Dialog>
+
+        <Helmet title="Detalles de pago" />        
         <Grid container spacing={1}>
           <Grid alignItems="center" item xl={6} lg={6} md={6} sm={6} xs={12}>
             <UserProfile
@@ -323,7 +520,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   avatarHaloDialog: {
-    // marginLeft: "40%", mendoza
+    // marginLeft: "40%", 
     marginTop: "0px",
     width: "55px",
     height: "55px",
@@ -417,12 +614,12 @@ const getRelTypes = (id, ins) => {
       var dt = [];
       //console.log(response.data);
       response.data.data.forEach(function (entry) {
-        console.log(entry);
+        //console.log(entry);
         var itemx = {
           id: entry.id,
           rel_name: entry.brand + "-" + entry.lastfor,
         };
-        console.log(itemx);
+        //console.log(itemx);
         dt.push(itemx);
       });
       // console.log(response.data.data);
@@ -435,8 +632,18 @@ const getRelTypes = (id, ins) => {
 
 // const Stripe = require('stripe');
 // const stripe = Stripe('pk_test_NkTmrIX79f2DM4LYqoJNbiBK');
-
+const handleCloseAddCard = (st) =>{
+  st.setState({ addingCard: false });
+}
+const handleCloseJoinRequest = (st) =>{
+  //TODO GO TO HOME OR MY GROUPS
+  //st.setState({ addingToCluster: false });
+  st.props.history.push({ 
+    pathname: "/"
+  });  
+}
 const handleJoinNow = async (t, ns) => {
+  ns.setState({ isLoadingCard: true });
   addCardToStripe(ns);
   var relaion = ns.state.cvc;
   var isTrues = ns.state.cvc;
@@ -494,7 +701,36 @@ const handleJoinNow = async (t, ns) => {
   //   // Handle result.error or result.token
   // });
 };
-
+function addCardToServiceAndJoin(idService,ins) {
+  // alert(idCard)
+  var token = localStorage.getItem("token_sec");
+  axios
+    .post(
+      "https://plandy-api.herokuapp.com/assoc/1",
+      {
+        card_id: ins.state.selectedRel,
+        service_id: idService
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      // window.location.reload(false);
+      //mendoza pendiente      
+      //
+      ins.setState({addingToCluster: true});
+    })
+    .catch(function (error) {
+      alert(
+        "Ha ocurrido un error al ingresar su método de pago, por favor intente nuevamente."
+      );
+    });
+}
 function addCardToUser(tok, brand, lastfosr) {
   var token = localStorage.getItem("token_sec");
   axios
@@ -514,6 +750,7 @@ function addCardToUser(tok, brand, lastfosr) {
       }
     )
     .then(function (response) {
+      window.location.reload(false);
       // console.log(response);
       // // ins.setState({isSending: false});
       // alert("El NIC se agregó a tu cuenta correctamente");
@@ -550,15 +787,16 @@ function finalx(s, ce) {
   s.createSource(ce, ownerInfo).then(function (result) {
     if (result.error) {
       // Inform the user if there was an error
-      var errorElement = document.getElementById("card-errors");
-      errorElement.textContent = result.error.message;
+      // var errorElement = document.getElementById("card-errors");
+      // errorElement.textContent = result.error.message;
+      alert("Ha ocurrido un error al ingresar su método de pago, intente nuevamente.");
     } else {
       // Send the source to your server
       // stripeSourceHandler(result.source);
 
-      console.log(result.source.card.brand);
-      console.log(result.source.id);
-      console.log(result.source.card.last4);
+      // console.log(result.source.card.brand);
+      // console.log(result.source.id);
+      // console.log(result.source.card.last4);
 
       addCardToUser(
         result.source.id,
@@ -596,7 +834,7 @@ function finalx(s, ce) {
   // );
 }
 async function addCardToStripe(ins) {
-  console.log("Function called");
+  // console.log("Function called");
   var stripes = window.Stripe("pk_test_NkTmrIX79f2DM4LYqoJNbiBK");
   //console.log(stripes);
 
@@ -661,10 +899,11 @@ async function addCardToStripe(ins) {
 function UserProfile({ data, ins, relations }) {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event) => {
+  const handleChangeP = (event) => {
+    //isLoadingCard
+    ins.setState({ selectedRela: false });    
     setValue(parseInt(event.target.value));
-    ins.setState({ selectedRel: parseInt(event.target.value) });
-    //console.log(event.target.value);
+    ins.setState({ selectedRel: parseInt(event.target.value) });    
   };
 
   const classes = useStyles();
@@ -709,7 +948,7 @@ function UserProfile({ data, ins, relations }) {
                 aria-label="gender"
                 name="gender1"
                 value={value}
-                onChange={handleChange}
+                onChange={handleChangeP}
               >
                 {relations.map((tile) => (
                   <Grid container spacing={3}>
@@ -732,17 +971,17 @@ function UserProfile({ data, ins, relations }) {
               </RadioGroup>
 
               <Spacer mt={5} />
-        <Divider />
-        <Spacer mt={5} />
+        {/* <Divider /> */}
+        {/* <Spacer mt={5} /> */}
 
-              <Box
+              {/* <Box
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightBold"
           color="#172449"
           gutterBottom
         >
-          También puedes agregar una nueva forma de pago
+          También puedes agregar una nueva tarjeta
         </Box>
         <Spacer mb={5} />
               <Grid container spacing={3}>
@@ -753,34 +992,60 @@ function UserProfile({ data, ins, relations }) {
               </Grid>
 
             
-            </Grid>
+            </Grid> */}
 
             </FormControl>
           ) : (
-            <Grid container spacing={3}>
-                <Box
-          textAlign="left"
-          fontSize="button.fontSize"
-          fontWeight="fontWeightBold"
-          color="#F42441"
-          gutterBottom
-        >
-          Agrega una nueva forma de pago
-        </Box>
-        <Spacer mb={10} />
-              <Grid item xs={12} md={12} lg={12} xl={12}>
-                <Elements stripe={stripePromise}>
-                  <CheckoutForm />
-                </Elements>
-              </Grid>
+            ""
+        //     <Grid container spacing={3}>
+        //         <Box
+        //   textAlign="left"
+        //   fontSize="button.fontSize"
+        //   fontWeight="fontWeightBold"
+        //   color="#F42441"
+        //   gutterBottom
+        // >
+        //   Agrega una nueva forma de pago
+        // </Box>
+        // <Spacer mb={10} />
+        //       <Grid item xs={12} md={12} lg={12} xl={12}>
+        //         <Elements stripe={stripePromise}>
+        //           <CheckoutForm />
+        //         </Elements>
+        //       </Grid>
 
             
-            </Grid>
+        //     </Grid>
           )          
         }
         <Spacer mt={5} />
+
+        <Spacer mt={5} />
+
+
+        <Grid container spacing={3}>
+          
+            <Grid item xs={12} md={12} lg={12} xl={12}>
+            <Button
+                backgroundColor="#172449"
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={!ins.state.selectedRela}
+                onClick={
+                  
+                  () => ins.setState({ addingCard: true })
+                }
+              >
+                AGREGAR MÉTODO DE PAGO
+              </Button>
+            </Grid>
+          </Grid>
+
+          <Spacer mt={5} />
         <Divider />
         <Spacer mt={5} />
+
 
         <Grid container spacing={3}>
           {/* <Grid item xs={6} md={6} lg={6} xl={10}>
@@ -793,13 +1058,15 @@ function UserProfile({ data, ins, relations }) {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12} xl={12}>
               <Button
-                backgroundColor="#172449"
+                // backgroundColor="#172449"
+                // style={{backgroundColor: '#172449', color: '#FFFFFF'}}
                 fullWidth
                 variant="contained"
                 color="primary"
-                onClick={() => handleJoinNow(ins.state.data, ins)}
+                disabled={ins.state.selectedRela}
+                onClick={() => addCardToServiceAndJoin(ins.state.data.id,ins)}
               >
-                CONFIRMAR MÉTODO DE PAGO
+                CONFIRMAR MÉTODO DE PAGO SELECCIONADO
               </Button>
             </Grid>
             <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
@@ -839,25 +1106,32 @@ function GroupDataDetails({ data, ins }) {
   const classes = useStyles();
   var xpo = localStorage.getItem("xspots");
 
-  var Sdate = new Date();
-  var Edate = new Date();
-  Edate.setDate(Edate.getDate() + 30);
+  var Sdate = new Date(); 
+  var Edate = new Date(); 
+  Edate.setDate(Edate.getDate() + 30); 
   // console.log(date);
 
-  let sye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(Sdate);
-  let smo = new Intl.DateTimeFormat("en", { month: "short" }).format(Sdate);
-  let sda = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(Sdate);
+  let sye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(Sdate);
+  let smo = new Intl.DateTimeFormat('en', { month: 'short' }).format(Sdate);
+  let sda = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(Sdate);
 
-  let eye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(Edate);
-  let emo = new Intl.DateTimeFormat("en", { month: "short" }).format(Edate);
-  let eda = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(Edate);
+  let eye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(Edate);
+  let emo = new Intl.DateTimeFormat('en', { month: 'short' }).format(Edate);
+  let eda = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(Edate);
 
   var startDate = `${sda}-${smo}-${sye}`;
-  var endDate = `${eda}-${emo}-${eye}`;
-
+  var endDate = `${eda}-${emo}-${eye}`; 
+  
   // console.log(`${da}-${mo}-${ye}`);
 
-  return (
+  var comissionformated = (data.commission)/100;
+  comissionformated = comissionformated.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  // console.log(comissionformated.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+
+  var priceFrmated = (data.service_price)/100;
+  priceFrmated = priceFrmated.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+  return (    
     <div className={classes.ckroot}>
       <Paper id="OP" className={classes.ckpaper} elevation={3}>
         <Grid container spacing={3}>
@@ -877,26 +1151,27 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightLight"
               m={1}
             >
-              {data.service_desc}
+              {data.service_desc}              
             </Box>
+
           </Grid>
         </Grid>
 
         <Box
-          textAlign="left"
-          fontSize="button.fontSize"
-          fontWeight="fontWeightLight"
-          m={1}
-          color="#172449"
-        >
-          Código de grupo ({data.cluster_code})
-        </Box>
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightLight"
+              m={1}
+              color="#172449"
+            >              
+              Código de grupo ({data.cluster_code})
+            </Box>
+        
 
-        <Spacer mb={10} />
-
-        <Spacer mb={10} />
+        <Spacer mb={5} />
         <Divider />
-        <Grid container spacing={3}>
+        <Spacer mb={5} />
+        {/* <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Box
               textAlign="left"
@@ -911,7 +1186,7 @@ function GroupDataDetails({ data, ins }) {
             <Box
               textAlign="right"
               fontSize="button.fontSize"
-              fontWeight="fontWeightBold"
+              fontWeight="fontWeightBold"              
               m={1}
             >
               <Typography variant="button" component="span">
@@ -919,7 +1194,7 @@ function GroupDataDetails({ data, ins }) {
               </Typography>
             </Box>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Box
@@ -928,11 +1203,11 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightRegular"
               m={1}
             >
-              Período
+              Período de acceso al servicio
             </Box>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
-            {data.credential_status == 1 ? (
+            
               <Box
                 textAlign="right"
                 fontSize="button.fontSize"
@@ -941,13 +1216,13 @@ function GroupDataDetails({ data, ins }) {
                 m={1}
               >
                 <Typography variant="button" component="span">
-                  Garantizadas
+                del {startDate} al {endDate}
                 </Typography>
               </Box>
-            ) : (
-              "Pendientes de validar"
-            )}
+            
           </Grid>
+
+          
         </Grid>
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -957,7 +1232,7 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightRegular"
               m={1}
             >
-              Fecha de creación
+              Contribución de gastos
             </Box>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -969,11 +1244,43 @@ function GroupDataDetails({ data, ins }) {
               m={1}
             >
               <Typography variant="button" component="span">
-                01/01/2021
+              {/* $ {(data.service_price)/100} */}
+              $ {priceFrmated}
               </Typography>
             </Box>
           </Grid>
         </Grid>
+
+
+
+
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightRegular"
+              m={1}
+            >
+              Gastos administrativos
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              <Typography variant="button" component="span">
+              {/* $ {(data.commission)/100} */}
+              $ {comissionformated}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+
 
         <Spacer mb={2} />
         <Divider />
@@ -1004,14 +1311,14 @@ function GroupDataDetails({ data, ins }) {
           </Grid>
         </Grid>
 
-        <Spacer mb={12} />
+        <Spacer mb={5} />
 
         <Alert fullWidth severity="info" variant="outlined">
-          Puedes solicitar un reembolso total hasta 25 días después de realizar
-          el pago.
+          Puedes solicitar un reembolso total hasta 25 días después de realizar el
+          pago.
         </Alert>
         <Spacer mb={2} />
-
+        
         <Spacer mb={4} />
       </Paper>
     </div>

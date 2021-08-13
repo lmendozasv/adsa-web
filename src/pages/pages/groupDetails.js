@@ -73,7 +73,7 @@ class JoinToGroup extends React.Component {
             xs={12}
           >
             <Typography padding={10} variant="h3" gutterBottom display="inline">
-              Detalles de grupo
+              Detalles de grupo {this.state.data.group_name}
             </Typography>
             <hr />
             <Spacer mb={5} />
@@ -577,7 +577,7 @@ function GroupDataDetails({ data, ins }) {
               fontWeight="fontWeightRegular"
               m={1}
             >
-              Período de facturación
+              Ciclo de facturación
             </Box>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -653,7 +653,7 @@ function GroupDataDetails({ data, ins }) {
               m={1}
             >
               <Typography variant="button" component="span">
-                01/01/2021
+                {data.cluster_creation_at}
               </Typography>
             </Box>
           </Grid>

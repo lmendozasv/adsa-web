@@ -268,8 +268,8 @@ const darkVariant = {
       contrastText: "#FFF"
     },
     secondary: {
-      main: "#F42441",
-      contrastText: "#FFF"
+      main: "#172449",
+      contrastText: "#F42441"
     }
   },
   header: {

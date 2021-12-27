@@ -164,8 +164,8 @@ class ServicesList extends React.Component {
           //if (this._isMounted) {
             const grupos = res.data.data;
             ins.setState({ grupos });
-            console.log("setting state");
-            console.log(ins.state.grupos);
+            // console.log("setting state");
+            // console.log(ins.state.grupos);
           //}
         })
         .catch(function (error) {

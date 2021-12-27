@@ -697,7 +697,7 @@ function GroupDataDetails({ data, ins }) {
         <Spacer mb={2} />
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
-          <Grid item xs={6} md={6} lg={6} xl={12}>
+          <Grid item xs={12} md={6} lg={6} xl={12}>
             <Button
               backgroundColor="#172449"
               fullWidth

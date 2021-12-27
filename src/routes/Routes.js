@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch,HashRouter } from "react-router-dom";
 import { dashboard as dashboardRoutes, auth as authRoutes } from "./index";
 
 import DashboardLayout from "../layouts/Dashboard";
@@ -74,19 +74,24 @@ const childRoutes = (Layout, routes) =>
 const RoutesV20 = () => {
   if (isLogged())
     return <Router>
-      <Switch>      
+      <HashRouter>
+      <Switch>    
+
       {childRoutes(AuthLayout, authRoutes)}   
       <AuthLayout>
           <Page404/>                    
           </AuthLayout>                      
       </Switch> 
+      </HashRouter>
 </Router> ;
   else
     return <Router>
+      <HashRouter>
       <Switch>
             {childRoutes(DashboardLayout, dashboardRoutes)}
             <DashboardLayout/>      
             </Switch>
+            </HashRouter>
       </Router>;
 };
 

@@ -324,6 +324,12 @@ export default function SingleLineGridList({ dataList, instx, context }) {
   };
   const handleViewDetail = (t) => {    
     console.error(context);
+    if (t!=null){
+      alert('no es null');
+    }
+    else{
+      alert('es null');
+    }
     context.history.push({ 
       pathname: "/groupDetails",
       state: {

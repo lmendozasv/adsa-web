@@ -10,6 +10,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 //import tileData from './tileData';
+import Button from '@material-ui/core/Button';
+
 import Box from "@material-ui/core/Box";
 
 import Card from "@material-ui/core/Card";
@@ -23,6 +25,7 @@ import SkipNextIcon from "@material-ui/icons/SkipNext";
 import ButtonBase from "@material-ui/core/ButtonBase";
 
 import Container from "@material-ui/core/Container";
+import { width } from "@material-ui/system";
 
 
 const useStylesCard = makeStyles((theme) => ({
@@ -41,16 +44,28 @@ const useStylesCard = makeStyles((theme) => ({
 
   card: {
     // borderRadius: 15,
-    backgroundColor: theme.palette.secondary.light,
-    color: theme.palette.primary.contrastText,
-    // boxShadow: "none"
+    borderEndEndRadius: 5,
+    borderTopLeftRadius: 5,
+    borderEndStartRadius: 5,
+    borderStartEndRadius: 5,
+
+    backgroundColor: "#fff",
+    // backgroundColor: theme.palette.secondary.light,
+    color: "#001E3C",
+    // color: theme.palette.primary.contrastText,
+    border: `1px solid #001E3C`,
+    width: `175px`,
+    height: `80px`,
+    boxShadow: "2px 2px #001E3C"
    },
 
   cardcontent: {
     padding: 0,
     "&:last-child": {
       padding: 10
-    }
+    },
+    width: "100%",
+    alignItems: "center"
   }
   ,
   cover: {
@@ -152,12 +167,14 @@ export default function SingleLineGridList({ dataList, instx, context }) {
     >
       {dataList.map((tile) => (
         <Card variant="outlined" key={tile} className={classes.newx} classes={{ root: classes.card }}>
-          <ButtonBase          
+          <Button
+          fullWidth   
+                           
             //  className={classes.newx}
             //  onClick={event => { alert("saskjdhas"); }}
             // onClick={event => { instx(tile) }}
             onClick={() => handleViewDetail(tile)}
-          >
+            style={{ backgroundColor: 'transparent',height:'100%' }} >
             {/* <CardMedia
         className={classes.cover}
         component="img"
@@ -168,8 +185,10 @@ export default function SingleLineGridList({ dataList, instx, context }) {
             <CardContent 
              className={classes.cardcontent}             
             >
-              <Typography variant="button">                
-                {tile.name}
+              <Typography variant="button"              
+              >                
+                {/* {tile.name} */}
+                {tile.name.length>15?tile.name.substring(0,12)+"...":tile.name}
                 {/* <br /> */}
                 {/* {tile.business_sched_1}
           <br/>
@@ -181,7 +200,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                 {tile.business_sched_2}
               </Typography> */}
             </CardContent>
-          </ButtonBase>
+          </Button>
         </Card>
       ))}
     </Box>

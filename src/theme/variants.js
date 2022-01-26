@@ -268,12 +268,12 @@ const darkVariant = {
       contrastText: "#FFF"
     },
     secondary: {
-      main: "#172449",
+      main: "#001e3c",
       contrastText: "#F42441"
     }
   },
   header: {
-    color: "#172449",
+    color: "#001e3c",
     background: "#FFF",
     search: {
       color: "#F42441"
@@ -283,7 +283,7 @@ const darkVariant = {
     }
   },
   sidebar: {
-    color: "#172449",
+    color: "#001e3c",
     background: "#FFF",
     header: {
       color: "#FFF",
@@ -294,7 +294,7 @@ const darkVariant = {
     },
     footer: {
       color: "#FFF",
-      background: "#F42441",
+      background: "#001e3c",
       online: {
         background: green[500]
       }

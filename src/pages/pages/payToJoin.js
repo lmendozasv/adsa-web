@@ -760,8 +760,9 @@ function addCardToUser(tok, brand, lastfosr) {
       // // handleQueryCreated(response.id);
     })
     .catch(function (error) {
+      console.log(error);
       alert(
-        "No fue posible validar el NIC ingresado, por favor valida los datos e intenta nuevamente"
+        "No fue posible validar el NIC ingresado, por favor valida los datos e intenta nuevamente vrea"
       );
     });
 }

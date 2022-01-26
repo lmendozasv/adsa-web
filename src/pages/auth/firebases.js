@@ -32,12 +32,12 @@ firebase.auth().onAuthStateChanged(async function (user) {
   var actiontype = localStorage.getItem("actxp");
   if (user) {
     // alert("2AUTHCHANGED");
-
+    
     firebase
       .auth()
       .currentUser.getIdToken(/* forceRefresh */ true)
       .then(function (idToken) {
-        UIDTOKEN = idToken;
+        UIDTOKEN = idToken;        
         localStorage.setItem("token", UIDTOKEN);
         console.log(UIDTOKEN);
         // alert("2.2: =====> "+UIDTOKEN);
@@ -172,7 +172,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
               // history.push("/path/to/push");
               //read nics and store in paths
               //gt profile
-              //alert(response.data.jwt);
+              // alert("--------->"+response.data.jwt);
               axios
                 .get(`https://plandy-api.herokuapp.com/profile`, {
                   headers: {

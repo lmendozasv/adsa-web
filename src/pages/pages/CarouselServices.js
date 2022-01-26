@@ -169,7 +169,8 @@ export default function SingleLineGridList({ dataList, instx, context }) {
         <Card variant="outlined" key={tile} className={classes.newx} classes={{ root: classes.card }}>
           <Button
           fullWidth   
-                           
+                     
+          
             //  className={classes.newx}
             //  onClick={event => { alert("saskjdhas"); }}
             // onClick={event => { instx(tile) }}

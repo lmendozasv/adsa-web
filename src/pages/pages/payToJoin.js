@@ -631,44 +631,51 @@ const getRelTypes = (id, ins) => {
       var dt = [];
       console.log(response.data.data[0].balance);
       ins.setState({ balance: response.data.data[0].balance });
-     
+      getCards(id,ins);
     })
     .catch(function (error) {
       console.log(error);
+      getCards(id,ins);
     });
     
-  axios
-    .get(`https://plandy-api.herokuapp.com/mycards`, {
-      headers: {
-        Authorization: "Bearer " + tk,
-      },
-    })
-    .then(function (response) {
-      var dt = [];
-      //console.log(response.data);
-      response.data.data.forEach(function (entry) {
-        //console.log(entry);
-        var itemx = {
-          id: entry.id,
-          rel_name: entry.brand + "-" + entry.lastfor,
-        };
-        //console.log(itemx);
-        dt.push(itemx);
-      });
-      if(ins.state.balance>0)
-      {
-        dt.push({rel_name:"Plandy Wallet ("+ins.state.balance+")",id:9999999999});
-      }
-      // console.log(response.data.data);
-      ins.setState({ dataRelations: dt });
-      console.log(ins.state.dataRelations);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  
   
 };
-
+const getCards=(id,ins)=>{
+  var tk = localStorage.getItem("token_sec");
+  axios
+  .get(`https://plandy-api.herokuapp.com/mycards`, {
+    headers: {
+      Authorization: "Bearer " + tk,
+    },
+  })
+  .then(function (response) {
+    var dt = [];
+    //console.log(response.data);
+    response.data.data.forEach(function (entry) {
+      //console.log(entry);
+      var itemx = {
+        id: entry.id,
+        rel_name: entry.brand + "-" + entry.lastfor,
+      };
+      //console.log(itemx);
+      dt.push(itemx);
+    });
+    if(ins.state.balance>0)
+    {
+      dt.push({rel_name:"Plandy Wallet ("+ins.state.balance+")",id:9999999999});
+    }
+    else{
+      console.error("BALANCE",ins.state.balance);
+    }
+    // console.log(response.data.data);
+    ins.setState({ dataRelations: dt });
+    console.log(ins.state.dataRelations);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
 // const Stripe = require('stripe');
 // const stripe = Stripe('pk_test_NkTmrIX79f2DM4LYqoJNbiBK');
 const handleCloseAddCard = (st) =>{
@@ -1218,6 +1225,7 @@ function GroupDataDetails({ data, ins }) {
               Código de grupo ({data.cluster_code})
             </Box>
         
+            
 
         <Spacer mb={5} />
         <Divider />
@@ -1331,6 +1339,36 @@ function GroupDataDetails({ data, ins }) {
             </Box>
           </Grid>
         </Grid>
+
+
+
+
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="left"              
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              ¿Tienes un cupón? Agrégalo aquí
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={6} xl={6}>
+            <Box
+              textAlign="right"
+              fontSize="button.fontSize"
+              fontWeight="fontWeightBold"
+              color="#F42441"
+              m={1}
+            >
+              
+            </Box>
+          </Grid>
+        </Grid>
+
+
 
 
         <Spacer mb={2} />

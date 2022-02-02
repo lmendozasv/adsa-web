@@ -200,9 +200,10 @@ class ServicesList extends React.Component {
       <React.Fragment>
         <Helmet title="Bienvenido" />
 
-        <Typography variant="subtitle1">
-          Servicios más buscados por la comunidad
+        <Typography variant="h4">
+        Busca tu grupo y únete o crea uno nuevo y comparte
         </Typography>
+        <Spacer m={5}/>
 
         {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
@@ -226,16 +227,25 @@ class ServicesList extends React.Component {
         />
 
         {/* </Grid> */}
-
+        <Spacer my={4} />
         <Grid container mt={0}>
-          <Typography variant="subtitle1">Únete a tu grupo</Typography>
-          <Divider my={4} />
-
+          {/* <Box        
+          fullWidth 
+          >
+          <Typography variant="h4"></Typography>          
+          </Box>           */}
+          <Box         
+          >          
+          <Typography             
+           variant="h5">Estos son los grupos creados más reciéntemente</Typography>
+           </Box>
+          <Spacer m={6}/>
           <RecentClusters
             dataList={this.state.grupos}
             instx={this.onCardClick}
             context={this.props}
           />
+        <Spacer my={5} />
 
           {/* <Grid item xs={12} lg={4} xl={6}>
           <Details />

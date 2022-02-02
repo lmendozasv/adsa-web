@@ -408,7 +408,9 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
               }}
               variant="dot"
             >
-              <Avatar alt={returnUser()} src={returnPicture()} />
+              <Avatar
+              variant="rounded"
+               alt={returnUser()} src={returnPicture()} />
             </StyledBadge>
           </Grid>
           <Grid item>

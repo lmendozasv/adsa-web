@@ -47,7 +47,13 @@ const Divider = styled(MuiDivider)(spacing);
 class JoinToGroup extends React.Component {
   componentDidMount() {
     // console.log(this.props.location.state.groupData);
-    this.setState({ data: this.props.location.state.groupData });
+    
+    try{
+      this.setState({ data: this.props.location.state.groupData });
+    }    
+    catch(s){
+      document.location.href="/";
+    }
     var xspots =
       this.props.location.state.groupData.total_spots -
       this.props.location.state.groupData.free_spots;
@@ -98,10 +104,10 @@ class JoinToGroup extends React.Component {
           <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
             <GroupDataDetails data={this.state.data} ins={this.state} />
           </Grid>
-        </Grid>
-        {/* <Spacer mb={2} /> */}
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6} xl={6}>
+
+
+          <Grid container spacing={3}>
+          <Grid item xs={12} md={12} lg={12} xl={12}>
           <Button
               backgroundColor="#172449"
               fullWidth
@@ -109,13 +115,19 @@ class JoinToGroup extends React.Component {
               color="primary"
               onClick={() => handleJoinNow(this.state.data,this)}
             >
-              SOLICITAR ACCESO AL GRUPO
+              SOLICITAR ACCESO
             </Button>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             
           </Grid>
         </Grid>
+
+
+
+        </Grid>
+        {/* <Spacer mb={2} /> */}
+        
         {/* <Alert color="success" fullWidth severity="info">
           El servicio de <b>{this.state.data.service_name} </b>tiene una alta
           demanda en Plandy. ¡Apresúrate a unirte al grupo!

@@ -39,15 +39,23 @@ class JoinToGroup extends React.Component {
   componentDidMount() {
       //console.log(this.props);
     // console.log(this.props.location.state.groupData);
-    this.setState({ data: this.props.location.state.groupData });
+    
+    try{
+      this.setState({ data: this.props.location.state.groupData });
+    }
+    catch(err){      
+      var ox = localStorage.getItem("cg");
+      this.setState({ data: JSON.parse(ox) });
+    }
+    
     var xspots =
-      this.props.location.state.groupData.total_spots -
-      this.props.location.state.groupData.free_spots;
+      this.state.total_spots -
+      this.state.free_spots;
 
     //console.log(xspots);
     this.setState({ tspots: xspots });
     localStorage.setItem("xspots", xspots);
-    localStorage.setItem("ratx", this.props.location.state.groupData.rating);
+    localStorage.setItem("ratx", this.state.rating);
   }
 
   constructor() {
@@ -218,6 +226,7 @@ const useStyles = makeStyles((theme) => ({
   avatarHaloDialog: {
     // marginLeft: "40%", mendoza
     marginTop: "0px",
+    marginBottom:'20px',
     width: "55px",
     height: "55px",
     background: "#FFFFFF",
@@ -235,13 +244,13 @@ const useStyles = makeStyles((theme) => ({
     overflow: "visible",
   },
   avatarDialog: {
-    marginTop: "0px",
-    width: "45px",
-    height: "45px",
+    marginTop: "0px",    
+    width: "60px",
+    height: "60px",
     marginLeft: "2px",
     // marginTop: "1.5px",
     marginBlockEnd: "5px",
-    background: "#15244C",
+    background: "#fff",
     [theme.breakpoints.down("xs")]: {
       marginTop: "2.5px",
     },
@@ -300,6 +309,7 @@ const StyledRatings = withStyles({
 
 const handleJoinNow = (t,ns) => {    
     console.log(ns);
+    console.log(t);
     ns.history.push({ 
       pathname: "/join",
       state: {groupData: t}
@@ -319,11 +329,19 @@ function UserProfile({ data, ins }) {
         <div className={classes.centeredDiv}>
           <Box
             className={classes.avatarHaloDialog}
-            border={3}
+            border={0}
             borderRadius="50%"
             borderColor="primary.main"
           >
             <Avatar
+
+              variant="rounded"                            
+              style={{
+                border: '1.0px double #001e3c',
+                boxShadow: "3px 3px #F42441"
+
+              }}  
+
               src={data.pic_url}
               aria-label="recipe"
               className={classes.avatarDialog}
@@ -697,7 +715,7 @@ function GroupDataDetails({ data, ins }) {
         <Spacer mb={2} />
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
-          <Grid item xs={12} md={6} lg={6} xl={12}>
+          <Grid item xs={12} md={12} lg={12} xl={12}>
             <Button
               backgroundColor="#172449"
               fullWidth

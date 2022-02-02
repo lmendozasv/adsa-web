@@ -126,7 +126,17 @@ class JoinToGroup extends React.Component {
   componentDidMount() {
     // console.log(stripe_instance);
     // console.log(this.props.location.state.groupData);
-    this.setState({ data: this.props.location.state.groupData });
+    // this.setState({ data: this.props.location.state.groupData });
+
+    try{
+      this.setState({ data: this.props.location.state.groupData });
+    }
+    catch(err){      
+      document.location.href="/";
+      //var ox = localStorage.getItem("cg");
+      //this.setState({ data: JSON.parse(ox) });
+    }
+
     var xspots =
       this.props.location.state.groupData.total_spots -
       this.props.location.state.groupData.free_spots;
@@ -164,6 +174,7 @@ class JoinToGroup extends React.Component {
       data: [],
       tspots: 0,
       dataRelations: [],
+      balance:0,
       selectedRel: 0,
       isTrue: false,
       cvc: "",
@@ -260,7 +271,12 @@ class JoinToGroup extends React.Component {
           fontWeight="fontWeightRegular"
           color="#F42441"
         >
-          <b>Realizaremos el cargo de la cuota, hasta que el administrador acepte tu solicitud.</b>
+          <b>
+          <Typography variant="body2" gutterBottom display="block">
+          No realizaremos ningún cargo, hasta que el administrador acepte tu solicitud.
+            </Typography>
+            
+          </b>
 
         </Box>
 
@@ -604,6 +620,23 @@ const StyledRatings = withStyles({
 const getRelTypes = (id, ins) => {
   var tk = localStorage.getItem("token_sec");
 
+    //get plandy wallet
+    axios
+    .get(`https://plandy-api.herokuapp.com/myWallet`, {
+      headers: {
+        Authorization: "Bearer " + tk,
+      },
+    })
+    .then(function (response) {
+      var dt = [];
+      console.log(response.data.data[0].balance);
+      ins.setState({ balance: response.data.data[0].balance });
+     
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
   axios
     .get(`https://plandy-api.herokuapp.com/mycards`, {
       headers: {
@@ -622,12 +655,18 @@ const getRelTypes = (id, ins) => {
         //console.log(itemx);
         dt.push(itemx);
       });
+      if(ins.state.balance>0)
+      {
+        dt.push({rel_name:"Plandy Wallet ("+ins.state.balance+")",id:9999999999});
+      }
       // console.log(response.data.data);
       ins.setState({ dataRelations: dt });
+      console.log(ins.state.dataRelations);
     })
     .catch(function (error) {
       console.log(error);
     });
+  
 };
 
 // const Stripe = require('stripe');
@@ -704,10 +743,19 @@ const handleJoinNow = async (t, ns) => {
 function addCardToServiceAndJoin(idService,ins) {
   // alert(idCard)
   var token = localStorage.getItem("token_sec");
-  axios
+  var xprel = localStorage.getItem("pcat");
+  if (ins.state.selectedRel==9999999999){
+    // alert("NO SE HA SELECCIONADO CARD");
+    if(ins.state.balance>0){
+      // alert("Si tiene plata");
+    }
+  }
+  else{
+    axios
     .post(
       "https://plandy-api.herokuapp.com/assoc/1",
       {
+        rel_type:xprel,
         card_id: ins.state.selectedRel,
         service_id: idService
       },
@@ -730,6 +778,8 @@ function addCardToServiceAndJoin(idService,ins) {
         "Ha ocurrido un error al ingresar su método de pago, por favor intente nuevamente."
       );
     });
+  }
+  
 }
 function addCardToUser(tok, brand, lastfosr) {
   var token = localStorage.getItem("token_sec");
@@ -1067,7 +1117,7 @@ function UserProfile({ data, ins, relations }) {
                 disabled={ins.state.selectedRela}
                 onClick={() => addCardToServiceAndJoin(ins.state.data.id,ins)}
               >
-                CONFIRMAR MÉTODO DE PAGO SELECCIONADO
+                ENVIAR SOLICITUD DE ACCESO
               </Button>
             </Grid>
             <Grid item xs={6} md={6} lg={6} xl={6}></Grid>

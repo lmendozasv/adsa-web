@@ -84,27 +84,33 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   header: {
-    background: "#DFDFDF",
+    // background: "#DFDFDF",
+    background: "#fff",    
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
     color: "#000",
     overflow: "visible",
+    // height: "60px",
     height: "51px",
     paddingLeft: "8px",
     paddingTop: "15px",
   },
 
   avatar: {
-    marginTop: "0px",
-    width: "30px",
-    height: "30px",
+    // marginTop: "10px",
+    // borderTopLeftRadius: 40, //funciona
+    width: "40px",
+    height: "40px",
     marginLeft: "1.9px",
-    marginTop: "1.5px",
+    marginTop: "10px",
+    marginRight:"7px",
     marginBlockEnd: "5px",
-    background: "#15244C",
+    background: "#fff",
   },
   rootCard: {
     overflow: "visible",
+    // borderColor:"#000",
+    // borderWidth:2
   },
   contentCard: {
     marginTop: "0px",
@@ -121,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     width: "15px",
     height: "15px",
     marginTop: "-15px",
-    marginLeft: "23px",
+    marginLeft: "35px",
     overflow: "visible",
   },
   titleName: {
@@ -133,21 +139,22 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "bottom",
   },
   cardContent: {
-    marginTop: "0px",
+
+    margin: "0px !important",
     // height:"50px"
   },
   footerStyles: {
-    background: "#15244C",
+    background: "#fff",
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     color: "#EEF4CE",
-    paddingLeft: "8px",
+    paddingLeft: "10px",
     // paddingTop: "10px",
     // textAlign: "center",
     overflow: "visible",
-    paddingTop: "2px",
-    paddingBottom: "0px",
-    paddingLeft: "10px",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    // paddingLeft: "10px",
     paddingRight: "8px",
   },
   guarantedStyle: {
@@ -156,7 +163,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
   },
   footerText: {
-    color: "#EEF4CE",
+    // color: "#EEF4CE",
+    color: "#000",
   },
   footerAdjustCenter: {
     // textAlign: "end",
@@ -325,10 +333,11 @@ export default function SingleLineGridList({ dataList, instx, context }) {
   const handleViewDetail = (t) => {    
     console.error(context);
     if (t!=null){
-      alert('no es null');
+      // alert('no es null');
+      localStorage.setItem("cg",JSON.stringify(t))
     }
     else{
-      alert('es null');
+      //alert('es null');
     }
     context.history.push({ 
       pathname: "/groupDetails",
@@ -440,52 +449,71 @@ export default function SingleLineGridList({ dataList, instx, context }) {
             </Button>
           </DialogActions>
         </Dialog> */}
-        {dataList.slice(0, 15).map((tile) => (          
+        {dataList.slice(0, 8).map((tile) => (          
           <Grid key={tile.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
+            {/* border: `1px solid #001E3C`,
+    width: `175px`,
+    height: `80px`,
+    boxShadow: "2px 2px #001E3C" */}
             <Paper
               // className={classes.paper}
               variant="outlined"
-              elevation24
+              style={{border:`1px solid #001E3C`,boxShadow: "2px 2px #001E3C"}}  
             >
               <Card
                 onClick={() => handleViewDetail(tile)}
                 className={classes.rootCard}
+                
               >
-                <CardHeader
+                <CardHeader                
                   classes={{
                     root: classes.header,
                     content: classes.contentCard,
                   }}
                   avatar={
-                    <Box
+                    <div>                                        
+                    
+                    {/* <Box                                          
                       className={classes.avatarHalo}
                       border={3}
                       borderRadius="50%"
                       borderColor="primary.main"
-                    >
+                    > */}
                       <Avatar
+                      variant="rounded"
                         src={tile.pic_url}
                         aria-label="recipe"
-                        className={classes.avatar}
+                        className={classes.avatar}         
+                        style={{
+                          border: '1.0px double #001e3c',
+                          boxShadow: "3px 3px #F42441"
+
+                       }}               
                       >
                         {tile.user_name}
                       </Avatar>
                       {tile.verified && (
-                        <Avatar className={classes.avatarVerify}>
-                          <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
+                        <Avatar                        
+                         className={classes.avatarVerify}>
+                          <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" alt="perfil"/>
                         </Avatar>
                       )}
 
                       {/* </StyledBadge> */}
-                    </Box>
+                    {/* </Box> */}
+                    </div>
                   }
                   title={
+                    <Box mt={2}>                    
                     <Typography
                       className={classes.titleName}
                       variant="subtitle2"
+                      // noWrap={false}
                     >
-                      {tile.user_name}
+                      {(tile.user_name.length>15?tile.user_name.split(" ")[0]+" "+tile.user_name.split(" ")[1]:tile.user_name)}
+                      {/* {tile.user_name} */}
                     </Typography>
+                    </Box>
                   }
                   subheader={
                     <Rating
@@ -498,9 +526,11 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                   }
                 />
 
-                <CardContent className={classes.cardContent}>
+                <CardContent
+                style={{ paddingLeft: "10px", paddingBottom:"0px" }}
+                 className={classes.cardContent}>
                   <Typography noWrap={true}>
-                    <Box fontWeight="fontWeightBold" m={1}>
+                    <Box fontWeight="fontWeightBold" ml={0} mt={0} mb={0}>
                       {tile.service_name}
                     </Box>
                   </Typography>
@@ -523,7 +553,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                       color="textSecondary"
                       component="span"
                     >
-                      ({tile.free_spots}/{tile.total_spots})
+                      ({tile.free_spots}/{tile.total_spots}) Disponibles
                     </Typography>
                   </div>
 
@@ -547,13 +577,12 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                 <CardActions className={classes.footerStyles}>
                   <div className={classes.footerAdjustCenter}>
                     <Typography
-                      variant="subtitle2"
-                      className={classes.footerText}
-                      component="h6"
+                      variant="subtitle1"
+                      className={classes.footerText}                      
                     >
                       $
                       {(parseFloat(tile.service_price) + parseFloat(tile.commission))/100
-                      }
+                      }/Mes
                     </Typography>
                   </div>
 

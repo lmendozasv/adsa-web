@@ -144,10 +144,10 @@ const useStyles = makeStyles((theme) => ({
     // height:"50px"
   },
   footerStyles: {
-    background: "#fff",
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    color: "#EEF4CE",
+    background: "#001e3c !important",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    color: "#000",
     paddingLeft: "10px",
     // paddingTop: "10px",
     // textAlign: "center",
@@ -163,8 +163,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
   },
   footerText: {
-    // color: "#EEF4CE",
-    color: "#000",
+     color: "#EEF4CE",
+    //color: "#F42441",
   },
   footerAdjustCenter: {
     // textAlign: "end",
@@ -579,10 +579,8 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                     <Typography
                       variant="subtitle1"
                       className={classes.footerText}                      
-                    >
-                      $
-                      {(parseFloat(tile.service_price) + parseFloat(tile.commission))/100
-                      }/Mes
+                    >                      
+                      {(tile.rx?"Administrador":"Miembro")}
                     </Typography>
                   </div>
 

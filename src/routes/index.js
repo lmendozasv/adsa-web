@@ -166,8 +166,8 @@ const groupDetailsPay = {
 };
 
 const projectsRoutes = {
-  id: "Mis grupos",
-  path: "/mygroups",
+  id: "Mis suscripciones",
+  path: "/mysubscriptions",
   icon: <GroupWorkIcon />,
   // badge: "",
   component: Projects,

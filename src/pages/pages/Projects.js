@@ -1,29 +1,48 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { withTheme } from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import CustomGridList from "./CarouselServices";
+import RecentClusters from "./MySubscriptions";
+import Helmet from "react-helmet";
 import axios from "axios";
-import Helmet from 'react-helmet';
+import "../../vendor/roundedBarCharts";
+import { Bar } from "react-chartjs-2";
+
+import { red, green, blue } from "@material-ui/core/colors";
 
 import {
-  Avatar,
+  Avatar as MuiAvatar,
+  Box,
   Breadcrumbs as MuiBreadcrumbs,
-  Button,
+  Button as MuiButton,
   Card as MuiCard,
-  CardActions,
-  CardContent as MuiCardContent,
-  CardMedia as MuiCardMedia,
+  CardContent,
   Chip as MuiChip,
   Divider as MuiDivider,
-  Grid,
+  Grid as MuiGrid,
+  LinearProgress as MuiLinearProgress,
   Link,
-  Typography as MuiTypography
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@material-ui/core";
 
-import { AvatarGroup as MuiAvatarGroup } from '@material-ui/lab';
-
-import { red, green, orange } from "@material-ui/core/colors";
-
 import { spacing } from "@material-ui/system";
+
+import {
+  Briefcase,
+  DollarSign,
+  ExternalLink,
+  Facebook,
+  Home,
+  Instagram,
+  MapPin,
+  ShoppingBag,
+  Twitter,
+} from "react-feather";
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -31,255 +50,699 @@ const NavLink = React.forwardRef((props, ref) => (
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
+const Button = styled(MuiButton)(spacing);
+
 const Card = styled(MuiCard)(spacing);
 
-const CardContent = styled(MuiCardContent)`
-  border-bottom: 1px solid ${props => props.theme.palette.grey[300]};
-`;
-
-const CardMedia = styled(MuiCardMedia)`
-  height: 220px;
-`;
+const Chip = styled(MuiChip)(spacing);
 
 const Divider = styled(MuiDivider)(spacing);
 
-const Typography = styled(MuiTypography)(spacing);
+const Grid = styled(MuiGrid)(spacing);
 
-const Chip = styled(MuiChip)`
-  height: 20px;
-  padding: 4px 0;
-  font-size: 85%;
-  background-color: ${props => props.rgbcolor};
-  color: ${props => props.theme.palette.common.white};
-  margin-bottom: ${props => props.theme.spacing(4)}px;
+const LinearProgress = styled(MuiLinearProgress)(spacing);
+
+const Spacer = styled.div(spacing);
+
+const Centered = styled.div`
+  text-align: center;
 `;
 
-const AvatarGroup = styled(MuiAvatarGroup)`
-  margin-left: ${props => props.theme.spacing(2)}px;
-`
-const handleJoinNow = (t,ns) => {    
-  var relaion = ns.state.selectedRel;
-  var isTrues = ns.state.isTrue;
-  if(relaion>0&&isTrues){
-    ns.props.history.push({ 
-      pathname: "/pay",
-      state: {groupData: t}
-    });  
+const Avatar = styled(MuiAvatar)`
+  display: inline-block;
+  height: 128px;
+  width: 128px;
+`;
+
+const AboutIcon = styled.span`
+  display: flex;
+  padding-right: ${(props) => props.theme.spacing(2)}px;
+
+  svg {
+    width: 14px;
+    height: 14px;
   }
-  else{
-    alert("Para continuar es necesario seleccionar las opciones, intenta nuevamente");
+`;
+
+const ChartWrapper = styled.div`
+  height: 280px;
+  position: relative;
+`;
+
+const StatsIcon = styled.div`
+  position: absolute;
+  right: 16px;
+  top: 32px;
+
+  svg {
+    width: 32px;
+    height: 32px;
+    color: ${(props) => props.theme.palette.secondary.main};
   }
-}
-const getRelTypes = (id, ins) => {
-  var tk = localStorage.getItem("token_sec");
-  axios
-    .post(
-      "https://plandy-api.herokuapp.com/getRelType",
-      {
-        group_id: id,
-      },
-      {
+`;
+
+const ProductsChip = styled(Chip)`
+  height: 20px;
+  padding: 4px 0;
+  font-size: 90%;
+  background-color: ${(props) => props.rgbcolor};
+  color: ${(props) => props.theme.palette.common.white};
+`;
+
+const TableWrapper = styled.div`
+  overflow-y: auto;
+  max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
+`;
+
+class ServicesList extends React.Component {
+  _isMounted = false;
+  constructor(props) {
+    super(props);
+    //console.log(props);
+  }
+  componentDidMount() {
+    console.log(this.props);
+    var cat_selected = "0";
+    const urlParams = new URLSearchParams(window.location.search);
+    cat_selected = urlParams.get("c");
+
+    //console.log("PARAMETRO: "+cat_selected);
+
+    this._isMounted = true;
+    var ins = this;
+    var tk = localStorage.getItem("token_sec");
+    axios
+      .get(`https://plandy-api.herokuapp.com/getServicesList`, {
         headers: {
           Authorization: "Bearer " + tk,
-          Accept: "application/json",
-          "Content-Type": "application/json",
         },
-      }
-    )
-    .then(function (response) {
-      var dt = [];
-      response.data.data.forEach(function (entry) {
-        //console.log(entry);
-        var itemx = {
-          id: entry.id,
-          rel_name: entry.rel_name,
-        };
-        console.log(itemx);
-        dt.push(itemx);
+      })
+      .then((res) => {
+        if (this._isMounted) {
+          const personas = res.data.data;
+          this.setState({ personas });
+        }
       });
-      // console.log(response.data.data);
-      ins.setState({ dataRelations: dt });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
-
-class JoinToGroup extends React.Component {
-  componentDidMount() {
-    // console.log(this.props.location.state.groupData);
-    this.setState({ data: this.props.location.state.groupData });
-    var xspots =
-      this.props.location.state.groupData.total_spots -
-      this.props.location.state.groupData.free_spots;
-
-    //console.log(xspots);
-    this.setState({ tspots: xspots });
-    localStorage.setItem("xspots", xspots);
-    localStorage.setItem("ratx", this.props.location.state.groupData.rating);
-    getRelTypes(this.props.location.state.groupData.id, this);
+    if (parseInt(cat_selected) > 0) {
+        console.log(cat_selected);
+      var token = localStorage.getItem("token_sec");
+      axios
+        .post(
+          "https://plandy-api.herokuapp.com/getServicesByType",
+          {
+            catid: cat_selected
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(function (res) {
+          //if (this._isMounted) {
+            const grupos = res.data.data;
+            ins.setState({ grupos });
+            // console.log("setting state");
+            // console.log(ins.state.grupos);
+          //}
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(`https://plandy-api.herokuapp.com/getMyGroups`, {
+          headers: {
+            Authorization: "Bearer " + tk,
+          },
+        })
+        .then((res) => {
+          if (this._isMounted) {
+            const grupos = res.data.data;
+            this.setState({ grupos });
+          }
+        });
+      // firebase.auth();
+    }
   }
 
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      data: [],
-      tspots: 0,
-      dataRelations: [],
-      selectedRel: 0,
-      isTrue:false
-    };
+  componentWillUnmount() {
+    this._isMounted = false;
   }
-
-  handleChange = (event) => {
-    //console.log(this.state);
-    //console.log("1state: " + this.state.selectedRel);
-    this.state.selectedRel = parseInt(event.target.value);
-    //console.log("2state: " + this.state.selectedRel);
-    // setValue(event.target.value);
-    //selectedRel
-    //this.setState({ selectedRel: event.target.value });
-    // console.log(""+event.target.value);
+  state = {
+    personas: [],
+    grupos: [],
   };
   render() {
     return (
-      <div>
-        <Helmet title="Ingresa al grupo" />
+      <React.Fragment>
+        <Helmet title="Mis suscripciones" />
 
-        <Grid container spacing={1}>
-          <Grid alignItems="center" item xl={6} lg={6} md={6} sm={6} xs={12}>
-            <Project
-              data={this.state.data}
-              relations={this.state.dataRelations}
-              ins={this}
-            />
-          </Grid>
-
-          <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-            {/* <GroupDataDetails data={this.state.data} ins={this.state} /> */}
-          </Grid>
-        </Grid>
-        {/* <Spacer mb={2} /> */}
-        <Grid container spacing={3}>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-          <Button
-              backgroundColor="#172449"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={() => handleJoinNow(this.state.data,this)}
-            >
-              SOLICITAR ACCESO AL GRUPO
-            </Button>
-          </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
-            
-          </Grid>
-        </Grid>
-        {/* <Alert color="success" fullWidth severity="info">
-          El servicio de <b>{this.state.data.service_name} </b>tiene una alta
-          demanda en Plandy. ¡Apresúrate a unirte al grupo!
-        </Alert> */}
-      </div>
-    );
-  }
-}
-
-
-
-function Project({ image, title, description, chip }) {
-  return (
-    <Card mb={6}>
-      {image ? <CardMedia image={image} title="Contemplative Reptile" /> : null}
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {title}
+        {/* <Typography variant="h4">
+        Busca tu grupo y únete o crea uno nuevo y comparte
         </Typography>
+        <Spacer m={5}/> */}
 
-        {chip}
-        
-
-        <Typography mb={4} component="p">
-          {description}
-        </Typography>
-
-        <AvatarGroup max={3}>
-          <Avatar alt="Avatar" src="/static/img/avatars/avatar-1.jpg" />
-          <Avatar alt="Avatar" src="/static/img/avatars/avatar-2.jpg" />
-          <Avatar alt="Avatar" src="/static/img/avatars/avatar-3.jpg" />
-        </AvatarGroup>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
-
-function Projects() {
-  return (
-    <React.Fragment>
-      <Helmet title="Mis Grupos" />
-      
-      <Typography variant="h3" gutterBottom display="inline">
-        Mis grupos
-      </Typography>
-
-      {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+        {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
           Dashboard
         </Link>
         <Link component={NavLink} exact to="/">
           Pages
         </Link>
-        <Typography>Projects</Typography>
+        <Typography>Profile</Typography>
       </Breadcrumbs> */}
 
-      <Divider my={6} />
+        {/* <Divider my={1} /> */}
 
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Spotify Premium Family PRO"
-            description="Familia Equizabal"
-            chip={<Chip label="Administrador" 
-            rgbcolor={green[500]}
-             />
-            }
+        {/* <Grid 
+      container      
+       spacing={3}  id="OUT000AFUERA"> */}
+        {/* <CustomGridList
+          dataList={this.state.personas}
+          instx={this.onCardClick}
+          context={this.props}
+        /> */}
+
+        {/* </Grid> */}
+        {/* <Spacer my={4} /> */}
+        <Grid container mt={0}>
+          {/* <Box        
+          fullWidth 
+          >
+          <Typography variant="h4"></Typography>          
+          </Box>           */}
+          {/* <Box         
+          >          
+          <Typography             
+           variant="h5">Estos son los grupos creados más reciéntemente</Typography>
+           </Box> */}
+
+          {/* <Spacer m={6}/> */}
+          <RecentClusters
+            dataList={this.state.grupos}
+            instx={this.onCardClick}
+            context={this.props}
           />
+        <Spacer my={5} />
+
+          {/* <Grid item xs={12} lg={4} xl={6}>
+          <Details />
+          <Skills />
+          <About />
+          <Elsewhere />
         </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Company posters"
-            description="Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa."
-            chip={<Chip label="Miembro" rgbcolor={orange[500]} />}
-          />
+        <Grid item xs={12} lg={8} xl={9}>
+          <SalesRevenue />
+          <Grid container spacing={6}>
+            <Grid item xs={12} lg={4}>
+              <Earnings />
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <Orders />
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <Revenue />
+            </Grid>
+          </Grid>
+          <Products />
+        </Grid> */}
         </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Product page design"
-            description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
-            chip={<Chip label="Finished" rgbcolor={green[500]} />}
-          />
-        </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Upgrade CRM software"
-            description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
-            chip={<Chip label="In progress" rgbcolor={orange[500]} />}
-          />
-        </Grid>
-        
-      </Grid>
-    </React.Fragment>
+      </React.Fragment>
+    );
+  }
+}
+function Details() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Profile Details
+        </Typography>
+
+        <Spacer mb={4} />
+
+        <Centered>
+          <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
+          <Typography variant="body2" component="div" gutterBottom>
+            <Box fontWeight="fontWeightMedium">Lucy Lavender</Box>
+            <Box fontWeight="fontWeightRegular">Lead Developer</Box>
+          </Typography>
+
+          <Button mr={2} variant="contained" size="small">
+            Follow
+          </Button>
+          <Button mr={2} variant="contained" color="primary" size="small">
+            Message
+          </Button>
+        </Centered>
+      </CardContent>
+    </Card>
   );
 }
 
-export default JoinToGroup;
-// export default Projects;
+function Skills() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Skills
+        </Typography>
+
+        <Spacer mb={4} />
+
+        <Centered>
+          <Chip size="small" mr={1} mb={1} label="HTML" color="secondary" />
+          <Chip size="small" mr={1} mb={1} label="JavaScript" />
+          <Chip size="small" mr={1} mb={1} label="Sass" />
+          <Chip size="small" mr={1} mb={1} label="React" />
+          <Chip size="small" mr={1} mb={1} label="Redux" />
+          <Chip size="small" mr={1} mb={1} label="Next.js" />
+          <Chip size="small" mr={1} mb={1} label="Material UI" />
+          <Chip size="small" mr={1} mb={1} label="UI" />
+          <Chip size="small" mr={1} mb={1} label="UX" />
+        </Centered>
+      </CardContent>
+    </Card>
+  );
+}
+
+function About() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          About
+        </Typography>
+
+        <Spacer mb={4} />
+
+        <Grid container direction="row" alignItems="center" mb={2}>
+          <Grid item>
+            <AboutIcon>
+              <Home />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            Lives in{" "}
+            <Link href="https://material-app.bootlab.io/">
+              San Fransisco, SA
+            </Link>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" alignItems="center" mb={2}>
+          <Grid item>
+            <AboutIcon>
+              <Briefcase />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            Works at{" "}
+            <Link href="https://material-app.bootlab.io/">Material UI</Link>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <AboutIcon>
+              <MapPin />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            Lives in <Link href="https://material-app.bootlab.io/">Boston</Link>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Elsewhere() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Elsewhere
+        </Typography>
+
+        <Spacer mb={4} />
+
+        <Grid container direction="row" alignItems="center" mb={2}>
+          <Grid item>
+            <AboutIcon>
+              <ExternalLink />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            <Link href="https://material-app.bootlab.io/">lucylavender.io</Link>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" alignItems="center" mb={2}>
+          <Grid item>
+            <AboutIcon>
+              <Twitter />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            <Link href="https://material-app.bootlab.io/">Twitter</Link>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" alignItems="center" mb={2}>
+          <Grid item>
+            <AboutIcon>
+              <Facebook />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            <Link href="https://material-app.bootlab.io/">Facebook</Link>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <AboutIcon>
+              <Instagram />
+            </AboutIcon>
+          </Grid>
+          <Grid item>
+            <Link href="https://material-app.bootlab.io/">Instagram</Link>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Earnings() {
+  return (
+    <Box position="relative">
+      <Card mb={6} pt={2}>
+        <CardContent>
+          <Typography variant="h2" gutterBottom>
+            <Box fontWeight="fontWeightRegular">$ 2.405</Box>
+          </Typography>
+          <Typography variant="body2" gutterBottom mt={3} mb={0}>
+            Total Earnings
+          </Typography>
+
+          <StatsIcon>
+            <DollarSign />
+          </StatsIcon>
+          <LinearProgress
+            variant="determinate"
+            value={75}
+            color="secondary"
+            mt={4}
+          />
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
+
+function Orders() {
+  return (
+    <Box position="relative">
+      <Card mb={6} pt={2}>
+        <CardContent>
+          <Typography variant="h2" gutterBottom>
+            <Box fontWeight="fontWeightRegular">30</Box>
+          </Typography>
+          <Typography variant="body2" gutterBottom mt={3} mb={0}>
+            Orders Today
+          </Typography>
+
+          <StatsIcon>
+            <ShoppingBag />
+          </StatsIcon>
+          <LinearProgress
+            variant="determinate"
+            value={30}
+            color="secondary"
+            mt={4}
+          />
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
+
+function Revenue() {
+  return (
+    <Box position="relative">
+      <Card mb={6} pt={2}>
+        <CardContent>
+          <Typography variant="h2" gutterBottom>
+            <Box fontWeight="fontWeightRegular">$ 1.224</Box>
+          </Typography>
+          <Typography variant="body2" gutterBottom mt={3} mb={0}>
+            Total Revenue
+          </Typography>
+
+          <StatsIcon>
+            <DollarSign />
+          </StatsIcon>
+          <LinearProgress
+            variant="determinate"
+            value={50}
+            color="secondary"
+            mt={4}
+          />
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
+
+function Products() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Products
+        </Typography>
+        <TableWrapper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Tech</TableCell>
+                <TableCell>License</TableCell>
+                <TableCell>Sales</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  AppStack
+                </TableCell>
+                <TableCell>
+                  <ProductsChip
+                    size="small"
+                    label="HTML"
+                    rgbcolor={blue[500]}
+                  />
+                </TableCell>
+                <TableCell>Single License</TableCell>
+                <TableCell>76</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Bienvenido
+                </TableCell>
+                <TableCell>
+                  <ProductsChip
+                    size="small"
+                    label="React"
+                    rgbcolor={green[500]}
+                  />
+                </TableCell>
+                <TableCell>Single License</TableCell>
+                <TableCell>38</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Milo
+                </TableCell>
+                <TableCell>
+                  <ProductsChip
+                    size="small"
+                    label="HTML"
+                    rgbcolor={blue[500]}
+                  />
+                </TableCell>
+                <TableCell>Single License</TableCell>
+                <TableCell>43</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Robust UI Kit
+                </TableCell>
+                <TableCell>
+                  <ProductsChip
+                    size="small"
+                    label="Angular"
+                    rgbcolor={red[500]}
+                  />
+                </TableCell>
+                <TableCell>Single License</TableCell>
+                <TableCell>27</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Spark
+                </TableCell>
+                <TableCell>
+                  <ProductsChip
+                    size="small"
+                    label="React"
+                    rgbcolor={green[500]}
+                  />
+                </TableCell>
+                <TableCell>Single License</TableCell>
+                <TableCell>12</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableWrapper>
+      </CardContent>
+    </Card>
+  );
+}
+
+const SalesRevenue = withTheme(({ theme }) => {
+  const data = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    datasets: [
+      {
+        label: "Sales",
+        backgroundColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
+        hoverBackgroundColor: theme.palette.secondary.main,
+        hoverBorderColor: theme.palette.secondary.main,
+        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
+        barPercentage: 0.625,
+        categoryPercentage: 0.5,
+      },
+      {
+        label: "Revenue",
+        backgroundColor: theme.palette.grey[200],
+        borderColor: theme.palette.grey[200],
+        hoverBackgroundColor: theme.palette.grey[200],
+        hoverBorderColor: theme.palette.grey[200],
+        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
+        barPercentage: 0.625,
+        categoryPercentage: 0.5,
+      },
+    ],
+  };
+
+  const options = {
+    maintainAspectRatio: false,
+    cornerRadius: 2,
+    legend: {
+      display: false,
+    },
+    scales: {
+      yAxes: [
+        {
+          gridLines: {
+            display: false,
+          },
+          stacked: false,
+          ticks: {
+            stepSize: 20,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          stacked: false,
+          gridLines: {
+            color: "transparent",
+          },
+        },
+      ],
+    },
+  };
+
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Sales / Revenue
+        </Typography>
+
+        <Spacer mb={6} />
+
+        <ChartWrapper>
+          <Bar data={data} options={options} />
+        </ChartWrapper>
+      </CardContent>
+    </Card>
+  );
+});
+
+// function Profile() {
+//   return (
+//     <React.Fragment>
+//       <Helmet title="Plandy" />
+
+//       <Typography variant="h3" gutterBottom display="inline">
+//         Servicios populares
+//       </Typography>
+
+//       {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+//         <Link component={NavLink} exact to="/">
+//           Dashboard
+//         </Link>
+//         <Link component={NavLink} exact to="/">
+//           Pages
+//         </Link>
+//         <Typography>Profile</Typography>
+//       </Breadcrumbs> */}
+
+//       <Divider my={6} />
+
+//       <Grid container spacing={6}>
+//       {/* <CustomGridList dataList={this.state.places} instx={this.onCardClick} /> */}
+//         {/* <Grid item xs={12} lg={4} xl={6}>
+//           <Details />
+//           <Skills />
+//           <About />
+//           <Elsewhere />
+//         </Grid>
+//         <Grid item xs={12} lg={8} xl={9}>
+//           <SalesRevenue />
+//           <Grid container spacing={6}>
+//             <Grid item xs={12} lg={4}>
+//               <Earnings />
+//             </Grid>
+//             <Grid item xs={12} lg={4}>
+//               <Orders />
+//             </Grid>
+//             <Grid item xs={12} lg={4}>
+//               <Revenue />
+//             </Grid>
+//           </Grid>
+//           <Products />
+//         </Grid> */}
+//       </Grid>
+//     </React.Fragment>
+//   );
+// }
+
+export default ServicesList;

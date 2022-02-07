@@ -45,6 +45,213 @@ class DefaultTextFields extends React.Component {
 
       }
 
+      function UserProfile({ data, ins, relations }) {
+        const [value, setValue] = React.useState(0);
+      
+        const handleChangeP = (event) => {
+          //isLoadingCard
+          ins.setState({ selectedRela: false });    
+          setValue(parseInt(event.target.value));
+          ins.setState({ selectedRel: parseInt(event.target.value) });    
+        };
+      
+        const classes = useStyles();
+        var xra = localStorage.getItem("ratx");
+        return (
+          <div className={classes.ckroot}>
+            <Paper id="OP" className={classes.ckpaper} elevation={3}>
+              <Box
+                fontSize="h2.fontSize"
+                textAlign="left"
+                fontWeight="fontWeightBold"
+                m={1}
+              >
+                Detalles de pago
+              </Box>
+              <Divider />
+              <Spacer mt={5} />
+              <Box
+                textAlign="left"
+                fontSize="button.fontSize"
+                fontWeight="fontWeightRegular"
+                color="#F42441"
+              >
+                Agrega o selecciona un método de pago para enviar el monto
+                automáticamente
+              </Box>
+              <Box
+                textAlign="left"
+                fontSize="button.fontSize"
+                fontWeight="fontWeightBold"
+                color="#172449"
+                gutterBottom
+              >
+                (No te cobraremos nada hasta que tu solicitud sea aceptada).
+              </Box>
+      
+              <Spacer mb={10} />
+              {
+                relations.length > 0 ? (
+                  <FormControl fullWidth component="fieldset">
+                    <RadioGroup
+                      aria-label="gender"
+                      name="gender1"
+                      value={value}
+                      onChange={handleChangeP}
+                    >
+                      {relations.map((tile) => (
+                        <Grid container spacing={3}>
+                          <Grid item xs={6} md={6} lg={6} xl={6}>
+                            <Typography variant="body2" gutterBottom display="block">
+                              {tile.rel_name}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6} md={6} lg={6} xl={6}>
+                            <Box textAlign="right">
+                              <FormControlLabel
+                                value={tile.id}
+                                control={<Radio />}
+                                label={tile.service_name}
+                              />
+                            </Box>
+                          </Grid>
+                        </Grid>
+                      ))}
+                    </RadioGroup>
+      
+                    <Spacer mt={5} />
+              {/* <Divider /> */}
+              {/* <Spacer mt={5} /> */}
+      
+                    {/* <Box
+                textAlign="left"
+                fontSize="button.fontSize"
+                fontWeight="fontWeightBold"
+                color="#172449"
+                gutterBottom
+              >
+                También puedes agregar una nueva tarjeta
+              </Box>
+              <Spacer mb={5} />
+                    <Grid container spacing={3}>
+                    <Grid item xs={12} md={12} lg={12} xl={12}>
+                      <Elements stripe={stripePromise}>
+                        <CheckoutForm />
+                      </Elements>
+                    </Grid>
+      
+                  
+                  </Grid> */}
+      
+                  </FormControl>
+                ) : (
+                  ""
+              //     <Grid container spacing={3}>
+              //         <Box
+              //   textAlign="left"
+              //   fontSize="button.fontSize"
+              //   fontWeight="fontWeightBold"
+              //   color="#F42441"
+              //   gutterBottom
+              // >
+              //   Agrega una nueva forma de pago
+              // </Box>
+              // <Spacer mb={10} />
+              //       <Grid item xs={12} md={12} lg={12} xl={12}>
+              //         <Elements stripe={stripePromise}>
+              //           <CheckoutForm />
+              //         </Elements>
+              //       </Grid>
+      
+                  
+              //     </Grid>
+                )          
+              }
+              <Spacer mt={5} />
+      
+              <Spacer mt={5} />
+      
+      
+              <Grid container spacing={3}>
+                
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <Button
+                      backgroundColor="#172449"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      disabled={!ins.state.selectedRela}
+                      onClick={
+                        
+                        () => ins.setState({ addingCard: true })
+                      }
+                    >
+                      AGREGAR MÉTODO DE PAGO
+                    </Button>
+                  </Grid>
+                </Grid>
+      
+                <Spacer mt={5} />
+              <Divider />
+              <Spacer mt={5} />
+      
+      
+              <Grid container spacing={3}>
+                {/* <Grid item xs={6} md={6} lg={6} xl={10}>
+                  <Typography variant="caption" gutterBottom display="block">
+                    Selecciona o agrega un método de pago para enviar la cuota automáticamente cuando el administrador del grupo confirme tu solicitud. 
+                    
+                  </Typography>
+                </Grid> */}
+      
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <Button
+                      // backgroundColor="#172449"
+                      // style={{backgroundColor: '#172449', color: '#FFFFFF'}}
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      disabled={ins.state.selectedRela}
+                      onClick={() => addCardToServiceAndJoin(ins.state.data.id,ins)}
+                    >
+                      ENVIAR SOLICITUD DE ACCESO
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
+                </Grid>
+      
+                <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <Alert fullWidth severity="success" variant="outlined">
+                    Los datos de tu método de pago y transacciones estan protegidos
+                    por Stripe
+                  </Alert>
+                  {/* <Typography variant="caption" gutterBottom display="block">              
+                    <b>Los datos de tu método de pago y transacciones estan protegidos por Stripe.</b>            
+                  </Typography> */}
+                </Grid>
+      
+                <Spacer mt={10} />
+      
+                {/* <Grid item xs={6} md={6} lg={6} xl={2}>
+                  <Box textAlign="right" marginRight={4} >
+                    <Checkbox
+                      mr={10}                                
+                      inputProps={{ "aria-label": "primary checkbox" }}
+                      onChange={e => {
+                        console.log(e.target.checked);
+                        ins.setState({ isTrue: e.target.checked });
+                      }}
+                    />
+                  </Box>
+                </Grid> */}
+              </Grid>
+            </Paper>
+          </div>
+        );
+      }
+
+
   constructor(props) {
     super(props);
     this.status={

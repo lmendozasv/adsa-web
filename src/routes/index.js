@@ -67,7 +67,8 @@ const FeatherIcons = async(() => import("../pages/icons/FeatherIcons"));
 const Blank = async(() => import("../pages/pages/Blank"));
 const InvoiceDetails = async(() => import("../pages/pages/InvoiceDetails"));
 const InvoiceList = async(() => import("../pages/pages/InvoiceList"));
-const Orders = async(() => import("../pages/pages/Orders"));
+//const Orders = async(() => import("../pages/pages/Orders")); //ESTE COMPONENTE SIRVE PARA UNA LISTA
+const Orders = async(() => import("../pages/pages/NewGroup"));
 const Pricing = async(() => import("../pages/pages/Pricing"));
 const Profile = async(() => import("../pages/pages/HomePlandy"));
 const Settings = async(() => import("../pages/pages/Settings"));
@@ -194,7 +195,7 @@ const invoiceRoutes = {
 
 const orderRoutes = {
   id: "Nuevo grupo",
-  path: "/orders",
+  path: "/newGroup",
   icon: <AddIcon />,
   component: Orders,
   children: null

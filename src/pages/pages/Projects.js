@@ -56,6 +56,7 @@ const Card = styled(MuiCard)(spacing);
 
 const Chip = styled(MuiChip)(spacing);
 
+// const Divider = styled(MuiDivider)(spacing);
 const Divider = styled(MuiDivider)(spacing);
 
 const Grid = styled(MuiGrid)(spacing);
@@ -234,13 +235,16 @@ class ServicesList extends React.Component {
           >
           <Typography variant="h4"></Typography>          
           </Box>           */}
-          {/* <Box         
+          <Box         
           >          
           <Typography             
-           variant="h5">Estos son los grupos creados más reciéntemente</Typography>
-           </Box> */}
-
-          {/* <Spacer m={6}/> */}
+           variant="h5">
+             Mis suscripciones
+             </Typography>
+           </Box>
+           
+           {/* <Divider my={6} /> */}
+          <Spacer m={6}/>
           <RecentClusters
             dataList={this.state.grupos}
             instx={this.onCardClick}

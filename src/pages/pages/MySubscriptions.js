@@ -580,7 +580,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                       variant="subtitle1"
                       className={classes.footerText}                      
                     >                      
-                      {(tile.rx?"Administrador":"Miembro")}
+                      {(tile.rx?"Tú eres administrador":"Tú eres miembro")}
                     </Typography>
                   </div>
 

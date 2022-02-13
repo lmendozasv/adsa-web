@@ -340,11 +340,6 @@ class OutlinedTextFields extends React.Component {
           this.setState({ personas });
         }
       });
-
-
-     
-
-
   }
   constructor(props) {
     super(props);
@@ -377,50 +372,55 @@ class OutlinedTextFields extends React.Component {
     open: false,
     personas: [],
     selectedMaxSlots: "",
-    officialPrice:0.00,
-    legalEntity:""
+    officialPrice: 0.0,
+    legalEntity: "",
+    serviceName:""
   };
-  
+
   getRelTypes = (selectedId, ins) => {
     var tk = localStorage.getItem("token_sec");
     axios
-    .post(
-      "https://plandy-api.herokuapp.com/getConfs",
-      {
-        id: selectedId,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + tk,
-          Accept: "application/json",
-          "Content-Type": "application/json",
+      .post(
+        "https://plandy-api.herokuapp.com/getConfs",
+        {
+          id: selectedId,
         },
-      }
-    )
-    .then(function (response) {
-      var dt = [];
-      response.data.data.forEach(function (entry) {
-        //console.log(entry);
-        var itemx = {
-          id: entry.id,
-          max_slots: entry.max_slots,
-          official_price: entry.official_price,
-          legal_entity:entry.legal_entity
-        };
-        ins.setState({ selectedMaxSlots: entry.max_slots });
-        ins.setState({ officialPrice: entry.official_price });
-        ins.setState({ legalEntity: entry.legal_entity });
-
-        console.log(itemx);
-        dt.push(itemx);
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (response) {
+        var dt = [];
+        response.data.data.forEach(function (entry) {
+          //console.log(entry);
+          var itemx = {
+            id: entry.id,
+            max_slots: entry.max_slots,
+            official_price: entry.official_price,
+            legal_entity: entry.legal_entity,            
+          };
+          ins.setState({ selectedMaxSlots: entry.max_slots });
+          
+          ins.setState({ legalEntity: entry.legal_entity });
+          ins.setState({ serviceName: entry.service_name });
+          if (entry.official_price>0){
+            var op = "$ " +entry.official_price/100;
+            ins.setState({ officialPrice: op });
+          }
+          console.log(itemx);
+          dt.push(itemx);
+        });
+        // console.log(response.data.data);
+        ins.setState({ dataRelations: dt });
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-      // console.log(response.data.data);
-      ins.setState({ dataRelations: dt });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  };
 
   handleChange = (name) => (event) => {
     this.setState({
@@ -428,8 +428,8 @@ class OutlinedTextFields extends React.Component {
     });
     console.log([name]);
     console.log(event.target.value);
-    if ([name]=="selectedCat"){
-      this.getRelTypes(event.target.value,this);
+    if ([name] == "selectedCat") {
+      this.getRelTypes(event.target.value, this);
     }
   };
 
@@ -499,10 +499,11 @@ class OutlinedTextFields extends React.Component {
                     fullWidth
                     id="outlined-name"
                     label="Nombre del grupo"
-                    inputProps={{ maxLength: 12 }}
+                    inputProps={{ maxLength: 35 }}
                     required
                     value={this.state.name}
                     onChange={this.handleChange("name")}
+                    helperText={"Ej. Oficina de Pablo en zona 11"}
                     variant="outlined"
                   />
                 </Grid>
@@ -516,6 +517,7 @@ class OutlinedTextFields extends React.Component {
                     id="outlined-disabled"
                     label="Costo mensual"
                     defaultValue="$ 0.00"
+                    value={this.state.officialPrice}
                     helperText="(Costo oficial)"
                     variant="outlined"
                   />
@@ -538,118 +540,120 @@ class OutlinedTextFields extends React.Component {
                 <Grid item xs={12} md={12} lg={12} xl={12}>
                   <Spacer m={2} />
                 </Grid>
-                <Grid item xs={12} md={12} lg={12} xl={12}>
-                  <Typography variant="h6" gutterBottom>
-                    Datos de acceso al grupo
-                  </Typography>
-                </Grid>
-                {/* <Grid item xs={12} md={12} lg={12} xl={12}>
-                  <hr />
-                  <br />
-                </Grid> */}
 
-                <Grid item xs={12} md={6} lg={6} xl={6}>
-                  {/* <TextField
-                        fullWidth
-                            id="outlined-name"
-                            label="Tipo de servicio"                            
-                            inputProps={{ maxLength: 12 }}
-                            required
-                            value={this.state.selectedCat}
-                            onChange={this.handleChange("name")}
-                            variant="outlined"
-                            
-                        /> */}
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <Typography variant="h6" gutterBottom>
+                      Datos de acceso al grupo
+                    </Typography>
+                  </Grid>
+                )}
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={12} md={6} lg={6} xl={6}>
+                    <TextField
+                      id="outlined-select-currency0"
+                      select
+                      label="¿Quién puede unirse al grupo?"
+                      fullWidth
+                      value={this.state.selectedCat}
+                      onChange={this.handleChange("selectedCat")}
+                      // helperText="Please select your currency"
+                      variant="outlined"
+                    >
+                      {this.state.personas.map((tile) => (
+                        <MenuItem key={tile.id} value={tile.id}>
+                          {tile.service_name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                )}
 
-                  {/* /* inicio */}
-                  <TextField
-                    id="outlined-select-currency0"
-                    select
-                    label="Relaciones permitidas"
-                    fullWidth
-                    value={this.state.selectedCat}
-                    onChange={this.handleChange("selectedCat")}
-                    // helperText="Please select your currency"
-                    variant="outlined"
-                  >
-                    {this.state.personas.map((tile) => (
-                      <MenuItem key={tile.id} value={tile.id}>
-                        {tile.service_name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  {/* /** fin */}
-                </Grid>
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={12} md={6} lg={6} xl={6}>
+                    <TextField
+                      id="outlined-select-currency0"
+                      select
+                      label="¿Es un grupo público?"
+                      fullWidth
+                      value={this.state.selectedCat}
+                      onChange={this.handleChange("selectedCat")}
+                      // helperText="Please select your currency"
+                      variant="outlined"
+                    >
+                      {this.state.personas.map((tile) => (
+                        <MenuItem key={tile.id} value={tile.id}>
+                          {tile.service_name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    {/* /** fin */}
+                  </Grid>
+                )}
 
-                <Grid item xs={12} md={6} lg={6} xl={6}>
-                  {/* <TextField
-                        fullWidth
-                            id="outlined-name"
-                            label="Tipo de servicio"                            
-                            inputProps={{ maxLength: 12 }}
-                            required
-                            value={this.state.selectedCat}
-                            onChange={this.handleChange("name")}
-                            variant="outlined"
-                            
-                        /> */}
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <Spacer m={2} />
+                  </Grid>
+                )}
 
-                  {/* /* inicio */}
-                  <TextField
-                    id="outlined-select-currency0"
-                    select
-                    label="Visibilidad del grupo"
-                    fullWidth
-                    value={this.state.selectedCat}
-                    onChange={this.handleChange("selectedCat")}
-                    // helperText="Please select your currency"
-                    variant="outlined"
-                  >
-                    {this.state.personas.map((tile) => (
-                      <MenuItem key={tile.id} value={tile.id}>
-                        {tile.service_name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  {/* /** fin */}
-                </Grid>
-                
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={10} md={11} lg={11} xl={11}>
+                    <Typography variant="caption" gutterBottom display="block">
+                      Confirmo que entiendo que Plandy no está asociado o
+                      afiliado a {this.state.legalEntity} y que he leído, entendido y he aceptado
+                      cumplir con los términos y condiciones de uso para
+                      compartir {this.state.serviceName}.
+                    </Typography>
+                  </Grid>
+                )}
+
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={2} md={1} lg={1} xl={1}>
+                    <Box textAlign="right" marginRight={4}>
+                      <Checkbox
+                        mr={10}
+                        inputProps={{ "aria-label": "primary checkbox" }}
+                        onChange={(e) => {
+                          console.log(e.target.checked);
+                          this.setState({ isTrue: e.target.checked });
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                )}
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
                 <Grid item xs={12} md={12} lg={12} xl={12}>
                   <Spacer m={2} />
                 </Grid>
-
-          <Grid item xs={10} md={11} lg={11} xl={11}>
-            <Typography variant="caption" gutterBottom display="block">
-              Confirmo que entiendo que Plandy no está asociado o
-              afiliado a {} y que he leído, entendido y he aceptado
-              cumplir con los términos y condiciones de uso para compartir {}.
-            </Typography>
-          </Grid>
-          <Grid item xs={2} md={1} lg={1} xl={1}>
-            <Box textAlign="right" marginRight={4} >
-              <Checkbox
-                mr={10}                                
-                inputProps={{ "aria-label": "primary checkbox" }}
-                onChange={e => {
-                  console.log(e.target.checked);
-                  this.setState({ isTrue: e.target.checked });
-                }}
-              />
-            </Box>
-          
-        </Grid>
-        <Grid item xs={12} md={12} lg={12} xl={12}>
-                  <Spacer m={2} />
-                </Grid>
-                <Button
-              backgroundColor="#172449"
-              fullWidth
-              variant="contained"
-              color="primary"
-              // onClick={() => handleJoinNow(this.state.data,this)}
-            >
-              CREAR GRUPO
-            </Button>
+                )}
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Button
+                    backgroundColor="#172449"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    // onClick={() => handleJoinNow(this.state.data,this)}
+                  >
+                    CREAR GRUPO
+                  </Button>
+                )}
                 {/* <Grid item xs={12} md={6} lg={6} xl={12}>
                   <TextField
                     id="outlined-select-currency0"
@@ -668,9 +672,6 @@ class OutlinedTextFields extends React.Component {
                     ))}
                   </TextField>
                 </Grid> */}
-
-
-
               </Grid>
 
               {/* <TextField

@@ -109,7 +109,7 @@ class LoginComponent extends React.Component {
   };
   componentDidMount() {
     this.setState({ redirect: true });
-    axios.get("https://extreme-ip-lookup.com/json/").then(function (response) {
+    axios.get("http://ip-api.com/json").then(function (response) {
       // localStorage.setItem("ESTADO", JSON.stringify(response.data));
       console.log(response);
       localStorage.setItem("ct_", response.data.countryCode);

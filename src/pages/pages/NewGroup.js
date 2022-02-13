@@ -371,10 +371,11 @@ class OutlinedTextFields extends React.Component {
     currency: "EUR",
     open: false,
     personas: [],
-    selectedMaxSlots: "",
-    officialPrice: 0.0,
+    selectedMaxSlots: "1",
+    officialPrice: "$ 0.00",
     legalEntity: "",
-    serviceName:""
+    serviceName:"",
+    spots:[]
   };
 
   getRelTypes = (selectedId, ins) => {
@@ -395,6 +396,7 @@ class OutlinedTextFields extends React.Component {
       )
       .then(function (response) {
         var dt = [];
+        var cntSlots = [];
         response.data.data.forEach(function (entry) {
           //console.log(entry);
           var itemx = {
@@ -414,8 +416,22 @@ class OutlinedTextFields extends React.Component {
             var op = "$ " +ipx;
             ins.setState({ officialPrice: op });
           }
-          console.log(itemx);
+          else{
+            ins.setState({ officialPrice: "$ 0.00" });
+          }
+
+          for (let i = 1; i <= entry.max_slots; i++) {
+            var xl = {"id":i,"value":i};
+            cntSlots.push(xl);  
+          }
+          ins.setState({ spots: cntSlots });
+          //spotsToShare
+          ins.setState({ spotsToShare: cntSlots[0] });
+          // spots
+
+          //console.log(itemx);
           dt.push(itemx);
+          //console.log(cntSlots);
         });
         // console.log(response.data.data);
         ins.setState({ dataRelations: dt });
@@ -521,24 +537,27 @@ class OutlinedTextFields extends React.Component {
                     label="Costo mensual"
                     defaultValue="$ 0.00"
                     value={this.state.officialPrice}
-                    helperText="(Costo oficial)"
+                    helperText="(Costo oficial por mes)"
                     variant="outlined"
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={6} xl={6}>
-                  <TextField
-                    id="outlined-number"
-                    label="Espacios que deseas compartir"
-                    value={this.state.selectedMaxSlots}
-                    fullWidth
-                    onChange={this.handleChange("age")}
-                    helperText={"(Máx. " + this.state.selectedMaxSlots + ")"}
-                    type="number"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    variant="outlined"
-                  />
+                <TextField
+                      id="outlined-select-currency0"
+                      select
+                      label="Espacios a compartir"
+                      fullWidth
+                      helperText={"Máximo a compartir: "+this.state.selectedMaxSlots+""}
+                      value={this.state.spotsToShare}
+                      onChange={this.handleChange("spotsToShare")}                      
+                      variant="outlined"
+                    >
+                      {this.state.spots.map((tile) => (
+                        <MenuItem key={tile.id} value={tile.id}>
+                          {tile.value}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                 </Grid>
                 <Grid item xs={12} md={12} lg={12} xl={12}>
                   <Spacer m={2} />

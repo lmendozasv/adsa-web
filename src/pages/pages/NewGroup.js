@@ -1,22 +1,34 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
-import DialogTitle from '@material-ui/core/DialogTitle';
-import CardHeader from '@material-ui/core/CardHeader';
-import Dialog from '@material-ui/core/Dialog';
-import Helmet from 'react-helmet';
-
+import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import CardHeader from "@material-ui/core/CardHeader";
+import DialogContent from "@material-ui/core/DialogContent";
+import axios from "axios";
+import Dialog from "@material-ui/core/Dialog";
+import Alert from "@material-ui/lab/Alert";
+import Helmet from "react-helmet";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControl from "@material-ui/core/FormControl";
+import Checkbox from "@material-ui/core/Checkbox";
 import {
   CardContent,
   Grid,
   Link,
+  Box,
+  Button,
   MenuItem,
   Breadcrumbs as MuiBreadcrumbs,
   Card as MuiCard,
   Divider as MuiDivider,
   Paper as MuiPaper,
   TextField as MuiTextField,
-  Typography
+  Typography,
+  Select,
+  InputLabel,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
@@ -24,6 +36,8 @@ import { spacing } from "@material-ui/system";
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ));
+
+const Spacer = styled.div(spacing);
 
 const Card = styled(MuiCard)(spacing);
 
@@ -36,566 +50,621 @@ const Paper = styled(MuiPaper)(spacing);
 const TextFieldSpacing = styled(MuiTextField)(spacing);
 
 const TextField = styled(TextFieldSpacing)`
-  width: 200px;
+  //   width: ;
 `;
 
-class DefaultTextFields extends React.Component {
-    componentDidMount() {
-    //   alert("iniciado");
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 210,
+    maxHeight: 210,
+    minHeight: 210,
+    // width: 205,
+    marginBottom: "6%",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+  header: {
+    background: "#DFDFDF",
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    color: "#000",
+    overflow: "visible",
+    height: "51px",
+    paddingLeft: "8px",
+    paddingTop: "15px",
+  },
 
-      }
+  avatar: {
+    marginTop: "0px",
+    width: "30px",
+    height: "30px",
+    marginLeft: "1.9px",
+    marginTop: "1.5px",
+    marginBlockEnd: "5px",
+    background: "#15244C",
+  },
+  rootCard: {
+    overflow: "visible",
+  },
+  contentCard: {
+    marginTop: "0px",
+    marginLeft: "-10px",
+    // lineHeight:'0.05'
+  },
+  avatarHalo: {
+    marginTop: "0px",
+    width: "40px",
+    height: "40px",
+    background: "#FFFFFF",
+  },
+  avatarVerify: {
+    width: "15px",
+    height: "15px",
+    marginTop: "-15px",
+    marginLeft: "23px",
+    overflow: "visible",
+  },
+  titleName: {
+    lineHeight: "1.00",
+    marginTop: "1px",
+  },
+  ratingAdjust: {
+    marginLeft: "-3px",
+    verticalAlign: "bottom",
+  },
+  cardContent: {
+    marginTop: "0px",
+    // height:"50px"
+  },
+  footerStyles: {
+    background: "#15244C",
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    color: "#EEF4CE",
+    paddingLeft: "8px",
+    // paddingTop: "10px",
+    // textAlign: "center",
+    overflow: "visible",
+    paddingTop: "2px",
+    paddingBottom: "0px",
+    paddingLeft: "10px",
+    paddingRight: "8px",
+  },
+  guarantedStyle: {
+    width: "20px",
+    height: "20px",
+  },
+  footerText: {
+    color: "#EEF4CE",
+  },
+  footerAdjustCenter: {
+    // textAlign: "end",
+    alignItems: "end",
+    alignContent: "end",
+    width: "100%",
+  },
+  footerAdjustRight: {
+    textAlign: "end",
+    alignItems: "end",
+    alignContent: "end",
+    width: "50%",
+    verticalAlign: "bottom",
+  },
+  paperDialog: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
 
-      function UserProfile({ data, ins, relations }) {
-        const [value, setValue] = React.useState(0);
-      
-        const handleChangeP = (event) => {
-          //isLoadingCard
-          ins.setState({ selectedRela: false });    
-          setValue(parseInt(event.target.value));
-          ins.setState({ selectedRel: parseInt(event.target.value) });    
-        };
-      
-        const classes = useStyles();
-        var xra = localStorage.getItem("ratx");
-        return (
-          <div className={classes.ckroot}>
-            <Paper id="OP" className={classes.ckpaper} elevation={3}>
-              <Box
-                fontSize="h2.fontSize"
-                textAlign="left"
-                fontWeight="fontWeightBold"
-                m={1}
-              >
-                Detalles de pago
-              </Box>
-              <Divider />
-              <Spacer mt={5} />
-              <Box
-                textAlign="left"
-                fontSize="button.fontSize"
-                fontWeight="fontWeightRegular"
-                color="#F42441"
-              >
-                Agrega o selecciona un método de pago para enviar el monto
-                automáticamente
-              </Box>
-              <Box
-                textAlign="left"
-                fontSize="button.fontSize"
-                fontWeight="fontWeightBold"
-                color="#172449"
-                gutterBottom
-              >
-                (No te cobraremos nada hasta que tu solicitud sea aceptada).
-              </Box>
-      
-              <Spacer mb={10} />
-              {
-                relations.length > 0 ? (
-                  <FormControl fullWidth component="fieldset">
-                    <RadioGroup
-                      aria-label="gender"
-                      name="gender1"
-                      value={value}
-                      onChange={handleChangeP}
-                    >
-                      {relations.map((tile) => (
-                        <Grid container spacing={3}>
-                          <Grid item xs={6} md={6} lg={6} xl={6}>
-                            <Typography variant="body2" gutterBottom display="block">
-                              {tile.rel_name}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={6} md={6} lg={6} xl={6}>
-                            <Box textAlign="right">
-                              <FormControlLabel
-                                value={tile.id}
-                                control={<Radio />}
-                                label={tile.service_name}
-                              />
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      ))}
-                    </RadioGroup>
-      
-                    <Spacer mt={5} />
-              {/* <Divider /> */}
-              {/* <Spacer mt={5} /> */}
-      
-                    {/* <Box
-                textAlign="left"
-                fontSize="button.fontSize"
-                fontWeight="fontWeightBold"
-                color="#172449"
-                gutterBottom
-              >
-                También puedes agregar una nueva tarjeta
-              </Box>
-              <Spacer mb={5} />
-                    <Grid container spacing={3}>
-                    <Grid item xs={12} md={12} lg={12} xl={12}>
-                      <Elements stripe={stripePromise}>
-                        <CheckoutForm />
-                      </Elements>
-                    </Grid>
-      
-                  
-                  </Grid> */}
-      
-                  </FormControl>
-                ) : (
-                  ""
-              //     <Grid container spacing={3}>
-              //         <Box
-              //   textAlign="left"
-              //   fontSize="button.fontSize"
-              //   fontWeight="fontWeightBold"
-              //   color="#F42441"
-              //   gutterBottom
-              // >
-              //   Agrega una nueva forma de pago
-              // </Box>
-              // <Spacer mb={10} />
-              //       <Grid item xs={12} md={12} lg={12} xl={12}>
-              //         <Elements stripe={stripePromise}>
-              //           <CheckoutForm />
-              //         </Elements>
-              //       </Grid>
-      
-                  
-              //     </Grid>
-                )          
-              }
-              <Spacer mt={5} />
-      
-              <Spacer mt={5} />
-      
-      
-              <Grid container spacing={3}>
-                
-                  <Grid item xs={12} md={12} lg={12} xl={12}>
-                  <Button
-                      backgroundColor="#172449"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      disabled={!ins.state.selectedRela}
-                      onClick={
-                        
-                        () => ins.setState({ addingCard: true })
-                      }
-                    >
-                      AGREGAR MÉTODO DE PAGO
-                    </Button>
-                  </Grid>
-                </Grid>
-      
-                <Spacer mt={5} />
-              <Divider />
-              <Spacer mt={5} />
-      
-      
-              <Grid container spacing={3}>
-                {/* <Grid item xs={6} md={6} lg={6} xl={10}>
-                  <Typography variant="caption" gutterBottom display="block">
-                    Selecciona o agrega un método de pago para enviar la cuota automáticamente cuando el administrador del grupo confirme tu solicitud. 
-                    
-                  </Typography>
-                </Grid> */}
-      
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={12} lg={12} xl={12}>
-                    <Button
-                      // backgroundColor="#172449"
-                      // style={{backgroundColor: '#172449', color: '#FFFFFF'}}
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      disabled={ins.state.selectedRela}
-                      onClick={() => addCardToServiceAndJoin(ins.state.data.id,ins)}
-                    >
-                      ENVIAR SOLICITUD DE ACCESO
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
-                </Grid>
-      
-                <Grid item xs={12} md={12} lg={12} xl={12}>
-                  <Alert fullWidth severity="success" variant="outlined">
-                    Los datos de tu método de pago y transacciones estan protegidos
-                    por Stripe
-                  </Alert>
-                  {/* <Typography variant="caption" gutterBottom display="block">              
-                    <b>Los datos de tu método de pago y transacciones estan protegidos por Stripe.</b>            
-                  </Typography> */}
-                </Grid>
-      
-                <Spacer mt={10} />
-      
-                {/* <Grid item xs={6} md={6} lg={6} xl={2}>
-                  <Box textAlign="right" marginRight={4} >
-                    <Checkbox
-                      mr={10}                                
-                      inputProps={{ "aria-label": "primary checkbox" }}
-                      onChange={e => {
-                        console.log(e.target.checked);
-                        ins.setState({ isTrue: e.target.checked });
-                      }}
-                    />
-                  </Box>
-                </Grid> */}
-              </Grid>
-            </Paper>
-          </div>
-        );
-      }
+  avatarHaloDialog: {
+    // marginLeft: "40%",
+    marginTop: "0px",
+    width: "55px",
+    height: "55px",
+    background: "#FFFFFF",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
+    textAlign: "center",
+  },
 
+  avatarVerifyDialog: {
+    width: "15px",
+    height: "15px",
+    marginTop: "-15px",
+    marginLeft: "37px",
+    overflow: "visible",
+  },
+  avatarDialog: {
+    marginTop: "0px",
+    width: "45px",
+    height: "45px",
+    marginLeft: "2px",
+    // marginTop: "1.5px",
+    marginBlockEnd: "5px",
+    background: "#15244C",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "2.5px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "1.5px",
+    },
+    [theme.breakpoints.down("md")]: {
+      marginTop: "1.5px",
+    },
+    [theme.breakpoints.down("lg")]: {
+      marginTop: "1.5px",
+    },
 
-  constructor(props) {
-    super(props);
-    this.status={
-        open:false
-    }
-    this.currencies = [
-      {
-        value: "USD",
-        label: "$"
-      },
-      {
-        value: "EUR",
-        label: "€"
-      },
-      {
-        value: "BTC",
-        label: "฿"
-      },
-      {
-        value: "JPY",
-        label: "¥"
-      }
-    ];
-  }
+    [theme.breakpoints.down("xl")]: {
+      marginTop: "1.5px",
+    },
+  },
 
-  state = {
-    name: "Cat in the Hat",
-    age: "",
-    multiline: "Controlled",
-    currency: "EUR"
+  droot: {
+    flexGrow: 1,
+    overflow: "hidden",
+    padding: theme.spacing(0, 3),
+  },
+  dpaper: {
+    maxWidth: 400,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+  },
+
+  ckroot: {
+    //   padding: theme.spacing(0, 3),
+  },
+  ckpaper: {
+    //   padding: theme.spacing(2),
+  },
+  titleUser: {
+    textAlign: "center",
+  },
+  centeredDiv: {
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
+    textAlign: "center",
+  },
+}));
+
+function UserProfile({ ins, relations }) {
+  const [value, setValue] = React.useState(0);
+
+  const handleChangeP = (event) => {
+    //isLoadingCard
+    ins.setState({ selectedRela: false });
+    setValue(parseInt(event.target.value));
+    ins.setState({ selectedRel: parseInt(event.target.value) });
   };
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+  const classes = useStyles();
 
-  render() {
-    return (
-      <Card mb={6}>
-          <Dialog open={true}>
-      <DialogTitle>Compartir nuevo servicio</DialogTitle>
-      <Card mb={6}>
-          {/* <CardHeader>
-          
-          </CardHeader> */}
-        <CardContent m={10}>
-        <Typography variant="button" gutterBottom>
-            Por favor, elige el tipo de suscripción digital que compartirás
-          </Typography>
-          <Divider my={1} />
-          <Grid container spacing={6}>
-        <Grid item xs={12}>
-          
+  return (
+    <Grid container fullWidth xs={12} md={12} lg={12} xl={12}>
+      {relations.length > 0 ? (
+        <Grid item xs={12} md={12} lg={12} xl={12}>
+          <Spacer m={2} />
+          <TextField
+            id="outlined-select-currency0"
+            select
+            label=""
+            fullWidth
+            value={ins.state.selectedCat}
+            onChange={ins.handleChange("selectedCat")}
+            // helperText="Please select your currency"
+            variant="outlined"
+          >
+            {relations.map((tile) => (
+              // <MenuItem value={10}>{tile.service_name}</MenuItem>
+              <MenuItem key={tile.id} value={tile.id}>
+                {tile.service_name}
+              </MenuItem>
+              //  </Grid>
+            ))}
+          </TextField>
         </Grid>
+      ) : (
+        ""
+      )}
+
+      <Spacer m={2} />
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={12} lg={6} xl={6}>
+          <Button
+            backgroundColor="#172449"
+            fullWidth
+            variant="outlined"
+            color="primary"
+            onClick={() => ins.setState({ open: false })}
+          >
+            CANCELAR
+          </Button>
+        </Grid>
+
+        <Spacer mt={5} />
+        <Divider />
+        <Spacer mt={5} />
+
+        <Grid item xs={12} md={12} lg={6} xl={6}>
+          <Button
+            // backgroundColor="#172449"
+            // style={{backgroundColor: '#172449', color: '#FFFFFF'}}
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={ins.state.selectedRela}
+            //   onClick={() => addCardToServiceAndJoin(ins.state.data.id,ins)}
+          >
+            CONTINUAR
+          </Button>
+        </Grid>
+        <Grid item xs={6} md={6} lg={6} xl={6}></Grid>
       </Grid>
-        </CardContent>
-        </Card>
-    </Dialog>
-
-
-
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Text Fields
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-            The <code>TextField</code> wrapper component is a complete form
-            control including a label, input and help text.
-          </Typography>
-          <Paper mt={3}>
-            <form noValidate autoComplete="off">
-              <TextField
-                id="standard-name"
-                label="Name"
-                value={this.state.name}
-                onChange={this.handleChange("name")}
-                m={2}
-              />
-
-              <TextField
-                id="standard-uncontrolled"
-                label="Uncontrolled"
-                defaultValue="foo"
-                m={2}
-              />
-
-              <TextField
-                required
-                id="standard-required"
-                label="Required"
-                defaultValue="Hello World"
-                m={2}
-              />
-
-              <TextField
-                error
-                id="standard-error"
-                label="Error"
-                defaultValue="Hello World"
-                m={2}
-              />
-
-              <TextField
-                disabled
-                id="standard-disabled"
-                label="Disabled"
-                defaultValue="Hello World"
-                m={2}
-              />
-
-              <TextField
-                id="standard-password-input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                m={2}
-              />
-
-              <TextField
-                id="standard-read-only-input"
-                label="Read Only"
-                defaultValue="Hello World"
-                InputProps={{
-                  readOnly: true
-                }}
-                m={2}
-              />
-
-              <TextField
-                id="standard-dense"
-                label="Dense"
-                margin="dense"
-                m={2}
-              />
-
-              <TextField
-                id="standard-multiline-flexible"
-                label="Multiline"
-                multiline
-                rowsMax="4"
-                value={this.state.multiline}
-                onChange={this.handleChange("multiline")}
-                m={2}
-              />
-
-              <TextField
-                id="standard-multiline-static"
-                label="Multiline"
-                multiline
-                rows="4"
-                defaultValue="Default Value"
-                m={2}
-              />
-
-              <TextField
-                id="standard-helperText"
-                label="Helper text"
-                defaultValue="Default Value"
-                helperText="Some important text"
-                m={2}
-              />
-
-              <TextField
-                id="standard-with-placeholder"
-                label="With placeholder"
-                placeholder="Placeholder"
-              />
-
-              <TextField
-                id="standard-textarea"
-                label="With placeholder multiline"
-                placeholder="Placeholder"
-                multiline
-                m={2}
-              />
-
-              <TextField
-                id="standard-number"
-                label="Number"
-                value={this.state.age}
-                onChange={this.handleChange("age")}
-                type="number"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                m={2}
-              />
-
-              <TextField
-                id="standard-search"
-                label="Search field"
-                type="search"
-                m={2}
-              />
-
-              <TextField
-                id="standard-select-currency"
-                select
-                label="Select"
-                value={this.state.currency}
-                onChange={this.handleChange("currency")}
-                helperText="Please select your currency"
-                m={2}
-              >
-                {this.currencies.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                id="standard-select-currency-native"
-                select
-                label="Native select"
-                value={this.state.currency}
-                onChange={this.handleChange("currency")}
-                SelectProps={{
-                  native: true
-                }}
-                helperText="Please select your currency"
-                m={2}
-              >
-                {this.currencies.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                id="standard-full-width"
-                label="Label"
-                style={{ margin: 8 }}
-                placeholder="Placeholder"
-                helperText="Full width!"
-                fullWidth
-                InputLabelProps={{
-                  shrink: true
-                }}
-                m={2}
-              />
-
-              <TextField id="standard-bare" defaultValue="Bare" m={2} />
-            </form>
-          </Paper>
-        </CardContent>
-      </Card>
-    );
-  }
+    </Grid>
+  );
 }
 
 class OutlinedTextFields extends React.Component {
+  componentDidMount() {
+    this._isMounted = true;
+    var ins = this;
+    var tk = localStorage.getItem("token_sec");
+    axios
+      .get(`https://plandy-api.herokuapp.com/servicetypes`, {
+        headers: {
+          Authorization: "Bearer " + tk,
+        },
+      })
+      .then((res) => {
+        if (this._isMounted) {
+          const personas = res.data.data;
+          this.setState({ personas });
+        }
+      });
+
+
+     
+
+
+  }
   constructor(props) {
     super(props);
 
     this.currencies = [
       {
         value: "USD",
-        label: "$"
+        label: "$",
       },
       {
         value: "EUR",
-        label: "€"
+        label: "€",
       },
       {
         value: "BTC",
-        label: "฿"
+        label: "฿",
       },
       {
         value: "JPY",
-        label: "¥"
-      }
+        label: "¥",
+      },
     ];
   }
 
   state = {
-    name: "Cat in the Hat",
+    name: "",
     age: "",
     multiline: "Controlled",
-    currency: "EUR"
+    currency: "EUR",
+    open: false,
+    personas: [],
   };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
+  
+  getRelTypes = (selectedId, ins) => {
+    var tk = localStorage.getItem("token_sec");
+    axios
+    .post(
+      "https://plandy-api.herokuapp.com/getConfs",
+      {
+        id: selectedId,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + tk,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      var dt = [];
+      response.data.data.forEach(function (entry) {
+        //console.log(entry);
+        var itemx = {
+          id: entry.id,
+          rel_name: entry.rel_name,
+        };
+        console.log(itemx);
+        dt.push(itemx);
+      });
+      // console.log(response.data.data);
+      ins.setState({ dataRelations: dt });
+    })
+    .catch(function (error) {
+      console.log(error);
     });
+  }
+
+  handleChange = (name) => (event) => {
+    this.setState({
+      [name]: event.target.value,
+    });
+    console.log([name]);
+    console.log(event.target.value);
+    if ([name]=="selectedCat"){
+      this.getRelTypes(event.target.value,this);
+    }
   };
 
   render() {
     return (
       <Card mb={6}>
+        {/* <Dialog  open={this.state.open}>  
+        <DialogTitle>Set backup account</DialogTitle>
+          <UserProfile
+          ins={this}
+          relations={this.state.personas}/>
+          </Dialog> */}
+
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          {/* <Typography variant="h6" gutterBottom>
             Outlined Text Fields
           </Typography>
           <Typography variant="body2" gutterBottom>
             <code>TextField</code> supports outlined styling.
-          </Typography>
+          </Typography> */}
           <Paper mt={3}>
-            <form noValidate autoComplete="off">
-              <TextField
-                id="outlined-name"
-                label="Name"
-                m={2}
-                value={this.state.name}
-                onChange={this.handleChange("name")}
-                variant="outlined"
-              />
+            <form
+            // noValidate autoComplete="off"
+            >
+              <Typography variant="h6" gutterBottom>
+                Datos del servicio
+              </Typography>
 
-              <TextField
-                id="outlined-uncontrolled"
-                label="Uncontrolled"
-                defaultValue="foo"
-                m={2}
-                variant="outlined"
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={12} lg={12} xl={12}>
+                  {/* <TextField
+                        fullWidth
+                            id="outlined-name"
+                            label="Tipo de servicio"                            
+                            inputProps={{ maxLength: 12 }}
+                            required
+                            value={this.state.selectedCat}
+                            onChange={this.handleChange("name")}
+                            variant="outlined"
+                            
+                        /> */}
 
-              <TextField
-                required
-                id="outlined-required"
-                label="Required"
-                defaultValue="Hello World"
-                m={2}
-                variant="outlined"
-              />
+                  {/* /* inicio */}
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label="Servicio que compartirás"
+                    fullWidth
+                    value={this.state.selectedCat}
+                    onChange={this.handleChange("selectedCat")}
+                    // helperText="Please select your currency"
+                    variant="outlined"
+                  >
+                    {this.state.personas.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.service_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {/* /** fin */}
+                </Grid>
+              </Grid>
+              <Spacer m={2} />
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <TextField
+                    fullWidth
+                    id="outlined-name"
+                    label="Nombre del grupo"
+                    inputProps={{ maxLength: 12 }}
+                    required
+                    value={this.state.name}
+                    onChange={this.handleChange("name")}
+                    variant="outlined"
+                  />
+                </Grid>
+              </Grid>
+              <Spacer m={2} />
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6} lg={6} xl={6}>
+                  <TextField
+                    fullWidth
+                    disabled
+                    id="outlined-disabled"
+                    label="Costo mensual"
+                    defaultValue="$ 0.00"
+                    helperText="(Costo oficial)"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={6} xl={6}>
+                  <TextField
+                    id="outlined-number"
+                    label="Espacios que deseas compartir"
+                    value={this.state.age}
+                    fullWidth
+                    onChange={this.handleChange("age")}
+                    helperText={"(Máx. " + this.state.age + ")"}
+                    type="number"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <Spacer m={2} />
+                </Grid>
+                <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <Typography variant="h6" gutterBottom>
+                    Datos de acceso al grupo
+                  </Typography>
+                </Grid>
+                {/* <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <hr />
+                  <br />
+                </Grid> */}
 
-              <TextField
-                error
-                id="outlined-error"
-                label="Error"
-                defaultValue="Hello World"
-                m={2}
-                variant="outlined"
-              />
+                <Grid item xs={12} md={6} lg={6} xl={6}>
+                  {/* <TextField
+                        fullWidth
+                            id="outlined-name"
+                            label="Tipo de servicio"                            
+                            inputProps={{ maxLength: 12 }}
+                            required
+                            value={this.state.selectedCat}
+                            onChange={this.handleChange("name")}
+                            variant="outlined"
+                            
+                        /> */}
 
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Disabled"
-                defaultValue="Hello World"
-                m={2}
-                variant="outlined"
-              />
+                  {/* /* inicio */}
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label="Relaciones permitidas"
+                    fullWidth
+                    value={this.state.selectedCat}
+                    onChange={this.handleChange("selectedCat")}
+                    // helperText="Please select your currency"
+                    variant="outlined"
+                  >
+                    {this.state.personas.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.service_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {/* /** fin */}
+                </Grid>
 
-              <TextField
+                <Grid item xs={12} md={6} lg={6} xl={6}>
+                  {/* <TextField
+                        fullWidth
+                            id="outlined-name"
+                            label="Tipo de servicio"                            
+                            inputProps={{ maxLength: 12 }}
+                            required
+                            value={this.state.selectedCat}
+                            onChange={this.handleChange("name")}
+                            variant="outlined"
+                            
+                        /> */}
+
+                  {/* /* inicio */}
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label="Visibilidad del grupo"
+                    fullWidth
+                    value={this.state.selectedCat}
+                    onChange={this.handleChange("selectedCat")}
+                    // helperText="Please select your currency"
+                    variant="outlined"
+                  >
+                    {this.state.personas.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.service_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {/* /** fin */}
+                </Grid>
+                
+                <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <Spacer m={2} />
+                </Grid>
+
+          <Grid item xs={10} md={11} lg={11} xl={11}>
+            <Typography variant="caption" gutterBottom display="block">
+              Confirmo que entiendo que Plandy no está asociado o
+              afiliado a {} y que he leído, entendido y he aceptado
+              cumplir con los términos y condiciones de uso para compartir {}.
+            </Typography>
+          </Grid>
+          <Grid item xs={2} md={1} lg={1} xl={1}>
+            <Box textAlign="right" marginRight={4} >
+              <Checkbox
+                mr={10}                                
+                inputProps={{ "aria-label": "primary checkbox" }}
+                onChange={e => {
+                  console.log(e.target.checked);
+                  this.setState({ isTrue: e.target.checked });
+                }}
+              />
+            </Box>
+          
+        </Grid>
+        <Grid item xs={12} md={12} lg={12} xl={12}>
+                  <Spacer m={2} />
+                </Grid>
+                <Button
+              backgroundColor="#172449"
+              fullWidth
+              variant="contained"
+              color="primary"
+              // onClick={() => handleJoinNow(this.state.data,this)}
+            >
+              CREAR GRUPO
+            </Button>
+                {/* <Grid item xs={12} md={6} lg={6} xl={12}>
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label="Credenciales"
+                    fullWidth
+                    value={this.state.selectedCat}
+                    onChange={this.handleChange("selectedCat")}
+                    // helperText="Please select your currency"
+                    variant="outlined"
+                  >
+                    {this.state.personas.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.service_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid> */}
+
+
+
+              </Grid>
+
+              {/* <TextField
                 id="outlined-email-input"
                 label="Email"
                 m={2}
@@ -620,7 +689,7 @@ class OutlinedTextFields extends React.Component {
                 defaultValue="Hello World"
                 m={2}
                 InputProps={{
-                  readOnly: true
+                  readOnly: true,
                 }}
                 variant="outlined"
               />
@@ -688,7 +757,7 @@ class OutlinedTextFields extends React.Component {
                 type="number"
                 m={2}
                 InputLabelProps={{
-                  shrink: true
+                  shrink: true,
                 }}
                 variant="outlined"
               />
@@ -711,7 +780,7 @@ class OutlinedTextFields extends React.Component {
                 helperText="Please select your currency"
                 variant="outlined"
               >
-                {this.currencies.map(option => (
+                {this.currencies.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -725,12 +794,12 @@ class OutlinedTextFields extends React.Component {
                 value={this.state.currency}
                 onChange={this.handleChange("currency")}
                 SelectProps={{
-                  native: true
+                  native: true,
                 }}
                 helperText="Please select your currency"
                 variant="outlined"
               >
-                {this.currencies.map(option => (
+                {this.currencies.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -745,7 +814,7 @@ class OutlinedTextFields extends React.Component {
                 fullWidth
                 variant="outlined"
                 InputLabelProps={{
-                  shrink: true
+                  shrink: true,
                 }}
               />
 
@@ -754,7 +823,7 @@ class OutlinedTextFields extends React.Component {
                 m={2}
                 defaultValue="Bare"
                 variant="outlined"
-              />
+              /> */}
             </form>
           </Paper>
         </CardContent>
@@ -770,7 +839,7 @@ function TextFields() {
       <Typography variant="h3" gutterBottom display="inline">
         Crear grupo para compartir
       </Typography>
-
+      <Divider my={6} />
       {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
           Dashboard
@@ -784,8 +853,8 @@ function TextFields() {
       {/* <Divider my={6} /> */}
 
       <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <DefaultTextFields />
+        <Grid item xs={12} md={8} lg={6} xl={6}>
+          {/* <DefaultTextFields /> */}
           <OutlinedTextFields />
         </Grid>
       </Grid>

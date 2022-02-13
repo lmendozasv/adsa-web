@@ -408,7 +408,9 @@ class OutlinedTextFields extends React.Component {
           ins.setState({ legalEntity: entry.legal_entity });
           ins.setState({ serviceName: entry.service_name });
           if (entry.official_price>0){
-            var op = "$ " +entry.official_price/100;
+            var ipx = entry.official_price/100;
+            ipx = ipx.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            var op = "$ " +ipx;
             ins.setState({ officialPrice: op });
           }
           console.log(itemx);

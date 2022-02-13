@@ -10,6 +10,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Alert from "@material-ui/lab/Alert";
 import Helmet from "react-helmet";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControl from "@material-ui/core/FormControl";
@@ -326,6 +327,7 @@ function UserProfile({ ins, relations }) {
 class OutlinedTextFields extends React.Component {
   componentDidMount() {
     this._isMounted = true;
+
     var ins = this;
     var tk = localStorage.getItem("token_sec");
     axios
@@ -340,6 +342,8 @@ class OutlinedTextFields extends React.Component {
           this.setState({ personas });
         }
       });
+      var gn = ""+localStorage.getItem("unx");
+      this.setState({ groupnamehelper:gn });
   }
   constructor(props) {
     super(props);
@@ -374,8 +378,11 @@ class OutlinedTextFields extends React.Component {
     selectedMaxSlots: "1",
     officialPrice: "$ 0.00",
     legalEntity: "",
-    serviceName:"",
-    spots:[]
+    serviceName: "",
+    spots: [],
+    groupname:"",
+    groupnamehelper:"",
+    svcname:"Netflix"
   };
 
   getRelTypes = (selectedId, ins) => {
@@ -403,26 +410,25 @@ class OutlinedTextFields extends React.Component {
             id: entry.id,
             max_slots: entry.max_slots,
             official_price: entry.official_price,
-            legal_entity: entry.legal_entity,            
+            legal_entity: entry.legal_entity,
           };
           ins.setState({ selectedMaxSlots: entry.max_slots });
-          
+
           ins.setState({ legalEntity: entry.legal_entity });
           ins.setState({ serviceName: entry.service_name });
-          if (entry.official_price>0){
-            var ipx = entry.official_price/100;
-            ipx = ipx.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+          if (entry.official_price > 0) {
+            var ipx = entry.official_price / 100;
+            ipx = ipx.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
             //console.log(ipx);
-            var op = "$ " +ipx;
+            var op = "$ " + ipx;
             ins.setState({ officialPrice: op });
-          }
-          else{
+          } else {
             ins.setState({ officialPrice: "$ 0.00" });
           }
 
           for (let i = 1; i <= entry.max_slots; i++) {
-            var xl = {"id":i,"value":i};
-            cntSlots.push(xl);  
+            var xl = { id: i, value: i };
+            cntSlots.push(xl);
           }
           ins.setState({ spots: cntSlots });
           //spotsToShare
@@ -435,6 +441,39 @@ class OutlinedTextFields extends React.Component {
         });
         // console.log(response.data.data);
         ins.setState({ dataRelations: dt });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    /*GET REL TYPES*/
+    var tk = localStorage.getItem("token_sec");
+    axios
+      .post(
+        "https://plandy-api.herokuapp.com/getRelTypes_a",
+        {
+          id: selectedId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (response) {
+        var dt = [];
+        response.data.data.forEach(function (entry) {
+          //console.log(entry);
+          var itemx = {
+            id: entry.id,
+            rel_name: entry.rel_name,
+          };
+          console.log(itemx);
+          dt.push(itemx);
+        });
+        // console.log(response.data.data);
+        ins.setState({ dataRelationsCustom: dt });
       })
       .catch(function (error) {
         console.log(error);
@@ -473,11 +512,11 @@ class OutlinedTextFields extends React.Component {
             <form
             // noValidate autoComplete="off"
             >
-              <Typography variant="h6" gutterBottom>
+              <Typography mb={10} variant="h6" gutterBottom>
                 Datos del servicio
               </Typography>
 
-              <Grid container spacing={2}>
+              <Grid container spacing={2} mt={10}>
                 <Grid item xs={12} md={12} lg={12} xl={12}>
                   {/* <TextField
                         fullWidth
@@ -520,9 +559,9 @@ class OutlinedTextFields extends React.Component {
                     label="Nombre del grupo"
                     inputProps={{ maxLength: 35 }}
                     required
-                    value={this.state.name}
-                    onChange={this.handleChange("name")}
-                    helperText={"Ej. Oficina de Pablo en zona 11"}
+                    value={this.state.groupname}
+                    onChange={this.handleChange("groupname")}
+                    helperText={"Ej. "+this.state.svcname+" de "+this.state.groupnamehelper}
                     variant="outlined"
                   />
                 </Grid>
@@ -532,32 +571,35 @@ class OutlinedTextFields extends React.Component {
                 <Grid item xs={12} md={6} lg={6} xl={6}>
                   <TextField
                     fullWidth
-                    disabled
+                     
                     id="outlined-disabled"
-                    label="Costo mensual"
+                    label="Costo oficial"
                     defaultValue="$ 0.00"
                     value={this.state.officialPrice}
-                    helperText="(Costo oficial por mes)"
-                    variant="outlined"
+                    helperText="(Lo que tú pagas por mes)"
+                    variant="filled"
+                    color="success"
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={6} xl={6}>
-                <TextField
-                      id="outlined-select-currency0"
-                      select
-                      label="Espacios a compartir"
-                      fullWidth
-                      helperText={"Máximo a compartir: "+this.state.selectedMaxSlots+""}
-                      value={this.state.spotsToShare}
-                      onChange={this.handleChange("spotsToShare")}                      
-                      variant="outlined"
-                    >
-                      {this.state.spots.map((tile) => (
-                        <MenuItem key={tile.id} value={tile.id}>
-                          {tile.value}
-                        </MenuItem>
-                      ))}
-                    </TextField>
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label="Espacios a compartir"
+                    fullWidth
+                    helperText={
+                      "Máximo a compartir: " + this.state.selectedMaxSlots + ""
+                    }
+                    value={this.state.spotsToShare}
+                    onChange={this.handleChange("spotsToShare")}
+                    variant="outlined"
+                  >
+                    {this.state.spots.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.value}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
                 <Grid item xs={12} md={12} lg={12} xl={12}>
                   <Spacer m={2} />
@@ -582,13 +624,13 @@ class OutlinedTextFields extends React.Component {
                       label="¿Quién puede unirse al grupo?"
                       fullWidth
                       value={this.state.selectedCat}
-                      onChange={this.handleChange("selectedCat")}
+                      onChange={this.handleChange("selectedRelation")}
                       // helperText="Please select your currency"
                       variant="outlined"
                     >
-                      {this.state.personas.map((tile) => (
+                      {this.state.dataRelationsCustom.map((tile) => (
                         <MenuItem key={tile.id} value={tile.id}>
-                          {tile.service_name}
+                          {tile.rel_name}
                         </MenuItem>
                       ))}
                     </TextField>
@@ -599,7 +641,28 @@ class OutlinedTextFields extends React.Component {
                   ""
                 ) : (
                   <Grid item xs={12} md={6} lg={6} xl={6}>
-                    <TextField
+
+
+
+
+<FormControl
+        helperText="asdas"
+
+>
+      <FormLabel id="demo-row-radio-buttons-group-label">Visibilidad del grupo en Plandy</FormLabel>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="publico" control={<Radio />} label="Público" />
+        <FormControlLabel value="privado" control={<Radio />} label="Privado" />        
+      </RadioGroup>
+    </FormControl>
+
+
+    
+                    {/* <TextField
                       id="outlined-select-currency0"
                       select
                       label="¿Es un grupo público?"
@@ -614,7 +677,7 @@ class OutlinedTextFields extends React.Component {
                           {tile.service_name}
                         </MenuItem>
                       ))}
-                    </TextField>
+                    </TextField> */}
                     {/* /** fin */}
                   </Grid>
                 )}
@@ -633,9 +696,10 @@ class OutlinedTextFields extends React.Component {
                   <Grid item xs={10} md={11} lg={11} xl={11}>
                     <Typography variant="caption" gutterBottom display="block">
                       Confirmo que entiendo que Plandy no está asociado o
-                      afiliado a {this.state.legalEntity} y que he leído, entendido y he aceptado
-                      cumplir con los términos y condiciones de uso para
-                      compartir {this.state.serviceName}.
+                      afiliado a {this.state.legalEntity} y que he leído,
+                      entendido y he aceptado cumplir con los términos y
+                      condiciones de uso para compartir {this.state.serviceName}
+                      .
                     </Typography>
                   </Grid>
                 )}
@@ -659,9 +723,9 @@ class OutlinedTextFields extends React.Component {
                 {this.state.legalEntity == "" ? (
                   ""
                 ) : (
-                <Grid item xs={12} md={12} lg={12} xl={12}>
-                  <Spacer m={2} />
-                </Grid>
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <Spacer m={2} />
+                  </Grid>
                 )}
                 {this.state.legalEntity == "" ? (
                   ""

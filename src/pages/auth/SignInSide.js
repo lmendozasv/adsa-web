@@ -154,7 +154,7 @@ class LoginComponent extends React.Component {
     axios.get("https://ipinfo.io/?token=2aa938a0872d90").then(function (response) {
       // localStorage.setItem("ESTADO", JSON.stringify(response.data));
       console.log(response.data);
-      localStorage.setItem("ct_", response.data.countryCode);
+      localStorage.setItem("ct_", response.data.country);
     });
     //   var firebaseConfig ={  apiKey: "AIzaSyBXD48l7cYIiS6t2h-E08fAYGdyQRB63No",
     //   authDomain: "plandy-c38e0.firebaseapp.com",

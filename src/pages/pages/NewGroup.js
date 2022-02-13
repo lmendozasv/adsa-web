@@ -376,6 +376,9 @@ class OutlinedTextFields extends React.Component {
     currency: "EUR",
     open: false,
     personas: [],
+    selectedMaxSlots: "",
+    officialPrice:0.00,
+    legalEntity:""
   };
   
   getRelTypes = (selectedId, ins) => {
@@ -400,8 +403,14 @@ class OutlinedTextFields extends React.Component {
         //console.log(entry);
         var itemx = {
           id: entry.id,
-          rel_name: entry.rel_name,
+          max_slots: entry.max_slots,
+          official_price: entry.official_price,
+          legal_entity:entry.legal_entity
         };
+        ins.setState({ selectedMaxSlots: entry.max_slots });
+        ins.setState({ officialPrice: entry.official_price });
+        ins.setState({ legalEntity: entry.legal_entity });
+
         console.log(itemx);
         dt.push(itemx);
       });
@@ -515,10 +524,10 @@ class OutlinedTextFields extends React.Component {
                   <TextField
                     id="outlined-number"
                     label="Espacios que deseas compartir"
-                    value={this.state.age}
+                    value={this.state.selectedMaxSlots}
                     fullWidth
                     onChange={this.handleChange("age")}
-                    helperText={"(Máx. " + this.state.age + ")"}
+                    helperText={"(Máx. " + this.state.selectedMaxSlots + ")"}
                     type="number"
                     InputLabelProps={{
                       shrink: true,

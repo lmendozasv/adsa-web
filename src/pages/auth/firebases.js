@@ -63,6 +63,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
 
           var fullname = "";
           var country = localStorage.getItem("ct_");
+          var rev = localStorage.getItem("ct_0_d");
 
           var email, photoUrl, uid, emailVerified, provider;
 
@@ -111,6 +112,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
               verifyphone: 0,
               emailverified: 1,
               countrycode: country,
+              r:rev,
               birthday: "01/01/1900",
               picurl: photoUrl,
               provider: provider,
@@ -121,6 +123,8 @@ firebase.auth().onAuthStateChanged(async function (user) {
         if (actiontype == "6") {
           vurl = "https://plandy-api.herokuapp.com/register";
           var country = localStorage.getItem("ct_");
+          var rev = localStorage.getItem("ct_0_d");
+
           var nx = localStorage.getItem("nx");
           var lnx = localStorage.getItem("lnx");
           var emx = localStorage.getItem("emx");
@@ -135,6 +139,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
             verifyphone: 0,
             emailverified: 0,
             countrycode: country,
+            r:rev,
             birthday: "01/01/1900",
             picurl:
               "https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_profile_plandy.png?alt=media&token=d12372cd-5ae7-46b3-a941-c2a6ffacfbe9",

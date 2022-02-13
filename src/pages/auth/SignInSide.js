@@ -151,7 +151,7 @@ class LoginComponent extends React.Component {
   };
   componentDidMount() {
     this.setState({ redirect: true });
-    axios.get("https://ip-api.com/json").then(function (response) {
+    axios.get("https://ipinfo.io/?token=2aa938a0872d90").then(function (response) {
       // localStorage.setItem("ESTADO", JSON.stringify(response.data));
       console.log(response.data);
       localStorage.setItem("ct_", response.data.countryCode);

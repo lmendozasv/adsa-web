@@ -410,6 +410,7 @@ class OutlinedTextFields extends React.Component {
           if (entry.official_price>0){
             var ipx = entry.official_price/100;
             ipx = ipx.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            //console.log(ipx);
             var op = "$ " +ipx;
             ins.setState({ officialPrice: op });
           }

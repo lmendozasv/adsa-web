@@ -623,7 +623,7 @@ class OutlinedTextFields extends React.Component {
                       select
                       label="¿Quién puede unirse al grupo?"
                       fullWidth
-                      value={this.state.selectedCat}
+                      value={this.state.selectedRelation}
                       onChange={this.handleChange("selectedRelation")}
                       // helperText="Please select your currency"
                       variant="outlined"
@@ -649,7 +649,7 @@ class OutlinedTextFields extends React.Component {
         helperText="asdas"
 
 >
-      <FormLabel id="demo-row-radio-buttons-group-label">Visibilidad del grupo en Plandy</FormLabel>
+      <FormLabel id="demo-row-radio-buttons-group-label">Tipo de grupo</FormLabel>
       <RadioGroup
         row
         aria-labelledby="demo-row-radio-buttons-group-label"

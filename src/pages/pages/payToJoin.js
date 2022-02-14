@@ -1344,9 +1344,9 @@ function GroupDataDetails({ data, ins }) {
 
 
         <Grid container spacing={3}>
-          <Grid item xs={6} md={6} lg={6} xl={6}>
+          <Grid item xs={12} md={12} lg={121} xl={12}>
             <Box
-              textAlign="left"              
+              textAlign="center"              
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
               color="#F42441"

@@ -246,6 +246,72 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const handleCreateGroup = (ins) => {
+  // alert("CREADO"+ins.selectedCat);
+  var svc = ins.selectedCat;
+  var name = ins.groupname;
+  var slotsToShare = ins.spotsToShare;
+  var whoCanJoin = ins.selectedRelation;
+  var groupType = ins.selectedVisibility;
+  var isChecked = ins.isTrue;
+
+  if (name) {
+    if (slotsToShare > 0) {
+      if (whoCanJoin > 0) {
+        if (groupType.length() > 0) {
+          if (isChecked) {
+            //Crear grupo
+
+            var tk = localStorage.getItem("token_sec");
+            axios
+              .post(
+                "https://plandy-api.herokuapp.com/getRelTypes_a",
+                {
+                  s: svc,
+                  n:name,
+                  t:slotsToShare,
+                  w:whoCanJoin,
+                  g:groupType
+                },
+                {
+                  headers: {
+                    Authorization: "Bearer " + tk,
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+              .then(function (response) {
+                var dt = [];
+                response.data.data.forEach(function (entry) {
+                  //console.log(entry);
+                  var itemx = {
+                    id: entry.id,
+                    rel_name: entry.rel_name,
+                  };
+                  console.log(itemx);
+                  dt.push(itemx);
+                });
+                // console.log(response.data.data);
+                ins.setState({ dataRelationsCustom: dt });
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+          } else {
+          }
+        } else {
+        }
+      } else {
+      }
+    } else {
+    }
+  }
+
+  // console.log(groupType);
+};
+
 function UserProfile({ ins, relations }) {
   const [value, setValue] = React.useState(0);
 
@@ -342,8 +408,8 @@ class OutlinedTextFields extends React.Component {
           this.setState({ personas });
         }
       });
-      var gn = ""+localStorage.getItem("unx");
-      this.setState({ groupnamehelper:gn });
+    var gn = "" + localStorage.getItem("unx");
+    this.setState({ groupnamehelper: gn });
   }
   constructor(props) {
     super(props);
@@ -375,14 +441,27 @@ class OutlinedTextFields extends React.Component {
     currency: "EUR",
     open: false,
     personas: [],
-    selectedMaxSlots: "1",
+    selectedMaxSlots: "0",
     officialPrice: "$ 0.00",
     legalEntity: "",
     serviceName: "",
     spots: [],
-    groupname:"",
-    groupnamehelper:"",
-    svcname:"Netflix"
+    groupname: "",
+    groupnamehelper: "",
+    svcname: "Netflix",
+    selectedVis: false,
+    selectedVisibility: "",
+    isTrue: false,
+  };
+
+  handleChangeRadio = (event) => {
+    //isLoadingCard
+    console.log(event);
+    console.log(this.state.selectedCat);
+    this.setState({ selectedVis: false });
+    this.setState({ selectedVisibility: parseInt(event.target.value) });
+    // setValue(parseInt(event.target.value));
+    // ins.setState({ selectedRel: parseInt(event.target.value) });
   };
 
   getRelTypes = (selectedId, ins) => {
@@ -561,7 +640,12 @@ class OutlinedTextFields extends React.Component {
                     required
                     value={this.state.groupname}
                     onChange={this.handleChange("groupname")}
-                    helperText={"Ej. "+this.state.svcname+" de "+this.state.groupnamehelper}
+                    helperText={
+                      "Ej. " +
+                      this.state.svcname +
+                      " de " +
+                      this.state.groupnamehelper
+                    }
                     variant="outlined"
                   />
                 </Grid>
@@ -571,36 +655,43 @@ class OutlinedTextFields extends React.Component {
                 <Grid item xs={12} md={6} lg={6} xl={6}>
                   <TextField
                     fullWidth
-                     
                     id="outlined-disabled"
-                    label="Costo oficial"
+                    label="Precio oficial"
                     defaultValue="$ 0.00"
                     value={this.state.officialPrice}
                     helperText="(Lo que tú pagas por mes)"
-                    variant="filled"
+                    variant="outlined"
                     color="success"
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={6} xl={6}>
-                  <TextField
-                    id="outlined-select-currency0"
-                    select
-                    label="Espacios a compartir"
-                    fullWidth
-                    helperText={
-                      "Máximo a compartir: " + this.state.selectedMaxSlots + ""
-                    }
-                    value={this.state.spotsToShare}
-                    onChange={this.handleChange("spotsToShare")}
-                    variant="outlined"
-                  >
-                    {this.state.spots.map((tile) => (
-                      <MenuItem key={tile.id} value={tile.id}>
-                        {tile.value}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
+                {this.state.legalEntity == "" ? (
+                  ""
+                ) : (
+                  <Grid item xs={12} md={6} lg={6} xl={6}>
+                    <TextField
+                      id="outlined-select-currency0"
+                      select
+                      required
+                      label="Espacios disponibles"
+                      fullWidth
+                      helperText={
+                        "Máximo a compartir: " +
+                        this.state.selectedMaxSlots +
+                        " (Excluyendo el tuyo)"
+                      }
+                      value={this.state.spotsToShare}
+                      onChange={this.handleChange("spotsToShare")}
+                      variant="outlined"
+                    >
+                      {this.state.spots.map((tile) => (
+                        <MenuItem key={tile.id} value={tile.id}>
+                          {tile.value}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                )}
+
                 <Grid item xs={12} md={12} lg={12} xl={12}>
                   <Spacer m={2} />
                 </Grid>
@@ -621,7 +712,8 @@ class OutlinedTextFields extends React.Component {
                     <TextField
                       id="outlined-select-currency0"
                       select
-                      label="¿Quién puede unirse al grupo?"
+                      required
+                      label="¿Quién puede unirse?"
                       fullWidth
                       value={this.state.selectedRelation}
                       onChange={this.handleChange("selectedRelation")}
@@ -641,27 +733,30 @@ class OutlinedTextFields extends React.Component {
                   ""
                 ) : (
                   <Grid item xs={12} md={6} lg={6} xl={6}>
+                    <FormControl helperText="asdas">
+                      <FormLabel id="demo-row-radio-buttons-group-label">
+                        Tipo de grupo
+                      </FormLabel>
+                      <RadioGroup
+                        row
+                        required
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        onChange={this.handleChangeRadio}
+                      >
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="Público"
+                        />
+                        <FormControlLabel
+                          value="0"
+                          control={<Radio />}
+                          label="Privado"
+                        />
+                      </RadioGroup>
+                    </FormControl>
 
-
-
-
-<FormControl
-        helperText="asdas"
-
->
-      <FormLabel id="demo-row-radio-buttons-group-label">Tipo de grupo</FormLabel>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-      >
-        <FormControlLabel value="publico" control={<Radio />} label="Público" />
-        <FormControlLabel value="privado" control={<Radio />} label="Privado" />        
-      </RadioGroup>
-    </FormControl>
-
-
-    
                     {/* <TextField
                       id="outlined-select-currency0"
                       select
@@ -735,9 +830,9 @@ class OutlinedTextFields extends React.Component {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    // onClick={() => handleJoinNow(this.state.data,this)}
+                    onClick={() => handleCreateGroup(this.state)}
                   >
-                    CREAR GRUPO
+                    CONTINUAR
                   </Button>
                 )}
                 {/* <Grid item xs={12} md={6} lg={6} xl={12}>

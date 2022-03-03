@@ -199,7 +199,7 @@ class ServicesList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Helmet title="Mis suscripciones" />
+        <Helmet title="Mis suscripciones y grupos" />
 
         {/* <Typography variant="h4">
         Busca tu grupo y únete o crea uno nuevo y comparte
@@ -239,7 +239,7 @@ class ServicesList extends React.Component {
           >          
           <Typography             
            variant="h5">
-             Mis suscripciones
+             Mis suscripciones y grupos
              </Typography>
            </Box>
            

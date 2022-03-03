@@ -410,6 +410,11 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
             >
               <Avatar
               variant="rounded"
+              style={{
+                border: '1.0px double #001e3c',
+                boxShadow: "3px 3px #F42441"
+
+             }}               
                alt={returnUser()} src={returnPicture()} />
             </StyledBadge>
           </Grid>

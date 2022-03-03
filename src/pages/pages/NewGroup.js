@@ -11,10 +11,14 @@ import Alert from "@material-ui/lab/Alert";
 import Helmet from "react-helmet";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
+import { Backdrop } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+// import Alert from "@material-ui/lab/Alert";
 import FormControl from "@material-ui/core/FormControl";
 import Checkbox from "@material-ui/core/Checkbox";
+import Avatar from "@material-ui/core/Avatar";
 import {
   CardContent,
   Grid,
@@ -246,7 +250,116 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleCreateGroup = (ins) => {
+const handleAddCredentialType1 = (ins) => {
+  ins.setState({ showEmailAndPassword: true });
+  ins.setState({ showLink: false });
+  ins.setState({ credtype: 1 });
+};
+const handleAddCredentialType2 = (ins) => {
+  ins.setState({ showEmailAndPassword: false });
+  ins.setState({ showLink: true });
+  ins.setState({ credtype: 2 });
+};
+const addCredentialsToAPI = (a, b, ins, t) => {
+  t.setState({ backdrop: false }, () => {
+    console.log("--->" + t.state.backdrop); // myname
+  });
+  var tp = ins.credtype;
+  var x = ins.clusterXID;
+  var tk = localStorage.getItem("token_sec");
+  var cred1 = a;
+  var cred2 = b;
+  axios
+    .post(
+      "https://plandy-api.herokuapp.com/addDetails",
+      {
+        cid: x,
+        l: cred1,
+        a: cred2,
+        b: cred1,
+        da: cred2,
+        db: "",
+        t: tp,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + tk,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      // alert(response.data.id);
+      console.log(response.data.code);
+      if (response.data.code == "200") {
+        t.setState({ backdrop: true }, () => {
+          console.log("--->" + t.state.backdrop); // myname
+        });
+        //show 3 step
+        t.setState({ step1: true }, () => {
+          //callback
+          console.log("--->" + t.state.step1); // myname
+        });
+        t.setState({ step2: true }, () => {
+          //callback
+          console.log("--->" + t.state.step2); // myname
+        });
+        t.setState({ step3: false }, () => {
+          //callback
+          console.log("--->" + t.state.step3); // myname
+        });
+      }
+    })
+    .catch(function (error) {
+      // alert(response.data.id);
+      console.log(error);
+    });
+};
+const copyToClipboard = (ins, t) => {
+  var tx = ins.lts;
+  navigator.clipboard.writeText(tx);
+}
+const handleAddCredentials = (ins, t) => {
+  // alert("Agregar credenciales");
+  var val_set = ins.credtype;
+  if (val_set == 0) {
+    alert(
+      "Por favor, seleccione el tipo de credenciales para agregar al grupo"
+    );
+  }
+  if (val_set == 1) {
+    //usuario y clave
+    var u = ins.credential_email;
+    var p = ins.pass;
+    if (u.length > 0) {
+      if (p.length > 0) {
+        addCredentialsToAPI(u, p, ins, t);
+      } else {
+        alert("Por favor ingrese la clave a compartir");
+      }
+    } else {
+      alert("Por favor ingrese un correo electrónico");
+    }
+  }
+  if (val_set == 2) {
+    //link y dirección
+    var l = ins.link;
+    var a = ins.address;
+    if (l.length > 0) {
+      if (a.length > 0) {
+        addCredentialsToAPI(l, a, ins, t);
+      } else {
+        alert("Por favor ingrese el link a compartir");
+      }
+    } else {
+      alert("Por favor ingrese la dirección exacta");
+    }
+  }
+};
+const handleCreateGroup = (ins, t) => {
+  //INS = STATE
+  //T = THIS
   // alert("CREADO"+ins.selectedCat);
   var svc = ins.selectedCat;
   var name = ins.groupname;
@@ -254,24 +367,41 @@ const handleCreateGroup = (ins) => {
   var whoCanJoin = ins.selectedRelation;
   var groupType = ins.selectedVisibility;
   var isChecked = ins.isTrue;
+  // console.log(svc);
+  // console.log(name);
+  // console.log(slotsToShare);
+  // console.log(whoCanJoin);
+  // console.log("fallanding", groupType);
+  // console.log(isChecked);
 
   if (name) {
+    console.log("----1");
     if (slotsToShare > 0) {
+      console.log("-----2");
       if (whoCanJoin > 0) {
-        if (groupType.length() > 0) {
+        console.log("-------3");
+        if (groupType == 1 || groupType == 0) {
+          console.log("------4");
           if (isChecked) {
             //Crear grupo
-
+            console.log("------4a");
             var tk = localStorage.getItem("token_sec");
+            // backdrop
+            // t.setState({ backdrop: true });
+
+            t.setState({ backdrop: false }, () => {
+              //callback
+              console.log("--->" + t.state.backdrop); // myname
+            });
             axios
               .post(
-                "https://plandy-api.herokuapp.com/getRelTypes_a",
+                "https://plandy-api.herokuapp.com/createNewGroup",
                 {
                   s: svc,
-                  n:name,
-                  t:slotsToShare,
-                  w:whoCanJoin,
-                  g:groupType
+                  n: name,
+                  t: slotsToShare,
+                  w: whoCanJoin,
+                  g: groupType,
                 },
                 {
                   headers: {
@@ -282,30 +412,50 @@ const handleCreateGroup = (ins) => {
                 }
               )
               .then(function (response) {
-                var dt = [];
-                response.data.data.forEach(function (entry) {
-                  //console.log(entry);
-                  var itemx = {
-                    id: entry.id,
-                    rel_name: entry.rel_name,
-                  };
-                  console.log(itemx);
-                  dt.push(itemx);
+                // alert(response.data.id);
+                t.setState({ clusterID: response.data.code });
+                t.setState({ clusterXID: response.data.id });
+                t.setState({ lts: response.data.l });
+                console.log(response.data.code);
+
+                // console.log("antes");
+                // console.log(ins.step1);
+                // console.log(ins.step2);
+                // console.log("=====+");
+                // t.setState({ step1: false });
+                // t.setState({ step2: true });
+                // console.log("=======-");
+                // console.log(t.state.step1);
+                // console.log(t.state.step2);
+                // console.log("despues");
+                t.setState({ step1: true }, () => {
+                  //callback
+                  console.log("--->" + t.state.step1); // myname
                 });
-                // console.log(response.data.data);
-                ins.setState({ dataRelationsCustom: dt });
+                t.setState({ step2: false }, () => {
+                  //callback
+                  console.log("--->" + t.state.step2); // myname
+                });
+                t.setState({ backdrop: true }, () => {
+                  //callback
+                  console.log("--->" + t.state.backdrop); // myname
+                });
               })
               .catch(function (error) {
+                // alert(response.data.id);
                 console.log(error);
               });
-
           } else {
+            console.log("5");
           }
         } else {
+          console.log("6");
         }
       } else {
+        console.log("7");
       }
     } else {
+      console.log("8");
     }
   }
 
@@ -440,6 +590,7 @@ class OutlinedTextFields extends React.Component {
     multiline: "Controlled",
     currency: "EUR",
     open: false,
+    backdrop: true,
     personas: [],
     selectedMaxSlots: "0",
     officialPrice: "$ 0.00",
@@ -452,6 +603,27 @@ class OutlinedTextFields extends React.Component {
     selectedVis: false,
     selectedVisibility: "",
     isTrue: false,
+    step1: false, //false = hidden
+    step2: true,
+    step3: true,
+    dt1: true,
+    dt2: false,
+    willreceive: "$ 0.00",
+    opxreal: 0,
+
+    credential_email: "",
+    pass: "",
+
+    link: "",
+    address: "",
+
+    showEmailAndPassword: false,
+    showLink: false,
+    can_be_public: true,
+    credtype: 0,
+    clusterID: "",
+    clusterXID: 0,
+    lts: "",
   };
 
   handleChangeRadio = (event) => {
@@ -495,6 +667,21 @@ class OutlinedTextFields extends React.Component {
 
           ins.setState({ legalEntity: entry.legal_entity });
           ins.setState({ serviceName: entry.service_name });
+          ins.setState({ dt1: entry.invitation_link });
+          ins.setState({ dt2: entry.managed_credentials });
+          ins.setState({ can_be_public: !entry.can_be_public });
+
+          // alert("DEF: Link: "+entry.invitation_link+" - Credenciales:"+entry.managed_credentials);
+          if (entry.invitation_link && !entry.managed_credentials) {
+            ins.setState({ showEmailAndPassword: false });
+            ins.setState({ showLink: true });
+          }
+          if (!entry.invitation_link && entry.managed_credentials) {
+            ins.setState({ showEmailAndPassword: true });
+            ins.setState({ showLink: false });
+          }
+
+          ins.setState({ opxreal: entry.official_price });
           if (entry.official_price > 0) {
             var ipx = entry.official_price / 100;
             ipx = ipx.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
@@ -568,48 +755,78 @@ class OutlinedTextFields extends React.Component {
     if ([name] == "selectedCat") {
       this.getRelTypes(event.target.value, this);
     }
+    //calcular en base a los spots para compartir
+    // willreceive
+    if ([name] == "spotsToShare") {
+      var wr = event.target.value;
+      var mx = this.state.selectedMaxSlots + 1;
+      // alert(wr);
+      // alert(this.state.opxreal);
+      // alert(mx);
+      var wrx = this.state.opxreal / mx;
+      var tox = wrx / 100;
+      tox = "$ " + tox.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+      this.setState({ willreceive: tox });
+    }
   };
 
   render() {
     return (
-      <Card mb={6}>
-        {/* <Dialog  open={this.state.open}>  
-        <DialogTitle>Set backup account</DialogTitle>
-          <UserProfile
-          ins={this}
-          relations={this.state.personas}/>
-          </Dialog> */}
+      <Card
+        style={{ border: `1px solid #001E3C`, boxShadow: "2px 2px #001E3C" }}
+        mb={6}
+      >
+        {/* <Dialog open={this.state.open}>
+          <DialogTitle>
+            ¡Urra! El grupo se ha creado correctamente{" "}
+            <span role="img" aria-label="party">
+              🥳
+            </span>
+          </DialogTitle>
+          <Divider />
+          <Box mt={1} pl={6} pr={6}>
+            <ul>
+              <li>
+                <Typography variant="button" gutterBottom>
+                  Comparte el link de tu grupo con tus amigos y familiares.{" "}
+                  <span role="img" aria-label="party">
+                    🔗
+                  </span>
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="button" gutterBottom>
+                  Agregar los detalles de acceso al grupo.{" "}
+                  <span role="img" aria-label="party">
+                    🔐
+                  </span>
+                </Typography>
+              </li>
+
+              <li>
+                <Typography variant="button" gutterBottom>
+                  Agregar los detalles de acceso al grupo.{" "}
+                  <span role="img" aria-label="party">
+                    🔐
+                  </span>
+                </Typography>
+              </li>
+            </ul>
+          </Box>          
+        </Dialog> */}
 
         <CardContent>
-          {/* <Typography variant="h6" gutterBottom>
-            Outlined Text Fields
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-            <code>TextField</code> supports outlined styling.
-          </Typography> */}
-          <Paper mt={3}>
-            <form
-            // noValidate autoComplete="off"
-            >
+          <Box hidden={this.state.backdrop} sx={{ display: "flex" }}>
+            <CircularProgress />
+          </Box>
+          <Paper hidden={this.state.step1} mt={3}>
+            <form>
               <Typography mb={10} variant="h6" gutterBottom>
-                Datos del servicio
+                1/3 - Datos del servicio
               </Typography>
 
               <Grid container spacing={2} mt={10}>
                 <Grid item xs={12} md={12} lg={12} xl={12}>
-                  {/* <TextField
-                        fullWidth
-                            id="outlined-name"
-                            label="Tipo de servicio"                            
-                            inputProps={{ maxLength: 12 }}
-                            required
-                            value={this.state.selectedCat}
-                            onChange={this.handleChange("name")}
-                            variant="outlined"
-                            
-                        /> */}
-
-                  {/* /* inicio */}
                   <TextField
                     id="outlined-select-currency0"
                     select
@@ -746,6 +963,7 @@ class OutlinedTextFields extends React.Component {
                       >
                         <FormControlLabel
                           value="1"
+                          disabled={this.state.can_be_public}
                           control={<Radio />}
                           label="Público"
                         />
@@ -756,27 +974,8 @@ class OutlinedTextFields extends React.Component {
                         />
                       </RadioGroup>
                     </FormControl>
-
-                    {/* <TextField
-                      id="outlined-select-currency0"
-                      select
-                      label="¿Es un grupo público?"
-                      fullWidth
-                      value={this.state.selectedCat}
-                      onChange={this.handleChange("selectedCat")}
-                      // helperText="Please select your currency"
-                      variant="outlined"
-                    >
-                      {this.state.personas.map((tile) => (
-                        <MenuItem key={tile.id} value={tile.id}>
-                          {tile.service_name}
-                        </MenuItem>
-                      ))}
-                    </TextField> */}
-                    {/* /** fin */}
                   </Grid>
                 )}
-
                 {this.state.legalEntity == "" ? (
                   ""
                 ) : (
@@ -784,7 +983,6 @@ class OutlinedTextFields extends React.Component {
                     <Spacer m={2} />
                   </Grid>
                 )}
-
                 {this.state.legalEntity == "" ? (
                   ""
                 ) : (
@@ -830,29 +1028,11 @@ class OutlinedTextFields extends React.Component {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    onClick={() => handleCreateGroup(this.state)}
+                    onClick={() => handleCreateGroup(this.state, this)}
                   >
                     CONTINUAR
                   </Button>
                 )}
-                {/* <Grid item xs={12} md={6} lg={6} xl={12}>
-                  <TextField
-                    id="outlined-select-currency0"
-                    select
-                    label="Credenciales"
-                    fullWidth
-                    value={this.state.selectedCat}
-                    onChange={this.handleChange("selectedCat")}
-                    // helperText="Please select your currency"
-                    variant="outlined"
-                  >
-                    {this.state.personas.map((tile) => (
-                      <MenuItem key={tile.id} value={tile.id}>
-                        {tile.service_name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid> */}
               </Grid>
 
               {/* <TextField
@@ -1017,6 +1197,247 @@ class OutlinedTextFields extends React.Component {
               /> */}
             </form>
           </Paper>
+
+          {/* STEP 2 START*/}
+          <Paper hidden={this.state.step2} mt={3}>
+            <form>
+              <Typography mb={10} variant="h6" gutterBottom>
+                2/3 - Credenciales y acceso al grupo
+              </Typography>
+              <Box mt={2}> </Box>
+              <Typography variant="caption" gutterBottom display="block">
+                Selecciona el tipo de acceso que darás a los miembros de tu
+                grupo para acceder a tu grupo de{" "}
+                <b>{this.state.serviceName} </b>.
+              </Typography>
+              <Box mt={2}> </Box>
+              <Grid container>
+                {this.state.dt1 && this.state.dt2 ? (
+                  <Grid container spacing={2} mt={10}>
+                    <Grid item xs={12} md={6} lg={6} xl={6}>
+                      <Button
+                        backgroundColor="#172449"
+                        fullWidth
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleAddCredentialType1(this)}
+                      >
+                        Usuario y clave
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={6} xl={6}>
+                      <Button
+                        backgroundColor="#172449"
+                        fullWidth
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleAddCredentialType2(this)}
+                      >
+                        Link de invitación
+                      </Button>
+                    </Grid>
+                    {/* tiene las 2 formas de credencial */}
+                  </Grid>
+                ) : (
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    {this.state.dt1 ? (
+                      <Button
+                        backgroundColor="#172449"
+                        fullWidth
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleAddCredentialType2(this)}
+                      >
+                        Link de invitación
+                      </Button>
+                    ) : (
+                      ""
+                    )}
+                    {this.state.dt2 ? (
+                      <Button
+                        backgroundColor="#172449"
+                        fullWidth
+                        variant="outlined"
+                        color="primary"
+                        // startIcon={
+                        //   <Avatar
+                        //     src={
+                        //       "http://www.wpsimplesponsorships.com/wp-content/uploads/2019/05/cropped-icon-256x256.png"
+                        //     }
+                        //   />
+                        // }
+                        onClick={() => handleAddCredentialType1(this)}
+                      >
+                        Usuario y clave
+                      </Button>
+                    ) : (
+                      ""
+                    )}
+                  </Grid>
+                )}
+              </Grid>
+              <Spacer m={2} />
+              {this.state.showEmailAndPassword ? (
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      fullWidth
+                      id="txCorreo"
+                      label="Correo electrónico"
+                      inputProps={{ maxLength: 256 }}
+                      required
+                      value={this.state.credential_email}
+                      onChange={this.handleChange("credential_email")}
+                      variant="outlined"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      fullWidth
+                      id="outlined-name"
+                      label="Contraseña"
+                      inputProps={{ maxLength: 500 }}
+                      required
+                      value={this.state.pass}
+                      onChange={this.handleChange("pass")}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Spacer m={2} />
+                  <Button
+                    backgroundColor="#172449"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleAddCredentials(this.state, this)}
+                  >
+                    GUARDAR Y FINALIZAR
+                  </Button>
+
+                  <Spacer m={2} />
+                  <Alert color="success" fullWidth severity="info">
+                    Los miembros del grupo tendrán acceso siempre y cuando
+                    envíen su cuota mensual de forma automática o manual por
+                    medio de Plandy.
+                    {/* <b>{this.state.serviceName} </b>. */}
+                  </Alert>
+                  <Box mt={2}> </Box>
+                </Grid>
+              ) : (
+                ""
+              )}
+              {this.state.showLink ? (
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      fullWidth
+                      id="txCorreo"
+                      label="Link de invitación"
+                      inputProps={{ maxLength: 256 }}
+                      required
+                      value={this.state.link}
+                      onChange={this.handleChange("link")}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      fullWidth
+                      id="txCorreo"
+                      label="Dirección residencial"
+                      inputProps={{ maxLength: 256 }}
+                      required
+                      value={this.state.address}
+                      onChange={this.handleChange("address")}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Spacer m={2} />
+                  <Button
+                    backgroundColor="#172449"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleAddCredentials(this.state, this)}
+                  >
+                    GUARDAR Y FINALIZAR
+                  </Button>
+                  <Spacer m={2} />
+                  <Alert color="success" fullWidth severity="info">
+                    Los miembros del grupo tendrán acceso siempre y cuando
+                    envíen su cuota mensual de forma automática o manual por
+                    medio de Plandy.
+                  </Alert>
+                </Grid>
+              ) : (
+                ""
+              )}
+            </form>
+          </Paper>
+          {/* STEP 2 END */}
+
+          {/* STEP 3 START */}
+          <Paper hidden={this.state.step3} mt={3}>
+            <Typography mb={10} variant="h6" gutterBottom>
+              3/3 | Hemos terminado
+            </Typography>
+            <Spacer m={2} />
+            <Divider mt={5} mb={5} />
+            <Typography variant="h6" gutterBottom>
+              Tus ingresos estimados para este grupo 
+            </Typography>
+            <Spacer m={5} />
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6} lg={6} xl={6}>
+                {/* <TextField
+                  fullWidth
+                  id="outlined-disabled"
+                  label="Tú recibirás"
+                  defaultValue="$ 0.00"
+                  value={this.state.willreceive}
+                  helperText="(Por cada espacio al mes)"
+                  variant="outlined"
+                  color="success"
+                /> */}
+                <Box>
+                  <Typography variant="h2" gutterBottom>
+                    {this.state.willreceive}
+                  </Typography>
+                </Box>
+                <Divider mt={5} mb={5} />
+                <Typography variant="button" gutterBottom>
+                  Comparte el link de tu grupo
+                </Typography>
+              </Grid>
+              <TextField
+                  fullWidth
+                  id="outlined-disabled"
+                  label=""
+                  defaultValue=""
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={this.state.lts}                  
+                  variant="outlined"
+                  color="success"
+                  helperText="Toca para copiar el link"
+                  // onClick={() => {
+                  //    alert("✔️ This works on every component!");
+                  // }}
+                  onClick={() => copyToClipboard(this.state, this)}
+                /> 
+                <Spacer m={2} />
+              <Alert color="success" fullWidth severity="info">
+                    Los miembros del grupo tendrán acceso siempre y cuando
+                    envíen su cuota mensual de forma automática o manual por
+                    medio de Plandy.
+                    {/* <b>{this.state.serviceName} </b>. */}
+                  </Alert>
+            </Grid>
+          </Paper>
+          {/* STEP 3 END */}
         </CardContent>
       </Card>
     );
@@ -1031,6 +1452,7 @@ function TextFields() {
         Crear grupo para compartir
       </Typography>
       <Divider my={6} />
+
       {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
           Dashboard

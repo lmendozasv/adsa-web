@@ -449,7 +449,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
             </Button>
           </DialogActions>
         </Dialog> */}
-        {dataList.slice(0, 8).map((tile) => (          
+        {dataList.slice(0, 50).map((tile) => (          
           <Grid key={tile.id} item xs={12} sm={6} md={4} lg={3} xl={3}>
             {/* border: `1px solid #001E3C`,
     width: `175px`,

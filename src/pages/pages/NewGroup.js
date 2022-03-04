@@ -14,6 +14,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { Backdrop } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
+import Snackbar from "@material-ui/core/Snackbar";
 import RadioGroup from "@material-ui/core/RadioGroup";
 // import Alert from "@material-ui/lab/Alert";
 import FormControl from "@material-ui/core/FormControl";
@@ -318,8 +319,16 @@ const addCredentialsToAPI = (a, b, ins, t) => {
 };
 const copyToClipboard = (ins, t) => {
   var tx = ins.lts;
-  navigator.clipboard.writeText(tx);
-}
+  var txc =
+    "¡Hola!\nHe creado un grupo en Plandy para compartir los gastos de " +
+    ins.serviceName +
+    ". Puedes unirte al grupo usando este link: " +
+    tx;
+  navigator.clipboard.writeText(txc);
+  // toaster:false, toasterMessage
+  t.setState({ toasterMessage: "¡Enlace copiado!" });
+  t.setState({ toaster: true });
+};
 const handleAddCredentials = (ins, t) => {
   // alert("Agregar credenciales");
   var val_set = ins.credtype;
@@ -416,6 +425,12 @@ const handleCreateGroup = (ins, t) => {
                 t.setState({ clusterID: response.data.code });
                 t.setState({ clusterXID: response.data.id });
                 t.setState({ lts: response.data.l });
+                //"https://www.facebook.com/sharer/sharer.php?u="+
+                t.setState({
+                  ltsfb:
+                    "https://www.facebook.com/sharer/sharer.php?u=" +
+                    response.data.l,
+                });
                 console.log(response.data.code);
 
                 // console.log("antes");
@@ -624,6 +639,10 @@ class OutlinedTextFields extends React.Component {
     clusterID: "",
     clusterXID: 0,
     lts: "",
+    ltsfb: "",
+
+    toaster: false,
+    toasterMessage: "",
   };
 
   handleChangeRadio = (event) => {
@@ -750,8 +769,8 @@ class OutlinedTextFields extends React.Component {
     this.setState({
       [name]: event.target.value,
     });
-    console.log([name]);
-    console.log(event.target.value);
+    // console.log([name]);
+    // console.log(event.target.value);
     if ([name] == "selectedCat") {
       this.getRelTypes(event.target.value, this);
     }
@@ -763,8 +782,10 @@ class OutlinedTextFields extends React.Component {
       // alert(wr);
       // alert(this.state.opxreal);
       // alert(mx);
+
       var wrx = this.state.opxreal / mx;
-      var tox = wrx / 100;
+      var tox = (wrx / 100) * wr;
+      // var tox = (wrx / 100);
       tox = "$ " + tox.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
       this.setState({ willreceive: tox });
     }
@@ -816,6 +837,11 @@ class OutlinedTextFields extends React.Component {
         </Dialog> */}
 
         <CardContent>
+          <Snackbar
+            open={this.state.toaster}
+            autoHideDuration={100}
+            message={this.state.toasterMessage}
+          />
           <Box hidden={this.state.backdrop} sx={{ display: "flex" }}>
             <CircularProgress />
           </Box>
@@ -1380,27 +1406,17 @@ class OutlinedTextFields extends React.Component {
           {/* STEP 3 START */}
           <Paper hidden={this.state.step3} mt={3}>
             <Typography mb={10} variant="h6" gutterBottom>
-              3/3 | Hemos terminado
+              3/3 | ¡Hemos terminado!
             </Typography>
             <Spacer m={2} />
             <Divider mt={5} mb={5} />
             <Typography variant="h6" gutterBottom>
-              Tus ingresos estimados para este grupo 
+              Tus ingresos mensuales estimados para este grupo
             </Typography>
             <Spacer m={5} />
 
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6} lg={6} xl={6}>
-                {/* <TextField
-                  fullWidth
-                  id="outlined-disabled"
-                  label="Tú recibirás"
-                  defaultValue="$ 0.00"
-                  value={this.state.willreceive}
-                  helperText="(Por cada espacio al mes)"
-                  variant="outlined"
-                  color="success"
-                /> */}
+            <Grid container  alignItems="center" spacing={2}>
+              <Grid item xs={12} md={12} lg={12} xl={12}>                
                 <Box>
                   <Typography variant="h2" gutterBottom>
                     {this.state.willreceive}
@@ -1408,33 +1424,67 @@ class OutlinedTextFields extends React.Component {
                 </Box>
                 <Divider mt={5} mb={5} />
                 <Typography variant="button" gutterBottom>
-                  Comparte el link de tu grupo
+                  Comparte el link de tu grupo (Toca para copiar el link)
                 </Typography>
               </Grid>
               <TextField
-                  fullWidth
-                  id="outlined-disabled"
-                  label=""
-                  defaultValue=""
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  value={this.state.lts}                  
-                  variant="outlined"
-                  color="success"
-                  helperText="Toca para copiar el link"
-                  // onClick={() => {
-                  //    alert("✔️ This works on every component!");
-                  // }}
-                  onClick={() => copyToClipboard(this.state, this)}
-                /> 
+                fullWidth
+                id="outlined-disabled"
+                label=""
+                defaultValue=""
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={this.state.lts}
+                variant="outlined"
+                color="success"
+                helperText="Toca para copiar el link"
+                // onClick={() => {
+                //    alert("✔️ This works on every component!");
+                // }}
+                onClick={() => copyToClipboard(this.state, this)}
+              />
+              {/* <Spacer m={2} /> */}
+              {/* <Alert color="success" fullWidth severity="info">
+                Los miembros del grupo tendrán acceso siempre y cuando envíen su
+                cuota mensual de forma automática o manual por medio de Plandy.                
+              </Alert> */}
+              {/* <a href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">
+  Share on Facebook
+</a> */}
+
+              <Grid item xs={12} md={12} lg={12} xl={12}>
                 <Spacer m={2} />
-              <Alert color="success" fullWidth severity="info">
-                    Los miembros del grupo tendrán acceso siempre y cuando
-                    envíen su cuota mensual de forma automática o manual por
-                    medio de Plandy.
-                    {/* <b>{this.state.serviceName} </b>. */}
-                  </Alert>
+                <Divider mt={5} mb={5} />
+                <div
+                  class="fb-share-button"
+                  data-href={this.state.lts}
+                  data-layout="button"
+                  data-size="small"
+                >
+                  <a
+                    target="_blank"
+                    href={this.state.ltsfb}
+                    class="fb-xfbml-parse-ignore"
+                  >
+                    Compartir
+                  </a>
+                </div>
+              </Grid>
+
+              <Grid item xs={12} md={12} lg={12} xl={12}>
+                <Spacer m={2} />
+                <Divider mt={5} mb={5} />
+                <Button
+            backgroundColor="#172449"
+            fullWidth
+            variant="outlined"
+            color="primary"
+            onClick={() => copyToClipboard(this.state, this)}
+          >
+            IR A MIS GRUPOS
+          </Button>
+              </Grid>
             </Grid>
           </Paper>
           {/* STEP 3 END */}

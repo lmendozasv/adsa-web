@@ -995,7 +995,7 @@ function UserProfile({ data, ins, relations }) {
           color="#172449"
           gutterBottom
         >
-          (No te cobraremos nada hasta que tu solicitud sea aceptada).
+          (Tu pago quedará capturado y será procesado cuando pertenezcas al grupo).
         </Box>
 
         <Spacer mb={10} />

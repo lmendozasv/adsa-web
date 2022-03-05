@@ -317,6 +317,12 @@ const addCredentialsToAPI = (a, b, ins, t) => {
       console.log(error);
     });
 };
+const goToMyGroups = (ins,t)=>{
+  // t.props.history.push({ 
+  //   pathname: "/mysubscriptions"
+  // }); 
+  window.location.href = '/#/mysubscriptions';
+}
 const copyToClipboard = (ins, t) => {
   var tx = ins.lts;
   var txc =
@@ -1453,7 +1459,7 @@ class OutlinedTextFields extends React.Component {
   Share on Facebook
 </a> */}
 
-              <Grid item xs={12} md={12} lg={12} xl={12}>
+              {/* <Grid item xs={12} md={12} lg={12} xl={12}>
                 <Spacer m={2} />
                 <Divider mt={5} mb={5} />
                 <div
@@ -1467,10 +1473,10 @@ class OutlinedTextFields extends React.Component {
                     href={this.state.ltsfb}
                     class="fb-xfbml-parse-ignore"
                   >
-                    Compartir
+                    Compartir en Facebook
                   </a>
                 </div>
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} md={12} lg={12} xl={12}>
                 <Spacer m={2} />
@@ -1480,7 +1486,7 @@ class OutlinedTextFields extends React.Component {
             fullWidth
             variant="outlined"
             color="primary"
-            onClick={() => copyToClipboard(this.state, this)}
+            onClick={() => goToMyGroups(this.state, this)}
           >
             IR A MIS GRUPOS
           </Button>

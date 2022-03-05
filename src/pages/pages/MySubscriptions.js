@@ -340,7 +340,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
       //alert('es null');
     }
     context.history.push({ 
-      pathname: "/groupDetails",
+      pathname: "/MygroupDetails",
       state: {
         groupData: t,
       }

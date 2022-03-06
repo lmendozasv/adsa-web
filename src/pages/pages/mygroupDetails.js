@@ -41,56 +41,81 @@ import Helmet from "react-helmet";
 import { margin } from "polished";
 const Spacer = styled.div(spacing);
 const Divider = styled(MuiDivider)(spacing);
-const getChat =(t,ns)=>{
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+};
+
+async function getChat(t) {
   var tk = localStorage.getItem("token_sec");
+  var xsd = t;
+  
+  // console.log(uxs.sub);
   axios
-      .post(
-        "https://plandy-api.herokuapp.com/chat/1",
-        {
-          c: 205,
+    .post(
+      "https://plandy-api.herokuapp.com/chat/1",
+      {
+        c: 205,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + tk,
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            Authorization: "Bearer " + tk,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(function (response) {
-        var dt = [];
-        console.log(response.data.data)        
-        t.setState({ chatState: dt });
-      })
-      .catch(function (error) {
-        console.log(error);
+      }
+    )
+    .then(function (response) {
+      xsd.setState({ chatState: response.data }, () => {
+        // console.log("--->",xsd.state.chatState);
       });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
+
 class JoinToGroup extends React.Component {
-  componentDidMount() {
-    //console.log(this.props);
-    // console.log(this.props.location.state.groupData);
-    getChat(this,"");
+  async componentDidMount() {        
+    this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+    var tk = localStorage.getItem("token_sec");    
+    var id_usuario = parseJwt(tk);
+    this.setState({ id_usuario: id_usuario.sub }, () => {      
+    });
+
+    console.log("INICIO");
+    //  await getChat(this);
+    await getChat(this).catch(() => {
+      console.log("CATCHHHH");
+    });
+    console.log("FIN");
     try {
       this.setState({ data: this.props.location.state.groupData });
     } catch (err) {
       var ox = localStorage.getItem("cg");
       this.setState({ data: JSON.parse(ox) });
     }
-
     var xspots = this.state.total_spots - this.state.free_spots;
-
-    //console.log(xspots);
     this.setState({ tspots: xspots });
     localStorage.setItem("xspots", xspots);
     localStorage.setItem("ratx", this.state.rating);
   }
-
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
   constructor() {
     super();
     this.state = {
       data: [],
       tspots: 0,
+      chatState: [],
+      token:"",
     };
   }
 
@@ -120,7 +145,7 @@ class JoinToGroup extends React.Component {
           </Grid>
 
           <Grid item xl={6} lg={8} md={12} sm={12} xs={12}>
-            <ChatView data={this.state.chatState} />
+            <ChatView data={this.state.chatState} uid={this.state.id_usuario} />
           </Grid>
         </Grid>
         <Spacer mb={5} />
@@ -700,61 +725,55 @@ function GroupDataDetails({ data, ins }) {
   );
 }
 
-function ChatView({ data, ins }) {
-  const classes = useStyles();
+function ChatView({ data,uid }) {
+  const classes = useStyles();  
   return (
     <div className={classes.containerChat}>
-      
-      <Paper className={classes.paperChat} zDepth={2}>      
-      <br/>        
-      <Typography mt={10} variant="h5" gutterBottom display="inline">
+      <Paper className={classes.paperChat} zDepth={2}>
+        <br />
+        <Typography mt={10} variant="h5" gutterBottom display="inline">
           Chat del grupo
         </Typography>
-        {/* <Divider />   */}
-        {/* {
-        data.forEach(function (entry) {
-            console.log("---->",entry.m)
-        })
-        } */}
-        aqui hay que hacer la discriminacion en un foreach
+
         <Paper id="style-1" className={classes.messagesBody}>
-          <PlandyMessage
-            message="Grupo creado"
-            timestamp="13/01 04:44"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="Alfredo"
+          {data.map((tile) => {
+            if (tile.a == true) {
+              return (
+                <PlandyMessage
+                  message={tile.m}
+                  timestamp={tile.d}
+                  photoURL=""
+                  displayName="PLANDY"
+                  avatarDisp={true}
+                />
+              );
+            }
+            else{
+            if (tile.u == uid) {
+              return (
+                <MessageRight
+                  message={tile.m}
+                  timestamp={tile.d}
+                  photoURL=""
+                  displayName="PLANDY"
+                  avatarDisp={true}
+                />
+              );
+            }
+            else if(tile.u != uid){
+              return(<MessageLeft
+            message={tile.m}
+            timestamp={tile.d}
+            photoURL={tile.p}
+            displayName={tile.n}
             avatarDisp={true}
-          />
-          <MessageLeft
-            message="Hola"
-            timestamp="13/01 04:44"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="Alfredo"
-            avatarDisp={true}
-          />
-          <MessageLeft
-            message="mensaje 1"
-            timestamp="13/01 01:40"
-            photoURL=""
-            displayName="Admin"
-            avatarDisp={false}
-          />
-          <MessageRight
-            message="Mensaje 2 Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2"
-            timestamp="13/01 01:40"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="Admin"
-            avatarDisp={true}
-          />
-          <MessageRight
-            message="mensaje 3"
-            timestamp="13/01 01:40"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="Miembro"
-            avatarDisp={false}
-          />
+          />);
+            }
+          }            
+          })}
+          
         </Paper>
-        <TextInput />
+        <TextInput id={uid} room={40} />
       </Paper>
     </div>
   );

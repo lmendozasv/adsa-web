@@ -6,7 +6,8 @@ import { deepOrange } from "@material-ui/core/colors";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     messageRow: {
-      display: "flex"
+      display: "flex",
+      boxSizing:"content-box"
     },
     messageRowRight: {
       display: "flex",
@@ -21,9 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "20px",
       marginBottom: "10px",
       padding: "10px",
-      backgroundColor: "#172449",
-      color:"#fff",
-      width: "100%",
+      backgroundColor: "#fff",
+      color:"#172449",
+      width: "90%",
       //height: "50px",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "absolute",
         width: "0",
         height: "0",
-        borderTop: "15px solid #172449",
+        borderTop: "15px solid #fff",
         borderLeft: "15px solid transparent",
         borderRight: "15px solid transparent",
         top: "0",
@@ -57,9 +58,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: "20px",
       marginBottom: "10px",
       padding: "10px",
-      backgroundColor: "#F42441",
-      color:"#fff",
-      width: "60%",
+      backgroundColor: "#fff",
+      color:"#F42441",
+      width: "90%",
       //height: "50px",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "absolute",
         width: "0",
         height: "0",
-        borderTop: "15px solid #F42441",
+        borderTop: "15px solid #fff",
         borderLeft: "15px solid transparent",
         borderRight: "15px solid transparent",
         top: "0",
@@ -119,8 +120,8 @@ const useStyles = makeStyles((theme: Theme) =>
     orange: {
       color: theme.palette.getContrastText(deepOrange[500]),
       backgroundColor: deepOrange[500],
-      width: theme.spacing(4),
-      height: theme.spacing(4)
+      width: theme.spacing(10),
+      height: theme.spacing(10)
     },
     avatarNothing: {
       color: "transparent",

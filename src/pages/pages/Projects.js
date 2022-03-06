@@ -185,6 +185,31 @@ class ServicesList extends React.Component {
             this.setState({ grupos });
           }
         });
+
+        //get chat
+
+        // axios
+        // .post(
+        //   "https://plandy-api.herokuapp.com/chat/1",
+        //   {
+        //     c: 205,
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: "Bearer " + tk,
+        //       Accept: "application/json",
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // )
+        // .then(function (response) { 
+        //   const chatss = response.data;        
+        //   this.setState({ chats: chatss });
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
+
       // firebase.auth();
     }
   }
@@ -195,6 +220,7 @@ class ServicesList extends React.Component {
   state = {
     personas: [],
     grupos: [],
+    chatLst:[]
   };
   render() {
     return (

@@ -5,6 +5,13 @@ import { spacing } from "@material-ui/system";
 // import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import { MessageLeft, MessageRight, PlandyMessage } from "./chat/Message";
+import { TextInput } from "./chat/TextInput";
+
 import DotsIcon from "@material-ui/icons/FiberManualRecord";
 import Alert from "@material-ui/lab/Alert";
 
@@ -33,13 +40,37 @@ import Rating from "@material-ui/lab/Rating";
 import Helmet from "react-helmet";
 import { margin } from "polished";
 const Spacer = styled.div(spacing);
-
 const Divider = styled(MuiDivider)(spacing);
+const getChat =(t,ns)=>{
+  var tk = localStorage.getItem("token_sec");
+  axios
+      .post(
+        "https://plandy-api.herokuapp.com/chat/1",
+        {
+          c: 205,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (response) {
+        var dt = [];
+        console.log(response.data.data)        
+        t.setState({ chatState: dt });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
 class JoinToGroup extends React.Component {
   componentDidMount() {
     //console.log(this.props);
     // console.log(this.props.location.state.groupData);
-
+    getChat(this,"");
     try {
       this.setState({ data: this.props.location.state.groupData });
     } catch (err) {
@@ -62,6 +93,7 @@ class JoinToGroup extends React.Component {
       tspots: 0,
     };
   }
+
   render() {
     return (
       <div>
@@ -83,12 +115,12 @@ class JoinToGroup extends React.Component {
             <hr />
             <Spacer mb={5} />
           </Grid>
-          {/* <Grid alignItems="center" item xl={3} lg={6} md={6} sm={6} xs={12}>
-            <UserProfile data={this.state.data} />
-          </Grid> */}
-
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+          <Grid alignItems="center" item xl={6} lg={4} md={12} sm={6} xs={12}>
             <GroupDataDetails data={this.state.data} ins={this.props} />
+          </Grid>
+
+          <Grid item xl={6} lg={8} md={12} sm={12} xs={12}>
+            <ChatView data={this.state.chatState} />
           </Grid>
         </Grid>
         <Spacer mb={5} />
@@ -288,6 +320,40 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "auto",
     textAlign: "center",
   },
+
+  //chat styles start
+  paperChat: {
+    // width: "80vw",
+    height: "50vh",
+    // maxWidth: "500px",
+    // maxHeight: "700px",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "relative",
+  },
+  paper2Chat: {
+    width: "80vw",
+    maxWidth: "500px",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "relative",
+  },
+  containerChat: {
+    // width: "100%",
+    // height: "100vh",
+    // display: "flex",
+    // alignItems: "left",
+    // justifyContent: "left"
+  },
+  messagesBody: {
+    width: "calc( 100% - 20px )",
+    margin: 10,
+    overflowY: "scroll",
+    height: "calc( 100% - 80px )",
+  },
+  //chat styles end
 }));
 
 const StyledRatings = withStyles({
@@ -568,7 +634,6 @@ function GroupDataDetails({ data, ins }) {
 
         <Spacer mb={5} />
 
-   
         <Divider />
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -602,7 +667,9 @@ function GroupDataDetails({ data, ins }) {
 
         <Spacer mb={2} />
         <Grid container spacing={3}>
-          {/* <Grid item xs={4} md={6} lg={6} xl={6}></Grid> */}
+          {/* <Grid item xs={4} md={6} lg={6} xl={6}>
+            chat
+            </Grid> */}
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <Button
               backgroundColor="#172449"
@@ -620,16 +687,74 @@ function GroupDataDetails({ data, ins }) {
               color="secondary"
               fullWidth
               variant="outlined"
-             
               onClick={() => handleJoinNow(data, ins)}
             >
-              CONFIGURACIÓN DEL GRUPO
+              CONFIGURACIONES
             </Button>
           </Grid>
-
         </Grid>
 
         <Spacer mb={4} />
+      </Paper>
+    </div>
+  );
+}
+
+function ChatView({ data, ins }) {
+  const classes = useStyles();
+  return (
+    <div className={classes.containerChat}>
+      
+      <Paper className={classes.paperChat} zDepth={2}>      
+      <br/>        
+      <Typography mt={10} variant="h5" gutterBottom display="inline">
+          Chat del grupo
+        </Typography>
+        {/* <Divider />   */}
+        {/* {
+        data.forEach(function (entry) {
+            console.log("---->",entry.m)
+        })
+        } */}
+        aqui hay que hacer la discriminacion en un foreach
+        <Paper id="style-1" className={classes.messagesBody}>
+          <PlandyMessage
+            message="Grupo creado"
+            timestamp="13/01 04:44"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName="Alfredo"
+            avatarDisp={true}
+          />
+          <MessageLeft
+            message="Hola"
+            timestamp="13/01 04:44"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName="Alfredo"
+            avatarDisp={true}
+          />
+          <MessageLeft
+            message="mensaje 1"
+            timestamp="13/01 01:40"
+            photoURL=""
+            displayName="Admin"
+            avatarDisp={false}
+          />
+          <MessageRight
+            message="Mensaje 2 Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2Mensaje 2"
+            timestamp="13/01 01:40"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName="Admin"
+            avatarDisp={true}
+          />
+          <MessageRight
+            message="mensaje 3"
+            timestamp="13/01 01:40"
+            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+            displayName="Miembro"
+            avatarDisp={false}
+          />
+        </Paper>
+        <TextInput />
       </Paper>
     </div>
   );

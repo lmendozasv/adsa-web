@@ -123,9 +123,11 @@ class ServicesList extends React.Component {
   componentDidMount() {
     console.log(this.props);
     var cat_selected = "0";
+    var ENLACE_GRUPO = "";
     const urlParams = new URLSearchParams(window.location.search);
     cat_selected = urlParams.get("c");
-
+    ENLACE_GRUPO = urlParams.get("group");
+    // alert(ENLACE_GRUPO);
     //console.log("PARAMETRO: "+cat_selected);
 
     this._isMounted = true;
@@ -144,7 +146,7 @@ class ServicesList extends React.Component {
         }
       });
     if (parseInt(cat_selected) > 0) {
-        console.log(cat_selected);
+        // console.log(cat_selected);
       var token = localStorage.getItem("token_sec");
       axios
         .post(
@@ -186,6 +188,51 @@ class ServicesList extends React.Component {
         });
       // firebase.auth();
     }
+    if(ENLACE_GRUPO.length>0){ 
+      // referal
+      var token = localStorage.getItem("token_sec");
+      axios
+        .post(
+          "https://plandy-api.herokuapp.com/getGroupByID",
+          {
+            id: ENLACE_GRUPO
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(function (res) {
+          //if (this._isMounted) {
+            const grupos = res.data.data;
+            ins.setState({ grupos });
+            //this.props
+
+            ins.setState({grupos}, () => {              
+              console.log(grupos[0]);
+              ins.props.history.push({                 
+                pathname: "/groupDetails",
+                state: {
+                  groupData: grupos[0],
+                }
+              }); 
+            });
+
+           
+
+            // console.log("setting state");
+            // console.log(ins.state.grupos);
+          //}
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    //getGroupByID
+    
   }
 
   componentWillUnmount() {

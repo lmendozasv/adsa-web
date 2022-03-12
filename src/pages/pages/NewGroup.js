@@ -694,7 +694,7 @@ class OutlinedTextFields extends React.Component {
           ins.setState({ serviceName: entry.service_name });
           ins.setState({ dt1: entry.invitation_link });
           ins.setState({ dt2: entry.managed_credentials });
-          ins.setState({ can_be_public: !entry.can_be_public });
+          ins.setState({ can_be_public: !entry.p });
 
           // alert("DEF: Link: "+entry.invitation_link+" - Credenciales:"+entry.managed_credentials);
           if (entry.invitation_link && !entry.managed_credentials) {

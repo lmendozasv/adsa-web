@@ -84,8 +84,8 @@ class JoinToGroup extends React.Component {
     //console.log("2state: " + this.state.selectedRel);
     // setValue(event.target.value);
     //selectedRel
-    //this.setState({ selectedRel: event.target.value });
-    // console.log(""+event.target.value);
+    this.setState({ selectedRel: parseInt(event.target.value) });
+    //console.log(""+event.target.value);
   };
   render() {
     return (
@@ -393,7 +393,7 @@ function UserProfile({ data, ins, relations }) {
     setValue(parseInt(event.target.value));
     ins.setState({ selectedRel: parseInt(event.target.value) });
     //console.log(event.target.value);
-
+    localStorage.setItem("pcat", (parseInt(event.target.value)));
   };
 
   const classes = useStyles();
@@ -467,7 +467,7 @@ function UserProfile({ data, ins, relations }) {
                 mr={10}                                
                 inputProps={{ "aria-label": "primary checkbox" }}
                 onChange={e => {
-                  console.log(e.target.checked);
+                  //console.log(e.target.checked);
                   ins.setState({ isTrue: e.target.checked });
                 }}
               />

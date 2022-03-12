@@ -76,6 +76,7 @@ const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/Projects"));
 const Calendar = async(() => import("../pages/pages/groupDetails"));
 const myCalendar = async(() => import("../pages/pages/mygroupDetails"));
+const myCalenda = async(() => import("../pages/pages/mygroupDetail"));
 const JoinToGroup = async(() => import("../pages/pages/joinToGroup"));
 const PayToJoin = async(() => import("../pages/pages/payToJoin"));
 
@@ -157,6 +158,12 @@ const mygroupDetails = {
   id: "Detalle",
   path: "/MygroupDetails",  
   component: myCalendar,
+  children: null
+};
+const mygroupDetail = {
+  id: "Detalle",
+  path: "/MygroupDetail",  
+  component: myCalenda,
   children: null
 };
 

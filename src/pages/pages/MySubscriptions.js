@@ -339,12 +339,24 @@ export default function SingleLineGridList({ dataList, instx, context }) {
     else{
       //alert('es null');
     }
-    context.history.push({ 
-      pathname: "/MygroupDetails",
-      state: {
-        groupData: t,
-      }
-    });  
+    // console.log("VERIFICAR",t)
+    if(t.rx==1){
+      context.history.push({ 
+        pathname: "/MygroupDetails",
+        state: {
+          groupData: t,
+        }
+      });  
+    }
+    else{
+      context.history.push({ 
+        pathname: "/MygroupDetail",
+        state: {
+          groupData: t,
+        }
+      });  
+    }
+    
   }
 
   const theme = useTheme();

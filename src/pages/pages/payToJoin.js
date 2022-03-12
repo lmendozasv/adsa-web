@@ -89,7 +89,7 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+    // console.log(event);
 
     var cardElement = elements.getElement('card');
     
@@ -113,7 +113,7 @@ const CheckoutForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CardElement onChange={console.log("")} options={{hidePostalCode: true}} />
-      <button id="AGREGAR" hidden type="submit" disabled={!stripe}>
+      <button id="AGREGAR" hidden type="submit" disabled={!stripe} onClick={() => handleJoinNowTEST(null,this)}>
         Pay
       </button>
     </form>
@@ -130,22 +130,29 @@ class JoinToGroup extends React.Component {
 
     try{
       this.setState({ data: this.props.location.state.groupData });
+      localStorage.setItem("cg",JSON.stringify(this.props.location.state.groupData))
     }
     catch(err){      
-      document.location.href="/";
-      //var ox = localStorage.getItem("cg");
-      //this.setState({ data: JSON.parse(ox) });
+      // alert("reload");
+      // document.location.href="/";
+      var ox = localStorage.getItem("cg");
+      console.log(JSON.parse(ox));
+      this.setState({ data: JSON.parse(ox) });
+      this.setState({ data: JSON.parse(ox) }, () => {
+        // console.log("--->",xsd.state.chatState);
+      });
     }
 
-    var xspots =
-      this.props.location.state.groupData.total_spots -
-      this.props.location.state.groupData.free_spots;
+    // var xspots =
+    //   this.props.location.state.groupData.total_spots -
+    //   this.props.location.state.groupData.free_spots;
+    var xspots =  this.state.data.total_spots - this.state.data.free_spots;
 
     //console.log(xspots);
     this.setState({ tspots: xspots });
     localStorage.setItem("xspots", xspots);
-    localStorage.setItem("ratx", this.props.location.state.groupData.rating);
-    getRelTypes(this.props.location.state.groupData.id, this);
+    localStorage.setItem("ratx", this.state.data.rating);
+    getRelTypes(this.state.data.id, this);
 
     var stripes = window.Stripe("pk_test_NkTmrIX79f2DM4LYqoJNbiBK");
     var elements = stripes.elements();
@@ -273,7 +280,7 @@ class JoinToGroup extends React.Component {
         >
           <b>
           <Typography variant="body2" gutterBottom display="block">
-          No realizaremos ningún cargo, hasta que el administrador acepte tu solicitud.
+          Tu pago quedará reservado, hasta que el administrador acepte tu solicitud.
             </Typography>
             
           </b>
@@ -641,7 +648,11 @@ const getRelTypes = (id, ins) => {
   
   
 };
-const getCards=(id,ins)=>{
+const getCards=(id,ins=this)=>{
+  // alert('getting cards');
+  // this.setState({ isLoadingCard: false });
+  // this.setState({addingToCluster: false});
+  
   var tk = localStorage.getItem("token_sec");
   axios
   .get(`https://plandy-api.herokuapp.com/mycards`, {
@@ -688,6 +699,12 @@ const handleCloseJoinRequest = (st) =>{
     pathname: "/"
   });  
 }
+
+const handleJoinNowTEST = async (t, ns) => {
+  // alert("aquiva");
+  // console.log(ns.state);
+}
+
 const handleJoinNow = async (t, ns) => {
   ns.setState({ isLoadingCard: true });
   addCardToStripe(ns);
@@ -807,7 +824,9 @@ function addCardToUser(tok, brand, lastfosr) {
       }
     )
     .then(function (response) {
+
       window.location.reload(false);
+      // getCards();
       // console.log(response);
       // // ins.setState({isSending: false});
       // alert("El NIC se agregó a tu cuenta correctamente");
@@ -817,9 +836,10 @@ function addCardToUser(tok, brand, lastfosr) {
       // // handleQueryCreated(response.id);
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
+      window.location.reload(false);
       alert(
-        "No fue posible validar el NIC ingresado, por favor valida los datos e intenta nuevamente vrea"
+        "No fue posible agregar la tarjeta, por favor intente nuevamente o contacte a su banco."
       );
     });
 }
@@ -847,6 +867,7 @@ function finalx(s, ce) {
       // Inform the user if there was an error
       // var errorElement = document.getElementById("card-errors");
       // errorElement.textContent = result.error.message;
+      console.log(result.error);
       alert("Ha ocurrido un error al ingresar su método de pago, intente nuevamente.");
     } else {
       // Send the source to your server
@@ -995,7 +1016,7 @@ function UserProfile({ data, ins, relations }) {
           color="#172449"
           gutterBottom
         >
-          (Tu pago quedará capturado y será procesado cuando pertenezcas al grupo).
+          (Tu pago quedará reservado de tu cuenta y será cobrado hasta que pertenezcas al grupo).
         </Box>
 
         <Spacer mb={10} />

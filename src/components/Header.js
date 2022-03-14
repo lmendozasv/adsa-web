@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { darken } from "polished";
 import firebase from "firebase";
 import SendBird from 'sendbird';
+import { useHistory } from 'react-router-dom';
 import {
   Badge,
   Grid,
@@ -153,12 +154,24 @@ function UserMenu() {
   const closeMenu = () => {
     setAnchorMenu(null);
   };
+  const history = useHistory();
+  const myprofile = () => {
+    history.push("/myprofile");
+  }
+  
+  const mywallet = () => {
+    history.push("/mywallet");
+  }
+
+  const mynotifications = () => {
+    history.push("/myNotifications");
+  }
 
   const logout = () => {
     try {    
-      var sb = new SendBird({appId: "A366089E-7472-461F-9BC8-76A8EA1E31E1"});
+      // var sb = new SendBird({appId: "A366089E-7472-461F-9BC8-76A8EA1E31E1"});
       firebase.auth().signOut();
-      sb.disconnect(function() {});
+      // sb.disconnect(function() {});
       localStorage.clear();
       window.location.reload();
     } catch (err) {
@@ -168,6 +181,22 @@ function UserMenu() {
 
   return (
     <React.Fragment>
+
+
+<IconButton color="inherit" onClick={mynotifications}>
+              {/* <Indicator badgeContent={7}> */}
+                <Bell />
+              {/* </Indicator> */}
+            </IconButton>
+      
+      <IconButton color="inherit" onClick={mywallet}>
+              {/* <Indicator badgeContent={7}> */}
+                <LocalAtmRoundedIcon />
+              {/* </Indicator> */}
+            </IconButton>
+
+
+
       <IconButton
         aria-owns={Boolean(anchorMenu) ? "menu-appbar" : undefined}
         aria-haspopup="true"
@@ -182,8 +211,8 @@ function UserMenu() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>
-          Mi cuenta
+        <MenuItem onClick={myprofile}>
+          Mi perfil
         </MenuItem>
         <MenuItem onClick={logout}>
           Cerrar sesión
@@ -209,14 +238,14 @@ const Header = ({ onDrawerToggle }) => (
               </IconButton>
             </Grid>
           </Hidden>
-          <Grid item>
+          {/* <Grid item>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <Input placeholder="Busca grupos" />
             </Search>
-          </Grid>
+          </Grid> */}
           <Grid item xs />
           <Grid item>
             {/* <IconButton color="inherit"> */}
@@ -225,17 +254,9 @@ const Header = ({ onDrawerToggle }) => (
               {/* </Indicator> */}
             {/* </IconButton> */}
 
-            <IconButton color="inherit">
-              {/* <Indicator badgeContent={7}> */}
-                <Bell />
-              {/* </Indicator> */}
-            </IconButton>
+           
 
-            <IconButton color="inherit">
-              {/* <Indicator badgeContent={7}> */}
-                <LocalAtmRoundedIcon />
-              {/* </Indicator> */}
-            </IconButton>
+  
 
             {/* <LanguageMenu /> */}
             <UserMenu />

@@ -4,7 +4,7 @@ import { rgba } from "polished";
 
 import { NavLink as RouterNavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
-
+import { useHistory } from 'react-router-dom';
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
 
@@ -305,6 +305,21 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
   };
 
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
+  const history = useHistory();
+
+  const showmyProfile=(t)=>{
+    // alert("s");
+    // console.log(t);
+    // location.href = "./myprofile";
+    // window.location.href = "../myprofile";
+    // window.location.assign("/myprofile");
+    // location.href='/otherSection'
+    history.push("/myprofile");
+    // t.props.history.push({       
+    //   pathname: "/join",
+    //   state: { groupData: t },
+    // });
+  }
 
   const toggle = index => {
     // Collapse all elements
@@ -341,8 +356,8 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
       
       
         />
-        {/* <Box ml={1}>Material App <BrandChip label="PRO" />
-        </Box>  */}
+        {/* <Box ml={1}>PLAMDY <BrandChip label="PRO" /> */}
+        {/* </Box>  */}
       </Brand>
       <Scrollbar>
         <List disablePadding>
@@ -397,7 +412,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
           </Items>
         </List>
       </Scrollbar>
-      <SidebarFooter>
+      <SidebarFooter onClick={() => showmyProfile(this)} style={{cursor:"pointer"}}>
         <Grid container spacing={2}>
           <Grid item>
             <StyledBadge

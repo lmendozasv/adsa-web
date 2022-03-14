@@ -188,7 +188,7 @@ class ServicesList extends React.Component {
         });
       // firebase.auth();
     }
-    if(ENLACE_GRUPO.length>0){ 
+    if(!ENLACE_GRUPO==undefined){ 
       // referal
       var token = localStorage.getItem("token_sec");
       axios
@@ -208,18 +208,22 @@ class ServicesList extends React.Component {
         .then(function (res) {
           //if (this._isMounted) {
             const grupos = res.data.data;
-            ins.setState({ grupos });
-            //this.props
-
-            ins.setState({grupos}, () => {              
-              console.log(grupos[0]);
-              ins.props.history.push({                 
-                pathname: "/groupDetails",
-                state: {
-                  groupData: grupos[0],
-                }
-              }); 
-            });
+            if(grupos.length>0){
+              ins.setState({ grupos }); 
+              ins.setState({grupos}, () => {              
+                console.log(grupos[0]);
+                ins.props.history.push({                 
+                  pathname: "/groupDetails",
+                  state: {
+                    groupData: grupos[0],
+                  }
+                }); 
+              });
+            }
+            else{
+              alert("El grupo que buscas ya no está disponible. Puedes echar un vistazo a otros grupos");
+            }
+           
 
            
 
@@ -228,6 +232,7 @@ class ServicesList extends React.Component {
           //}
         })
         .catch(function (error) {
+          // alert("s");
           console.log(error);
         });
     }

@@ -79,6 +79,9 @@ const myCalendar = async(() => import("../pages/pages/mygroupDetails"));
 const myCalenda = async(() => import("../pages/pages/mygroupDetail"));
 const JoinToGroup = async(() => import("../pages/pages/joinToGroup"));
 const PayToJoin = async(() => import("../pages/pages/payToJoin"));
+const userProfile = async(() => import("../pages/pages/userProfile"));
+const userWallet = async(() => import("../pages/pages/userProfile"));
+const userNotifications = async(() => import("../pages/pages/userNotifications"));
 
 // Tables components
 const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
@@ -180,6 +183,31 @@ const groupDetailsPay = {
   component: PayToJoin,
   children: null
 };
+
+const UserProfile = {
+  id: "Perfil",
+  path: "/myprofile",  
+  component: userProfile,
+  children: null
+};
+
+
+const UserWallet = {
+  id: "Perfil",
+  path: "/mywallet",  
+  component: userWallet,
+  children: null
+};
+
+
+const UserNotifications = {
+  id: "Perfil",
+  path: "/myNotifications",  
+  component: userNotifications,
+  children: null
+};
+
+
 
 const projectsRoutes = {
   id: "Mis suscripciones",
@@ -490,6 +518,9 @@ export const dashboard = [
   mygroupDetails,
   projectsRoutes,
   orderRoutes,
+  UserProfile,
+  UserWallet,
+  UserNotifications,
   // invoiceRoutes,
   // tasksRoutes,
   // calendarRoutes,

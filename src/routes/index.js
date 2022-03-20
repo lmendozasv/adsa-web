@@ -80,7 +80,7 @@ const myCalenda = async(() => import("../pages/pages/mygroupDetail"));
 const JoinToGroup = async(() => import("../pages/pages/joinToGroup"));
 const PayToJoin = async(() => import("../pages/pages/payToJoin"));
 const userProfile = async(() => import("../pages/pages/userProfile"));
-const userWallet = async(() => import("../pages/pages/userProfile"));
+const userWallet = async(() => import("../pages/pages/userWallet"));
 const userNotifications = async(() => import("../pages/pages/userNotifications"));
 
 // Tables components

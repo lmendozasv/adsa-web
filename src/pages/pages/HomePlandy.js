@@ -134,7 +134,7 @@ class ServicesList extends React.Component {
     var ins = this;
     var tk = localStorage.getItem("token_sec");
     axios
-      .get(`https://plandy-api.herokuapp.com/getServicesList`, {
+      .get(`http://localhost:5000/getServicesList`, {
         headers: {
           Authorization: "Bearer " + tk,
         },
@@ -150,7 +150,7 @@ class ServicesList extends React.Component {
       var token = localStorage.getItem("token_sec");
       axios
         .post(
-          "https://plandy-api.herokuapp.com/getServicesByType",
+          "http://localhost:5000/getServicesByType",
           {
             catid: cat_selected
           },
@@ -175,7 +175,7 @@ class ServicesList extends React.Component {
         });
     } else {
       axios
-        .get(`https://plandy-api.herokuapp.com/getLatestGroups`, {
+        .get(`http://localhost:5000/getLatestGroups`, {
           headers: {
             Authorization: "Bearer " + tk,
           },
@@ -193,7 +193,7 @@ class ServicesList extends React.Component {
       var token = localStorage.getItem("token_sec");
       axios
         .post(
-          "https://plandy-api.herokuapp.com/getGroupByID",
+          "http://localhost:5000/getGroupByID",
           {
             id: ENLACE_GRUPO
           },

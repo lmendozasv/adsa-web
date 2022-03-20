@@ -59,7 +59,7 @@ async function getChat(t) {
   // console.log(uxs.sub);
   axios
     .post(
-      "https://plandy-api.herokuapp.com/chat/1",
+      "http://localhost:5000/chat/1",
       {
         c: 205,
       },
@@ -82,7 +82,11 @@ async function getChat(t) {
 }
 
 class JoinToGroup extends React.Component {
+  scrollToBottom = () => {
+    this.listContainer.scrollTop = this.listContainer.scrollHeight;
+  }
   async componentDidMount() {        
+    // const inputFileRef = React.useRef();
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
     var tk = localStorage.getItem("token_sec");    
     var id_usuario = parseJwt(tk);
@@ -105,6 +109,7 @@ class JoinToGroup extends React.Component {
     this.setState({ tspots: xspots });
     localStorage.setItem("xspots", xspots);
     localStorage.setItem("ratx", this.state.rating);
+    this.scrollToBottom();
   }
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -145,7 +150,7 @@ class JoinToGroup extends React.Component {
           </Grid>
 
           <Grid item xl={6} lg={8} md={12} sm={12} xs={12}>
-            <ChatView data={this.state.chatState} uid={this.state.id_usuario} />
+            <ChatView data={this.state.chatState} uid={this.state.id_usuario} ins={this} />
           </Grid>
         </Grid>
         <Spacer mb={5} />
@@ -725,7 +730,7 @@ function GroupDataDetails({ data, ins }) {
   );
 }
 
-function ChatView({ data,uid }) {
+function ChatView({ data,uid,ins }) {
   const classes = useStyles();  
   return (
     <div className={classes.containerChat}>
@@ -735,7 +740,7 @@ function ChatView({ data,uid }) {
           Chat del grupo
         </Typography>
 
-        <Paper id="style-1" className={classes.messagesBody}>
+        <Paper ref={(element) => { ins.listContainer = element; }} id="style-1" className={classes.messagesBody}>
           {data.map((tile) => {
             if (tile.a == true) {
               return (

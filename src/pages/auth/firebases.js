@@ -44,7 +44,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
         var ctp = localStorage.getItem("ct_");
         if (actiontype === "0" && UIDTOKEN.length > 0) {
           //login
-          vurl = "https://plandy-api.herokuapp.com/login";
+          vurl = "http://localhost:5000/login";
           payload = {
             firebaseuuid: UIDTOKEN,
             countrycode:ctp
@@ -53,13 +53,13 @@ firebase.auth().onAuthStateChanged(async function (user) {
         }
         if (actiontype == "1") {
           //login
-          vurl = "https://plandy-api.herokuapp.com/register";
+          vurl = "http://localhost:5000/register";
         }
         //
         if (actiontype == "3" || actiontype == "4") {
           //Social
           //login
-          vurl = "https://plandy-api.herokuapp.com/signinsocial";
+          vurl = "http://localhost:5000/signinsocial";
 
           var fullname = "";
           var country = localStorage.getItem("ct_");
@@ -121,7 +121,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
         }
 
         if (actiontype == "6") {
-          vurl = "https://plandy-api.herokuapp.com/register";
+          vurl = "http://localhost:5000/register";
           var country = localStorage.getItem("ct_");
           var rev = localStorage.getItem("ct_0_d");
 
@@ -179,7 +179,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
               //gt profile
               // alert("--------->"+response.data.jwt);
               axios
-                .get(`https://plandy-api.herokuapp.com/profile`, {
+                .get(`http://localhost:5000/profile`, {
                   headers: {
                     Authorization: "Bearer " + response.data.jwt,
                   },
@@ -266,7 +266,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
         //       // history.push("/path/to/push");
         //       //read nics and store in paths
         //       alert('login');
-        //       axios.get(`https://plandy-api.herokuapp.com/profile`)
+        //       axios.get(`http://localhost:5000/profile`)
         //        .then(res => {
         //          var nx = res.data.names+res.data.last_names;
         //          localStorage.setItem("unx",nx);

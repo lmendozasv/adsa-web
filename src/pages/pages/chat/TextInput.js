@@ -38,7 +38,7 @@ export const TextInput = (id,room) => {
         var tk = localStorage.getItem("token_sec");
         axios
     .post(
-      "https://plandy-api.herokuapp.com/chat/2",
+      "http://localhost:5000/chat/2",
       {
         r: 205,
         m:inputValue
@@ -53,6 +53,7 @@ export const TextInput = (id,room) => {
     )
     .then(function (response) {
         setInputValue('');
+        window.location.reload();
     //   xsd.setState({ chatState: response.data }, () => {
     //     // console.log("--->",xsd.state.chatState);
     //   });

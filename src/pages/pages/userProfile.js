@@ -29,6 +29,7 @@ import {
   TableHead,
   TextField as MuiTextField,
   TableRow,
+  IconButton as MuiIconButton,
   Typography,
 } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
@@ -37,7 +38,17 @@ import Rating from "@material-ui/lab/Rating";
 import Helmet from "react-helmet";
 import { margin } from "polished";
 import axios from "axios";
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  CloudUpload as CloudUploadIcon,
+  KeyboardVoice as KeyboardVoiceIcon,
+  Navigation as NavigationIcon,
+  Save as SaveIcon,
+} from "@material-ui/icons";
 
+const IconButton = styled(MuiIconButton)(spacing);
 const Spacer = styled.div(spacing);
 const TextFieldSpacing = styled(MuiTextField)(spacing);
 const TextField = styled(TextFieldSpacing)`
@@ -48,7 +59,7 @@ class JoinToGroup extends React.Component {
   componentDidMount() {
     var tk = localStorage.getItem("token_sec");
     axios
-      .get(`https://plandy-api.herokuapp.com/myprofile`, {
+      .get(`http://localhost:5000/myprofile`, {
         headers: {
           Authorization: "Bearer " + tk,
         },
@@ -58,7 +69,34 @@ class JoinToGroup extends React.Component {
         console.log("getting");
         console.log(res.data.data[0]);
         this.setState({ data: personas });
-        this.setState({ data: personas });
+        this.setState({ names: personas.names });
+        this.setState({ last_names: personas.last_names });
+        this.setState({ nt: personas.nt });
+        this.setState({ pic_url: personas.pic_url });
+        this.setState({ rating: personas.rt });
+        // this.setState({ data: personas });
+      });
+    var xins = this;
+    axios
+      .get(`http://localhost:5000/mycards`, {
+        headers: {
+          Authorization: "Bearer " + tk,
+        },
+      })
+      .then(function (response) {
+        var dt = [];
+        response.data.data.forEach(function (entry) {
+          var itemx = {
+            id: entry.id,
+            rel_name: entry.brand + "-" + entry.lastfor,
+          };
+          dt.push(itemx);
+        });
+        xins.setState({ dataRelations: dt });
+        console.log(xins.state.dataRelations);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   }
 
@@ -72,7 +110,9 @@ class JoinToGroup extends React.Component {
       ntel_: "",
       correo_: "",
       foto_: "",
-      pic_url:""
+      pic_url: "",
+      rating: 0,
+      dataRelations: [],
     };
   }
   render() {
@@ -124,7 +164,7 @@ class JoinToGroup extends React.Component {
             <Spacer mb={5} />
           </Grid>
           <Grid alignItems="center" item xl={6} lg={6} md={6} sm={6} xs={12}>
-            <MyCards data={this.state.data} />
+            <MyCardsD data={this.state.dataRelations} ins={this} />
           </Grid>
 
           {/* <Grid item xl={9} lg={6} md={6} sm={6} xs={12}>
@@ -132,7 +172,7 @@ class JoinToGroup extends React.Component {
           </Grid> */}
         </Grid>
 
-        <Grid container spacing={1}>
+        {/* <Grid container spacing={1}>
           <Grid
             alignItems="center"
             item
@@ -142,6 +182,7 @@ class JoinToGroup extends React.Component {
             sm={12}
             xs={12}
           >
+            <Spacer mb={5} />
             <Typography padding={10} variant="h3" gutterBottom display="inline">
               Métodos para recibir mis pagos
             </Typography>
@@ -150,12 +191,12 @@ class JoinToGroup extends React.Component {
           </Grid>
           <Grid alignItems="center" item xl={6} lg={6} md={6} sm={6} xs={12}>
             <MyAccountBanks data={this.state.data} />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item xl={9} lg={6} md={6} sm={6} xs={12}>
             <GroupDataDetails data={this.state.data} ins={this.props} />
           </Grid> */}
-        </Grid>
+        {/* </Grid> */}
 
         {/* <Spacer mb={5} />
         <Alert color="success" fullWidth severity="info">
@@ -396,19 +437,52 @@ function MyAccountBanks({ data, ins }) {
   );
 }
 
-function MyCards({ data, ins }) {
+function MyCardsD({ data, ins }) {
   const classes = useStyles();
-  var xra = localStorage.getItem("ratx");
   return (
     <div className={classes.ckroot}>
-      <Paper id="OP" className={classes.ckpaper} elevation={3}></Paper>
+      <Paper id="OP" className={classes.ckpaper} elevation={3}>
+        <Spacer mb={5} />
+        <Grid container spacing={3}>
+          {data.map((tile) => (
+            <Grid container spacing={3}>
+              <Grid item xs={8} md={8} lg={8} xl={8}>
+                <Box
+                  textAlign="left"
+                  flexDirection="column"
+                  fontSize="body2.fontSize"
+                  fontWeight="fontWeightBold"
+                  m={1}
+                  color="#172449"
+                >
+                  {tile.rel_name}
+                </Box>
+              </Grid>
+              <Grid item xs={4} md={4} lg={4} xl={4}>
+                <Box
+                  textAlign="right"
+                  fontSize="body2.fontSize"
+                  fontWeight="fontWeightBold"
+                  m={1}
+                  color="#172449"
+                  fullWidth
+                >
+                  <Button fullWidth variant="outlined" color="primary">
+                    <DeleteIcon />
+                    Eliminar
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
     </div>
   );
 }
 
 function UserProfile({ data, ins }) {
   const classes = useStyles();
-  const getUploadParams = () => ({ url: "https://httpbin.org/post" });
   const inputFileRef = React.useRef();
   const makeid = () => {
     var result = "";
@@ -424,29 +498,45 @@ function UserProfile({ data, ins }) {
     inputFileRef.current.click();
   };
   const handleChange = (name) => (event) => {
+    console.log("sssasd");
     ins.setState({
       [name]: event.target.value,
     });
   };
+  const updatePR = (na, va) => {
+    var token = localStorage.getItem("token_sec");
+    axios
+      .post(
+        "http://localhost:5000/updateProfile",
+        {
+          n: na,
+          v: va,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (res) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const submitData = () => {
-    //nombres
-    //apellidos
-    //ntelefono
-    //foto
-
-    // console.log(ins.state.names);
-    // last_names
-    //nt
-    // console.log(ins.state.foto);
-
+    updatePR("names", ins.state.names);
+    updatePR("last_names", ins.state.last_names);
+    updatePR("phone_number", ins.state.nt);
+    updatePR("pic_url", ins.state.pic_url);
+    localStorage.setItem("pcx", ins.state.pic_url);
+    window.location.reload();
   };
 
   const handleSubmit = (e) => {
     console.log(e.target.files);
-    // console.log(files.map((f) => f.meta));
-    // allFiles.forEach((f) => f.remove());
-
-    //start
     var mkid = makeid();
     const uploadTask = storage
       .ref(`/profilePictures/${mkid}`)
@@ -461,17 +551,12 @@ function UserProfile({ data, ins }) {
           .child(mkid)
           .getDownloadURL()
           .then((firebaseUrl) => {
-            // handleChange(foto:firebaseUrl);
             ins.setState({ foto: firebaseUrl });
             ins.setState({ pic_url: firebaseUrl });
-            // this.state.urls_1.push(firebaseUrl);
           });
       }
     );
-    //end
   };
-
-  var xra = localStorage.getItem("ratx");
   return (
     <div className={classes.ckroot}>
       <Paper id="OP" className={classes.ckpaper} elevation={3}>
@@ -551,7 +636,7 @@ function UserProfile({ data, ins }) {
             className={classes.ratingAdjust}
             readOnly
             name="simple-controlled"
-            value={xra}
+            value={ins.state.rating}
           />
         </Box>
         {/* <Divider /> */}
@@ -571,7 +656,7 @@ function UserProfile({ data, ins }) {
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Box
               textAlign="left"
-              flexDirection="column"              
+              flexDirection="column"
               fontSize="body2.fontSize"
               fontWeight="fontWeightBold"
               m={1}
@@ -595,7 +680,7 @@ function UserProfile({ data, ins }) {
                 size="small"
                 inputProps={{ maxLength: 35 }}
                 required
-                value={data.names}
+                value={ins.state.names}
                 onChange={handleChange("names")}
                 variant="outlined"
               />
@@ -603,9 +688,9 @@ function UserProfile({ data, ins }) {
           </Grid>
 
           <Grid item xs={6} md={6} lg={6} xl={6}>
-          <Box
+            <Box
               textAlign="left"
-              flexDirection="column"              
+              flexDirection="column"
               fontSize="body2.fontSize"
               fontWeight="fontWeightBold"
               m={1}
@@ -629,7 +714,7 @@ function UserProfile({ data, ins }) {
                 size="small"
                 inputProps={{ maxLength: 35 }}
                 required
-                value={data.last_names}
+                value={ins.state.last_names}
                 onChange={handleChange("last_names")}
                 variant="outlined"
               />
@@ -637,9 +722,9 @@ function UserProfile({ data, ins }) {
           </Grid>
 
           <Grid item xs={6} md={6} lg={6} xl={6}>
-          <Box
+            <Box
               textAlign="left"
-              flexDirection="column"              
+              flexDirection="column"
               fontSize="body2.fontSize"
               fontWeight="fontWeightBold"
               m={1}
@@ -648,26 +733,23 @@ function UserProfile({ data, ins }) {
               Número telefónico
             </Box>
           </Grid>
-          <Grid item xs={6} md={6} lg={6} xl={6}>        
+          <Grid item xs={6} md={6} lg={6} xl={6}>
             <InputMask
-  mask="+503 9999999999"  
-  disabled={false}
-  maskChar=" "
-  value={data.nt}
-  onChange={handleChange("nt")}
->
-  {() => <TextField size="small"   
-                required fullWidth variant="outlined" />}
-</InputMask>
+              mask="+503 9999999999"
+              disabled={false}
+              maskChar=" "
+              value={ins.state.nt}
+              onChange={handleChange("nt")}
+            >
+              {() => (
+                <TextField size="small" required fullWidth variant="outlined" />
+              )}
+            </InputMask>
           </Grid>
         </Grid>
 
-        
-        
-        
-
         <Grid item xs={12} md={12} lg={12} xl={12}>
-        <Spacer mb={5} />
+          <Spacer mb={5} />
 
           <Button
             backgroundColor="#172449"

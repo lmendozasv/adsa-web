@@ -342,7 +342,7 @@ const getRelTypes = (id, ins) => {
   var tk = localStorage.getItem("token_sec");
   axios
     .post(
-      "https://plandy-api.herokuapp.com/getRelType",
+      "http://localhost:5000/getRelType",
       {
         group_id: id,
       },

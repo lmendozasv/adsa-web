@@ -59,7 +59,7 @@ async function getChat(t) {
   // console.log(uxs.sub);
   axios
     .post(
-      "https://plandy-api.herokuapp.com/chat/1",
+      "http://localhost:5000/chat/1",
       {
         c: 205,
       },

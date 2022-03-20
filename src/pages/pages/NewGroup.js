@@ -272,7 +272,7 @@ const addCredentialsToAPI = (a, b, ins, t) => {
   var cred2 = b;
   axios
     .post(
-      "https://plandy-api.herokuapp.com/addDetails",
+      "http://localhost:5000/addDetails",
       {
         cid: x,
         l: cred1,
@@ -410,7 +410,7 @@ const handleCreateGroup = (ins, t) => {
             });
             axios
               .post(
-                "https://plandy-api.herokuapp.com/createNewGroup",
+                "http://localhost:5000/createNewGroup",
                 {
                   s: svc,
                   n: name,
@@ -568,7 +568,7 @@ class OutlinedTextFields extends React.Component {
     var ins = this;
     var tk = localStorage.getItem("token_sec");
     axios
-      .get(`https://plandy-api.herokuapp.com/servicetypes`, {
+      .get(`http://localhost:5000/servicetypes`, {
         headers: {
           Authorization: "Bearer " + tk,
         },
@@ -665,7 +665,7 @@ class OutlinedTextFields extends React.Component {
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
-        "https://plandy-api.herokuapp.com/getConfs",
+        "http://localhost:5000/getConfs",
         {
           id: selectedId,
         },
@@ -740,7 +740,7 @@ class OutlinedTextFields extends React.Component {
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
-        "https://plandy-api.herokuapp.com/getRelTypes_a",
+        "http://localhost:5000/getRelTypes_a",
         {
           id: selectedId,
         },

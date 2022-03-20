@@ -629,7 +629,7 @@ const getRelTypes = (id, ins) => {
 
     //get plandy wallet
     axios
-    .get(`https://plandy-api.herokuapp.com/myWallet`, {
+    .get(`http://localhost:5000/myWallet`, {
       headers: {
         Authorization: "Bearer " + tk,
       },
@@ -655,7 +655,7 @@ const getCards=(id,ins=this)=>{
   
   var tk = localStorage.getItem("token_sec");
   axios
-  .get(`https://plandy-api.herokuapp.com/mycards`, {
+  .get(`http://localhost:5000/mycards`, {
     headers: {
       Authorization: "Bearer " + tk,
     },
@@ -777,7 +777,7 @@ function addCardToServiceAndJoin(idService,ins) {
   else{
     axios
     .post(
-      "https://plandy-api.herokuapp.com/assoc/1",
+      "http://localhost:5000/assoc/1",
       {
         rel_type:xprel,
         card_id: ins.state.selectedRel,
@@ -809,7 +809,7 @@ function addCardToUser(tok, brand, lastfosr) {
   var token = localStorage.getItem("token_sec");
   axios
     .post(
-      "https://plandy-api.herokuapp.com/newcard",
+      "http://localhost:5000/newcard",
       {
         token: tok,
         brand: brand,

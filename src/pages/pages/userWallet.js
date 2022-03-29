@@ -201,7 +201,7 @@ class JoinToGroup extends React.Component {
         {/* <Spacer mb={5} />
         <Alert color="success" fullWidth severity="info">
           El servicio de <b>{this.state.data.service_name} </b>tiene una alta
-          demanda en Plandy. ¡Apresúrate a unirte al grupo!
+          demanda en KIP. ¡Apresúrate a unirte al grupo!
         </Alert> */}
       </div>
     );
@@ -411,10 +411,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#F42441",
+    color: "#48D597",
   },
   iconHover: {
-    color: "#F42441",
+    color: "#48D597",
   },
 })(Rating);
 
@@ -561,7 +561,7 @@ function UserProfile({ data, ins }) {
     <div className={classes.ckroot}>
       <Paper id="OP" className={classes.ckpaper} elevation={3}>
         {/* <Box textAlign="center" fontWeight="fontWeightRegular" m={1}>
-          Perfil de usuario en Plandy
+          Perfil de usuario en KIP
         </Box> */}
         <div className={classes.centeredDiv}>
           <Box
@@ -575,7 +575,7 @@ function UserProfile({ data, ins }) {
               variant="rounded"
               style={{
                 border: "1.0px double #001e3c",
-                boxShadow: "3px 3px #F42441",
+                boxShadow: "3px 3px #48D597",
                 cursor: "pointer",
               }}
               src={ins.state.pic_url}
@@ -587,7 +587,7 @@ function UserProfile({ data, ins }) {
 
             {data.verified && (
               <Avatar className={classes.avatarVerifyDialog}>
-                <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
+                <img src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
               </Avatar>
             )}
           </Box>
@@ -646,7 +646,7 @@ function UserProfile({ data, ins }) {
           textAlign="center"
           fontSize="caption.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
           m={1}
         >
           {/* {data.group_name} ({data.cluster_code}) */}
@@ -837,7 +837,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -863,7 +863,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#F42441"
+                color="#48D597"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -875,7 +875,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#F42441"
+                color="#48D597"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -901,7 +901,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -932,7 +932,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               $

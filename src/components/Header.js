@@ -183,18 +183,9 @@ function UserMenu() {
     <React.Fragment>
 
 
-<IconButton color="inherit" onClick={mynotifications}>
-              {/* <Indicator badgeContent={7}> */}
-                <Bell />
-              {/* </Indicator> */}
-            </IconButton>
-      
-      <IconButton color="inherit" onClick={mywallet}>
-              {/* <Indicator badgeContent={7}> */}
-                <LocalAtmRoundedIcon />
-              {/* </Indicator> */}
-            </IconButton>
 
+      
+    
 
 
       <IconButton

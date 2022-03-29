@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "flex-end"
     },
-    messageRowRightPlandy: {
+    messageRowRightKIP: {
       display: "flex",
       justifyContent: "flex-center"
     },
@@ -59,12 +59,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: "10px",
       padding: "10px",
       backgroundColor: "#fff",
-      color:"#F42441",
+      color:"#48D597",
       width: "90%",
       //height: "50px",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
-      border: "1px solid #F42441",
+      border: "1px solid #48D597",
       borderRadius: "10px",
       "&:after": {
         content: "''",
@@ -82,14 +82,14 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "absolute",
         width: "0",
         height: "0",
-        borderTop: "17px solid #F42441",
+        borderTop: "17px solid #48D597",
         borderLeft: "16px solid transparent",
         borderRight: "16px solid transparent",
         top: "-1px",
         right: "-17px"
       }
     },
-    messageOrangePlandy: {
+    messageOrangeKIP: {
       position: "relative",
       marginRight: "0px",
       marginBottom: "10px",
@@ -154,7 +154,7 @@ export const MessageLeft = (props) => {
           variant="rounded"
               style={{
                 border: "1.0px double #001e3c",
-                boxShadow: "1px 1px #F42441",
+                boxShadow: "1px 1px #48D597",
               }}
         ></Avatar>
         <div>
@@ -186,13 +186,13 @@ export const MessageRight = (props) => {
 };
 
 
-export const PlandyMessage = (props) => {
+export const KIPMessage = (props) => {
   const classes = useStyles();
   const message = props.message ? props.message : "no message";
   const timestamp = props.timestamp ? props.timestamp : "";
   return (
-    <div className={classes.messageRowRightPlandy}>
-      <div className={classes.messageOrangePlandy}>
+    <div className={classes.messageRowRightKIP}>
+      <div className={classes.messageOrangeKIP}>
         <p className={classes.messageContent}>{message}</p>
         <div className={classes.messageTimeStampRight}>{timestamp}</div>
       </div>

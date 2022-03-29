@@ -27,8 +27,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://plandy.net/">
-        Plandy LLC
+      <Link color="inherit" href="https://KIP.net/">
+        KIP
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -57,7 +57,7 @@ const style = (theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/sideleft2.png?alt=media&token=6a3c3acd-a418-4f10-9660-898fff8e2f06)",
+      "url(https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/sideleft2.png?alt=media&token=6a3c3acd-a418-4f10-9660-898fff8e2f06)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -116,9 +116,9 @@ class LoginComponent extends React.Component {
       localStorage.setItem("ct_0_d", JSON.stringify(response.data));
     });
     //   var firebaseConfig ={  apiKey: "AIzaSyBXD48l7cYIiS6t2h-E08fAYGdyQRB63No",
-    //   authDomain: "plandy-c38e0.firebaseapp.com",
-    //   projectId: "plandy-c38e0",
-    //   storageBucket: "plandy-c38e0.appspot.com",
+    //   authDomain: "KIP-c38e0.firebaseapp.com",
+    //   projectId: "KIP-c38e0",
+    //   storageBucket: "KIP-c38e0.appspot.com",
     //   messagingSenderId: "448741280295",
     //   appId: "1:448741280295:web:eff718146c0dab95855c02",
     //   measurementId: "G-5E292J171V"
@@ -288,7 +288,7 @@ class LoginComponent extends React.Component {
           <div className={classes.paper}>
             {/* <Avatar  className={classes.avatar}> */}
             {/* <LockOutlinedIcon /> */}
-            {/* <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/logo_1.png?alt=media&token=f903ad4c-9350-4adf-bf81-fd6b7d363f05"/> */}
+            {/* <img src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/logo_1.png?alt=media&token=f903ad4c-9350-4adf-bf81-fd6b7d363f05"/> */}
             {/* </Avatar> */}
 
             <Typography component="h1" variant="h1">
@@ -380,12 +380,12 @@ class LoginComponent extends React.Component {
                   onClick={this.handleFacebook(this)}
                 >
                   <Avatar className={classes.avatar}>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
+                    <img src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/facebook%20(2).svg?alt=media&token=af771ec5-a8ae-45e4-9760-8c53ed7d6e77" />
                   </Avatar>
                 </Grid>
                 <Grid item onClick={this.handleGmail(this)}>
                   <Avatar className={classes.avatar}>
-                    <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/google%20(1).svg?alt=media&token=72d7320b-2b55-4309-8d53-3e7558b31a22" />
+                    <img src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/google%20(1).svg?alt=media&token=72d7320b-2b55-4309-8d53-3e7558b31a22" />
                   </Avatar>
                 </Grid>
               </Grid>

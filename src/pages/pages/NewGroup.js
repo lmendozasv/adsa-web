@@ -326,7 +326,7 @@ const goToMyGroups = (ins,t)=>{
 const copyToClipboard = (ins, t) => {
   var tx = ins.lts;
   var txc =
-    "¡Hola!\nHe creado un grupo en Plandy para compartir los gastos de " +
+    "¡Hola!\nHe creado un grupo en KIP para compartir los gastos de " +
     ins.serviceName +
     ". Puedes unirte al grupo usando este link: " +
     tx;
@@ -1020,7 +1020,7 @@ class OutlinedTextFields extends React.Component {
                 ) : (
                   <Grid item xs={10} md={11} lg={11} xl={11}>
                     <Typography variant="caption" gutterBottom display="block">
-                      Confirmo que entiendo que Plandy no está asociado o
+                      Confirmo que entiendo que KIP no está asociado o
                       afiliado a {this.state.legalEntity} y que he leído,
                       entendido y he aceptado cumplir con los términos y
                       condiciones de uso para compartir {this.state.serviceName}
@@ -1351,7 +1351,7 @@ class OutlinedTextFields extends React.Component {
                   <Alert color="success" fullWidth severity="info">
                     Los miembros del grupo tendrán acceso siempre y cuando
                     envíen su cuota mensual de forma automática o manual por
-                    medio de Plandy.
+                    medio de KIP.
                     {/* <b>{this.state.serviceName} </b>. */}
                   </Alert>
                   <Box mt={2}> </Box>
@@ -1399,7 +1399,7 @@ class OutlinedTextFields extends React.Component {
                   <Alert color="success" fullWidth severity="info">
                     Los miembros del grupo tendrán acceso siempre y cuando
                     envíen su cuota mensual de forma automática o manual por
-                    medio de Plandy.
+                    medio de KIP.
                   </Alert>
                 </Grid>
               ) : (
@@ -1453,7 +1453,7 @@ class OutlinedTextFields extends React.Component {
               {/* <Spacer m={2} /> */}
               {/* <Alert color="success" fullWidth severity="info">
                 Los miembros del grupo tendrán acceso siempre y cuando envíen su
-                cuota mensual de forma automática o manual por medio de Plandy.                
+                cuota mensual de forma automática o manual por medio de KIP.                
               </Alert> */}
               {/* <a href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">
   Share on Facebook

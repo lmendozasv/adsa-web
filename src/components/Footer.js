@@ -42,7 +42,7 @@ function Footer() {
               <ListItem component="a" href="#">
                 <ListItemText primary="Help Center" />
               </ListItem> */}
-              <ListItem component="a" href="#">
+              {/* <ListItem component="a" href="#">
                 <ListItemText primary="Política de privacidad" />
               </ListItem>
 
@@ -52,11 +52,11 @@ function Footer() {
 
               <ListItem component="a" href="#">
                 <ListItemText primary="FAQ" />
-              </ListItem>
+              </ListItem> */}
             
 
             {/* <ListItem component="span" href="#">
-              <ListItemText primary={`© ${new Date().getFullYear()} - Plandy LLC`} />
+              <ListItemText primary={`© ${new Date().getFullYear()} - KIP`} />
             </ListItem> */}
 
             </List>
@@ -65,7 +65,7 @@ function Footer() {
         {/* <Grid container item xs={12} md={6} justify="flex-end">
           <List>
             <ListItem>
-              <ListItemText primary={`© ${new Date().getFullYear()} - Plandy LLC`} />
+              <ListItemText primary={`© ${new Date().getFullYear()} - KIP`} />
             </ListItem>
           </List>
         </Grid> */}

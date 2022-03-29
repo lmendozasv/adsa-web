@@ -130,7 +130,7 @@ class JoinToGroup extends React.Component {
         
         {/* <Alert color="success" fullWidth severity="info">
           El servicio de <b>{this.state.data.service_name} </b>tiene una alta
-          demanda en Plandy. ¡Apresúrate a unirte al grupo!
+          demanda en KIP. ¡Apresúrate a unirte al grupo!
         </Alert> */}
       </div>
     );
@@ -331,10 +331,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#F42441",
+    color: "#48D597",
   },
   iconHover: {
-    color: "#F42441",
+    color: "#48D597",
   },
 })(Rating);
 
@@ -415,7 +415,7 @@ function UserProfile({ data, ins, relations }) {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightBold"
-          color="#F42441"
+          color="#48D597"
           gutterBottom
         >
           Selecciona tu relación con {data.user_name} (Administrador del grupo)
@@ -456,7 +456,7 @@ function UserProfile({ data, ins, relations }) {
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={10}>
             <Typography variant="caption" gutterBottom display="block">
-              Confirmo que entiendo que Plandy no está asociado o
+              Confirmo que entiendo que KIP no está asociado o
               afiliado a {data.service_name} y que he leído, entendido y he aceptado
               cumplir con los términos y condiciones de uso para compartir {data.service_name}.
             </Typography>
@@ -588,7 +588,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#F42441"
+                color="#48D597"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -614,7 +614,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -644,7 +644,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -676,7 +676,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}

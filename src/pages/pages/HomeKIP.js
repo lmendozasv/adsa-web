@@ -7,7 +7,7 @@ import Helmet from "react-helmet";
 import axios from "axios";
 import "../../vendor/roundedBarCharts";
 import { Bar } from "react-chartjs-2";
-
+import { MoreVertical } from "react-feather";
 import { red, green, blue } from "@material-ui/core/colors";
 
 import {
@@ -27,6 +27,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Paper as MuiPaper,
+  CardHeader,
+  IconButton,
   Typography,
 } from "@material-ui/core";
 
@@ -49,7 +52,7 @@ const NavLink = React.forwardRef((props, ref) => (
 ));
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
-
+const Paper = styled(MuiPaper)(spacing);
 const Button = styled(MuiButton)(spacing);
 
 const Card = styled(MuiCard)(spacing);
@@ -146,13 +149,13 @@ class ServicesList extends React.Component {
         }
       });
     if (parseInt(cat_selected) > 0) {
-        // console.log(cat_selected);
+      // console.log(cat_selected);
       var token = localStorage.getItem("token_sec");
       axios
         .post(
           "http://localhost:5000/getServicesByType",
           {
-            catid: cat_selected
+            catid: cat_selected,
           },
           {
             headers: {
@@ -164,10 +167,10 @@ class ServicesList extends React.Component {
         )
         .then(function (res) {
           //if (this._isMounted) {
-            const grupos = res.data.data;
-            ins.setState({ grupos });
-            // console.log("setting state");
-            // console.log(ins.state.grupos);
+          const grupos = res.data.data;
+          ins.setState({ grupos });
+          // console.log("setting state");
+          // console.log(ins.state.grupos);
           //}
         })
         .catch(function (error) {
@@ -188,14 +191,14 @@ class ServicesList extends React.Component {
         });
       // firebase.auth();
     }
-    if(!ENLACE_GRUPO==undefined){ 
+    if (!ENLACE_GRUPO == undefined) {
       // referal
       var token = localStorage.getItem("token_sec");
       axios
         .post(
           "http://localhost:5000/getGroupByID",
           {
-            id: ENLACE_GRUPO
+            id: ENLACE_GRUPO,
           },
           {
             headers: {
@@ -207,28 +210,26 @@ class ServicesList extends React.Component {
         )
         .then(function (res) {
           //if (this._isMounted) {
-            const grupos = res.data.data;
-            if(grupos.length>0){
-              ins.setState({ grupos }); 
-              ins.setState({grupos}, () => {              
-                console.log(grupos[0]);
-                ins.props.history.push({                 
-                  pathname: "/groupDetails",
-                  state: {
-                    groupData: grupos[0],
-                  }
-                }); 
+          const grupos = res.data.data;
+          if (grupos.length > 0) {
+            ins.setState({ grupos });
+            ins.setState({ grupos }, () => {
+              console.log(grupos[0]);
+              ins.props.history.push({
+                pathname: "/groupDetails",
+                state: {
+                  groupData: grupos[0],
+                },
               });
-            }
-            else{
-              alert("El grupo que buscas ya no está disponible. Puedes echar un vistazo a otros grupos");
-            }
-           
+            });
+          } else {
+            alert(
+              "El grupo que buscas ya no está disponible. Puedes echar un vistazo a otros grupos"
+            );
+          }
 
-           
-
-            // console.log("setting state");
-            // console.log(ins.state.grupos);
+          // console.log("setting state");
+          // console.log(ins.state.grupos);
           //}
         })
         .catch(function (error) {
@@ -237,7 +238,6 @@ class ServicesList extends React.Component {
         });
     }
     //getGroupByID
-    
   }
 
   componentWillUnmount() {
@@ -252,74 +252,28 @@ class ServicesList extends React.Component {
       <React.Fragment>
         <Helmet title="Bienvenido" />
 
-        <Typography variant="h4">
-        Busca tu grupo y únete o crea uno nuevo y comparte
-        </Typography>
-        <Spacer m={5}/>
-
-        {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} exact to="/">
-          Dashboard
-        </Link>
-        <Link component={NavLink} exact to="/">
-          Pages
-        </Link>
-        <Typography>Profile</Typography>
-      </Breadcrumbs> */}
-
-        {/* <Divider my={1} /> */}
-
-        {/* <Grid 
-      container      
-       spacing={3}  id="OUT000AFUERA"> */}
-        <CustomGridList
-          dataList={this.state.personas}
-          instx={this.onCardClick}
-          context={this.props}
-        />
-
-        {/* </Grid> */}
-        <Spacer my={4} />
+        <Typography variant="h4">Bienvenido</Typography>
+        <Spacer m={5} />
         <Grid container mt={0}>
-          {/* <Box        
-          fullWidth 
-          >
-          <Typography variant="h4"></Typography>          
-          </Box>           */}
-          <Box         
-          >          
-          <Typography             
-           variant="h5">Estos son los grupos creados más reciéntemente</Typography>
-           </Box>
-          <Spacer m={6}/>
-          <RecentClusters
-            dataList={this.state.grupos}
-            instx={this.onCardClick}
-            context={this.props}
-          />
-        <Spacer my={5} />
-
-          {/* <Grid item xs={12} lg={4} xl={6}>
-          <Details />
-          <Skills />
-          <About />
-          <Elsewhere />
-        </Grid>
-        <Grid item xs={12} lg={8} xl={9}>
-          <SalesRevenue />
-          <Grid container spacing={6}>
-            <Grid item xs={12} lg={4}>
-              <Earnings />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <Orders />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <Revenue />
-            </Grid>
+          <Grid item xs={12} lg={6} xl={12}>
+            <Box>
+              <Paper m={4}>                
+                <SalesRevenue/>
+              </Paper>
+            </Box>
           </Grid>
-          <Products />
-        </Grid> */}
+
+          <Grid item xl={6}>
+            <Box>
+              <Paper m={4}>                
+                {/* <Earnings/> */}
+                {/* <Products/> */}
+                OTIF Preview
+              </Paper>
+            </Box>
+          </Grid>
+
+
         </Grid>
       </React.Fragment>
     );
@@ -664,22 +618,22 @@ function Products() {
 const SalesRevenue = withTheme(({ theme }) => {
   const data = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
     ],
     datasets: [
       {
-        label: "Sales",
+        label: "Programado",
         backgroundColor: theme.palette.secondary.main,
         borderColor: theme.palette.secondary.main,
         hoverBackgroundColor: theme.palette.secondary.main,
@@ -687,9 +641,35 @@ const SalesRevenue = withTheme(({ theme }) => {
         data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
         barPercentage: 0.625,
         categoryPercentage: 0.5,
-      },
+      }
+      ,
       {
-        label: "Revenue",
+        label: "Express",
+        backgroundColor: theme.palette.grey[200],
+        borderColor: theme.palette.grey[200],
+        hoverBackgroundColor: theme.palette.grey[200],
+        hoverBorderColor: theme.palette.grey[200],
+        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
+        barPercentage: 0.625,
+        categoryPercentage: 0.5,
+      }
+
+      ,
+      {
+        label: "Flash",
+        backgroundColor: "#EF3340",
+        borderColor: "#EF3340",
+        hoverBackgroundColor: theme.palette.grey[200],
+        hoverBorderColor: theme.palette.grey[200],
+        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
+        barPercentage: 0.625,
+        categoryPercentage: 0.5,
+      }
+
+
+      ,
+      {
+        label: "Mismo dia",
         backgroundColor: theme.palette.grey[200],
         borderColor: theme.palette.grey[200],
         hoverBackgroundColor: theme.palette.grey[200],
@@ -698,6 +678,8 @@ const SalesRevenue = withTheme(({ theme }) => {
         barPercentage: 0.625,
         categoryPercentage: 0.5,
       },
+
+      
     ],
   };
 
@@ -731,26 +713,29 @@ const SalesRevenue = withTheme(({ theme }) => {
   };
 
   return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Sales / Revenue
-        </Typography>
+    <Card mb={1}>
+    <CardHeader
+      action={
+        <IconButton aria-label="settings">
+          <MoreVertical />
+        </IconButton>
+      }
+      title="Ocupación horaria (Hoy)"
+    />
 
-        <Spacer mb={6} />
-
-        <ChartWrapper>
-          <Bar data={data} options={options} />
-        </ChartWrapper>
-      </CardContent>
-    </Card>
+    <CardContent>
+      <ChartWrapper>
+        <Bar data={data} options={options} />
+      </ChartWrapper>
+    </CardContent>
+  </Card>
   );
 });
 
 // function Profile() {
 //   return (
 //     <React.Fragment>
-//       <Helmet title="Plandy" />
+//       <Helmet title="KIP" />
 
 //       <Typography variant="h3" gutterBottom display="inline">
 //         Servicios populares

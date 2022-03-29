@@ -254,7 +254,7 @@ class JoinToGroup extends React.Component {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
         >
           Por favor, rellena los campos de tu tarjeta de débito o crédito
         </Box> */}
@@ -276,7 +276,7 @@ class JoinToGroup extends React.Component {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
         >
           <b>
           <Typography variant="body2" gutterBottom display="block">
@@ -347,7 +347,7 @@ class JoinToGroup extends React.Component {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
         >
           Por favor, rellena los campos de tu tarjeta de débito o crédito
         </Box>
@@ -416,7 +416,7 @@ class JoinToGroup extends React.Component {
 
         {/* <Alert color="success" fullWidth severity="info">
           El servicio de <b>{this.state.data.service_name} </b>tiene una alta
-          demanda en Plandy. ¡Apresúrate a unirte al grupo!
+          demanda en KIP. ¡Apresúrate a unirte al grupo!
         </Alert> */}
       </div>
     );
@@ -617,17 +617,17 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#F42441",
+    color: "#48D597",
   },
   iconHover: {
-    color: "#F42441",
+    color: "#48D597",
   },
 })(Rating);
 
 const getRelTypes = (id, ins) => {
   var tk = localStorage.getItem("token_sec");
 
-    //get plandy wallet
+    //get KIP wallet
     axios
     .get(`http://localhost:5000/myWallet`, {
       headers: {
@@ -674,7 +674,7 @@ const getCards=(id,ins=this)=>{
     });
     if(ins.state.balance>0)
     {
-      dt.push({rel_name:"Plandy Wallet ("+ins.state.balance+")",id:9999999999});
+      dt.push({rel_name:"KIP Wallet ("+ins.state.balance+")",id:9999999999});
     }
     else{
       console.error("BALANCE",ins.state.balance);
@@ -721,7 +721,7 @@ const handleJoinNow = async (t, ns) => {
 
   //     // const customer =  stripe_instance.customers.create({
   //     //   source: 'tok_mastercard',
-  //     //   email: 'test@plandy.com',
+  //     //   email: 'test@KIP.com',
   //     // });
 
   // const card =   stripe_instance.customers.createSource(
@@ -1004,7 +1004,7 @@ function UserProfile({ data, ins, relations }) {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
         >
           Agrega o selecciona un método de pago para enviar el monto
           automáticamente
@@ -1081,7 +1081,7 @@ function UserProfile({ data, ins, relations }) {
         //   textAlign="left"
         //   fontSize="button.fontSize"
         //   fontWeight="fontWeightBold"
-        //   color="#F42441"
+        //   color="#48D597"
         //   gutterBottom
         // >
         //   Agrega una nueva forma de pago
@@ -1292,7 +1292,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#F42441"
+                color="#48D597"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -1320,7 +1320,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -1350,7 +1350,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -1370,7 +1370,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="center"              
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               ¿Tienes un cupón? Agrégalo aquí
@@ -1381,7 +1381,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               
@@ -1413,7 +1413,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}

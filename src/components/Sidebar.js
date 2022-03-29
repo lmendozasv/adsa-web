@@ -205,14 +205,14 @@ const SidebarSection = styled(Typography)`
 
 const SidebarFooter = styled.div`
   background-color: ${props =>
-    props.theme.sidebar.footer.background} !important;
+    "#48D597"} !important;
   padding: ${props => props.theme.spacing(2.75)}px
     ${props => props.theme.spacing(4)}px;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 `;
 
 const SidebarFooterText = styled(Typography)`
-  color: ${props => props.theme.sidebar.footer.color};
+  color: ${props => "#001e3c"};
 `;
 
 const SidebarFooterSubText = styled(Typography)`
@@ -338,18 +338,18 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
       style={
         {
           display:"flex",
-          justifyContent:"center"
+          justifyContent:"center",
         }
       }
       >
         {/* <BrandIcon />  */}
         <img         
-        src={"https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/plandy_ic.png?alt=media&token=1e0f4176-6f34-4438-b5af-8b2808854ba0"}
-        alt="Plandy"        
+        src={"https://firebasestorage.googleapis.com/v0/b/kip-sv-qa.appspot.com/o/okka.png?alt=media&token=e3d597d3-10c3-41e4-bd4b-3e8947795e99"}
+        alt="KIP"        
         style=
         {
-          {maxHeight: "70%",
-          maxWidth:"50%"
+          {maxHeight: "100%",
+          maxWidth:"100%"
         }
       }           
 
@@ -427,7 +427,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
               variant="rounded"
               style={{
                 border: '1.0px double #001e3c',
-                boxShadow: "3px 3px #F42441"
+                boxShadow: "3px 3px #001e3c"
 
              }}               
                alt={returnUser()} src={returnPicture()} />
@@ -437,9 +437,9 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
             <SidebarFooterText variant="body2">
               {returnUser()}
             </SidebarFooterText>
-            <SidebarFooterSubText variant="caption">
+            {/* <SidebarFooterSubText variant="caption">
               {returnVerified()?"Datos verificados":"Verifica tus datos"}
-            </SidebarFooterSubText>
+            </SidebarFooterSubText> */}
           </Grid>
         </Grid>
       </SidebarFooter>

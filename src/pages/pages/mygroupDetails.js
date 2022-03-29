@@ -9,7 +9,7 @@ import axios from "axios";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { MessageLeft, MessageRight, PlandyMessage } from "./chat/Message";
+import { MessageLeft, MessageRight, KIPMessage } from "./chat/Message";
 import { TextInput } from "./chat/TextInput";
 
 import DotsIcon from "@material-ui/icons/FiberManualRecord";
@@ -388,10 +388,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#F42441",
+    color: "#48D597",
   },
   iconHover: {
-    color: "#F42441",
+    color: "#48D597",
   },
 })(Rating);
 
@@ -424,7 +424,7 @@ function UserProfile({ data, ins }) {
               variant="rounded"
               style={{
                 border: "1.0px double #001e3c",
-                boxShadow: "3px 3px #F42441",
+                boxShadow: "3px 3px #48D597",
               }}
               src={data.pic_url}
               aria-label="recipe"
@@ -434,7 +434,7 @@ function UserProfile({ data, ins }) {
             </Avatar>
             {data.verified && (
               <Avatar className={classes.avatarVerifyDialog}>
-                <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
+                <img src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
               </Avatar>
             )}
           </Box>
@@ -463,7 +463,7 @@ function UserProfile({ data, ins }) {
           textAlign="center"
           fontSize="caption.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
           m={1}
         >
           {data.group_name} ({data.cluster_code})
@@ -485,7 +485,7 @@ function UserProfile({ data, ins }) {
               >
                 <img
                   className={classes.guarantedStyle}
-                  src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                  src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
                 />
               </Typography>
             ) : (
@@ -497,7 +497,7 @@ function UserProfile({ data, ins }) {
               >
                 <img
                   className={classes.guarantedStyle}
-                  src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                  src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
                 />
               </Typography>
             )}
@@ -518,7 +518,7 @@ function UserProfile({ data, ins }) {
               >
                 <img
                   className={classes.guarantedStyle}
-                  src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                  src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
                 />
               </Typography>
             ) : (
@@ -530,7 +530,7 @@ function UserProfile({ data, ins }) {
               >
                 <img
                   className={classes.guarantedStyle}
-                  src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                  src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
                 />
               </Typography>
             )}
@@ -551,7 +551,7 @@ function UserProfile({ data, ins }) {
               >
                 <img
                   className={classes.guarantedStyle}
-                  src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                  src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
                 />
               </Typography>
             ) : (
@@ -563,7 +563,7 @@ function UserProfile({ data, ins }) {
               >
                 <img
                   className={classes.guarantedStyle}
-                  src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                  src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
                 />
               </Typography>
             )}
@@ -577,7 +577,7 @@ function UserProfile({ data, ins }) {
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Typography variant="body2" gutterBottom display="block">
-              Últ. conexión a Plandy
+              Últ. conexión a KIP
             </Typography>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -744,11 +744,11 @@ function ChatView({ data,uid,ins }) {
           {data.map((tile) => {
             if (tile.a == true) {
               return (
-                <PlandyMessage
+                <KIPMessage
                   message={tile.m}
                   timestamp={tile.d}
                   photoURL=""
-                  displayName="PLANDY"
+                  displayName="KIP"
                   avatarDisp={true}
                 />
               );
@@ -760,7 +760,7 @@ function ChatView({ data,uid,ins }) {
                   message={tile.m}
                   timestamp={tile.d}
                   photoURL=""
-                  displayName="PLANDY"
+                  displayName="KIP"
                   avatarDisp={true}
                 />
               );

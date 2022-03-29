@@ -1,7 +1,7 @@
 const typography = {
   useNextVariants: true,
   fontFamily: [
-    "Comfortaa",
+    "Montserrat-Medium",
     "-apple-system",
     "BlinkMacSystemFont",
     '"Segoe UI"',

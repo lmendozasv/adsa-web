@@ -97,7 +97,7 @@ class JoinToGroup extends React.Component {
         <Spacer mb={5} />
         <Alert color="success" fullWidth severity="info">
           El servicio de <b>{this.state.data.service_name} </b>tiene una alta
-          demanda en Plandy. ¡Apresúrate a unirte al grupo!
+          demanda en KIP. ¡Apresúrate a unirte al grupo!
         </Alert>
       </div>
     );
@@ -299,10 +299,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#F42441",
+    color: "#48D597",
   },
   iconHover: {
-    color: "#F42441",
+    color: "#48D597",
   },
 })(Rating);
 
@@ -338,7 +338,7 @@ function UserProfile({ data, ins }) {
               variant="rounded"                            
               style={{
                 border: '1.0px double #001e3c',
-                boxShadow: "3px 3px #F42441"
+                boxShadow: "3px 3px #48D597"
 
               }}  
 
@@ -350,7 +350,7 @@ function UserProfile({ data, ins }) {
             </Avatar>
             {data.verified && (
               <Avatar className={classes.avatarVerifyDialog}>
-                <img src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
+                <img src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/iccheck15.svg?alt=media&token=851e4b83-fdc3-4bdc-aa03-363cb1b7910d" />
               </Avatar>
             )}
           </Box>
@@ -379,7 +379,7 @@ function UserProfile({ data, ins }) {
           textAlign="center"
           fontSize="caption.fontSize"
           fontWeight="fontWeightRegular"
-          color="#F42441"
+          color="#48D597"
           m={1}
         >
           {data.group_name} ({data.cluster_code})
@@ -401,7 +401,7 @@ function UserProfile({ data, ins }) {
             >
               <img
                 className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
               />
             </Typography>
               :
@@ -413,7 +413,7 @@ function UserProfile({ data, ins }) {
             >
               <img
                 className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
               />
             </Typography>
               }
@@ -434,7 +434,7 @@ function UserProfile({ data, ins }) {
             >
               <img
                 className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
               />
             </Typography>
               :
@@ -446,7 +446,7 @@ function UserProfile({ data, ins }) {
             >
               <img
                 className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
               />
             </Typography>
             }
@@ -468,7 +468,7 @@ function UserProfile({ data, ins }) {
             >
               <img
                 className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
+                src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25.svg?alt=media&token=409e0e07-a0f7-46e2-8a19-4f97e9888eec"
               />
             </Typography>
               :
@@ -480,7 +480,7 @@ function UserProfile({ data, ins }) {
             >
               <img
                 className={classes.guarantedStyle}
-                src="https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
+                src="https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_guaranted_25_state_0.svg?alt=media&token=acd8e31a-1a34-42d9-98c2-f2144db57ff6"
               />
             </Typography>
               }
@@ -497,7 +497,7 @@ function UserProfile({ data, ins }) {
         <Grid container spacing={3}>
           <Grid item xs={6} md={6} lg={6} xl={6}>
             <Typography variant="body2" gutterBottom display="block">
-              Últ. conexión a Plandy
+              Últ. conexión a KIP
             </Typography>
           </Grid>
           <Grid item xs={6} md={6} lg={6} xl={6}>
@@ -603,7 +603,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -629,7 +629,7 @@ function GroupDataDetails({ data, ins }) {
              textAlign="right"
              fontSize="button.fontSize"
              fontWeight="fontWeightBold"
-             color="#F42441"
+             color="#48D597"
              m={1}
            >
              <Typography variant="button" component="span">
@@ -641,7 +641,7 @@ function GroupDataDetails({ data, ins }) {
              textAlign="right"
              fontSize="button.fontSize"
              fontWeight="fontWeightBold"
-             color="#F42441"
+             color="#48D597"
              m={1}
            >
              <Typography variant="button" component="span">
@@ -667,7 +667,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -698,7 +698,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#F42441"
+              color="#48D597"
               m={1}
             >
               ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}

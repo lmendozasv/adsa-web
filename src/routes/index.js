@@ -70,7 +70,7 @@ const InvoiceList = async(() => import("../pages/pages/InvoiceList"));
 //const Orders = async(() => import("../pages/pages/Orders")); //ESTE COMPONENTE SIRVE PARA UNA LISTA
 const Orders = async(() => import("../pages/pages/NewGroup"));
 const Pricing = async(() => import("../pages/pages/Pricing"));
-const Profile = async(() => import("../pages/pages/HomePlandy"));
+const Profile = async(() => import("../pages/pages/HomeKIP"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/Projects"));
@@ -210,7 +210,7 @@ const UserNotifications = {
 
 
 const projectsRoutes = {
-  id: "Mis suscripciones",
+  id: "Panel de órdenes",
   path: "/mysubscriptions",
   icon: <GroupWorkIcon />,
   // badge: "",
@@ -517,7 +517,7 @@ export const dashboard = [
   groupDetailsPay,
   mygroupDetails,
   projectsRoutes,
-  orderRoutes,
+  // orderRoutes,
   UserProfile,
   UserWallet,
   UserNotifications,
@@ -543,7 +543,7 @@ export default [
   // pagesRoutes,
   profileRoutes,  
   projectsRoutes,
-  orderRoutes,
+  // orderRoutes,
   // invoiceRoutes,
   // tasksRoutes,
   // calendarRoutes,

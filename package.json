@@ -1,8 +1,8 @@
 {
-  "name": "plandy-app",
+  "name": "KIP-app",
   "version": "1.0.8",
-  "description": "Plandy App",
-  "author": "Ismael Parson <info@plandy.net>",
+  "description": "KIP App",
+  "author": "Ismael Parson <info@KIP.net>",
   "engines": {
     "node": "14.x",
     "npm": "6.x"

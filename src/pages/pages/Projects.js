@@ -225,7 +225,7 @@ class ServicesList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Helmet title="Mis suscripciones y grupos" />
+        <Helmet title="Órdenes" />
 
         {/* <Typography variant="h4">
         Busca tu grupo y únete o crea uno nuevo y comparte
@@ -729,7 +729,7 @@ const SalesRevenue = withTheme(({ theme }) => {
 // function Profile() {
 //   return (
 //     <React.Fragment>
-//       <Helmet title="Plandy" />
+//       <Helmet title="KIP" />
 
 //       <Typography variant="h3" gutterBottom display="inline">
 //         Servicios populares

@@ -7,9 +7,9 @@ require("firebase/auth");
 require("firebase/firestore");
 var firebaseConfig = {
   apiKey: "AIzaSyBXD48l7cYIiS6t2h-E08fAYGdyQRB63No",
-  authDomain: "plandy-c38e0.firebaseapp.com",
-  projectId: "plandy-c38e0",
-  storageBucket: "plandy-c38e0.appspot.com",
+  authDomain: "KIP-c38e0.firebaseapp.com",
+  projectId: "KIP-c38e0",
+  storageBucket: "KIP-c38e0.appspot.com",
   messagingSenderId: "448741280295",
   appId: "1:448741280295:web:eff718146c0dab95855c02",
   measurementId: "G-5E292J171V",
@@ -142,7 +142,7 @@ firebase.auth().onAuthStateChanged(async function (user) {
             r:rev,
             birthday: "01/01/1900",
             picurl:
-              "https://firebasestorage.googleapis.com/v0/b/plandy-c38e0.appspot.com/o/ic_profile_plandy.png?alt=media&token=d12372cd-5ae7-46b3-a941-c2a6ffacfbe9",
+              "https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/ic_profile_KIP.png?alt=media&token=d12372cd-5ae7-46b3-a941-c2a6ffacfbe9",
             provider: "email-password",
           };
         }

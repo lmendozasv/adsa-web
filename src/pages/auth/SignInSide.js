@@ -87,7 +87,7 @@ const style = (theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://firebasestorage.googleapis.com/v0/b/KIP-c38e0.appspot.com/o/sideleft2.png?alt=media&token=6a3c3acd-a418-4f10-9660-898fff8e2f06)",
+      "url(https://firebasestorage.googleapis.com/v0/b/kip-sv-qa.appspot.com/o/backdash.png?alt=media&token=ddf36e11-8fd7-46ef-840f-f0b6f9ca0767)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -367,44 +367,87 @@ class LoginComponent extends React.Component {
       isValid = false;
     }
     if (isValid) {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(us_, pw_)
-        .then(function (result) {
-          console.log(result.user);
-          localStorage.setItem("actxp", "0");
-        })
-        .catch(function (error) {
-          ix.setState({ isLoadingData: false });
-          if (
-            error.message ===
-            "There is no user record corresponding to this identifier. The user may have been deleted."
-          ) {
-            alert(
-              "Lo sentimos, no se ha encontrado una cuenta con el correo electrónico ingresado."
-            );
-          }
+      axios
+    .post(
+      "https://kip-logistic-api.azurewebsites.net/auth",
+      {
+        u: us_,
+        p: pw_
+      },
+      {
+        headers: {          
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then(function (response) {
+      var dt = [];
+      console.log(response);
+      var al = "";
+      al = response.data.firstname+" "+response.data.lastname;
+      localStorage.setItem("actxp", al);
+      localStorage.setItem("token_sec", response.data.token);
+      localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
+      window.location.reload();
+      localStorage.setItem("unx", al);
+      // response.data.data.forEach(function (entry) {
+      //   //console.log(entry);
+      //   var itemx = {
+      //     id: entry.id,
+      //     rel_name: entry.rel_name,
+      //   };
+      //   console.log(itemx);
+      //   dt.push(itemx);
+      // });
+      // console.log(response.data.data);
+      //ins.setState({ dataRelations: dt });
+    })
+    .catch(function (error) {
+      console.log("Incorrect");
+      ix.setState({ isLoadingData: false });
+      alert("No se ha podido iniciar sesión, intente nuevamente");
+      console.log(error);
+    });
+      // firebase
+      //   .auth()
+      //   .signInWithEmailAndPassword(us_, pw_)
+      //   .then(function (result) {
+      //     console.log(result.user);
+      //     localStorage.setItem("actxp", "0");
+      //   })
+      //   .catch(function (error) {
+      //     ix.setState({ isLoadingData: false });
+      //     if (
+      //       error.message ===
+      //       "There is no user record corresponding to this identifier. The user may have been deleted."
+      //     ) {
+      //       alert(
+      //         "Lo sentimos, no se ha encontrado una cuenta con el correo electrónico ingresado."
+      //       );
+      //     }
 
-          if (error.message === "The email address is badly formatted.") {
-            alert("El correo electrónico ingresado no es válido");
-          }
-          //The user account has been disabled by an administrator.
-          if (
-            error.message ===
-            "The user account has been disabled by an administrator."
-          ) {
-            alert("Estimado cliente, esta cuenta ha sido deshabilitada");
-          }
-          //Datos incorrectos,  si no recuerdas los detalles, intenta re-establecer tu contraseña
-          if (
-            error.message ===
-            "The password is invalid or the user does not have a password."
-          ) {
-            alert(
-              "Datos incorrectos,  si no recuerdas los detalles, intenta re-establecer tu contraseña"
-            );
-          }
-        });
+      //     if (error.message === "The email address is badly formatted.") {
+      //       alert("El correo electrónico ingresado no es válido");
+      //     }
+      //     //The user account has been disabled by an administrator.
+      //     if (
+      //       error.message ===
+      //       "The user account has been disabled by an administrator."
+      //     ) {
+      //       alert("Estimado cliente, esta cuenta ha sido deshabilitada");
+      //     }
+      //     //Datos incorrectos,  si no recuerdas los detalles, intenta re-establecer tu contraseña
+      //     if (
+      //       error.message ===
+      //       "The password is invalid or the user does not have a password."
+      //     ) {
+      //       alert(
+      //         "Datos incorrectos,  si no recuerdas los detalles, intenta re-establecer tu contraseña"
+      //       );
+      //     }
+      //   });
     } else {
       ix.setState({ isLoadingData: false });
     }
@@ -451,7 +494,7 @@ class LoginComponent extends React.Component {
                 required
                 fullWidth
                 id="email"
-                label="Correo electrónico"
+                label="Usuario"
                 helperText={this.state.userStatus}
                 error={this.state.userStatus}
                 onChange={this.handleChange("user")}
@@ -487,7 +530,7 @@ class LoginComponent extends React.Component {
                 Iniciar sesión
               </Button>
 
-              <Grid container>
+              {/* <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
                     ¿Olvidó su contraseña?
@@ -503,12 +546,12 @@ class LoginComponent extends React.Component {
                   </Link>
                   
                 </Grid>
-              </Grid>
+              </Grid> */}
 
               <br />
               <br />
               <br />
-              <Grid container>
+              {/* <Grid container>
                 <Grid item xs>                  
                   <Typography variant="body2" color="textSecondary" style={blueLink} align="left">
                   También, puedes iniciar sesión con:
@@ -535,7 +578,7 @@ class LoginComponent extends React.Component {
                 
                 </Grid>
                 </ThemeProvider>
-              </Grid>
+              </Grid> */}
 
               <Box mt={5}></Box>
             </form>
@@ -605,7 +648,7 @@ class LoginComponent extends React.Component {
                 required
                 fullWidth
                 name="correo"
-                label="Correo electrónico"                
+                label="Usuario."                
                 id="correo"                
                 helperText={this.state.emailStatus}
                 error={this.state.emailStatus}
@@ -707,7 +750,7 @@ class LoginComponent extends React.Component {
               <br />
               <br />
               <br />
-              <Grid container>
+              {/* <Grid container>
                 <Grid item xs>
                 <Typography variant="body2" color="textSecondary" style={blueLink} align="left">
                   Tambiéns, puedes iniciar sesión con:
@@ -733,7 +776,7 @@ class LoginComponent extends React.Component {
                   </Avatar>
                   </ThemeProvider>      
                 </Grid>
-              </Grid>
+              </Grid> */}
 
               <Box mt={5}></Box>
             </form>

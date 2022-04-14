@@ -211,7 +211,7 @@ const UserNotifications = {
 
 const projectsRoutes = {
   id: "Panel de órdenes",
-  path: "/mysubscriptions",
+  path: "/orders",
   icon: <GroupWorkIcon />,
   // badge: "",
   component: Projects,

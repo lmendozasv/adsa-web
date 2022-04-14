@@ -156,7 +156,7 @@ function UserMenu() {
   };
   const history = useHistory();
   const myprofile = () => {
-    history.push("/myprofile");
+    // history.push("/myprofile");
   }
   
   const mywallet = () => {
@@ -202,9 +202,9 @@ function UserMenu() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={myprofile}>
+        {/* <MenuItem onClick={myprofile}>
           Mi perfil
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={logout}>
           Cerrar sesión
         </MenuItem>

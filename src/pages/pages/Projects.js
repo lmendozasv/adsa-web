@@ -432,8 +432,21 @@ class OrdersComponent extends React.Component {
       // const dx = res.data.data;        
         var dt = [];        
         res.data.data.forEach(function (entry) {          
-          createData(entry.os_op,entry.os_dt_created,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.os_total,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount);          
-          dt.push(createData(entry.os_op,entry.os_dt_created,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.os_total,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount));
+          var dt_1 = entry.os_dt_created;
+          var dm_1="00000000";
+          var dm_2="11111111";
+          var dm_3="22222222";
+          
+          dt_1 = dt_1.replace("2022-","");
+          dt_1 = dt_1.replace("-","/");
+          dm_1 = dt_1.substring(0,2);
+          dm_2 = dt_1.substring(3,5);
+          dm_3 = dt_1.substring(6);
+          
+          dt_1 = dm_2 + "/" + dm_1 + " " + dm_3;
+
+          createData(entry.os_op,dt_1,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.os_total,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount);          
+          dt.push(createData(entry.os_op,dt_1,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.os_total,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount));
         }
         );
         

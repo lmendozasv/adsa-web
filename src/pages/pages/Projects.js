@@ -160,13 +160,14 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'idLS', alignment: 'left', label: 'OP LS' },
-  { id: 'dt_pedido', alignment: 'left', label: 'Nombre de cliente' },
-  { id: 'nombre_cliente', alignment: 'right', label: 'Fecha entrega' },
-  { id: 'total', alignment: 'right', label: 'Hora entrega' },
-  { id: 'method', alignment: 'left', label: 'Ubicación' },
-  { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'actions', alignment: 'right', label: 'Actions' },
+  { id: 'idLS', alignment: 'left', label: 'OP en LS' },
+  { id: 'dt_pedido', alignment: 'left', label: 'Fecha pedido' },
+  { id: 'dt_envio', alignment: 'left', label: 'Fecha envío' },
+  { id: 'nombre_cliente', alignment: 'left', label: 'Cliente' },
+  { id: 'status', alignment: 'left', label: 'Estado' },
+  { id: 'amount', alignment: 'right', label: 'Monto' },
+  { id: 'coupon_code', alignment: 'right', label: 'Cupón' },
+  { id: 'actions', alignment: 'right', label: 'Acciones' },
 ];
 
 function EnhancedTableHead(props) {
@@ -344,16 +345,19 @@ function EnhancedTable ({dataRows}){
                         />
                       </TableCell>
 
-                      <TableCell align="right">#{row.idLS}</TableCell>
+                      <TableCell align="left">#{row.idLS}</TableCell>
+                      <TableCell align="left">{row.dt_pedido}</TableCell>
+                      <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
-                      <TableCell align="left">{row.date}</TableCell>
-                      <TableCell align="right">{row.total}</TableCell>
                       <TableCell>
-                        {row.status === 0 && <Chip size="small" mr={1} mb={1} label="Shipped" shipped />}
+                        {row.status === "processing" && <Chip size="small" mr={1} mb={1} label="Nuevo" shipped />}
                         {row.status === 1 && <Chip size="small" mr={1} mb={1} label="Processing" processing />}
                         {row.status === 2 && <Chip size="small" mr={1} mb={1} label="Cancelled" cancelled />}
                       </TableCell>
-                      <TableCell align="left">{row.method}</TableCell>
+                      <TableCell align="right">$ {row.monto}</TableCell>
+                      <TableCell align="right">{row.cupon}</TableCell>
+                      
+                      
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton aria-label="delete">
@@ -428,8 +432,8 @@ class OrdersComponent extends React.Component {
       // const dx = res.data.data;        
         var dt = [];        
         res.data.data.forEach(function (entry) {          
-          createData(entry.os_op,entry.os_dt_created,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.details[0].captured_amount,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount);          
-          dt.push(createData(entry.os_op,entry.os_dt_created,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.details[0].captured_amount,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount));
+          createData(entry.os_op,entry.os_dt_created,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.os_total,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount);          
+          dt.push(createData(entry.os_op,entry.os_dt_created,entry.os_delivery,entry.os_customer_name,entry.os_state,entry.os_total,entry.os_coupon_code,entry.os_magento,entry.location,entry.telephone,entry.os_geo_lat,entry.location,entry.details[0].package_type,entry.details[0].customers_comments,entry.details[0].trx_id,entry.details[0].captured_amount));
         }
         );
         

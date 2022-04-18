@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import axios from "axios";
-
+import SearchBar from "material-ui-search-bar";
 import Helmet from "react-helmet";
 
 import {
@@ -43,7 +43,8 @@ import {
   List as RemoveRedEyeIcon,
   NavigateNext as ArrowForwardIosIcon,
   Close as IconClose,
-  SportsMotorsports as IconMoped
+  SportsMotorsports as IconMoped,
+  Search as searchIcon,
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
@@ -113,10 +114,21 @@ const Paper = styled(MuiPaper)(spacing);
 const Chip = styled(MuiChip)`
   ${spacing};
 
+  background: ${(props) => props.info && "#48D597"};
   background: ${(props) => props.shipped && "#48D597"};
   background: ${(props) => props.processing && orange[700]};
   background: ${(props) => props.cancelled && red[500]};
   color: ${(props) => props.theme.palette.common.white};
+`;
+
+const InfoChip = styled(MuiChip)`
+  ${spacing};
+
+  background: ${(props) => props.info && "#fff"};
+  background: ${(props) => props.shipped && "#48D597"};
+  background: ${(props) => props.processing && orange[700]};
+  background: ${(props) => props.cancelled && red[500]};
+  color: ${(props) => props.theme.palette.common.black};
 `;
 
 const Spacer = styled.div`
@@ -174,10 +186,9 @@ function createData(
     otif_status,
     payment_method,
     payment_ref,
-    order_id
+    order_id,
   };
 }
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -406,15 +417,16 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
                       <TableCell>
-                        {row.status === "new" || row.status === "processing"  && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Nuevo"
-                            shipped
-                          />
-                        )}
+                        {row.status === "new" ||
+                          (row.status === "processing" && (
+                            <Chip
+                              size="small"
+                              mr={1}
+                              mb={1}
+                              label="Nuevo"
+                              shipped
+                            />
+                          ))}
                         {row.status === "complete" && (
                           <Chip
                             size="small"
@@ -483,8 +495,9 @@ function EnhancedTable({ dataRows, ins }) {
                           </IconButton>
 
                           <IconButton
-                          onClick={ins.handleChange("dialots-" + row.idLS)}
-                           aria-label="delete">
+                            onClick={ins.handleChange("dialots-" + row.idLS)}
+                            aria-label="delete"
+                          >
                             <ArrowForwardIosIcon />
                           </IconButton>
                         </Box>
@@ -533,7 +546,7 @@ function DetailsModalToSend({ ins }) {
       </DialogTitle>
       <DialogContent>
         <Grid justify="space-between" container spacing={1}>
-        <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
               Cliente:
             </Typography>
@@ -563,46 +576,50 @@ function DetailsModalToSend({ ins }) {
           </Grid>
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
             {/* <Typography variant="button" gutterBottom display="inline"> */}
-              {ins.state.detailViewing.trx.length>0?<div>{ins.state.detailViewing.trx} - $ {ins.state.detailViewing.monto_capturado} (FAC)</div>:
+            {ins.state.detailViewing.trx.length > 0 ? (
+              <div>
+                {ins.state.detailViewing.trx} - ${" "}
+                {ins.state.detailViewing.monto_capturado} (FAC)
+              </div>
+            ) : (
               <Grid justify="space-between" container spacing={1}>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <TextField
-            id="outlined-select-currency0"
-            select
-            size="small"
-            label="Método de pago"
-            fullWidth
-            value={ins.state.paymentMethodSelected}
-            onChange={ins.handleChange("paymentMethodSelected")}            
-            variant="outlined"
-          >{ins.state.paymentMethods.map((tile) => (
-            <MenuItem key={tile.id} value={tile.id}>
-              {tile.name}
-            </MenuItem>              
-          ))}
-            </TextField>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    size="small"
+                    label="Método de pago"
+                    fullWidth
+                    value={ins.state.paymentMethodSelected}
+                    onChange={ins.handleChange("paymentMethodSelected")}
+                    variant="outlined"
+                  >
+                    {ins.state.paymentMethods.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                {ins.state.askref ? (
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      id="outlined-select-currency0g"
+                      size="small"
+                      label="Referencia de pago"
+                      my={2}
+                      fullWidth
+                      value={ins.state.paymentMethodRef}
+                      onChange={ins.handleChange("paymentMethodRef")}
+                      variant="outlined"
+                    ></TextField>
+                  </Grid>
+                ) : (
+                  ""
+                )}
+              </Grid>
+            )}
 
-          </Grid>
-          {ins.state.askref?
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <TextField
-            id="outlined-select-currency0g"           
-            size="small"
-            label="Referencia de pago"
-            my={2}
-            fullWidth
-            value={ins.state.paymentMethodRef}
-            onChange={ins.handleChange("paymentMethodRef")}            
-            variant="outlined"
-          >
-            </TextField>
-          </Grid>
-          :""}
-          
-          
-          </Grid>
-              }
-              
             {/* </Typography> */}
           </Grid>
 
@@ -614,27 +631,26 @@ function DetailsModalToSend({ ins }) {
           </Grid>
 
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-          <Grid item xs={12} md={12} lg={12} xl={12}>
-          <Spacer m={2} />
-          <TextField
-            id="outlined-select-currency0"
-            select
-            label=""
-            size="small"
-            fullWidth
-            value={ins.state.orderSelectedDriver}
-            onChange={ins.handleChange("orderSelectedDriver")}            
-            variant="outlined"
-          >
-            {ins.state.drivers.map((tile) => (
-              <MenuItem key={tile.id} value={tile.id}>
-                {tile.name}
-              </MenuItem>              
-            ))}
-          </TextField>
-        </Grid>
+            <Grid item xs={12} md={12} lg={12} xl={12}>
+              <Spacer m={2} />
+              <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                value={ins.state.orderSelectedDriver}
+                onChange={ins.handleChange("orderSelectedDriver")}
+                variant="outlined"
+              >
+                {ins.state.drivers.map((tile) => (
+                  <MenuItem key={tile.id} value={tile.id}>
+                    {tile.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
           </Grid>
-
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
@@ -643,52 +659,55 @@ function DetailsModalToSend({ ins }) {
           </Grid>
 
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-          <TextField
-            id="outlined-select-currency0"
-            select
-            label=""
-            size="small"
-            fullWidth
-            value={ins.state.otifStatus}
-            onChange={ins.handleChange("otifStatus")}            
-            variant="outlined"
-          >
-            {ins.state.otifStatuses.map((tile) => (
-              <MenuItem key={tile.id} value={tile.id}>
-                {tile.name}
-              </MenuItem>              
-            ))}
-          </TextField>
+            <TextField
+              id="outlined-select-currency0"
+              select
+              label=""
+              size="small"
+              fullWidth
+              value={ins.state.otifStatus}
+              onChange={ins.handleChange("otifStatus")}
+              variant="outlined"
+            >
+              {ins.state.otifStatuses.map((tile) => (
+                <MenuItem key={tile.id} value={tile.id}>
+                  {tile.name}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Divider my={6} />
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Typography variant="caption" gutterBottom display="inline">
-              Entregas con misma fecha ({ins.state.detailViewing.dt_envio.substring(0,5)}) para el driver seleccionado :
-            </Typography>            
+            <Typography variant="caption" gutterBottom display="inline">
+              Entregas con misma fecha (
+              {ins.state.detailViewing.dt_envio.substring(0, 5)}) para el driver
+              seleccionado :
+            </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          {ins.state.cargaDriver.map((tile) => (
-            <MenuItem key={tile.id} value={tile.id}>
-              {tile.name+" - "+tile.id}
-            </MenuItem>              
-          ))}
+            {ins.state.cargaDriver.map((tile) => (
+              <MenuItem key={tile.id} value={tile.id}>
+                {tile.name + " - " + tile.id}
+              </MenuItem>
+            ))}
           </Grid>
-                             
+
           {/* 000015911-1649984605 */}
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Button
-          // onClick={(event) => ins.handleChange("assignToDriver")}
-          onClick={ins.handleChange("assignToDriver")}
-           fullWidth variant="contained" color="primary">
-                <IconMoped />
-                ASIGNAR A DRIVER
-              </Button>
-              </Grid>
-              <Divider my={6} />
+            <Button
+              // onClick={(event) => ins.handleChange("assignToDriver")}
+              onClick={ins.handleChange("assignToDriver")}
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              <IconMoped />
+              ASIGNAR A DRIVER
+            </Button>
+          </Grid>
+          <Divider my={6} />
         </Grid>
-        
       </DialogContent>
-    
     </Dialog>
   );
 }
@@ -758,7 +777,6 @@ function DetailsModal({ ins }) {
             </Typography>
           </Grid>
 
-
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
               Ubic. Google:
@@ -771,9 +789,6 @@ function DetailsModal({ ins }) {
             </Typography>
           </Grid>
 
-
-
-          
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
               Empaque:
@@ -785,7 +800,6 @@ function DetailsModal({ ins }) {
               {ins.state.detailViewing.empaque}
             </Typography>
           </Grid>
-
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
@@ -799,7 +813,7 @@ function DetailsModal({ ins }) {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Divider my={1} />
+            <Divider my={1} />
           </Grid>
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
@@ -807,14 +821,14 @@ function DetailsModal({ ins }) {
             </Typography>
           </Grid>
 
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>          
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
             <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.trx} - $ {ins.state.detailViewing.monto_capturado}
+              {ins.state.detailViewing.trx} - ${" "}
+              {ins.state.detailViewing.monto_capturado}
             </Typography>
           </Grid>
 
           <Divider my={5} />
-          
         </Grid>
         {/* <Divider my={5} /> */}
       </DialogContent>
@@ -833,55 +847,61 @@ class OrdersComponent extends React.Component {
     tix: "Órdenes",
     ordenes: [],
     openDetail: false,
-    openDetailToSend: false,    
-    drivers:[],
-    paymentMethods:[{'id':1,'name':'Efectivo'},{'id':2,'name':'Link de pago'}],
-    otifStatuses:[{'id':1,'name':'Completo'},{'id':2,'name':'Con sustitutos'},{'id':3,'name':'Incompleto'}],
-    cargaDriver:[],
-    orderSelectedDriver:"",
-    paymentMethodSelected:"",
-    paymentMethodRef:"",
-    askref:false,
-    otifStatus:"",
-    order_id:""
+    openDetailToSend: false,
+    drivers: [],
+    paymentMethods: [
+      { id: 1, name: "Efectivo" },
+      { id: 2, name: "Link de pago" },
+    ],
+    otifStatuses: [
+      { id: 1, name: "Completo" },
+      { id: 2, name: "Con sustitutos" },
+      { id: 3, name: "Incompleto" },
+    ],
+    cargaDriver: [],
+    orderSelectedDriver: "",
+    paymentMethodSelected: "",
+    paymentMethodRef: "",
+    askref: false,
+    otifStatus: "",
+    order_id: "",
   };
-  
-  saveDetailsAndShip(ins){
+
+  saveDetailsAndShip(ins) {
     //paymentMethod,paymentMethodRef,driverId,otifID
     var paymentMethod = ins.state.paymentMethodSelected;
     var paymentMethodRef = ins.state.paymentMethodRef;
     var orderSelectedDriver = ins.state.orderSelectedDriver;
     var otifStatus = ins.state.otifStatus;
     var oid = ins.state.order_id;
-    
-    var day = ins.state.detailViewing.dt_envio.substring(0,2);
-    var month = ins.state.detailViewing.dt_envio.substring(3,5);
-    var year = new Date().getFullYear();
-    var hour = ins.state.detailViewing.dt_envio.substring(6,8);
 
-    
+    var day = ins.state.detailViewing.dt_envio.substring(0, 2);
+    var month = ins.state.detailViewing.dt_envio.substring(3, 5);
+    var year = new Date().getFullYear();
+    var hour = ins.state.detailViewing.dt_envio.substring(6, 8);
+
     axios
       .post(
         "https://kip-logistic-api.azurewebsites.net/addDetails",
         {
           driver_id: orderSelectedDriver,
           otif_status: otifStatus,
-          payment_method:paymentMethod,
-          payment_ref:paymentMethodRef,
-          order_id:oid,
-          day:day,
-          month:month,
-          year:year,
-          hour:hour
+          payment_method: paymentMethod,
+          payment_ref: paymentMethodRef,
+          order_id: oid,
+          day: day,
+          month: month,
+          year: year,
+          hour: hour,
         },
         {
-          headers: {            
+          headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         }
       )
-      .then(function (res) {        
+      .then(function (res) {
         ins.setState(
           {
             openDetailToSend: false,
@@ -897,43 +917,43 @@ class OrdersComponent extends React.Component {
         // alert(error);
       });
   }
-  getDriverLoad(osOP,driver_id,ins){
+  getDriverLoad(osOP, driver_id, ins) {
     axios
       .post(
         "https://kip-logistic-api.azurewebsites.net/drivers",
         {
           driver_id: driver_id,
           opid: osOP,
-          day:"",
-          month:"",
-          year:"",
-          hour:""
+          day: "",
+          month: "",
+          year: "",
+          hour: "",
         },
         {
-          headers: {            
+          headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         }
       )
-      .then(function (res) {        
+      .then(function (res) {
         var dt = [];
         res.data.data.forEach(function (entry) {
           var vx = "";
-          vx={
-            "id":entry.delivery_date,
-            "name":entry.op
-          }
+          vx = {
+            id: entry.delivery_date,
+            name: entry.op,
+          };
           dt.push(vx);
           // console.log(entry);
         });
-        
+
         ins.setState(
           {
             cargaDriver: dt,
           },
           () => {
-           // console.log(ins.state.cargaDriver);
+            // console.log(ins.state.cargaDriver);
           }
         );
         console.log("Fin");
@@ -947,38 +967,36 @@ class OrdersComponent extends React.Component {
     var tk = localStorage.getItem("token_sec");
     var ir = this;
     // alert("DIDMOUNT");
-    
+
     //drivers
     axios
-    .get(`https://kip-logistic-api.azurewebsites.net/drivers`, {
-      headers: {
-        Authorization: "Bearer " + tk,
-      },
-    })
-    .then(function (res) {
-      var dt = [];
-      var dta = [];
-      res.data.data.forEach(function (entry) {
-        // dt.push(entry.vn);
-        // dta.push(entry.id);
-        var c = {
-          id:entry.id,
-          name:entry.vn
-
-        }
-        dt.push(c);
-      });
-      ir.setState(
-        {
-          drivers: dt,
+      .get(`https://kip-logistic-api.azurewebsites.net/drivers`, {
+        headers: {
+          Authorization: "Bearer " + tk,
         },
-        () => {          
-        }
-      );      
-    })
-    .catch(function (error) {
-      console.log(error);      
-    });
+      })
+      .then(function (res) {
+        var dt = [];
+        var dta = [];
+        res.data.data.forEach(function (entry) {
+          // dt.push(entry.vn);
+          // dta.push(entry.id);
+          var c = {
+            id: entry.id,
+            name: entry.vn,
+          };
+          dt.push(c);
+        });
+        ir.setState(
+          {
+            drivers: dt,
+          },
+          () => {}
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     //drivers
 
     axios
@@ -1016,15 +1034,17 @@ class OrdersComponent extends React.Component {
           // dt_1 = dm_2 + "/" + dm_1 + " " + dm_3;
 
           /**---- */
-          
-          // var dt_1a = "";          
-          // dt_1a = entry.details[0].delivery_date.replace("2022-","").substring(3, 5)+"/"+entry.details[0].delivery_date.replace("2022-","").substring(0, 2)+" "+entry.details[0].delivery_hours.replace(":00","");                                                  
+
+          // var dt_1a = "";
+          // dt_1a = entry.details[0].delivery_date.replace("2022-","").substring(3, 5)+"/"+entry.details[0].delivery_date.replace("2022-","").substring(0, 2)+" "+entry.details[0].delivery_hours.replace(":00","");
 
           var mmntx = "";
-          mmntx = parseFloat(entry.details[0].captured_amount.replace("$","")).toFixed(2);
+          mmntx = parseFloat(
+            entry.details[0].captured_amount.replace("$", "")
+          ).toFixed(2);
 
           var mmntx_a = "";
-          mmntx_a = parseFloat(entry.os_total.replace("$","")).toFixed(2);
+          mmntx_a = parseFloat(entry.os_total.replace("$", "")).toFixed(2);
           console.log(entry.fullfilment_details[0].driver_id);
           dt.push(
             createData(
@@ -1068,7 +1088,6 @@ class OrdersComponent extends React.Component {
         console.log(error);
         // alert(error);
       });
-      
   }
   // askdriverload = (osid,driver_id) => {
   //   // alert("askking");
@@ -1101,32 +1120,34 @@ class OrdersComponent extends React.Component {
       this.setState({ orderSelectedDriver: obj.driver_id });
       this.setState({ paymentMethodSelected: obj.payment_method });
       this.setState({ paymentMethodRef: obj.payment_ref });
-      this.setState({otifStatus:obj.otif_status})
-      this.setState({order_id:obj.order_id})
+      this.setState({ otifStatus: obj.otif_status });
+      this.setState({ order_id: obj.order_id });
     }
     if (name.includes("closets")) {
       this.setState({ openDetailToSend: false });
     }
-    if(name=="orderSelectedDriver"){
+    if (name == "orderSelectedDriver") {
       // alert("consultar:"+event.target.value);
-      this.getDriverLoad(this.state.detailViewing.idLS,event.target.value,this);
+      this.getDriverLoad(
+        this.state.detailViewing.idLS,
+        event.target.value,
+        this
+      );
     }
 
-    if(name=="paymentMethodSelected"){
+    if (name == "paymentMethodSelected") {
       // alert("consultar:"+event.target.value);
-      if (event.target.value==2){
+      if (event.target.value == 2) {
         this.setState({ askref: true });
-      }
-      else{
+      } else {
         this.setState({ askref: false });
       }
     }
 
-    if(name=="assignToDriver"){
+    if (name == "assignToDriver") {
       // alert("assignToDriver");
       this.saveDetailsAndShip(this);
     }
-
   };
   render() {
     // const { classes } = this.props;
@@ -1155,9 +1176,32 @@ class OrdersComponent extends React.Component {
             </div>
           </Grid>
         </Grid>
-      
-ss
-        <Divider my={6} />
+
+        <Grid container spacing={2}>
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <TextField
+              id="outlined-select-currency0g"
+              size="small"
+              label="Buscar pedidos"
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
+            <Button size="small" variant="contained" color="primary">
+              Buscar
+            </Button>
+          </Grid>
+          <Grid item xs={7} sm={7} md={7} lg={7} xl={7}></Grid>
+        </Grid>
+        <Spacer my={3} />
+        <Grid container spacing={6}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            Este día:    10 Pedidos | 2 Nuevos | 5 Checklist | 3 Pickeando | 4 En Caja | 5 Facturado | 4 Enviado | 6 Entregado | 1 Cancelado | 1 Espera
+          </Grid>          
+        </Grid>
+
+        <Divider my={4} />
 
         <Grid container spacing={6}>
           {/* {this.state.ordenes.length} */}

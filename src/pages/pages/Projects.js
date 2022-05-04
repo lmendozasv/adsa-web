@@ -417,17 +417,16 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
                       <TableCell>
-                        {row.status === "new" ||
-                          (row.status === "processing" && (
+                        
                             <Chip
                               size="small"
                               mr={1}
                               mb={1}
-                              label="Nuevo"
+                              label={row.status}
                               shipped
                             />
-                          ))}
-                        {row.status === "complete" && (
+                        
+                        {/* {row.status === "complete" && (
                           <Chip
                             size="small"
                             mr={1}
@@ -477,10 +476,10 @@ function EnhancedTable({ dataRows, ins }) {
                             size="small"
                             mr={1}
                             mb={1}
-                            label="Asignado"
+                            label="Asignado a driver"
                             cancelled
                           />
-                        )}
+                        )} */}
                       </TableCell>
                       <TableCell align="right">$ {row.monto}</TableCell>
                       <TableCell align="right">{row.cupon}</TableCell>

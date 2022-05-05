@@ -1196,7 +1196,7 @@ class OrdersComponent extends React.Component {
         <Spacer my={3} />
         <Grid container spacing={6}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            Este día:    10 Pedidos | 2 Nuevos | 5 Checklist | 3 Pickeando | 4 En Caja | 5 Facturado | 4 Enviado | 6 Entregado | 1 Cancelado | 1 Espera
+            Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid)
           </Grid>          
         </Grid>
 

@@ -416,7 +416,8 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.dt_pedido}</TableCell>
                       <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
-                      <TableCell>                        
+                      <TableCell>  
+                                              
                             <Chip
                               size="small"
                               mr={1}

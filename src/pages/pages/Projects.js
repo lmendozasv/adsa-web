@@ -647,7 +647,17 @@ function FilterRows({ins}){
 
           </Grid>
           
-
+          <br/>
+          
+          <Button                            
+              fullWidth
+              variant="outlined"
+              color="primary"
+            >              
+              APLICAR
+            </Button>
+            <br/>
+            <br/>
       </DialogContent>
     </Dialog>
   );
@@ -818,8 +828,7 @@ function DetailsModalToSend({ ins }) {
 
           {/* 000015911-1649984605 */}
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Button
-              // onClick={(event) => ins.handleChange("assignToDriver")}
+            <Button              
               onClick={ins.handleChange("assignToDriver")}
               fullWidth
               variant="contained"

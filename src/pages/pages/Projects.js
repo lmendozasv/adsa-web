@@ -46,7 +46,8 @@ import {
   Close as IconClose,
   SportsMotorsports as IconMoped,
   Search as SearchIcon,
-  CancelRounded as CancelRoundedIcon  
+  CancelRounded as CancelRoundedIcon,
+  FilterAlt as FilterAltIcon,
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
@@ -282,18 +283,19 @@ function EnhancedTableHead(props) {
 }
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
+  const { numSelected,ins } = props;
+  
 
   return (
-    <Toolbar style={{ "min-height": 1, "height":1 }}>
-      {/* <ToolbarTitle>
+    <Toolbar style={{ "min-height": 50, "height":50 }}>
+      <ToolbarTitle>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
             {numSelected} seleccionados
           </Typography>
         ) : (
           <Typography variant="caption" id="tableTitle">
-            Órdenes
+            Órdenes 
           </Typography>
         )}
       </ToolbarTitle>
@@ -306,13 +308,15 @@ let EnhancedTableToolbar = (props) => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
+          <Tooltip title="Filtros">
+            <IconButton
+            onClick={(event) => ins.applyFilter(event, "modal")}
+             aria-label="Filtros">
               <FilterListIcon />
             </IconButton>
           </Tooltip>
         )}
-      </div> */}
+      </div>
     </Toolbar>
   );
 };
@@ -380,7 +384,8 @@ function EnhancedTable({ dataRows, ins }) {
       <Paper>        
         {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
         {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""}
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {ins.state.openFilters ? <FilterRows ins={ins} /> : ""}
+        <EnhancedTableToolbar numSelected={selected.length} ins={ins} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -569,7 +574,84 @@ function EnhancedTable({ dataRows, ins }) {
     </div>
   );
 }
+function FilterRows({ins}){
+  return (
+    <Dialog open={ins.state.openFilters}>
+      <DialogTitle>
+        <Box display="flex" alignItems="center">
+          <Box flexGrow={1}>
+            Filtros
+          </Box>
+          <Box>
+            <IconButton onClick={ins.handleChange("close-filters")}>
+              <IconClose />
+            </IconButton>
+          </Box>
+        </Box>
+        <Divider my={0} />
+      </DialogTitle>
 
+      <DialogContent>
+
+      <Grid justify="space-between" container spacing={1}>
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Tipo de envío:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Fecha envío:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Estado pago:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Tipo empaque:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+          </Grid>
+          
+
+      </DialogContent>
+    </Dialog>
+  );
+}
 function DetailsModalToSend({ ins }) {
   return (
     <Dialog open={ins.state.openDetailToSend}>
@@ -895,6 +977,7 @@ class OrdersComponent extends React.Component {
     ordenes: [],
     openDetail: false,
     openDetailToSend: false,
+    openFilters: false,
     drivers: [],
     paymentMethods: [
       { id: 1, name: "Efectivo" },
@@ -1064,6 +1147,9 @@ class OrdersComponent extends React.Component {
     // console.log(event);
     console.log(id); //FIlTRO A APLICAR
     //alert("Apply filter");
+    if(id=="modal"){      
+      this.setState({ openFilters: !this.state.openFilters });
+    }
   }
   saveDetailsAndShip(ins) {
     //paymentMethod,paymentMethodRef,driverId,otifID
@@ -1240,6 +1326,9 @@ class OrdersComponent extends React.Component {
     }
     if (name.includes("closets")) {
       this.setState({ openDetailToSend: false });
+    }
+    if (name.includes("close-filters")) {
+      this.setState({ openFilters : false });
     }
     if (name == "orderSelectedDriver") {
       // alert("consultar:"+event.target.value);

@@ -270,6 +270,10 @@ const darkVariant = {
     secondary: {
       main: "#001e3c",
       contrastText: "#48D597"
+    },
+    kipRed: {
+      main: "#EF3340",
+      contrastText: "#48D597"
     }
   },
   header: {
@@ -280,6 +284,10 @@ const darkVariant = {
     },
     indicator: {
       background: "#48D597"
+    },
+    kipRed: {
+      main: "#EF3340",
+      contrastText: "#48D597"
     }
   },
   sidebar: {

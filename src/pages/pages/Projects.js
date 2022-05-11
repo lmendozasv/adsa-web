@@ -4,6 +4,7 @@ import { NavLink as RouterNavLink } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "material-ui-search-bar";
 import Helmet from "react-helmet";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 import {
   Box,
@@ -44,7 +45,8 @@ import {
   NavigateNext as ArrowForwardIosIcon,
   Close as IconClose,
   SportsMotorsports as IconMoped,
-  Search as searchIcon,
+  Search as SearchIcon,
+  CancelRounded as CancelRoundedIcon  
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
@@ -91,7 +93,7 @@ const style = (theme) => ({
     margin: theme.spacing(8, 4),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "center",    
   },
   avatar: {
     margin: theme.spacing(1),
@@ -113,12 +115,19 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Chip = styled(MuiChip)`
   ${spacing};
-
-  background: ${(props) => props.info && "#48D597"};
-  background: ${(props) => props.shipped && "#48D597"};
-  background: ${(props) => props.processing && orange[700]};
-  background: ${(props) => props.cancelled && red[500]};
-  color: ${(props) => props.theme.palette.common.white};
+  // 0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid)
+  background: ${(props) => props.totalPedidos && "#B6EED5"};
+  background: ${(props) => props.Nuevos && "#48D597"};
+  background: ${(props) => props.Checklist && "#C68F3C"};
+  background: ${(props) => props.Pickeado && "#7761F6"};
+  background: ${(props) => props.EnCaja && "#FFE100"};
+  background: ${(props) => props.Facturado && "#1F9EEB"};
+  background: ${(props) => props.Asignado && "#E4DFFD"};
+  background: ${(props) => props.EnCamino && "#F9A000"};
+  background: ${(props) => props.Entregado && "#EF3340"};
+  background: ${(props) => props.Cancelado && "#ECECEC"};
+  background: ${(props) => props.Espera && "#ECECEC"};
+  color: ${(props) => props.theme.palette.common.black};
 `;
 
 const InfoChip = styled(MuiChip)`
@@ -276,14 +285,14 @@ let EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
 
   return (
-    <Toolbar>
-      <ToolbarTitle>
+    <Toolbar style={{ "min-height": 1, "height":1 }}>
+      {/* <ToolbarTitle>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
             {numSelected} seleccionados
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
+          <Typography variant="caption" id="tableTitle">
             Órdenes
           </Typography>
         )}
@@ -303,7 +312,7 @@ let EnhancedTableToolbar = (props) => {
             </IconButton>
           </Tooltip>
         )}
-      </div>
+      </div> */}
     </Toolbar>
   );
 };
@@ -368,7 +377,7 @@ function EnhancedTable({ dataRows, ins }) {
 
   return (
     <div>
-      <Paper>
+      <Paper>        
         {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
         {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""}
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -416,59 +425,54 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.dt_pedido}</TableCell>
                       <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
-                      <TableCell>                   
-                                                     
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={row.status}
-                              shipped
-                            />
-                        
-                        {/* {row.status === "complete" && (
+                      <TableCell>   
+
+                    
+
+                        {row.status === "new"||row.status === "processing" && (
                           <Chip
                             size="small"
                             mr={1}
                             mb={1}
-                            label="Entregado"
-                            processing
+                            label="Nuevo"
+                            Nuevos
                           />
                         )}
+
                         {row.status === "checklist" && (
                           <Chip
                             size="small"
                             mr={1}
                             mb={1}
                             label="Checklist"
-                            cancelled
+                            Checklist
                           />
                         )}
-                        {row.status === "picking" && (
+                        {row.status === "PICKEADO" && (
                           <Chip
                             size="small"
                             mr={1}
                             mb={1}
-                            label="Pickeando"
-                            cancelled
+                            label="Pickeado"
+                            Pickeado
                           />
                         )}
-                        {row.status === "on-pos" && (
+                        {row.status === "A FACTURUAR" && (
                           <Chip
                             size="small"
                             mr={1}
                             mb={1}
                             label="En caja"
-                            cancelled
+                            EnCaja
                           />
                         )}
-                        {row.status === "invoiced" && (
+                        {row.status === "FACTURADO" && (
                           <Chip
                             size="small"
                             mr={1}
                             mb={1}
                             label="Facturado"
-                            cancelled
+                            Facturado
                           />
                         )}
                         {row.status === "driver-assigned" && (
@@ -476,10 +480,49 @@ function EnhancedTable({ dataRows, ins }) {
                             size="small"
                             mr={1}
                             mb={1}
-                            label="Asignado a driver"
-                            cancelled
+                            label="Asignado"
+                            Asignado
                           />
-                        )} */}
+                        )}
+                        {row.status === "on-the-way" && (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label="En camino"
+                            EnCamino
+                          />
+                        )}
+                        {row.status === "delivered"||row.status === "complete" && (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label="Entregado"
+                            Entregado
+                          />
+                        )}
+                        {row.status === "cancelled" && (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label="Cancelado"
+                            Cancelado
+                          />
+                        )}
+                        {row.status === "holded" && (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label="En espera"
+                            Espera
+                          />
+                        )}
+                        
+                                                                                                                      
+                        
                       </TableCell>
                       <TableCell align="right">$ {row.monto}</TableCell>
                       <TableCell align="right">{row.cupon}</TableCell>
@@ -840,6 +883,11 @@ class OrdersComponent extends React.Component {
     super(props);
     this.getDriverLoad = this.getDriverLoad.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.applyFilter = this.applyFilter.bind(this);
+    this.searchValue = this.searchValue.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
+    this.getStatuses = this.getStatuses.bind(this);
+    this.countWithoutOP = this.countWithoutOP.bind(this);
     // this.handleQueryCreated = this.handleQueryCreated.bind(this);
   }
   state = {
@@ -864,8 +912,159 @@ class OrdersComponent extends React.Component {
     askref: false,
     otifStatus: "",
     order_id: "",
+    searchTerm:"",
+    ordenesStatuses:[],
+    allOrdersCount:0,
+    ordersWithoutOP:0,
   };
+  getStatuses = (items,prop) =>{    
+      var results = {}    
+      var len =  items.length;     
+      for(var i=0;i<len;i++) {            
+        var value = items[i][prop];         
+        var count = (results[value] || 0) + 1;
+        results[value] = count;
+      }    
+      var ranked = []          
+      for(var key in results) {
+        if(results.hasOwnProperty(key)) {
+          ranked.push({value:key, count:results[key]}); 
+        }
+      }
+      return ranked.sort(function(a, b) { return b.count - a.count; });    
+  }
+  countWithoutOP = (i)=>{
+    var antVal = i.state.ordersWithoutOP;
+    i.setState(
+      {
+        ordersWithoutOP: antVal+1,
+      },
+      () => {                        
+      }
+    );
+  }
+  searchValue = (ev) => {      
+    var searchVal ="";
+    var tk = localStorage.getItem("token_sec");
+    var ir = this;
+    var fie = ""
 
+      if(ev.length>0){
+          if (ev=="buscarClick"){
+            searchVal = this.state.searchTerm;
+            if(searchVal.length>0){
+              fie = "search";        
+            }  
+            else{
+              alert("Por favor ingrese un término de búsqueda");
+            }
+          }
+                    
+      axios
+      .post(
+        "https://kip-logistic-api.azurewebsites.net/orders",
+        {
+          f: fie,
+          v: searchVal,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (res) {        
+        var dt = [];
+        // const unique = [...new Set(res.data.data.map(item => item.os_state))];
+        var xp = ir.getStatuses(res.data.data,"os_state");
+        console.log(xp);
+        // alert(res.data.data.length);
+        ir.setState(
+          {
+            ordenesStatuses: xp,
+          },
+          () => {                        
+          }
+        );
+        ir.setState(
+          {
+            allOrdersCount: res.data.data.length,
+          },
+          () => {                        
+          }
+        );
+        // console.log(xp);
+        res.data.data.forEach(function (entry) {
+          var dt_1 = entry.os_dt_created;
+          var mmntx = "";
+          mmntx = parseFloat(
+            entry.details[0].captured_amount.replace("$", "")
+          ).toFixed(2);
+          var mmntx_a = "";
+          mmntx_a = parseFloat(entry.os_total.replace("$", "")).toFixed(2);
+          // console.log(entry.fullfilment_details[0].driver_id);
+          var ux_states = [];
+          if (entry.os_op.length==0||entry.os_op=="Null"){
+            ir.countWithoutOP(ir);
+          }
+          dt.push(
+            createData(
+              entry.os_op,
+              dt_1,
+              entry.os_delivery,
+              entry.os_customer_name,
+              entry.os_state,
+              mmntx_a,
+              entry.os_coupon_code,
+              entry.os_magento,
+              entry.location,
+              entry.telephone,
+              entry.os_geo_lat,
+              entry.location,
+              entry.details[0].package_type,
+              entry.details[0].customers_comments,
+              entry.details[0].trx_id,
+              mmntx,
+              entry.glocation,
+              entry.fullfilment_details[0].driver_id,
+              entry.fullfilment_details[0].otif_status,
+              entry.fullfilment_details[0].payment_method,
+              entry.fullfilment_details[0].payment_ref,
+              entry.os_id
+            )
+          );
+        });
+        // console.log(dt);
+        ir.setState(
+          {
+            ordenes: dt,
+          },
+          () => {
+            
+            // console.log(unique)
+            // ux_states = unique;
+            console.log(ir.state.ordenes);
+          }
+        );
+        console.log("Fin");
+      })
+      .catch(function (error) {
+        console.log(error);
+        // alert(error);
+      });
+      }
+      else{
+       alert("Evento no controlado 193");
+      }
+  }
+  applyFilter = (event, id) => {
+  // applyFilter = (name) => (event) => {
+    // console.log(event);
+    console.log(id); //FIlTRO A APLICAR
+    //alert("Apply filter");
+  }
   saveDetailsAndShip(ins) {
     //paymentMethod,paymentMethodRef,driverId,otifID
     var paymentMethod = ins.state.paymentMethodSelected;
@@ -966,7 +1165,7 @@ class OrdersComponent extends React.Component {
     var tk = localStorage.getItem("token_sec");
     var ir = this;
     // alert("DIDMOUNT");
-
+    this.searchValue("initial");
     //drivers
     axios
       .get(`https://kip-logistic-api.azurewebsites.net/drivers`, {
@@ -996,103 +1195,20 @@ class OrdersComponent extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
-    //drivers
-
-    axios
-      .post(
-        "https://kip-logistic-api.azurewebsites.net/orders",
-        {
-          p: "",
-          v: "",
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + tk,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(function (res) {
-        // console.log(res);
-        // const dx = res.data.data;
-        var dt = [];
-        res.data.data.forEach(function (entry) {
-          var dt_1 = entry.os_dt_created;
-
-          // var dm_1 = "00000000";
-          // var dm_2 = "11111111";
-          // var dm_3 = "22222222";
-
-          // dt_1 = dt_1.replace("2022-", "");
-          // dt_1 = dt_1.replace("-", "/");
-          // dm_1 = dt_1.substring(0, 2);
-          // dm_2 = dt_1.substring(3, 5);
-          // dm_3 = dt_1.substring(6);
-
-          // dt_1 = dm_2 + "/" + dm_1 + " " + dm_3;
-
-          /**---- */
-
-          // var dt_1a = "";
-          // dt_1a = entry.details[0].delivery_date.replace("2022-","").substring(3, 5)+"/"+entry.details[0].delivery_date.replace("2022-","").substring(0, 2)+" "+entry.details[0].delivery_hours.replace(":00","");
-
-          var mmntx = "";
-          mmntx = parseFloat(
-            entry.details[0].captured_amount.replace("$", "")
-          ).toFixed(2);
-
-          var mmntx_a = "";
-          mmntx_a = parseFloat(entry.os_total.replace("$", "")).toFixed(2);
-          console.log(entry.fullfilment_details[0].driver_id);
-          dt.push(
-            createData(
-              entry.os_op,
-              dt_1,
-              entry.os_delivery,
-              entry.os_customer_name,
-              entry.os_state,
-              mmntx_a,
-              entry.os_coupon_code,
-              entry.os_magento,
-              entry.location,
-              entry.telephone,
-              entry.os_geo_lat,
-              entry.location,
-              entry.details[0].package_type,
-              entry.details[0].customers_comments,
-              entry.details[0].trx_id,
-              mmntx,
-              entry.glocation,
-              entry.fullfilment_details[0].driver_id,
-              entry.fullfilment_details[0].otif_status,
-              entry.fullfilment_details[0].payment_method,
-              entry.fullfilment_details[0].payment_ref,
-              entry.os_id
-            )
-          );
-        });
-        console.log(dt);
-        ir.setState(
-          {
-            ordenes: dt,
-          },
-          () => {
-            console.log(ir.state.ordenes);
-          }
-        );
-        console.log("Fin");
-      })
-      .catch(function (error) {
-        console.log(error);
-        // alert(error);
-      });
+   
   }
+
+
   // askdriverload = (osid,driver_id) => {
   //   // alert("askking");
   //   console.log(osid);
   //   console.log(driver_id);
   // }
+  clearSearch = () => {
+    // alert("CLIC");
+    this.setState({ searchTerm: "" });
+    this.searchValue("initial");
+  }
   handleChange = (name) => (event) => {
     this.setState({
       [name]: event.target.value,
@@ -1151,9 +1267,10 @@ class OrdersComponent extends React.Component {
   render() {
     // const { classes } = this.props;
     return (
-      <React.Fragment>
+      <React.Fragment>        
         <Helmet title="Órdenes" />
-        <Grid justify="space-between" container spacing={24}>
+        
+        {/* <Grid justify="space-between" container spacing={24}>
           <Grid item>
             <Typography variant="h3" gutterBottom display="inline">
               {this.state.tix}
@@ -1174,29 +1291,221 @@ class OrdersComponent extends React.Component {
               </Button>
             </div>
           </Grid>
-        </Grid>
+        </Grid> */}
 
         <Grid container spacing={2}>
-          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+          <Grid item xs={10} sm={11} md={11} lg={11} xl={11}>            
             <TextField
-              id="outlined-select-currency0g"
+              id="outlined-select-currency0gsearch"
               size="small"
-              label="Buscar pedidos"
+              label="Buscar en pedidos"
               fullWidth
               variant="outlined"
+              value={this.state.searchTerm}
+              onChange={this.handleChange("searchTerm")}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon style={{fontSize: 'small'}} />
+                  </InputAdornment>
+                ),        
+                endAdornment: this.state.searchTerm && (
+                  <IconButton                    
+                    aria-label="toggle password visibility"
+                    onClick={(event) => this.clearSearch()}
+                  ><CancelRoundedIcon
+                  style={{fontSize: 'small'}}
+                  /></IconButton>
+                )
+              }}
             />
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
-            <Button size="small" variant="contained" color="primary">
+            <Button 
+            // size="small"
+             variant="contained" 
+             color="primary"
+             fullWidth
+             onClick={(event) => this.searchValue("buscarClick")}
+             >
               Buscar
             </Button>
           </Grid>
-          <Grid item xs={7} sm={7} md={7} lg={7} xl={7}></Grid>
+          {/* <Grid item xs={7} sm={7} md={7} lg={7} xl={7}></Grid> */}
         </Grid>
-        <Spacer my={3} />
-        <Grid container spacing={6}>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid)
+        
+        <Grid container spacing={3}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <br/>
+          Este día (Filtros rápidos):
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>            
+             {/* 
+             -new 
+            -processing
+            -complete
+            -driver-assigned
+            -delivered
+            -holded
+            -on-the-way
+            -INICIAL
+            -A FACTURUAR
+            -PICKEADO
+              */}
+              {/* // totalPedidos */}
+              {/* background: ${(props) => props.totalPedidos && "#B6EED5"};
+                  background: ${(props) => props.Nuevos && "#48D597"};
+                  background: ${(props) => props.Checklist && "#C68F3C"};
+                  background: ${(props) => props.Pickeado && "#7761F6"};
+                  background: ${(props) => props.EnCaja && "#FFE100"};
+                  background: ${(props) => props.Facturado && "#1F9EEB"};
+                  background: ${(props) => props.Asignado && "#E4DFFD"};
+                  background: ${(props) => props.EnCamino && "#F9A000"};
+                  background: ${(props) => props.Entregado && "#EF3340"};
+                  background: ${(props) => props.Cancelado && "#ECECEC"};
+                  background: ${(props) => props.Espera && "#ECECEC"};
+              */}
+              {/* allOrdersCount */}
+              <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={this.state.allOrdersCount+" Pedidos en total"}                              
+                              totalPedidos
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+              {this.state.ordenesStatuses.map((tile) => (      
+
+                      (tile.value=="processing"||tile.value=="new"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Nuevos"}                              
+                              Nuevos
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||
+                      (tile.value=="checklist"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Checklist"}                              
+                              Checklist
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||
+                      (tile.value=="PICKEADO"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Pickeado"}                              
+                              Pickeado
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="A FACTURUAR"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" En caja"}                              
+                              EnCaja
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="FACTURADO"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Facturado"}                              
+                              EnCaja
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="driver-assigned"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Asignado"}                              
+                              Asignado
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="on-the-way"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Asignado"}                              
+                              EnCamino
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="delivered"||tile.value=="complete"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Entregado"}                              
+                              Entregado
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="cancelled"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" Cancelado"}                              
+                              Cancelado
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")||           
+                      (tile.value=="holded"?
+                      <Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={tile.count+" En espera"}                              
+                              Cancelado
+                              fullWidth
+                              onClick={(event) => this.applyFilter(event, "total")}
+                        />
+                      :"")
+
+
+
+
+                  )
+                )
+              }
+          
+<Chip
+                              
+                              mr={1}
+                              mb={1}
+                              label={this.state.ordersWithoutOP+" SIN OP"}
+                              variant="outlined"
+                              onClick={(event) => this.applyFilter(event, this)}
+                              
+          />
+          
+            {/* Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid) */}
           </Grid>          
         </Grid>
 

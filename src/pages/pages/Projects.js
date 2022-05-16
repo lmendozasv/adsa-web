@@ -792,6 +792,8 @@ function DetailsModalToSend({ ins }) {
             </Typography>
           </Grid>
 
+          
+
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
             <TextField
               id="outlined-select-currency0"
@@ -809,7 +811,24 @@ function DetailsModalToSend({ ins }) {
                 </MenuItem>
               ))}
             </TextField>
+            {ins.state.asksubs ? (
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      id="outlined-select-currency0g"
+                      size="small"
+                      label="Cantidad de sustitutos (SKU)"
+                      my={2}                      
+                      fullWidth
+                      value={ins.state.otifsubsv}
+                      onChange={ins.handleChange("otifsubsv")}
+                      variant="outlined"
+                    ></TextField>
+                  </Grid>
+                ) : (
+                  ""
+                )}
           </Grid>
+          
           <Divider my={6} />
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Typography variant="caption" gutterBottom display="inline">
@@ -1003,11 +1022,14 @@ class OrdersComponent extends React.Component {
     paymentMethodRef: "",
     askref: false,
     otifStatus: "",
+    otifsubsv:"",    
     order_id: "",
     searchTerm:"",
     ordenesStatuses:[],
     allOrdersCount:0,
     ordersWithoutOP:0,
+
+    asksubs:false,
   };
   getStatuses = (items,prop) =>{    
       var results = {}    
@@ -1166,6 +1188,7 @@ class OrdersComponent extends React.Component {
     var paymentMethodRef = ins.state.paymentMethodRef;
     var orderSelectedDriver = ins.state.orderSelectedDriver;
     var otifStatus = ins.state.otifStatus;
+    var otifsubs = ins.state.otifsubsv;
     var oid = ins.state.order_id;
 
     var day = ins.state.detailViewing.dt_envio.substring(0, 2);
@@ -1186,6 +1209,7 @@ class OrdersComponent extends React.Component {
           month: month,
           year: year,
           hour: hour,
+          otifsubs: otifsubs
         },
         {
           headers: {
@@ -1354,6 +1378,17 @@ class OrdersComponent extends React.Component {
         this.setState({ askref: true });
       } else {
         this.setState({ askref: false });
+      }
+    }
+
+    if (name == "otifStatus") {
+      // alert("consultar:"+event.target.value);
+      if (event.target.value == 2) {
+        // alert("2");
+        this.setState({ asksubs: true });
+      } else {
+        // alert("otro");
+        this.setState({ asksubs: false });
       }
     }
 

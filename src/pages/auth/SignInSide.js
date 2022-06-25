@@ -132,6 +132,7 @@ class LoginComponent extends React.Component {
     redirect: false,
     usuario: "",
     password: "",
+    otp:"",
     isLoadingData: false,
     userStatus: "",
     pwxStatus: "",
@@ -350,6 +351,7 @@ class LoginComponent extends React.Component {
     ix.setState({ isLoadingData: true });
     var us_ = ix.state.usuario;
     var pw_ = ix.state.password;
+    var otp_ = ix.state.otp;
     var isValid = true;
     //console.log(us_);
     if (us_.length > 0 && isValid) {
@@ -369,10 +371,11 @@ class LoginComponent extends React.Component {
     if (isValid) {
       axios
     .post(
-      "https://kip-logistic-api.azurewebsites.net/auth",
+      "http://localhost:5000/auth",
       {
         u: us_,
-        p: pw_
+        p: pw_,
+        o: otp_
       },
       {
         headers: {          
@@ -483,7 +486,7 @@ class LoginComponent extends React.Component {
             {/* </Avatar> */}
 
             <Typography component="h1" variant="h1">
-              Bienvenido a KIP
+              Bienvenido a Jarvis
             </Typography>
             
             {this.state.isLoadingData ? <CircularProgress /> : ""}
@@ -515,6 +518,19 @@ class LoginComponent extends React.Component {
                 helperText={this.state.pwxStatus}
                 error={this.state.pwxStatus}
                 onChange={this.handleChange("pw")}
+              />
+               <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="otp"
+                label="2FA OTP"
+                helperText={this.state.userStatus}
+                error={this.state.userStatus}
+                onChange={this.handleChange("otp")}
+                name="otp"
+                autoFocus
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

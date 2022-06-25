@@ -1283,6 +1283,12 @@ class OrdersComponent extends React.Component {
   componentDidMount() {
     var tk = localStorage.getItem("token_sec");
     var ir = this;
+//window.location.reload(1);
+    var op  = this;
+  //   setTimeout(function(){      
+  //     op.searchValue("initial");
+  //  }, 5000);
+
     // alert("DIDMOUNT");
     this.searchValue("initial");
     //drivers

@@ -371,7 +371,7 @@ class LoginComponent extends React.Component {
     if (isValid) {
       axios
     .post(
-      "http://localhost:5000/auth",
+      "https://kip-logistic-api.azurewebsites.net/auth",
       {
         u: us_,
         p: pw_,

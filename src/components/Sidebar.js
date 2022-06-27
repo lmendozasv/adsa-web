@@ -314,7 +314,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
     // window.location.href = "../myprofile";
     // window.location.assign("/myprofile");
     // location.href='/otherSection'
-    history.push("/myprofile");
+    // history.push("/myprofile");
     // t.props.history.push({       
     //   pathname: "/join",
     //   state: { groupData: t },

@@ -45,6 +45,7 @@ import {
   MapPin,
   ShoppingBag,
   Twitter,
+  Circle,
 } from "react-feather";
 
 const NavLink = React.forwardRef((props, ref) => (
@@ -137,7 +138,7 @@ class ServicesList extends React.Component {
     var ins = this;
     var tk = localStorage.getItem("token_sec");
     axios
-      .get(`http://localhost:5000/getServicesList`, {
+      .get(`https://kip-logistic-api.azurewebsites.net/getHourly`, {
         headers: {
           Authorization: "Bearer " + tk,
         },
@@ -146,98 +147,80 @@ class ServicesList extends React.Component {
         if (this._isMounted) {
           const personas = res.data.data;
           this.setState({ personas });
+          var xc = this;
+          var lb = [];
+          var ct = [];
+
+          var prg = [];
+          var exp = [];
+          var fla = [];
+          var mis = [];
+
+          res.data.data.forEach(function (entry) {
+            var labl="";
+            var cn = 0;
+            var ship ="";
+
+            labl=entry.shipping_date;
+            labl = labl.substr(10,6);
+            ship = entry.shipping_descr.replace("Kip - ","");
+            
+            // lb.push(labl+"("+entry.cnt+") "+ship);
+            lb.push(labl);
+            // lb.push(entry.cnt);
+
+            if(entry.shipping_descr.includes("Programado")){
+              prg.push(entry.cnt);
+              exp.push(0);
+              fla.push(0);
+              mis.push(0);
+            }
+            if(entry.shipping_descr.includes("Express")){
+              prg.push(0);              
+              exp.push(entry.cnt);
+              fla.push(0);
+              mis.push(0);
+            }
+            if(entry.shipping_descr.includes("Flash")){
+
+              prg.push(0);              
+              exp.push(0);
+              fla.push(entry.cnt);
+              mis.push(0);
+
+            }
+            if(entry.shipping_descr.includes("Mismo")){
+              prg.push(0);              
+              exp.push(0);
+              fla.push(0);
+              mis.push(entry.cnt);
+            }
+
+            /*
+            "cnt": 1,
+			      "shipping_date": "2022-06-27 12:56:23",
+			      "shipping_descr": "Kip - Agregar a pedido"
+            */
+          });
+          this.setState({ lbls:lb });
+          
+          this.setState({programado:prg});
+          this.setState({express:exp});
+          this.setState({flash:fla});
+          this.setState({mismo:mis});
+
+
+          console.log(prg);
+          console.log(exp);
+          console.log(fla);
+          console.log(mis);
+          console.log(lb);
+
+
         }
       });
-    if (parseInt(cat_selected) > 0) {
-      // console.log(cat_selected);
-      var token = localStorage.getItem("token_sec");
-      axios
-        .post(
-          "http://localhost:5000/getServicesByType",
-          {
-            catid: cat_selected,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then(function (res) {
-          //if (this._isMounted) {
-          const grupos = res.data.data;
-          ins.setState({ grupos });
-          // console.log("setting state");
-          // console.log(ins.state.grupos);
-          //}
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } else {
-      axios
-        .get(`http://localhost:5000/getLatestGroups`, {
-          headers: {
-            Authorization: "Bearer " + tk,
-          },
-        })
-        .then((res) => {
-          if (this._isMounted) {
-            const grupos = res.data.data;
-            this.setState({ grupos });
-          }
-        });
-      // firebase.auth();
-    }
-    if (!ENLACE_GRUPO == undefined) {
-      // referal
-      var token = localStorage.getItem("token_sec");
-      axios
-        .post(
-          "http://localhost:5000/getGroupByID",
-          {
-            id: ENLACE_GRUPO,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then(function (res) {
-          //if (this._isMounted) {
-          const grupos = res.data.data;
-          if (grupos.length > 0) {
-            ins.setState({ grupos });
-            ins.setState({ grupos }, () => {
-              console.log(grupos[0]);
-              ins.props.history.push({
-                pathname: "/groupDetails",
-                state: {
-                  groupData: grupos[0],
-                },
-              });
-            });
-          } else {
-            alert(
-              "El grupo que buscas ya no está disponible. Puedes echar un vistazo a otros grupos"
-            );
-          }
-
-          // console.log("setting state");
-          // console.log(ins.state.grupos);
-          //}
-        })
-        .catch(function (error) {
-          // alert("s");
-          console.log(error);
-        });
-    }
-    //getGroupByID
+    
+    
   }
 
   componentWillUnmount() {
@@ -246,6 +229,12 @@ class ServicesList extends React.Component {
   state = {
     personas: [],
     grupos: [],
+    st:"",
+    lbls:[],
+    programado:0,
+    express:0,
+    flash:0,
+    mismo:0,
   };
   
   
@@ -260,17 +249,18 @@ class ServicesList extends React.Component {
           <Grid item xs={12} lg={6} xl={12}>
             <Box>
               <Paper m={4}>                
-                <SalesRevenue/>
+                <SalesRevenue ins={this}/>
               </Paper>
             </Box>
           </Grid>
 
-          <Grid item xl={6}>
+          <Grid item xl={4}>
             <Box>
+            <Typography variant="h4">OTIF Hoy (Preview)</Typography>
               <Paper m={4}>                
-                {/* <Earnings/> */}
+                <Earnings/>
                 {/* <Products/> */}
-                OTIF Preview
+                {/* OTIF (Hoy) */}
               </Paper>
             </Box>
           </Grid>
@@ -446,14 +436,35 @@ function Earnings() {
       <Card mb={6} pt={2}>
         <CardContent>
           <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">$ 2.405</Box>
+            <Box fontWeight="fontWeightRegular">0.00%</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            Total Earnings
+            OTIF
           </Typography>
 
           <StatsIcon>
-            <DollarSign />
+            <Circle />
+          </StatsIcon>
+          <LinearProgress
+            variant="determinate"
+            value={75}
+            color="secondary"
+            mt={4}
+          />
+        </CardContent>
+      </Card>
+
+      <Card mb={6} pt={2}>
+        <CardContent>
+          <Typography variant="h2" gutterBottom>
+            <Box fontWeight="fontWeightRegular">0.00%</Box>
+          </Typography>
+          <Typography variant="body2" gutterBottom mt={3} mb={0}>
+            OTIF Complementos
+          </Typography>
+
+          <StatsIcon>
+            <Circle />
           </StatsIcon>
           <LinearProgress
             variant="determinate"
@@ -617,22 +628,9 @@ function Products() {
   );
 }
 
-const SalesRevenue = withTheme(({ theme }) => {
+const SalesRevenue = withTheme(({ theme,ins }) => {
   const data = {
-    labels: [
-      "08:00",
-      "09:00",
-      "10:00",
-      "11:00",
-      "12:00",
-      "13:00",
-      "14:00",
-      "15:00",
-      "16:00",
-      "17:00",
-      "18:00",
-      "19:00",
-    ],
+    labels: ins.state.lbls,
     datasets: [
       {
         label: "Programado",
@@ -640,20 +638,20 @@ const SalesRevenue = withTheme(({ theme }) => {
         borderColor: theme.palette.secondary.main,
         hoverBackgroundColor: theme.palette.secondary.main,
         hoverBorderColor: theme.palette.secondary.main,
-        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-        barPercentage: 0.625,
-        categoryPercentage: 0.5,
+        data: ins.state.programado,
+        barPercentage: 0.25,
+        categoryPercentage: 0.25,
       }
       ,
       {
         label: "Express",
-        backgroundColor: theme.palette.grey[200],
+        backgroundColor: "#48D597",
         borderColor: theme.palette.grey[200],
         hoverBackgroundColor: theme.palette.grey[200],
         hoverBorderColor: theme.palette.grey[200],
-        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
-        barPercentage: 0.625,
-        categoryPercentage: 0.5,
+        data: ins.state.express,
+        barPercentage: 0.25,
+        categoryPercentage: 0.25,
       }
 
       ,
@@ -663,22 +661,22 @@ const SalesRevenue = withTheme(({ theme }) => {
         borderColor: "#EF3340",
         hoverBackgroundColor: theme.palette.grey[200],
         hoverBorderColor: theme.palette.grey[200],
-        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
-        barPercentage: 0.625,
-        categoryPercentage: 0.5,
+        data: ins.state.flash,
+        barPercentage: 0.25,
+        categoryPercentage: 0.25,
       }
 
 
       ,
       {
         label: "Mismo dia",
-        backgroundColor: theme.palette.grey[200],
+        backgroundColor: "#1F9EEB",
         borderColor: theme.palette.grey[200],
         hoverBackgroundColor: theme.palette.grey[200],
         hoverBorderColor: theme.palette.grey[200],
-        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
-        barPercentage: 0.625,
-        categoryPercentage: 0.5,
+        data: ins.state.mismo,
+        barPercentage: 0.25,
+        categoryPercentage: 0.25,
       },
 
       
@@ -689,17 +687,17 @@ const SalesRevenue = withTheme(({ theme }) => {
     maintainAspectRatio: false,
     cornerRadius: 2,
     legend: {
-      display: false,
+      display: true,
     },
     scales: {
       yAxes: [
         {
           gridLines: {
-            display: false,
+            display: true,
           },
-          stacked: false,
+          stacked: true,
           ticks: {
-            stepSize: 20,
+            stepSize: 1,
           },
         },
       ],
@@ -722,12 +720,12 @@ const SalesRevenue = withTheme(({ theme }) => {
           <MoreVertical />
         </IconButton>
       }
-      title="Ocupación horaria (Hoy)"
+      title={"Ocupación horaria (Hoy)"+ins.state.st}
     />
 
     <CardContent>
       <ChartWrapper>
-        <Bar data={data} options={options} />
+        <Bar data={data} options={options}  />
       </ChartWrapper>
     </CardContent>
   </Card>

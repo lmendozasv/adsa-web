@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import axios from "axios";
@@ -94,7 +94,7 @@ const style = (theme) => ({
     margin: theme.spacing(8, 4),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",    
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -283,11 +283,10 @@ function EnhancedTableHead(props) {
 }
 
 let EnhancedTableToolbar = (props) => {
-  const { numSelected,ins } = props;
-  
+  const { numSelected, ins } = props;
 
   return (
-    <Toolbar style={{ "min-height": 50, "height":50 }}>
+    <Toolbar style={{ "min-height": 50, height: 50 }}>
       <ToolbarTitle>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
@@ -295,7 +294,7 @@ let EnhancedTableToolbar = (props) => {
           </Typography>
         ) : (
           <Typography variant="caption" id="tableTitle">
-            Órdenes 
+            Órdenes
           </Typography>
         )}
       </ToolbarTitle>
@@ -310,8 +309,9 @@ let EnhancedTableToolbar = (props) => {
         ) : (
           <Tooltip title="Filtros">
             <IconButton
-            onClick={(event) => ins.applyFilter(event, "modal")}
-             aria-label="Filtros">
+              onClick={(event) => ins.applyFilter(event, "modal")}
+              aria-label="Filtros"
+            >
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -322,6 +322,7 @@ let EnhancedTableToolbar = (props) => {
 };
 
 function EnhancedTable({ dataRows, ins }) {
+  // setTimeout(function() { alert("k"); }, 5000);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
   const [selected, setSelected] = React.useState([]);
@@ -381,7 +382,7 @@ function EnhancedTable({ dataRows, ins }) {
 
   return (
     <div>
-      <Paper>        
+      <Paper>
         {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
         {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""}
         {ins.state.openFilters ? <FilterRows ins={ins} /> : ""}
@@ -430,19 +431,17 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.dt_pedido}</TableCell>
                       <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
-                      <TableCell>   
-
-                    
-
-                        {row.status === "new"||row.status === "processing" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Nuevo"
-                            Nuevos
-                          />
-                        )}
+                      <TableCell>
+                        {row.status === "new" ||
+                          (row.status === "processing" && (
+                            <Chip
+                              size="small"
+                              mr={1}
+                              mb={1}
+                              label="Nuevo"
+                              Nuevos
+                            />
+                          ))}
 
                         {row.status === "checklist" && (
                           <Chip
@@ -471,7 +470,7 @@ function EnhancedTable({ dataRows, ins }) {
                             EnCaja
                           />
                         )}
-                        {row.status === "FACTURADO" && (
+                        {row.status === "FACTURADO" || row.status === "READY"   && (
                           <Chip
                             size="small"
                             mr={1}
@@ -498,15 +497,16 @@ function EnhancedTable({ dataRows, ins }) {
                             EnCamino
                           />
                         )}
-                        {row.status === "delivered"||row.status === "complete" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Entregado"
-                            Entregado
-                          />
-                        )}
+                        {row.status === "delivered" ||
+                          (row.status === "complete" && (
+                            <Chip
+                              size="small"
+                              mr={1}
+                              mb={1}
+                              label="Entregado"
+                              Entregado
+                            />
+                          ))}
                         {row.status === "cancelled" && (
                           <Chip
                             size="small"
@@ -525,9 +525,6 @@ function EnhancedTable({ dataRows, ins }) {
                             Espera
                           />
                         )}
-                        
-                                                                                                                      
-                        
                       </TableCell>
                       <TableCell align="right">$ {row.monto}</TableCell>
                       <TableCell align="right">{row.cupon}</TableCell>
@@ -574,14 +571,12 @@ function EnhancedTable({ dataRows, ins }) {
     </div>
   );
 }
-function FilterRows({ins}){
+function FilterRows({ ins }) {
   return (
     <Dialog open={ins.state.openFilters}>
       <DialogTitle>
         <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>
-            Filtros
-          </Box>
+          <Box flexGrow={1}>Filtros</Box>
           <Box>
             <IconButton onClick={ins.handleChange("close-filters")}>
               <IconClose />
@@ -592,8 +587,7 @@ function FilterRows({ins}){
       </DialogTitle>
 
       <DialogContent>
-
-      <Grid justify="space-between" container spacing={1}>
+        <Grid justify="space-between" container spacing={1}>
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
               Tipo de envío:
@@ -605,7 +599,6 @@ function FilterRows({ins}){
               -
             </Typography>
           </Grid>
-
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
@@ -619,7 +612,6 @@ function FilterRows({ins}){
             </Typography>
           </Grid>
 
-
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
               Estado pago:
@@ -632,7 +624,6 @@ function FilterRows({ins}){
             </Typography>
           </Grid>
 
-
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
               Tipo empaque:
@@ -644,20 +635,15 @@ function FilterRows({ins}){
               -
             </Typography>
           </Grid>
+        </Grid>
 
-          </Grid>
-          
-          <br/>
-          
-          <Button                            
-              fullWidth
-              variant="outlined"
-              color="primary"
-            >              
-              APLICAR
-            </Button>
-            <br/>
-            <br/>
+        <br />
+
+        <Button fullWidth variant="outlined" color="primary">
+          APLICAR
+        </Button>
+        <br />
+        <br />
       </DialogContent>
     </Dialog>
   );
@@ -792,8 +778,6 @@ function DetailsModalToSend({ ins }) {
             </Typography>
           </Grid>
 
-          
-
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
             <TextField
               id="outlined-select-currency0"
@@ -812,23 +796,23 @@ function DetailsModalToSend({ ins }) {
               ))}
             </TextField>
             {ins.state.asksubs ? (
-                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                    <TextField
-                      id="outlined-select-currency0g"
-                      size="small"
-                      label="Cantidad de sustitutos (SKU)"
-                      my={2}                      
-                      fullWidth
-                      value={ins.state.otifsubsv}
-                      onChange={ins.handleChange("otifsubsv")}
-                      variant="outlined"
-                    ></TextField>
-                  </Grid>
-                ) : (
-                  ""
-                )}
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <TextField
+                  id="outlined-select-currency0g"
+                  size="small"
+                  label="Cantidad de sustitutos (SKU)"
+                  my={2}
+                  fullWidth
+                  value={ins.state.otifsubsv}
+                  onChange={ins.handleChange("otifsubsv")}
+                  variant="outlined"
+                ></TextField>
+              </Grid>
+            ) : (
+              ""
+            )}
           </Grid>
-          
+
           <Divider my={6} />
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Typography variant="caption" gutterBottom display="inline">
@@ -847,7 +831,7 @@ function DetailsModalToSend({ ins }) {
 
           {/* 000015911-1649984605 */}
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Button              
+            <Button
               onClick={ins.handleChange("assignToDriver")}
               fullWidth
               variant="contained"
@@ -924,9 +908,17 @@ function DetailsModal({ ins }) {
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.ltlng}
-            </Typography>
+            <Link
+              variant="button"
+              gutterBottom
+              display="inline"
+              href={
+                "https://maps.google.com/?q=" + ins.state.detailViewing.ltlng
+              }
+              target="_blank"
+            >
+              Ver en Maps
+            </Link>
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
@@ -1022,166 +1014,216 @@ class OrdersComponent extends React.Component {
     paymentMethodRef: "",
     askref: false,
     otifStatus: "",
-    otifsubsv:"",    
+    otifsubsv: "",
     order_id: "",
-    searchTerm:"",
-    ordenesStatuses:[],
-    allOrdersCount:0,
-    ordersWithoutOP:0,
+    searchTerm: "",
+    ordenesStatuses: [],
+    allOrdersCount: 0,
+    ordersWithoutOP: 0,
 
-    asksubs:false,
+    asksubs: false,
+    st1: true,
+    st2: true,
+    st3: true,
+    st4: true,
+    st5: true,
+    st6: true,
+    st7: true,
+    st8: true,
+    st9: true,
+    st10: true,
+    st11: true,
   };
-  getStatuses = (items,prop) =>{    
-      var results = {}    
-      var len =  items.length;     
-      for(var i=0;i<len;i++) {            
-        var value = items[i][prop];         
-        var count = (results[value] || 0) + 1;
-        results[value] = count;
-      }    
-      var ranked = []          
-      for(var key in results) {
-        if(results.hasOwnProperty(key)) {
-          ranked.push({value:key, count:results[key]}); 
-        }
+  getStatuses = (items, prop) => {
+    var results = {};
+    var len = items.length;
+    for (var i = 0; i < len; i++) {
+      var value = items[i][prop];
+      var count = (results[value] || 0) + 1;
+      results[value] = count;
+    }
+    var ranked = [];
+    for (var key in results) {
+      if (results.hasOwnProperty(key)) {
+        ranked.push({ value: key, count: results[key] });
       }
-      return ranked.sort(function(a, b) { return b.count - a.count; });    
-  }
-  countWithoutOP = (i)=>{
-    var antVal = i.state.ordersWithoutOP;
+    }
+    return ranked.sort(function (a, b) {
+      return b.count - a.count;
+    });
+  };
+  countWithoutOP = (i) => {
+    // var antVal = i.state.ordersWithoutOP;
     i.setState(
       {
-        ordersWithoutOP: antVal+1,
+        ordersWithoutOP: i.state.ordersWithoutOP + 1,
       },
-      () => {                        
-      }
+      () => {}
     );
-  }
-  searchValue = (ev) => {      
-    var searchVal ="";
+  };
+  searchValue = (ev) => {
+    var searchVal = "";
     var tk = localStorage.getItem("token_sec");
     var ir = this;
-    var fie = ""
+    var fie = "";
 
-      if(ev.length>0){
-          if (ev=="buscarClick"){
-            searchVal = this.state.searchTerm;
-            if(searchVal.length>0){
-              fie = "search";        
-            }  
-            else{
-              alert("Por favor ingrese un término de búsqueda");
-            }
-          }
-                    
-      axios
-      .post(
-        "https://kip-logistic-api.azurewebsites.net/orders",
-        {
-          f: fie,
-          v: searchVal,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + tk,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
+    if (ev.length > 0) {
+      if (ev == "buscarClick") {
+        searchVal = this.state.searchTerm;
+        if (searchVal.length > 0) {
+          fie = "search";
+        } else {
+          alert("Por favor ingrese un término de búsqueda");
         }
-      )
-      .then(function (res) {        
-        var dt = [];
-        // const unique = [...new Set(res.data.data.map(item => item.os_state))];
-        var xp = ir.getStatuses(res.data.data,"os_state");
-        console.log(xp);
-        // alert(res.data.data.length);
-        ir.setState(
+      }
+
+      axios
+        .post(
+          "https://kip-logistic-api.azurewebsites.net/orders",
           {
-            ordenesStatuses: xp,
+            f: fie,
+            v: searchVal,
           },
-          () => {                        
-          }
-        );
-        ir.setState(
           {
-            allOrdersCount: res.data.data.length,
-          },
-          () => {                        
+            headers: {
+              Authorization: "Bearer " + tk,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
-        );
-        // console.log(xp);
-        res.data.data.forEach(function (entry) {
-          var dt_1 = entry.os_dt_created;
-          var mmntx = "";
-          mmntx = parseFloat(
-            entry.details[0].captured_amount.replace("$", "")
-          ).toFixed(2);
-          var mmntx_a = "";
-          mmntx_a = parseFloat(entry.os_total.replace("$", "")).toFixed(2);
-          // console.log(entry.fullfilment_details[0].driver_id);
-          var ux_states = [];
-          if (entry.os_op.length==0||entry.os_op=="Null"){
-            ir.countWithoutOP(ir);
-          }
-          dt.push(
-            createData(
-              entry.os_op,
-              dt_1,
-              entry.os_delivery,
-              entry.os_customer_name,
-              entry.os_state,
-              mmntx_a,
-              entry.os_coupon_code,
-              entry.os_magento,
-              entry.location,
-              entry.telephone,
-              entry.os_geo_lat,
-              entry.location,
-              entry.details[0].package_type,
-              entry.details[0].customers_comments,
-              entry.details[0].trx_id,
-              mmntx,
-              entry.glocation,
-              entry.fullfilment_details[0].driver_id,
-              entry.fullfilment_details[0].otif_status,
-              entry.fullfilment_details[0].payment_method,
-              entry.fullfilment_details[0].payment_ref,
-              entry.os_id
-            )
+        )
+        .then(function (res) {
+          var dt = [];
+          // const unique = [...new Set(res.data.data.map(item => item.os_state))];
+          var xp = ir.getStatuses(res.data.data, "os_state");
+          console.log(xp);
+          // alert(res.data.data.length);
+          ir.setState(
+            {
+              ordenesStatuses: xp,
+            },
+            () => {}
           );
-        });
-        // console.log(dt);
-        ir.setState(
-          {
-            ordenes: dt,
-          },
-          () => {
+          ir.setState(
+            {
+              allOrdersCount: res.data.data.length,
+            },
+            () => {}
+          );
+          // console.log(xp);
+
+          ir.setState({ordersWithoutOP:0})
+          res.data.data.forEach(function (entry) {
+            var row = entry.details[0];
+            var dt_1 = entry.os_dt_created;
+            var mmntx = "";
+            if (row){
+              mmntx = parseFloat(
+                row.captured_amount.replace("$", "")
+              ).toFixed(2);
+            }
             
-            // console.log(unique)
-            // ux_states = unique;
-            console.log(ir.state.ordenes);
+            var mmntx_a = "";
+            mmntx_a = parseFloat(entry.os_total.replace("$", "")).toFixed(2);
+            // console.log(entry.fullfilment_details[0].driver_id);
+            var ux_states = [];
+            if (entry.os_op.length == 0 || entry.os_op == "NO-OP") {
+              ir.countWithoutOP(ir);
+            }
+            console.log(row,entry.os_op);
+            // console.log(entry);
+            var pt = "";
+            var cc = "";
+            var trxid = "";
+
+            try{
+                pt = row.package_type;
+            }
+            catch (error) {
+              console.error(error);
+            }
+            
+            try{
+              cc = row.customers_comments;
           }
-        );
-        console.log("Fin");
-      })
-      .catch(function (error) {
-        console.log(error);
-        // alert(error);
-      });
-      }
-      else{
-       alert("Evento no controlado 193");
-      }
-  }
+          catch (error) {
+            console.error(error);
+          }
+
+          try{
+            trxid = row.trx_id;
+        }
+        catch (error) {
+          console.error(error);
+        }
+
+            dt.push(
+              createData(
+                entry.os_op,
+                dt_1,
+                entry.os_delivery,
+                entry.os_customer_name,
+                entry.os_state,
+                mmntx_a,
+                entry.os_coupon_code,
+                entry.os_magento,
+                entry.location,
+                entry.telephone,
+                entry.os_geo_lat,
+                entry.location,
+                pt,
+                cc,
+                trxid,
+                mmntx,
+                entry.glocation,
+                entry.fullfilment_details[0].driver_id,
+                entry.fullfilment_details[0].otif_status,
+                entry.fullfilment_details[0].payment_method,
+                entry.fullfilment_details[0].payment_ref,
+                entry.os_id
+              )
+            );
+          });
+          // console.log(dt);
+          ir.setState(
+            {
+              ordenes: dt,
+            },
+            () => {
+              // console.log(unique)
+              // ux_states = unique;
+              console.log(ir.state.ordenes);
+            }
+          );
+          console.log("Fin");
+        })
+        .catch(function (error) {
+          console.log(error);
+          // alert(error);
+        });
+    } else {
+      alert("Evento no controlado 193");
+    }
+  };
   applyFilter = (event, id) => {
-  // applyFilter = (name) => (event) => {
-    // console.log(event);
+    // applyFilter = (name) => (event) => {
+    console.log(this.state.ordenes);
     console.log(id); //FIlTRO A APLICAR
+    if(id=="new"){
+      this.setState({ st1: !this.state.st1 });
+    }
+    let obj = this.state.ordenes.find((o) => o.status === "processing");
+    console.log(obj);
     //alert("Apply filter");
-    if(id=="modal"){      
+    if (id == "modal") {
       this.setState({ openFilters: !this.state.openFilters });
     }
-  }
+
+    if(this.state.st1||this.state.st2||this.state.st3||this.state.st4||this.state.st5||this.state.st6||this.state.st7||this.state.st8||this.state.st9||this.state.st10||this.state.st11){
+      // Si existe algun filtro, entonces: 1- hacer backup de todas las ordenes 2- filtrar las que estan
+    }
+
+  };
   saveDetailsAndShip(ins) {
     //paymentMethod,paymentMethodRef,driverId,otifID
     var paymentMethod = ins.state.paymentMethodSelected;
@@ -1209,7 +1251,7 @@ class OrdersComponent extends React.Component {
           month: month,
           year: year,
           hour: hour,
-          otifsubs: otifsubs
+          otifsubs: otifsubs,
         },
         {
           headers: {
@@ -1280,14 +1322,18 @@ class OrdersComponent extends React.Component {
         // alert(error);
       });
   }
+  // componentWillUnmount() {
+  //   clearInterval(slideInterval);
+  // }
   componentDidMount() {
     var tk = localStorage.getItem("token_sec");
     var ir = this;
-//window.location.reload(1);
-    var op  = this;
-  //   setTimeout(function(){      
-  //     op.searchValue("initial");
-  //  }, 5000);
+    //window.location.reload(1);
+    var op = this;
+
+    // setInterval(function () {
+    //   op.searchValue("initial");
+    // }, 10000); SINCRONIZADOR
 
     // alert("DIDMOUNT");
     this.searchValue("initial");
@@ -1320,9 +1366,7 @@ class OrdersComponent extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
-   
   }
-
 
   // askdriverload = (osid,driver_id) => {
   //   // alert("askking");
@@ -1333,7 +1377,7 @@ class OrdersComponent extends React.Component {
     // alert("CLIC");
     this.setState({ searchTerm: "" });
     this.searchValue("initial");
-  }
+  };
   handleChange = (name) => (event) => {
     this.setState({
       [name]: event.target.value,
@@ -1367,7 +1411,7 @@ class OrdersComponent extends React.Component {
       this.setState({ openDetailToSend: false });
     }
     if (name.includes("close-filters")) {
-      this.setState({ openFilters : false });
+      this.setState({ openFilters: false });
     }
     if (name == "orderSelectedDriver") {
       // alert("consultar:"+event.target.value);
@@ -1406,9 +1450,9 @@ class OrdersComponent extends React.Component {
   render() {
     // const { classes } = this.props;
     return (
-      <React.Fragment>        
+      <React.Fragment>
         <Helmet title="Órdenes" />
-        
+
         {/* <Grid justify="space-between" container spacing={24}>
           <Grid item>
             <Typography variant="h3" gutterBottom display="inline">
@@ -1433,7 +1477,7 @@ class OrdersComponent extends React.Component {
         </Grid> */}
 
         <Grid container spacing={2}>
-          <Grid item xs={10} sm={11} md={11} lg={11} xl={11}>            
+          <Grid item xs={10} sm={11} md={11} lg={11} xl={11}>
             <TextField
               id="outlined-select-currency0gsearch"
               size="small"
@@ -1445,41 +1489,41 @@ class OrdersComponent extends React.Component {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon style={{fontSize: 'small'}} />
+                    <SearchIcon style={{ fontSize: "small" }} />
                   </InputAdornment>
-                ),        
+                ),
                 endAdornment: this.state.searchTerm && (
-                  <IconButton                    
+                  <IconButton
                     aria-label="toggle password visibility"
                     onClick={(event) => this.clearSearch()}
-                  ><CancelRoundedIcon
-                  style={{fontSize: 'small'}}
-                  /></IconButton>
-                )
+                  >
+                    <CancelRoundedIcon style={{ fontSize: "small" }} />
+                  </IconButton>
+                ),
               }}
             />
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
-            <Button 
-            // size="small"
-             variant="contained" 
-             color="primary"
-             fullWidth
-             onClick={(event) => this.searchValue("buscarClick")}
-             >
+            <Button
+              // size="small"
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={(event) => this.searchValue("buscarClick")}
+            >
               Buscar
             </Button>
           </Grid>
           {/* <Grid item xs={7} sm={7} md={7} lg={7} xl={7}></Grid> */}
         </Grid>
-        
+
         <Grid container spacing={3}>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <br/>
-          Este día (Filtros rápidos):
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <br />
+            Este día (Filtros rápidos):
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>            
-             {/* 
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            {/* 
              -new 
             -processing
             -complete
@@ -1491,8 +1535,8 @@ class OrdersComponent extends React.Component {
             -A FACTURUAR
             -PICKEADO
               */}
-              {/* // totalPedidos */}
-              {/* background: ${(props) => props.totalPedidos && "#B6EED5"};
+            {/* // totalPedidos */}
+            {/* background: ${(props) => props.totalPedidos && "#B6EED5"};
                   background: ${(props) => props.Nuevos && "#48D597"};
                   background: ${(props) => props.Checklist && "#C68F3C"};
                   background: ${(props) => props.Pickeado && "#7761F6"};
@@ -1504,148 +1548,256 @@ class OrdersComponent extends React.Component {
                   background: ${(props) => props.Cancelado && "#ECECEC"};
                   background: ${(props) => props.Espera && "#ECECEC"};
               */}
-              {/* allOrdersCount */}
-              <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={this.state.allOrdersCount+" Pedidos en total"}                              
-                              totalPedidos
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-              {this.state.ordenesStatuses.map((tile) => (      
+            {/* allOrdersCount */}
 
-                      (tile.value=="processing"||tile.value=="new"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Nuevos"}                              
-                              Nuevos
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||
-                      (tile.value=="checklist"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Checklist"}                              
-                              Checklist
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||
-                      (tile.value=="PICKEADO"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Pickeado"}                              
-                              Pickeado
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="A FACTURUAR"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" En caja"}                              
-                              EnCaja
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="FACTURADO"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Facturado"}                              
-                              EnCaja
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="driver-assigned"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Asignado"}                              
-                              Asignado
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="on-the-way"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Asignado"}                              
-                              EnCamino
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="delivered"||tile.value=="complete"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Entregado"}                              
-                              Entregado
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="cancelled"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" Cancelado"}                              
-                              Cancelado
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")||           
-                      (tile.value=="holded"?
-                      <Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={tile.count+" En espera"}                              
-                              Cancelado
-                              fullWidth
-                              onClick={(event) => this.applyFilter(event, "total")}
-                        />
-                      :"")
-
-
-
-
+            <Chip
+              mr={1}
+              mb={1}
+              label={this.state.allOrdersCount + " Pedidos en total"}
+              totalPedidos
+              fullWidth
+              onClick={(event) => this.applyFilter(event, "total")}
+            />
+            {this.state.ordenesStatuses.map(
+              (tile) =>
+                (tile.value == "processing" || tile.value == "new" ? (
+                  (this.state.st1?
+                    <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Nuevos"}
+                    Nuevos
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "new")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Nuevos"}
+                    Nuevos
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "new")}
+                  />)
+                  
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "checklist" ? (
+                  (this.state.st2?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Checklist"}
+                    Checklist
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "checklist")}
+                  />
+                  :
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Checklist"}
+                    Checklist
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "checklist")}
+                  />
                   )
-                )
-              }
-          
-<Chip
-                              
-                              mr={1}
-                              mb={1}
-                              label={this.state.ordersWithoutOP+" SIN OP"}
-                              variant="outlined"
-                              onClick={(event) => this.applyFilter(event, this)}
-                              
-          />
-          
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "PICKEADO" ? (
+                  (this.state.st3?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Pickeado"}
+                    Pickeado
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "PICKEADO")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Pickeado"}
+                    Pickeado
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "PICKEADO")}
+                  />
+                  )
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "A FACTURUAR" ? (
+                  (this.state.st4?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " En caja"}
+                    EnCaja
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "facturar")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " En caja"}
+                    EnCaja
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "facturar")}
+                  />
+                  )
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "FACTURADO" || tile.value == "READY" ? (
+                  (this.state.st5?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Facturado"}
+                    Facturado
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "facturado")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Facturado"}
+                    Facturado
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "facturado")}
+                  />
+                  )
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "driver-assigned" ? (
+                  (this.state.st6?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Asignado"}
+                    Asignado
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "driver-assigned")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Asignado"}
+                    Asignado
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "driver-assigned")}
+                  />
+                  )
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "on-the-way" ? (
+                  (this.state.st7?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " En camino"}
+                    EnCamino
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "on-the-way")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " En camino"}
+                    EnCamino
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "on-the-way")}
+                  />
+                  )
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "delivered" || tile.value == "complete" ? (
+                  (this.state.st8?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Entregado"}
+                    Entregado
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "delivered")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Entregado"}
+                    Entregado
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "delivered")}
+                  />
+                  )
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "cancelled" ? (
+                  (this.state.st9?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Cancelado"}
+                    Cancelado
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "cancelled")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " Cancelado"}
+                    Cancelado
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "cancelled")}
+                  />)
+                ) : (
+                  ""
+                )) ||
+                (tile.value == "holded" || tile.value == "hold" ? (
+                  (this.state.st10?
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " En espera"}
+                    EnEspera
+                    fullWidth
+                    onClick={(event) => this.applyFilter(event, "holded")}
+                  />:
+                  <Chip
+                    mr={1}
+                    mb={1}
+                    label={tile.count + " En espera"}
+                    EnEspera
+                    fullWidth
+                    onDelete={(event) => this.applyFilter(event, "holded")}
+                  />)
+                ) : (
+                  ""
+                ))
+            )}
+            {(this.state.st11?
+            <Chip
+              mr={1}
+              mb={1}
+              label={this.state.ordersWithoutOP + " SIN OP"}
+              variant="outlined"             
+              onClick={(event) => this.applyFilter(event, "no-op")}
+            />:
+            <Chip
+              mr={1}
+              mb={1}
+              label={this.state.ordersWithoutOP + " SIN OP"}
+              variant="outlined"
+              onDelete={(event) => this.applyFilter(event, "no-op")}
+            />)}
+
             {/* Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid) */}
-          </Grid>          
+          </Grid>
         </Grid>
 
         <Divider my={4} />

@@ -3,12 +3,21 @@ import styled, { withTheme } from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import CustomGridList from "./CarouselServices";
 import RecentClusters from "./ClusterCards";
+// import react-big-calendar-like-google/lib/css/react-big-calendar.css
+import "./Timeline.css";
 import Helmet from "react-helmet";
 import axios from "axios";
+// import Dayz from 'dayz';
+// import 'styles.css';
+import moment from "moment";
+// import date from 'moment';
 import "../../vendor/roundedBarCharts";
 import { Bar } from "react-chartjs-2";
 import { MoreVertical } from "react-feather";
 import { red, green, blue } from "@material-ui/core/colors";
+import { DayPilot, DayPilotCalendar } from "@daypilot/daypilot-lite-react";
+import Timeline from "react-calendar-timeline";
+import BigCalendar from "react-big-calendar-like-google";
 
 import {
   Avatar as MuiAvatar,
@@ -29,10 +38,9 @@ import {
   TableRow,
   Paper as MuiPaper,
   CardHeader,
-  IconButton,
   Typography,
 } from "@material-ui/core";
-
+import BlurOn from "@material-ui/icons/FiberManualRecord";
 import { spacing } from "@material-ui/system";
 
 import {
@@ -118,6 +126,36 @@ const TableWrapper = styled.div`
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 `;
 
+const groups = [
+  { id: 1, title: "Flash" },
+  { id: 2, title: "Express" },
+  { id: 3, title: "Mismo dia" },
+  { id: 4, title: "Programado" },
+];
+
+const items = [
+  {
+    id: 1,
+    group: 1,
+    title: "4",
+    start_time: moment(),
+  },
+  {
+    id: 2,
+    group: 2,
+    title: "item 2",
+    start_time: moment().add(-0.5, "hour"),
+    end_time: moment().add(0.5, "hour"),
+  },
+  {
+    id: 3,
+    group: 1,
+    title: "item 3",
+    start_time: moment().add(2, "hour"),
+    end_time: moment().add(3, "hour"),
+  },
+];
+
 class ServicesList extends React.Component {
   _isMounted = false;
   constructor(props) {
@@ -156,44 +194,62 @@ class ServicesList extends React.Component {
           var fla = [];
           var mis = [];
 
-          res.data.data.forEach(function (entry) {
-            var labl="";
-            var cn = 0;
-            var ship ="";
+          var eventsAll = [];
 
-            labl=entry.shipping_date;
-            labl = labl.substr(10,6);
-            ship = entry.shipping_descr.replace("Kip - ","");
-            
+          res.data.details.forEach(function (entry) {
+            var labl = "";
+            var cn = 0;
+            var ship = "";
+
+            labl = entry.shipping_date;
+            // labl = labl.substr(10, 6);
+            labl = labl.substr(6, 6);
+            ship = entry.shipping_descr.replace("Kip - ", "");
+            var order_ship = {};
+
+            var tod = new Date();
+            var day = tod.getDate();
+            var month = tod.getMonth();
+            var year = tod.getFullYear();
+            var hrs = labl.substring(0, 2);
+            // console.warn(labl);
+            hrs = parseInt(hrs);
+            var endhrs = hrs + 2;
+            var bg = "";
+
+            // console.log(order_ship);
+
             // lb.push(labl+"("+entry.cnt+") "+ship);
             lb.push(labl);
             // lb.push(entry.cnt);
 
-            if(entry.shipping_descr.includes("Programado")){
-              prg.push(entry.cnt);
-              exp.push(0);
-              fla.push(0);
-              mis.push(0);
+            if (entry.shipping_descr.includes("Programado")) {
+              bg = "#48D597";
+              //   prg.push(entry.cnt);
+              //   exp.push(0);
+              //   fla.push(0);
+              //   mis.push(0);
             }
-            if(entry.shipping_descr.includes("Express")){
-              prg.push(0);              
-              exp.push(entry.cnt);
-              fla.push(0);
-              mis.push(0);
+            if (entry.shipping_descr.includes("Express")) {
+              bg = "#7761F6";
+              //   prg.push(0);
+              //   exp.push(entry.cnt);
+              //   fla.push(0);
+              //   mis.push(0);
             }
-            if(entry.shipping_descr.includes("Flash")){
-
-              prg.push(0);              
-              exp.push(0);
-              fla.push(entry.cnt);
-              mis.push(0);
-
+            if (entry.shipping_descr.includes("Flash")) {
+              bg = "#EF3340";
+              //   prg.push(0);
+              //   exp.push(0);
+              //   fla.push(entry.cnt);
+              //   mis.push(0);
             }
-            if(entry.shipping_descr.includes("Mismo")){
-              prg.push(0);              
-              exp.push(0);
-              fla.push(0);
-              mis.push(entry.cnt);
+            if (entry.shipping_descr.includes("Mismo")) {
+              bg = "#1F9EEB";
+              //   prg.push(0);
+              //   exp.push(0);
+              //   fla.push(0);
+              //   mis.push(entry.cnt);
             }
 
             /*
@@ -201,26 +257,81 @@ class ServicesList extends React.Component {
 			      "shipping_date": "2022-06-27 12:56:23",
 			      "shipping_descr": "Kip - Agregar a pedido"
             */
+            order_ship = {
+              title: entry.os_op + "-" + ship,
+              bgColor: bg,
+              start: new Date(year, month, day, hrs),
+              end: new Date(year, month, day, endhrs),
+              desc: entry.os_op,
+            };
+            eventsAll.push(order_ship);
           });
-          this.setState({ lbls:lb });
-          
-          this.setState({programado:prg});
-          this.setState({express:exp});
-          this.setState({flash:fla});
-          this.setState({mismo:mis});
+          this.setState({ lbls: lb });
 
+          this.setState({ programado: prg });
+          this.setState({ express: exp });
+          this.setState({ flash: fla });
+          this.setState({ mismo: mis });
+          this.setState({ ordersList: eventsAll });
 
           console.log(prg);
           console.log(exp);
           console.log(fla);
           console.log(mis);
           console.log(lb);
+          console.log(eventsAll);
 
+          //   const myEventsList = [{
+          //     'title': 'Programado (3)',
+          //     'bgColor': '#ff7f50',
+          //     'start':new Date(2022,6,16,14),
+          //     'end': new Date(2022,6,16,15),
+          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
+          //   },
+          //   {
+          //     'title': 'Flash (3)',
+          //     'bgColor': '#db9a00',
+          //     'start':new Date(2022,6,16,14),
+          //     'end': new Date(2022,6,16,15),
+          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
+          //   },
+          //   {
+          //     'title': 'Express (30)',
+          //     'bgColor': '#000',
+          //     'start':new Date(2022,6,16,14),
+          //     'end': new Date(2022,6,16,15),
+          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
+          //   },
+          //   {
+          //     'title': 'Mismo día (30)',
+          //     'bgColor': '#000',
+          //     'start':new Date(2022,6,16,14),
+          //     'end': new Date(2022,6,16,15),
+          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
+          //   },
+          //   {
+          //     'title': 'Agregar a pedido (30)',
+          //     'bgColor': '#000',
+          //     'start':new Date(2022,6,16,14),
+          //     'end': new Date(2022,6,16,15),
+          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
+          //   }
+          // ]
 
+          axios
+            .get(`https://kip-logistic-api.azurewebsites.net/otifPanel`, {
+              headers: {
+                Authorization: "Bearer " + tk,
+              },
+            })
+            .then((res) => {
+              this.setState({ otif: res.data.otif });
+
+              this.setState({ otifc: res.data.otif_c });
+              // alert(res.data.otif);
+            });
         }
       });
-    
-    
   }
 
   componentWillUnmount() {
@@ -229,15 +340,17 @@ class ServicesList extends React.Component {
   state = {
     personas: [],
     grupos: [],
-    st:"",
-    lbls:[],
-    programado:0,
-    express:0,
-    flash:0,
-    mismo:0,
+    st: "",
+    lbls: [],
+    programado: 0,
+    express: 0,
+    flash: 0,
+    mismo: 0,
+    otif: 0.0,
+    otifc: 0.0,
+    ordersList: [],
   };
-  
-  
+
   render() {
     return (
       <React.Fragment>
@@ -248,24 +361,22 @@ class ServicesList extends React.Component {
         <Grid container mt={0}>
           <Grid item xs={12} lg={6} xl={12}>
             <Box>
-              <Paper m={4}>                
-                <SalesRevenue ins={this}/>
+              <Paper m={4}>
+                <SalesRevenue ins={this} />
               </Paper>
             </Box>
           </Grid>
 
           <Grid item xl={4}>
             <Box>
-            <Typography variant="h4">OTIF Hoy (Preview)</Typography>
-              <Paper m={4}>                
-                <Earnings/>
+              <Typography variant="h4">OTIF Hoy (Preview)</Typography>
+              <Paper m={4}>
+                <Earnings ins={this} />
                 {/* <Products/> */}
                 {/* OTIF (Hoy) */}
               </Paper>
             </Box>
           </Grid>
-
-
         </Grid>
       </React.Fragment>
     );
@@ -430,48 +541,48 @@ function Elsewhere() {
   );
 }
 
-function Earnings() {
+function Earnings({ ins }) {
   return (
     <Box position="relative">
       <Card mb={6} pt={2}>
         <CardContent>
           <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">0.00%</Box>
+            <Box fontWeight="fontWeightRegular">{ins.state.otif}%</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
             OTIF
           </Typography>
 
           <StatsIcon>
-            <Circle />
+            <BlurOn />
           </StatsIcon>
-          <LinearProgress
+          {/* <LinearProgress
             variant="determinate"
             value={75}
             color="secondary"
             mt={4}
-          />
+          /> */}
         </CardContent>
       </Card>
 
       <Card mb={6} pt={2}>
         <CardContent>
           <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">0.00%</Box>
+            <Box fontWeight="fontWeightRegular">{ins.state.otifc}%</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            OTIF Complementos
+            OTIF con complementos
           </Typography>
 
           <StatsIcon>
             <Circle />
           </StatsIcon>
-          <LinearProgress
+          {/* <LinearProgress
             variant="determinate"
             value={75}
             color="secondary"
             mt={4}
-          />
+          /> */}
         </CardContent>
       </Card>
     </Box>
@@ -628,7 +739,8 @@ function Products() {
   );
 }
 
-const SalesRevenue = withTheme(({ theme,ins }) => {
+const SalesRevenue = withTheme(({ theme, ins }) => {
+  BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
   const data = {
     labels: ins.state.lbls,
     datasets: [
@@ -641,8 +753,7 @@ const SalesRevenue = withTheme(({ theme,ins }) => {
         data: ins.state.programado,
         barPercentage: 0.25,
         categoryPercentage: 0.25,
-      }
-      ,
+      },
       {
         label: "Express",
         backgroundColor: "#48D597",
@@ -652,9 +763,8 @@ const SalesRevenue = withTheme(({ theme,ins }) => {
         data: ins.state.express,
         barPercentage: 0.25,
         categoryPercentage: 0.25,
-      }
+      },
 
-      ,
       {
         label: "Flash",
         backgroundColor: "#EF3340",
@@ -664,10 +774,8 @@ const SalesRevenue = withTheme(({ theme,ins }) => {
         data: ins.state.flash,
         barPercentage: 0.25,
         categoryPercentage: 0.25,
-      }
+      },
 
-
-      ,
       {
         label: "Mismo dia",
         backgroundColor: "#1F9EEB",
@@ -678,8 +786,6 @@ const SalesRevenue = withTheme(({ theme,ins }) => {
         barPercentage: 0.25,
         categoryPercentage: 0.25,
       },
-
-      
     ],
   };
 
@@ -714,21 +820,34 @@ const SalesRevenue = withTheme(({ theme,ins }) => {
 
   return (
     <Card mb={1}>
-    <CardHeader
-      action={
-        <IconButton aria-label="settings">
-          <MoreVertical />
-        </IconButton>
-      }
-      title={"Ocupación horaria (Hoy)"+ins.state.st}
-    />
+      <CardHeader
+        action={
+          <BlurOn aria-label="settings">
+            <MoreVertical />
+          </BlurOn>
+        }
+        title={"Distribución horaria de pedidos " + ins.state.st}
+      />
+      <CardContent>
+        <BigCalendar
+          events={ins.state.ordersList}
+          step={30}
+          timeslots={2}
+          defaultView="day"
+          onSelectEvent={event => alert(event.desc)}
 
-    <CardContent>
-      <ChartWrapper>
-        <Bar data={data} options={options}  />
-      </ChartWrapper>
-    </CardContent>
-  </Card>
+          // views={['month','week', 'day', 'agenda']}
+          // titleAccessor="Tis"
+          // view={'week'}
+        />
+      </CardContent>
+
+      {/* <CardContent>
+        <ChartWrapper>
+          <Bar data={data} options={options} />
+        </ChartWrapper>
+      </CardContent> */}
+    </Card>
   );
 });
 

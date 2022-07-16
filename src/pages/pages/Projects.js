@@ -470,15 +470,16 @@ function EnhancedTable({ dataRows, ins }) {
                             EnCaja
                           />
                         )}
-                        {row.status === "FACTURADO" || row.status === "READY"   && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Facturado"
-                            Facturado
-                          />
-                        )}
+                        {row.status === "FACTURADO" ||
+                          (row.status === "READY" && (
+                            <Chip
+                              size="small"
+                              mr={1}
+                              mb={1}
+                              label="Facturado"
+                              Facturado
+                            />
+                          ))}
                         {row.status === "driver-assigned" && (
                           <Chip
                             size="small"
@@ -1112,17 +1113,17 @@ class OrdersComponent extends React.Component {
           );
           // console.log(xp);
 
-          ir.setState({ordersWithoutOP:0})
+          ir.setState({ ordersWithoutOP: 0 });
           res.data.data.forEach(function (entry) {
             var row = entry.details[0];
             var dt_1 = entry.os_dt_created;
             var mmntx = "";
-            if (row){
-              mmntx = parseFloat(
-                row.captured_amount.replace("$", "")
-              ).toFixed(2);
+            if (row) {
+              mmntx = parseFloat(row.captured_amount.replace("$", "")).toFixed(
+                2
+              );
             }
-            
+
             var mmntx_a = "";
             mmntx_a = parseFloat(entry.os_total.replace("$", "")).toFixed(2);
             // console.log(entry.fullfilment_details[0].driver_id);
@@ -1130,32 +1131,29 @@ class OrdersComponent extends React.Component {
             if (entry.os_op.length == 0 || entry.os_op == "NO-OP") {
               ir.countWithoutOP(ir);
             }
-            console.log(row,entry.os_op);
+            console.log(row, entry.os_op);
             // console.log(entry);
             var pt = "";
             var cc = "";
             var trxid = "";
 
-            try{
-                pt = row.package_type;
-            }
-            catch (error) {
+            try {
+              pt = row.package_type;
+            } catch (error) {
               console.error(error);
             }
-            
-            try{
-              cc = row.customers_comments;
-          }
-          catch (error) {
-            console.error(error);
-          }
 
-          try{
-            trxid = row.trx_id;
-        }
-        catch (error) {
-          console.error(error);
-        }
+            try {
+              cc = row.customers_comments;
+            } catch (error) {
+              console.error(error);
+            }
+
+            try {
+              trxid = row.trx_id;
+            } catch (error) {
+              console.error(error);
+            }
 
             dt.push(
               createData(
@@ -1209,7 +1207,7 @@ class OrdersComponent extends React.Component {
     // applyFilter = (name) => (event) => {
     console.log(this.state.ordenes);
     console.log(id); //FIlTRO A APLICAR
-    if(id=="new"){
+    if (id == "new") {
       this.setState({ st1: !this.state.st1 });
     }
     let obj = this.state.ordenes.find((o) => o.status === "processing");
@@ -1219,10 +1217,21 @@ class OrdersComponent extends React.Component {
       this.setState({ openFilters: !this.state.openFilters });
     }
 
-    if(this.state.st1||this.state.st2||this.state.st3||this.state.st4||this.state.st5||this.state.st6||this.state.st7||this.state.st8||this.state.st9||this.state.st10||this.state.st11){
+    if (
+      this.state.st1 ||
+      this.state.st2 ||
+      this.state.st3 ||
+      this.state.st4 ||
+      this.state.st5 ||
+      this.state.st6 ||
+      this.state.st7 ||
+      this.state.st8 ||
+      this.state.st9 ||
+      this.state.st10 ||
+      this.state.st11
+    ) {
       // Si existe algun filtro, entonces: 1- hacer backup de todas las ordenes 2- filtrar las que estan
     }
-
   };
   saveDetailsAndShip(ins) {
     //paymentMethod,paymentMethodRef,driverId,otifID
@@ -1561,240 +1570,259 @@ class OrdersComponent extends React.Component {
             {this.state.ordenesStatuses.map(
               (tile) =>
                 (tile.value == "processing" || tile.value == "new" ? (
-                  (this.state.st1?
+                  this.state.st1 ? (
                     <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Nuevos"}
-                    Nuevos
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "new")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Nuevos"}
-                    Nuevos
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "new")}
-                  />)
-                  
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Nuevos"}
+                      Nuevos
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "new")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Nuevos"}
+                      Nuevos
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "new")}
+                    />
+                  )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "checklist" ? (
-                  (this.state.st2?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Checklist"}
-                    Checklist
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "checklist")}
-                  />
-                  :
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Checklist"}
-                    Checklist
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "checklist")}
-                  />
+                  this.state.st2 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Checklist"}
+                      Checklist
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "checklist")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Checklist"}
+                      Checklist
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "checklist")}
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "PICKEADO" ? (
-                  (this.state.st3?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Pickeado"}
-                    Pickeado
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "PICKEADO")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Pickeado"}
-                    Pickeado
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "PICKEADO")}
-                  />
+                  this.state.st3 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Pickeado"}
+                      Pickeado
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "PICKEADO")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Pickeado"}
+                      Pickeado
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "PICKEADO")}
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "A FACTURUAR" ? (
-                  (this.state.st4?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " En caja"}
-                    EnCaja
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "facturar")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " En caja"}
-                    EnCaja
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "facturar")}
-                  />
+                  this.state.st4 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " En caja"}
+                      EnCaja
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "facturar")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " En caja"}
+                      EnCaja
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "facturar")}
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "FACTURADO" || tile.value == "READY" ? (
-                  (this.state.st5?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Facturado"}
-                    Facturado
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "facturado")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Facturado"}
-                    Facturado
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "facturado")}
-                  />
+                  this.state.st5 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Facturado"}
+                      Facturado
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "facturado")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Facturado"}
+                      Facturado
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "facturado")}
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "driver-assigned" ? (
-                  (this.state.st6?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Asignado"}
-                    Asignado
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "driver-assigned")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Asignado"}
-                    Asignado
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "driver-assigned")}
-                  />
+                  this.state.st6 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Asignado"}
+                      Asignado
+                      fullWidth
+                      onClick={(event) =>
+                        this.applyFilter(event, "driver-assigned")
+                      }
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Asignado"}
+                      Asignado
+                      fullWidth
+                      onDelete={(event) =>
+                        this.applyFilter(event, "driver-assigned")
+                      }
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "on-the-way" ? (
-                  (this.state.st7?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " En camino"}
-                    EnCamino
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "on-the-way")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " En camino"}
-                    EnCamino
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "on-the-way")}
-                  />
+                  this.state.st7 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " En camino"}
+                      EnCamino
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "on-the-way")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " En camino"}
+                      EnCamino
+                      fullWidth
+                      onDelete={(event) =>
+                        this.applyFilter(event, "on-the-way")
+                      }
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "delivered" || tile.value == "complete" ? (
-                  (this.state.st8?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Entregado"}
-                    Entregado
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "delivered")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Entregado"}
-                    Entregado
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "delivered")}
-                  />
+                  this.state.st8 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Entregado"}
+                      Entregado
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "delivered")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Entregado"}
+                      Entregado
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "delivered")}
+                    />
                   )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "cancelled" ? (
-                  (this.state.st9?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Cancelado"}
-                    Cancelado
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "cancelled")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " Cancelado"}
-                    Cancelado
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "cancelled")}
-                  />)
+                  this.state.st9 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Cancelado"}
+                      Cancelado
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "cancelled")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " Cancelado"}
+                      Cancelado
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "cancelled")}
+                    />
+                  )
                 ) : (
                   ""
                 )) ||
                 (tile.value == "holded" || tile.value == "hold" ? (
-                  (this.state.st10?
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " En espera"}
-                    EnEspera
-                    fullWidth
-                    onClick={(event) => this.applyFilter(event, "holded")}
-                  />:
-                  <Chip
-                    mr={1}
-                    mb={1}
-                    label={tile.count + " En espera"}
-                    EnEspera
-                    fullWidth
-                    onDelete={(event) => this.applyFilter(event, "holded")}
-                  />)
+                  this.state.st10 ? (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " En espera"}
+                      EnEspera
+                      fullWidth
+                      onClick={(event) => this.applyFilter(event, "holded")}
+                    />
+                  ) : (
+                    <Chip
+                      mr={1}
+                      mb={1}
+                      label={tile.count + " En espera"}
+                      EnEspera
+                      fullWidth
+                      onDelete={(event) => this.applyFilter(event, "holded")}
+                    />
+                  )
                 ) : (
                   ""
                 ))
             )}
-            {(this.state.st11?
-            <Chip
-              mr={1}
-              mb={1}
-              label={this.state.ordersWithoutOP + " SIN OP"}
-              variant="outlined"             
-              onClick={(event) => this.applyFilter(event, "no-op")}
-            />:
-            <Chip
-              mr={1}
-              mb={1}
-              label={this.state.ordersWithoutOP + " SIN OP"}
-              variant="outlined"
-              onDelete={(event) => this.applyFilter(event, "no-op")}
-            />)}
+            {this.state.st11 ? (
+              <Chip
+                mr={1}
+                mb={1}
+                label={this.state.ordersWithoutOP + " SIN OP"}
+                variant="outlined"
+                onClick={(event) => this.applyFilter(event, "no-op")}
+              />
+            ) : (
+              <Chip
+                mr={1}
+                mb={1}
+                label={this.state.ordersWithoutOP + " SIN OP"}
+                variant="outlined"
+                onDelete={(event) => this.applyFilter(event, "no-op")}
+              />
+            )}
 
             {/* Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid) */}
           </Grid>

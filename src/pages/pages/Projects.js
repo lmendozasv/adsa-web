@@ -1340,9 +1340,9 @@ class OrdersComponent extends React.Component {
     //window.location.reload(1);
     var op = this;
 
-    // setInterval(function () {
-    //   op.searchValue("initial");
-    // }, 10000); SINCRONIZADOR
+    setInterval(function () {
+      op.searchValue("initial");
+    }, 10000); //SINCRONIZADOR
 
     // alert("DIDMOUNT");
     this.searchValue("initial");

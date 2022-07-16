@@ -1569,7 +1569,7 @@ class OrdersComponent extends React.Component {
             />
             {this.state.ordenesStatuses.map(
               (tile) =>
-                (tile.value == "processing" || tile.value == "new" ? (
+                (tile.value == "processing" || tile.value == "new" || tile.value == "pending"  ? (
                   this.state.st1 ? (
                     <Chip
                       mr={1}

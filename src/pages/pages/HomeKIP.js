@@ -387,17 +387,17 @@ class ServicesList extends React.Component {
     return (
       <React.Fragment>
         <Helmet title="Bienvenido" />
-
-        <Typography variant="h4">Bienvenido</Typography>
-        <Spacer m={5} />
+        <SalesRevenue ins={this} />
+        {/* <Typography variant="h4">Bienvenido</Typography>
+        <Spacer m={5} /> */}
         <Grid container mt={0}>
-          <Grid item xs={12} lg={6} xl={12}>
+          {/* <Grid item xs={12} lg={6} xl={12}>
             <Box>
               <Paper m={4}>
-                <SalesRevenue ins={this} />
+                
               </Paper>
             </Box>
-          </Grid>
+          </Grid> */}
 
           <Grid item xl={4}>
             <Box>
@@ -555,12 +555,12 @@ function SalesRevenue({ ins }) {
       </Dialog>
 
       <CardHeader
-        action={
-          <BlurOn aria-label="settings">
-            <MoreVertical />
-          </BlurOn>
-        }
-        title={"Distribución horaria de pedidos " + ins.state.st}
+        // action={
+        //   // <BlurOn aria-label="settings">
+        //   //   <MoreVertical />
+        //   // </BlurOn>
+        // }
+        title={"Calendario de operaciones" + ins.state.st}
       />
       <CardContent>
         {/* <DragAndDropCalendar */}

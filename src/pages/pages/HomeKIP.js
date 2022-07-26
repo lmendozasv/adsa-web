@@ -1,23 +1,41 @@
 import React from "react";
 import styled, { withTheme } from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
-import CustomGridList from "./CarouselServices";
-import RecentClusters from "./ClusterCards";
+// import { Calendar, momentLocalizer } from 'react-big-calendar'
 // import react-big-calendar-like-google/lib/css/react-big-calendar.css
-import "./Timeline.css";
+// import "./Timeline.css";
 import Helmet from "react-helmet";
 import axios from "axios";
 // import Dayz from 'dayz';
 // import 'styles.css';
 import moment from "moment";
 // import date from 'moment';
-import "../../vendor/roundedBarCharts";
-import { Bar } from "react-chartjs-2";
+// import "../../vendor/roundedBarCharts";
+// import { Bar } from "react-chartjs-2";
 import { MoreVertical } from "react-feather";
 import { red, green, blue } from "@material-ui/core/colors";
-import { DayPilot, DayPilotCalendar } from "@daypilot/daypilot-lite-react";
-import Timeline from "react-calendar-timeline";
-import BigCalendar from "react-big-calendar-like-google";
+// import { DayPilot, DayPilotCalendar } from "@daypilot/daypilot-lite-react";
+// import Timeline from "react-calendar-timeline";
+// import BigCalendar from "react-big-calendar-like-google";
+// import withDragAndDrop from 'react-big-calendar-like-google/lib/addons/dragAndDrop';
+
+// import FullCalendar from '@fullcalendar/react'; // must go before plugins
+// // import momentPlugin from '@fullcalendar/moment'
+// import dayGridPlugin from '@fullcalendar/daygrid'
+// // import "@fullcalendar/daygrid/main.css";
+// import "@fullcalendar/daygrid/main.css";
+// import "@fullcalendar/timegrid/main.css";
+// import timeGridPlugin from "@fullcalendar/timegrid";
+
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import listPlugin from "@fullcalendar/list";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+
+import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
 
 import {
   Avatar as MuiAvatar,
@@ -36,13 +54,28 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Dialog,
+  IconButton,
+  DialogTitle,
+  DialogContent,
   Paper as MuiPaper,
   CardHeader,
   Typography,
 } from "@material-ui/core";
 import BlurOn from "@material-ui/icons/FiberManualRecord";
 import { spacing } from "@material-ui/system";
-
+import {
+  Add as AddIcon,
+  Archive as ArchiveIcon,
+  FilterList as FilterListIcon,
+  List as RemoveRedEyeIcon,
+  NavigateNext as ArrowForwardIosIcon,
+  Close as IconClose,
+  SportsMotorsports as IconMoped,
+  Search as SearchIcon,
+  CancelRounded as CancelRoundedIcon,
+  FilterAlt as FilterAltIcon,
+} from "@material-ui/icons";
 import {
   Briefcase,
   DollarSign,
@@ -59,6 +92,8 @@ import {
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ));
+
+// const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const Paper = styled(MuiPaper)(spacing);
@@ -126,35 +161,7 @@ const TableWrapper = styled.div`
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 `;
 
-const groups = [
-  { id: 1, title: "Flash" },
-  { id: 2, title: "Express" },
-  { id: 3, title: "Mismo dia" },
-  { id: 4, title: "Programado" },
-];
 
-const items = [
-  {
-    id: 1,
-    group: 1,
-    title: "4",
-    start_time: moment(),
-  },
-  {
-    id: 2,
-    group: 2,
-    title: "item 2",
-    start_time: moment().add(-0.5, "hour"),
-    end_time: moment().add(0.5, "hour"),
-  },
-  {
-    id: 3,
-    group: 1,
-    title: "item 3",
-    start_time: moment().add(2, "hour"),
-    end_time: moment().add(3, "hour"),
-  },
-];
 
 class ServicesList extends React.Component {
   _isMounted = false;
@@ -164,17 +171,12 @@ class ServicesList extends React.Component {
   }
   componentDidMount() {
     console.log(this.props);
-    var cat_selected = "0";
-    var ENLACE_GRUPO = "";
-    const urlParams = new URLSearchParams(window.location.search);
-    cat_selected = urlParams.get("c");
-    ENLACE_GRUPO = urlParams.get("group");
-    // alert(ENLACE_GRUPO);
-    //console.log("PARAMETRO: "+cat_selected);
+
 
     this._isMounted = true;
     var ins = this;
     var tk = localStorage.getItem("token_sec");
+
     axios
       .get(`https://kip-logistic-api.azurewebsites.net/getHourly`, {
         headers: {
@@ -222,47 +224,49 @@ class ServicesList extends React.Component {
             // lb.push(labl+"("+entry.cnt+") "+ship);
             lb.push(labl);
             // lb.push(entry.cnt);
-
-            if (entry.shipping_descr.includes("Programado")) {
-              bg = "#48D597";
-              //   prg.push(entry.cnt);
-              //   exp.push(0);
-              //   fla.push(0);
-              //   mis.push(0);
+            // COLORES DE BODEGA
+            // GRIS = RECIBIDO
+            // CELESTE = PICKEADO
+            // VERDE MUSGO = COMPLETO, FACTURADO
+            // AMARILLO = EN CAJA 
+            // NARANJA = EN RUTA
+            // VERDE = ENTREGADO
+            // MORADO = ENTREGADO TARDE
+            if (entry.os_status.includes("new")||entry.os_status.includes("processing")||entry.os_status.includes("READY")) { // RECIBIDO
+              bg = "#999999";
             }
-            if (entry.shipping_descr.includes("Express")) {
-              bg = "#7761F6";
-              //   prg.push(0);
-              //   exp.push(entry.cnt);
-              //   fla.push(0);
-              //   mis.push(0);
-            }
-            if (entry.shipping_descr.includes("Flash")) {
-              bg = "#EF3340";
-              //   prg.push(0);
-              //   exp.push(0);
-              //   fla.push(entry.cnt);
-              //   mis.push(0);
-            }
-            if (entry.shipping_descr.includes("Mismo")) {
+            if (entry.os_status.includes("PICKED")||entry.os_status.includes("PICKEADO")) { // pickeado
               bg = "#1F9EEB";
-              //   prg.push(0);
-              //   exp.push(0);
-              //   fla.push(0);
-              //   mis.push(entry.cnt);
+            }
+            if (entry.os_status.includes("CLOSED")||entry.os_status.includes("FACTURADO")) { // facturado
+              bg = "#2f4538";
+            }
+            if (entry.os_status.includes("COLLECTED")||entry.os_status.includes("A FACTURAR")) { // EN CAJA
+              bg = "#F1C40F";
+            }
+            if (entry.os_status.includes("on-the-way")) { // EN RUTA
+              bg = "#D35400";
+            }
+            if (entry.os_status.includes("complete")) { // DELIVERED 
+              bg = "#58D68D";
             }
 
             /*
             "cnt": 1,
-			      "shipping_date": "2022-06-27 12:56:23",
-			      "shipping_descr": "Kip - Agregar a pedido"
+            "shipping_date": "2022-06-27 12:56:23",
+            "shipping_descr": "Kip - Agregar a pedido"
             */
             order_ship = {
-              title: entry.os_op + "-" + ship,
-              bgColor: bg,
+              title: entry.customer + "-" + entry.os_op + "-" + entry.os_status,
+              backgroundColor: bg,
               start: new Date(year, month, day, hrs),
               end: new Date(year, month, day, endhrs),
-              desc: entry.os_op,
+              // desc: entry.customer,
+              customer:entry.customer,
+              allData:entry,
+              durationEditable:false,
+              // overlap:false,
+              borderColor:bg
             };
             eventsAll.push(order_ship);
           });
@@ -280,43 +284,6 @@ class ServicesList extends React.Component {
           console.log(mis);
           console.log(lb);
           console.log(eventsAll);
-
-          //   const myEventsList = [{
-          //     'title': 'Programado (3)',
-          //     'bgColor': '#ff7f50',
-          //     'start':new Date(2022,6,16,14),
-          //     'end': new Date(2022,6,16,15),
-          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
-          //   },
-          //   {
-          //     'title': 'Flash (3)',
-          //     'bgColor': '#db9a00',
-          //     'start':new Date(2022,6,16,14),
-          //     'end': new Date(2022,6,16,15),
-          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
-          //   },
-          //   {
-          //     'title': 'Express (30)',
-          //     'bgColor': '#000',
-          //     'start':new Date(2022,6,16,14),
-          //     'end': new Date(2022,6,16,15),
-          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
-          //   },
-          //   {
-          //     'title': 'Mismo día (30)',
-          //     'bgColor': '#000',
-          //     'start':new Date(2022,6,16,14),
-          //     'end': new Date(2022,6,16,15),
-          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
-          //   },
-          //   {
-          //     'title': 'Agregar a pedido (30)',
-          //     'bgColor': '#000',
-          //     'start':new Date(2022,6,16,14),
-          //     'end': new Date(2022,6,16,15),
-          //     'desc': 'Pre-meeting meeting, to prepare for the meeting'
-          //   }
-          // ]
 
           axios
             .get(`https://kip-logistic-api.azurewebsites.net/otifPanel`, {
@@ -349,8 +316,34 @@ class ServicesList extends React.Component {
     otif: 0.0,
     otifc: 0.0,
     ordersList: [],
-  };
 
+    customerSelected: "",
+    idSelected: 0,
+    deliveryTypeSelected: "",
+    deliveryDateSelected: "",
+    isDetailOpen:false,
+    opSelected:"",
+
+
+  };
+  handleChangeDeliveryTime(s) {
+    
+    // console.log(s.event.start);
+    // console.log(s.event.end);
+
+    
+  }
+  handleClick(e){    
+    this.setState({ isDetailOpen: true });
+    var ae = e.event.title.split("-");
+    this.setState({ customerSelected: ae[0] });
+    this.setState({ opSelected: ae[1] });
+    this.setState({ deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr});    
+    this.setState({ deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date});
+  }
+  handleCloseDetail(){
+    
+  }
   render() {
     return (
       <React.Fragment>
@@ -381,164 +374,6 @@ class ServicesList extends React.Component {
       </React.Fragment>
     );
   }
-}
-function Details() {
-  return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Profile Details
-        </Typography>
-
-        <Spacer mb={4} />
-
-        <Centered>
-          <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
-          <Typography variant="body2" component="div" gutterBottom>
-            <Box fontWeight="fontWeightMedium">Lucy Lavender</Box>
-            <Box fontWeight="fontWeightRegular">Lead Developer</Box>
-          </Typography>
-
-          <Button mr={2} variant="contained" size="small">
-            Follow
-          </Button>
-          <Button mr={2} variant="contained" color="primary" size="small">
-            Message
-          </Button>
-        </Centered>
-      </CardContent>
-    </Card>
-  );
-}
-
-function Skills() {
-  return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Skills
-        </Typography>
-
-        <Spacer mb={4} />
-
-        <Centered>
-          <Chip size="small" mr={1} mb={1} label="HTML" color="secondary" />
-          <Chip size="small" mr={1} mb={1} label="JavaScript" />
-          <Chip size="small" mr={1} mb={1} label="Sass" />
-          <Chip size="small" mr={1} mb={1} label="React" />
-          <Chip size="small" mr={1} mb={1} label="Redux" />
-          <Chip size="small" mr={1} mb={1} label="Next.js" />
-          <Chip size="small" mr={1} mb={1} label="Material UI" />
-          <Chip size="small" mr={1} mb={1} label="UI" />
-          <Chip size="small" mr={1} mb={1} label="UX" />
-        </Centered>
-      </CardContent>
-    </Card>
-  );
-}
-
-function About() {
-  return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          About
-        </Typography>
-
-        <Spacer mb={4} />
-
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <Home />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            Lives in{" "}
-            <Link href="https://material-app.bootlab.io/">
-              San Fransisco, SA
-            </Link>
-          </Grid>
-        </Grid>
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <Briefcase />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            Works at{" "}
-            <Link href="https://material-app.bootlab.io/">Material UI</Link>
-          </Grid>
-        </Grid>
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            <AboutIcon>
-              <MapPin />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            Lives in <Link href="https://material-app.bootlab.io/">Boston</Link>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-  );
-}
-
-function Elsewhere() {
-  return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Elsewhere
-        </Typography>
-
-        <Spacer mb={4} />
-
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <ExternalLink />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            <Link href="https://material-app.bootlab.io/">lucylavender.io</Link>
-          </Grid>
-        </Grid>
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <Twitter />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            <Link href="https://material-app.bootlab.io/">Twitter</Link>
-          </Grid>
-        </Grid>
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <Facebook />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            <Link href="https://material-app.bootlab.io/">Facebook</Link>
-          </Grid>
-        </Grid>
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            <AboutIcon>
-              <Instagram />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            <Link href="https://material-app.bootlab.io/">Instagram</Link>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-  );
 }
 
 function Earnings({ ins }) {
@@ -589,237 +424,97 @@ function Earnings({ ins }) {
   );
 }
 
-function Orders() {
+function SalesRevenue({ ins }) {
   return (
-    <Box position="relative">
-      <Card mb={6} pt={2}>
-        <CardContent>
-          <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">30</Box>
-          </Typography>
-          <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            Orders Today
-          </Typography>
+    // <FullCalendar
+    //     plugins={[ dayGridPlugin ]}
+    //     initialView="dayGridDay"
+    //     // events={ins.state.ordersList}
+    //     weekends={false}
+    //   />
 
-          <StatsIcon>
-            <ShoppingBag />
-          </StatsIcon>
-          <LinearProgress
-            variant="determinate"
-            value={30}
-            color="secondary"
-            mt={4}
-          />
-        </CardContent>
-      </Card>
-    </Box>
-  );
-}
 
-function Revenue() {
-  return (
-    <Box position="relative">
-      <Card mb={6} pt={2}>
-        <CardContent>
-          <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">$ 1.224</Box>
-          </Typography>
-          <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            Total Revenue
-          </Typography>
 
-          <StatsIcon>
-            <DollarSign />
-          </StatsIcon>
-          <LinearProgress
-            variant="determinate"
-            value={50}
-            color="secondary"
-            mt={4}
-          />
-        </CardContent>
-      </Card>
-    </Box>
-  );
-}
 
-function Products() {
-  return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Products
-        </Typography>
-        <TableWrapper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Tech</TableCell>
-                <TableCell>License</TableCell>
-                <TableCell>Sales</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  AppStack
-                </TableCell>
-                <TableCell>
-                  <ProductsChip
-                    size="small"
-                    label="HTML"
-                    rgbcolor={blue[500]}
-                  />
-                </TableCell>
-                <TableCell>Single License</TableCell>
-                <TableCell>76</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Bienvenido
-                </TableCell>
-                <TableCell>
-                  <ProductsChip
-                    size="small"
-                    label="React"
-                    rgbcolor={green[500]}
-                  />
-                </TableCell>
-                <TableCell>Single License</TableCell>
-                <TableCell>38</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Milo
-                </TableCell>
-                <TableCell>
-                  <ProductsChip
-                    size="small"
-                    label="HTML"
-                    rgbcolor={blue[500]}
-                  />
-                </TableCell>
-                <TableCell>Single License</TableCell>
-                <TableCell>43</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Robust UI Kit
-                </TableCell>
-                <TableCell>
-                  <ProductsChip
-                    size="small"
-                    label="Angular"
-                    rgbcolor={red[500]}
-                  />
-                </TableCell>
-                <TableCell>Single License</TableCell>
-                <TableCell>27</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Spark
-                </TableCell>
-                <TableCell>
-                  <ProductsChip
-                    size="small"
-                    label="React"
-                    rgbcolor={green[500]}
-                  />
-                </TableCell>
-                <TableCell>Single License</TableCell>
-                <TableCell>12</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableWrapper>
-      </CardContent>
-    </Card>
-  );
-}
-
-const SalesRevenue = withTheme(({ theme, ins }) => {
-  BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-  const data = {
-    labels: ins.state.lbls,
-    datasets: [
-      {
-        label: "Programado",
-        backgroundColor: theme.palette.secondary.main,
-        borderColor: theme.palette.secondary.main,
-        hoverBackgroundColor: theme.palette.secondary.main,
-        hoverBorderColor: theme.palette.secondary.main,
-        data: ins.state.programado,
-        barPercentage: 0.25,
-        categoryPercentage: 0.25,
-      },
-      {
-        label: "Express",
-        backgroundColor: "#48D597",
-        borderColor: theme.palette.grey[200],
-        hoverBackgroundColor: theme.palette.grey[200],
-        hoverBorderColor: theme.palette.grey[200],
-        data: ins.state.express,
-        barPercentage: 0.25,
-        categoryPercentage: 0.25,
-      },
-
-      {
-        label: "Flash",
-        backgroundColor: "#EF3340",
-        borderColor: "#EF3340",
-        hoverBackgroundColor: theme.palette.grey[200],
-        hoverBorderColor: theme.palette.grey[200],
-        data: ins.state.flash,
-        barPercentage: 0.25,
-        categoryPercentage: 0.25,
-      },
-
-      {
-        label: "Mismo dia",
-        backgroundColor: "#1F9EEB",
-        borderColor: theme.palette.grey[200],
-        hoverBackgroundColor: theme.palette.grey[200],
-        hoverBorderColor: theme.palette.grey[200],
-        data: ins.state.mismo,
-        barPercentage: 0.25,
-        categoryPercentage: 0.25,
-      },
-    ],
-  };
-
-  const options = {
-    maintainAspectRatio: false,
-    cornerRadius: 2,
-    legend: {
-      display: true,
-    },
-    scales: {
-      yAxes: [
-        {
-          gridLines: {
-            display: true,
-          },
-          stacked: true,
-          ticks: {
-            stepSize: 1,
-          },
-        },
-      ],
-      xAxes: [
-        {
-          stacked: false,
-          gridLines: {
-            color: "transparent",
-          },
-        },
-      ],
-    },
-  };
-
-  return (
     <Card mb={1}>
+
+
+      <Dialog open={ins.state.isDetailOpen}>
+        <DialogTitle>
+          <Box display="flex" alignItems="center">
+            <Box flexGrow={1}>{ins.state.customerSelected} - {ins.state.opSelected}</Box>
+            <Box>
+              <IconButton
+              onClick={o=>ins.setState({ isDetailOpen: false })}              
+              >
+                <IconClose />
+              </IconButton>
+            </Box>
+          </Box>
+          <Divider my={0} />
+        </DialogTitle>
+
+        <DialogContent>
+          <Grid justify="space-between" container spacing={1}>
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Typography variant="caption" gutterBottom display="inline">
+                Tipo de envío:
+              </Typography>
+            </Grid>
+
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+              <Typography variant="button" gutterBottom display="inline">
+                {ins.state.deliveryTypeSelected}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Typography variant="caption" gutterBottom display="inline">
+                Fecha envío:
+              </Typography>
+            </Grid>
+
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+              <Typography variant="button" gutterBottom display="inline">
+                {ins.state.deliveryDateSelected}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Typography variant="caption" gutterBottom display="inline">
+                Cliente:
+              </Typography>
+            </Grid>
+
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+              <Typography variant="button" gutterBottom display="inline">
+                {ins.state.customerSelected}
+              </Typography>
+            </Grid>
+
+            {/* <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Tipo empaque:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid> */}
+          </Grid>
+
+          <br />
+{/* 
+          <Button fullWidth variant="outlined" color="primary">
+            Ok
+          </Button> */}
+          <br />
+          <br />
+        </DialogContent>
+      </Dialog>
+
       <CardHeader
         action={
           <BlurOn aria-label="settings">
@@ -829,16 +524,38 @@ const SalesRevenue = withTheme(({ theme, ins }) => {
         title={"Distribución horaria de pedidos " + ins.state.st}
       />
       <CardContent>
-        <BigCalendar
+        {/* <DragAndDropCalendar */}
+        {/* <BigCalendar
+        selectable
           events={ins.state.ordersList}
           step={30}
           timeslots={2}
           defaultView="day"
           onSelectEvent={event => alert(event.desc)}
-
+          onEventDrop={event => alert(event.desc)}
           // views={['month','week', 'day', 'agenda']}
           // titleAccessor="Tis"
           // view={'week'}
+        /> */}
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+          defaultView="timeGridDay"
+          header={{
+            // left: "prev,next",
+            left:"title",
+            // center: "title",
+            right: "timeGridDay,listDay"
+          }}
+          droppable={true}
+          initialView="dayGridMonth"
+          weekends={true}
+          events={ins.state.ordersList}
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          eventDrop={event => ins.handleChangeDeliveryTime(event)}
+          eventClick={eventClickInfo=>ins.handleClick(eventClickInfo)}
         />
       </CardContent>
 
@@ -849,55 +566,7 @@ const SalesRevenue = withTheme(({ theme, ins }) => {
       </CardContent> */}
     </Card>
   );
-});
+};
 
-// function Profile() {
-//   return (
-//     <React.Fragment>
-//       <Helmet title="KIP" />
-
-//       <Typography variant="h3" gutterBottom display="inline">
-//         Servicios populares
-//       </Typography>
-
-//       {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-//         <Link component={NavLink} exact to="/">
-//           Dashboard
-//         </Link>
-//         <Link component={NavLink} exact to="/">
-//           Pages
-//         </Link>
-//         <Typography>Profile</Typography>
-//       </Breadcrumbs> */}
-
-//       <Divider my={6} />
-
-//       <Grid container spacing={6}>
-//       {/* <CustomGridList dataList={this.state.places} instx={this.onCardClick} /> */}
-//         {/* <Grid item xs={12} lg={4} xl={6}>
-//           <Details />
-//           <Skills />
-//           <About />
-//           <Elsewhere />
-//         </Grid>
-//         <Grid item xs={12} lg={8} xl={9}>
-//           <SalesRevenue />
-//           <Grid container spacing={6}>
-//             <Grid item xs={12} lg={4}>
-//               <Earnings />
-//             </Grid>
-//             <Grid item xs={12} lg={4}>
-//               <Orders />
-//             </Grid>
-//             <Grid item xs={12} lg={4}>
-//               <Revenue />
-//             </Grid>
-//           </Grid>
-//           <Products />
-//         </Grid> */}
-//       </Grid>
-//     </React.Fragment>
-//   );
-// }
 
 export default ServicesList;

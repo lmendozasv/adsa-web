@@ -4,6 +4,7 @@ import async from "../components/Async";
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import AddIcon from '@material-ui/icons/Add';
 import HomeIcon from '@material-ui/icons/Home';
+// import TodayIcon from '@mui/icons-material/DateRange';
 import {
   BookOpen,
   Briefcase,
@@ -20,7 +21,8 @@ import {
   PieChart,
   Sliders,
   User,
-  Users
+  Users,
+  Inbox
 } from "react-feather";
 
 // Auth components
@@ -78,10 +80,10 @@ const Calendar = async(() => import("../pages/pages/groupDetails"));
 const myCalendar = async(() => import("../pages/pages/mygroupDetails"));
 const myCalenda = async(() => import("../pages/pages/mygroupDetail"));
 const JoinToGroup = async(() => import("../pages/pages/joinToGroup"));
-const PayToJoin = async(() => import("../pages/pages/payToJoin"));
+// const PayToJoin = async(() => import("../pages/pages/payToJoin"));
 const userProfile = async(() => import("../pages/pages/userProfile"));
 const userWallet = async(() => import("../pages/pages/userWallet"));
-const userNotifications = async(() => import("../pages/pages/userNotifications"));
+// const userNotifications = async(() => import("../pages/pages/userNotifications"));
 
 // Tables components
 const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
@@ -143,9 +145,9 @@ const pagesRoutes = {
 };
 
 const profileRoutes = {
-  id: "Inicio",
+  id: "Calendario de operaciones",
   path: "/",
-  icon: <HomeIcon />,
+  icon: <CalendarIcon />,
   component: Profile,
   children: null
 };
@@ -177,12 +179,12 @@ const groupDetailsJoinNow = {
   children: null
 };
 
-const groupDetailsPay = {
-  id: "Pago",
-  path: "/pay",  
-  component: PayToJoin,
-  children: null
-};
+// const groupDetailsPay = {
+//   id: "Pago",
+//   path: "/pay",  
+//   component: PayToJoin,
+//   children: null
+// };
 
 const UserProfile = {
   id: "Perfil",
@@ -200,19 +202,19 @@ const UserWallet = {
 };
 
 
-const UserNotifications = {
-  id: "Perfil",
-  path: "/myNotifications",  
-  component: userNotifications,
-  children: null
-};
+// const UserNotifications = {
+//   id: "Perfil",
+//   path: "/myNotifications",  
+//   component: userNotifications,
+//   children: null
+// };
 
 
 
 const projectsRoutes = {
-  id: "Panel de órdenes",
+  id: "Bandeja de pedidos (Operaciones)",
   path: "/orders",
-  icon: <GroupWorkIcon />,
+  icon: <Inbox />,
   // badge: "",
   component: Projects,
   children: null
@@ -514,13 +516,13 @@ export const dashboard = [
   profileRoutes,
   groupDetails,
   groupDetailsJoinNow,
-  groupDetailsPay,
+  // groupDetailsPay,
   mygroupDetails,
   projectsRoutes,
   // orderRoutes,
   UserProfile,
   UserWallet,
-  UserNotifications,
+  // UserNotifications,
   // invoiceRoutes,
   // tasksRoutes,
   // calendarRoutes,

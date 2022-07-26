@@ -5,8 +5,8 @@ import { NavLink as RouterNavLink } from "react-router-dom";
 import Helmet from 'react-helmet';
 
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css';
+// import 'react-quill/dist/quill.snow.css';
+// import 'react-quill/dist/quill.bubble.css';
 
 import {
   Box,

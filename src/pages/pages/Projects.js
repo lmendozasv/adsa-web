@@ -432,8 +432,8 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.dt_envio}</TableCell>
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
                       <TableCell>
-                        {row.status === "new" ||
-                          (row.status === "processing" && (
+                        {
+                        row.status === "new"  && (
                             <Chip
                               size="small"
                               mr={1}
@@ -441,7 +441,8 @@ function EnhancedTable({ dataRows, ins }) {
                               label="Nuevo"
                               Nuevos
                             />
-                          ))}
+                          )                          
+                        }
 
                         {row.status === "checklist" && (
                           <Chip
@@ -471,7 +472,7 @@ function EnhancedTable({ dataRows, ins }) {
                           />
                         )}
                         {row.status === "FACTURADO" ||
-                          (row.status === "READY" && (
+                          (row.status === "CLOSED" && (
                             <Chip
                               size="small"
                               mr={1}
@@ -1661,7 +1662,7 @@ class OrdersComponent extends React.Component {
                 ) : (
                   ""
                 )) ||
-                (tile.value == "FACTURADO" || tile.value == "READY" ? (
+                (tile.value == "FACTURADO" || tile.value == "CLOSED" ? (
                   this.state.st5 ? (
                     <Chip
                       mr={1}

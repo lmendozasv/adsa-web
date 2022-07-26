@@ -175,132 +175,142 @@ class ServicesList extends React.Component {
 
     this._isMounted = true;
     var ins = this;
-    var tk = localStorage.getItem("token_sec");
+    this.updateCalendarViewTask();
 
-    axios
-      .get(`https://kip-logistic-api.azurewebsites.net/getHourly`, {
-        headers: {
-          Authorization: "Bearer " + tk,
-        },
-      })
-      .then((res) => {
-        if (this._isMounted) {
-          const personas = res.data.data;
-          this.setState({ personas });
-          var xc = this;
-          var lb = [];
-          var ct = [];
+    setInterval(function () {
+      ins.updateCalendarViewTask();
+    }, 10000);
 
-          var prg = [];
-          var exp = [];
-          var fla = [];
-          var mis = [];
 
-          var eventsAll = [];
-
-          res.data.details.forEach(function (entry) {
-            var labl = "";
-            var cn = 0;
-            var ship = "";
-
-            labl = entry.shipping_date;
-            // labl = labl.substr(10, 6);
-            labl = labl.substr(6, 6);
-            ship = entry.shipping_descr.replace("Kip - ", "");
-            var order_ship = {};
-
-            var tod = new Date();
-            var day = tod.getDate();
-            var month = tod.getMonth();
-            var year = tod.getFullYear();
-            var hrs = labl.substring(0, 2);
-            // console.warn(labl);
-            hrs = parseInt(hrs);
-            var endhrs = hrs + 2;
-            var bg = "";
-
-            // console.log(order_ship);
-
-            // lb.push(labl+"("+entry.cnt+") "+ship);
-            lb.push(labl);
-            // lb.push(entry.cnt);
-            // COLORES DE BODEGA
-            // GRIS = RECIBIDO
-            // CELESTE = PICKEADO
-            // VERDE MUSGO = COMPLETO, FACTURADO
-            // AMARILLO = EN CAJA 
-            // NARANJA = EN RUTA
-            // VERDE = ENTREGADO
-            // MORADO = ENTREGADO TARDE
-            if (entry.os_status.includes("new")||entry.os_status.includes("processing")||entry.os_status.includes("READY")) { // RECIBIDO
-              bg = "#999999";
-            }
-            if (entry.os_status.includes("PICKED")||entry.os_status.includes("PICKEADO")) { // pickeado
-              bg = "#1F9EEB";
-            }
-            if (entry.os_status.includes("CLOSED")||entry.os_status.includes("FACTURADO")) { // facturado
-              bg = "#2f4538";
-            }
-            if (entry.os_status.includes("COLLECTED")||entry.os_status.includes("A FACTURAR")) { // EN CAJA
-              bg = "#F1C40F";
-            }
-            if (entry.os_status.includes("on-the-way")) { // EN RUTA
-              bg = "#D35400";
-            }
-            if (entry.os_status.includes("complete")) { // DELIVERED 
-              bg = "#58D68D";
-            }
-
-            /*
-            "cnt": 1,
-            "shipping_date": "2022-06-27 12:56:23",
-            "shipping_descr": "Kip - Agregar a pedido"
-            */
-            order_ship = {
-              title: entry.customer + "-" + entry.os_op + "-" + entry.os_status,
-              backgroundColor: bg,
-              start: new Date(year, month, day, hrs),
-              end: new Date(year, month, day, endhrs),
-              // desc: entry.customer,
-              customer:entry.customer,
-              allData:entry,
-              durationEditable:false,
-              // overlap:false,
-              borderColor:bg
-            };
-            eventsAll.push(order_ship);
-          });
-          this.setState({ lbls: lb });
-
-          this.setState({ programado: prg });
-          this.setState({ express: exp });
-          this.setState({ flash: fla });
-          this.setState({ mismo: mis });
-          this.setState({ ordersList: eventsAll });
-
-          console.log(prg);
-          console.log(exp);
-          console.log(fla);
-          console.log(mis);
-          console.log(lb);
-          console.log(eventsAll);
-
-          axios
-            .get(`https://kip-logistic-api.azurewebsites.net/otifPanel`, {
-              headers: {
-                Authorization: "Bearer " + tk,
-              },
-            })
-            .then((res) => {
-              this.setState({ otif: res.data.otif });
-
-              this.setState({ otifc: res.data.otif_c });
-              // alert(res.data.otif);
-            });
-        }
-      });
   }
+  updateCalendarViewTask(){
+    console.log("UPDATING");
+    var tk = localStorage.getItem("token_sec");
+    axios
+    .get(`https://kip-logistic-api.azurewebsites.net/getHourly`, {
+      headers: {
+        Authorization: "Bearer " + tk,
+      },
+    })
+    .then((res) => {
+      if (this._isMounted) {
+        const personas = res.data.data;
+        this.setState({ personas });
+        var xc = this;
+        var lb = [];
+        var ct = [];
 
+        var prg = [];
+        var exp = [];
+        var fla = [];
+        var mis = [];
+
+        var eventsAll = [];
+
+        res.data.details.forEach(function (entry) {
+          var labl = "";
+          var cn = 0;
+          var ship = "";
+
+          labl = entry.shipping_date;
+          // labl = labl.substr(10, 6);
+          labl = labl.substr(6, 6);
+          ship = entry.shipping_descr.replace("Kip - ", "");
+          var order_ship = {};
+
+          var tod = new Date();
+          var day = tod.getDate();
+          var month = tod.getMonth();
+          var year = tod.getFullYear();
+          var hrs = labl.substring(0, 2);
+          // console.warn(labl);
+          hrs = parseInt(hrs);
+          var endhrs = hrs + 2;
+          var bg = "";
+
+          // console.log(order_ship);
+
+          // lb.push(labl+"("+entry.cnt+") "+ship);
+          lb.push(labl);
+          // lb.push(entry.cnt);
+          // COLORES DE BODEGA
+          // GRIS = RECIBIDO
+          // CELESTE = PICKEADO
+          // VERDE MUSGO = COMPLETO, FACTURADO
+          // AMARILLO = EN CAJA 
+          // NARANJA = EN RUTA
+          // VERDE = ENTREGADO
+          // MORADO = ENTREGADO TARDE
+          if (entry.os_status.includes("new")||entry.os_status.includes("processing")||entry.os_status.includes("READY")) { // RECIBIDO
+            bg = "#999999";
+          }
+          if (entry.os_status.includes("PICKED")||entry.os_status.includes("PICKEADO")) { // pickeado
+            bg = "#1F9EEB";
+          }
+          if (entry.os_status.includes("CLOSED")||entry.os_status.includes("FACTURADO")) { // facturado
+            bg = "#2f4538";
+          }
+          if (entry.os_status.includes("COLLECTED")||entry.os_status.includes("A FACTURAR")) { // EN CAJA
+            bg = "#F1C40F";
+          }
+          if (entry.os_status.includes("on-the-way")) { // EN RUTA
+            bg = "#D35400";
+          }
+          if (entry.os_status.includes("complete")) { // DELIVERED 
+            bg = "#58D68D";
+          }
+
+          /*
+          "cnt": 1,
+          "shipping_date": "2022-06-27 12:56:23",
+          "shipping_descr": "Kip - Agregar a pedido"
+          */
+          order_ship = {
+            title: entry.customer + "-" + entry.os_op + "-" + entry.os_status,
+            backgroundColor: bg,
+            start: new Date(year, month, day, hrs),
+            end: new Date(year, month, day, endhrs),
+            // desc: entry.customer,
+            customer:entry.customer,
+            allData:entry,
+            durationEditable:false,
+            // overlap:false,
+            borderColor:bg
+          };
+          eventsAll.push(order_ship);
+        });
+        this.setState({ lbls: lb });
+
+        this.setState({ programado: prg });
+        this.setState({ express: exp });
+        this.setState({ flash: fla });
+        this.setState({ mismo: mis });
+
+        this.setState({ ordersList: [] });
+        this.setState({ ordersList: eventsAll });
+
+        // console.log(prg);
+        // console.log(exp);
+        // console.log(fla);
+        // console.log(mis);
+        // console.log(lb);
+        // console.log(eventsAll);
+
+        axios
+          .get(`https://kip-logistic-api.azurewebsites.net/otifPanel`, {
+            headers: {
+              Authorization: "Bearer " + tk,
+            },
+          })
+          .then((res) => {
+            this.setState({ otif: res.data.otif });
+
+            this.setState({ otifc: res.data.otif_c });
+            // alert(res.data.otif);
+          });
+      }
+    });
+  }
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -326,12 +336,43 @@ class ServicesList extends React.Component {
 
 
   };
+  addHours(numOfHours, date = new Date()) {
+    date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);  
+    return date;
+  }
   handleChangeDeliveryTime(s) {
-    
-    // console.log(s.event.start);
-    // console.log(s.event.end);
-
-    
+    var nHours = this.addHours(6,s.event.start);
+    console.log(nHours.getHours());
+    // alert(nHours.getHours());
+    var nTime = String(nHours.getHours()).padStart(2, '0') + ":" + String(s.event.start.getMinutes()).padStart(2, '0')+":00";
+    var nDateM = s.event.start.getMonth()+1;
+    var nDateD = s.event.start.getDate();
+    var nDateY = s.event.start.getYear()+1900;    
+    var aDT = nDateY+"-"+String(nDateM).padStart(2, '0')+"-"+String(nDateD).padStart(2, '0') + " " + nTime ;
+    console.log(aDT);    
+    //update db
+    var tk = localStorage.getItem("token_sec");
+    axios
+        .post(
+          "https://kip-logistic-api.azurewebsites.net/updateDeliveryDateTime",
+          {
+            i: s.event._def.extendedProps.allData.id,
+            n: aDT,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + tk,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(function (res) {
+          console.log("Fin");
+        })
+        .catch(function (error) {
+          console.log(error);          
+        });
   }
   handleClick(e){    
     this.setState({ isDetailOpen: true });
@@ -341,9 +382,7 @@ class ServicesList extends React.Component {
     this.setState({ deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr});    
     this.setState({ deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date});
   }
-  handleCloseDetail(){
-    
-  }
+  
   render() {
     return (
       <React.Fragment>

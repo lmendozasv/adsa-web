@@ -5,6 +5,7 @@ import axios from "axios";
 import SearchBar from "material-ui-search-bar";
 import Helmet from "react-helmet";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import ReactToPrint from 'react-to-print';
 
 import {
   Box,
@@ -48,10 +49,12 @@ import {
   Search as SearchIcon,
   CancelRounded as CancelRoundedIcon,
   FilterAlt as FilterAltIcon,
+  AssignmentTurnedIn as FactCheckIcon
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
 import { withStyles } from "@material-ui/core/styles";
+// import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -148,7 +151,7 @@ const Spacer = styled.div`
 const ToolbarTitle = styled.div`
   min-width: 150px;
 `;
-
+var rpt ="<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Jose Escobar'/> <meta name='created' content='2022-03-17T12:51:11'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-07-29T23:10:00'/> <meta name='AppVersion' content='16.0300'/> <meta name='ContentTypeId' content='0x010100599EB5C541CFC44F8102F36FD5798F89'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:x-small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } </style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='11' width='68'></colgroup> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>COORD. LOGISTICA</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>#OP DE LS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><font color='#000000'>[VAROPLS]</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>FECHA Y HORA ENVIO:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>F: [VARDIA] /[VARMES]/[VARANO] H: [VARHORA] ( )</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>CLIENTE:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><font color='#000000'>[VARCLIENTE]</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CAPTURED AMOUNT Y <br>TRANSACION ID<br>(en comentario pedido)</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=2 align='left' valign=middle bgcolor='#FFFFFF'><b><font size=3 color='#000000'>$[VARCAPTUREDAMOUNT]</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle bgcolor='#FFFFFF'><font size=4 color='#000000'>[VARIDFAC]</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>CONTROL PEDIDOS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>VERIFICAR DIRECCIÓN:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>TIPO FACTURA:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>TK / FCF / CCF / FCF-E</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 rowspan=2 height='40' align='left' valign=top bgcolor='#FFFFFF'><b><font color='#000000'>Nota de pedido: [VARNOTAPEDIDO]</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 height='42' align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>BOLSA ([VARBO])<br>JABA ([VARJA])</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>CON NOTA ([VARCN])<br>SIN NOTA ([VARSN])</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 rowspan=2 align='center' valign=middle bgcolor='#FFFFFF'><b><font size=4 color='#000000'>[VARTIPOENVIO]</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=bottom bgcolor='#FFFFFF'><b><font size=5 color='#000000'>$ [VARMONTOPEDIDO]</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>PICKERS</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' height='21' align='left' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>PICKER 1:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>PICKER 2:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT. ITEMS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><font color='#000000'><br></font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='32' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>CÓDIGO LS</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>DESCRIPCIÓN PRODUCTO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT.<br>PEDIDO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT.<br>FALTA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>VINO<br>EN BP?</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>ERROR<br>INVENTARIO</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 height='20' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>ESTADO DE PEDIDO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>REVISO FECHA VENCIMIENTO?</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>PRODUCTOS LIMPIOS</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>REVISO NOTA PEDIDO</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='38' align='center' valign=middle><b><font color='#000000'>COMPLETO / INCOMPLETO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>FACTURADOR</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000' colspan=3 rowspan=2 height='40' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>NOMBRE FACTURADOR</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>COBRO VIA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>MONTO<br>FACTURADO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CANTIDAD DE JABAS</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>ESTANTES</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 1</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 2</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 3</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000' colspan=3 rowspan=3 height='60' align='left' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) FAC</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=3 align='left' valign=middle><b><font size=5 color='#000000'>$</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) LINK DE PAGO</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) EFECTIVO</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>CONTROL SALIDA</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='39' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>NOMBRE CONTROL DE SALIDA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>MONTO FINAL<br>COBRADO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'># DE REFERENCIA <br>FAC</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'># DE TRANSACCION<br>LINK DE PAGO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>PAGO EN EFECTIVO<br>QUIEN AUTORIZA</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='38' align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle><b><font size=4 color='#000000'>$</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=bottom><font size=1 color='#000000'>(PEDIR A CONSERJES)</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>SELLOS</font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 rowspan=5 align='center' valign=bottom><b><font size=1 color='#000000'>SELLO DE CLIENTE NUEVO, KIPPER PLUS O KIPPER VIP</font></b></td> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 rowspan=5 align='center' valign=bottom><b><font size=1 color='#000000'>SELLO DE HORA DE ENTREGA, FLASH O EXPRESS</font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000' align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> </table> </body> </html>";
 function createData(
   idLS,
   dt_pedido,
@@ -171,7 +174,8 @@ function createData(
   otif_status,
   payment_method,
   payment_ref,
-  order_id
+  order_id,
+  os_shipping_description
 ) {
   // console.log(idLS);
   return {
@@ -197,6 +201,7 @@ function createData(
     payment_method,
     payment_ref,
     order_id,
+    os_shipping_description
   };
 }
 
@@ -236,6 +241,9 @@ const headCells = [
   { id: "coupon_code", alignment: "right", label: "Cupón" },
   { id: "actions", alignment: "right", label: "Acciones" },
 ];
+
+
+
 
 function EnhancedTableHead(props) {
   const {
@@ -386,6 +394,7 @@ function EnhancedTable({ dataRows, ins }) {
         {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
         {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""}
         {ins.state.openFilters ? <FilterRows ins={ins} /> : ""}
+        {ins.state.openDetailToPrint ? <PrintCheckPage ins={ins} /> : ""}
         <EnhancedTableToolbar numSelected={selected.length} ins={ins} />
         <TableContainer>
           <Table
@@ -433,7 +442,7 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
                       <TableCell>
                         {
-                        row.status === "new"  && (
+                          row.status === "new" && (
                             <Chip
                               size="small"
                               mr={1}
@@ -441,7 +450,7 @@ function EnhancedTable({ dataRows, ins }) {
                               label="Nuevo"
                               Nuevos
                             />
-                          )                          
+                          )
                         }
 
                         {row.status === "checklist" && (
@@ -546,6 +555,16 @@ function EnhancedTable({ dataRows, ins }) {
                           >
                             <ArrowForwardIosIcon />
                           </IconButton>
+
+
+                          <IconButton
+                            onClick={ins.handleChange("dialoxs-" + row.idLS)}
+                            aria-label="checklist"
+                          >
+                            <FactCheckIcon />
+                          </IconButton>
+
+
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -571,6 +590,83 @@ function EnhancedTable({ dataRows, ins }) {
         />
       </Paper>
     </div>
+  );
+}
+function PrintCheckPage({ ins }) {
+  return (
+    <Dialog open={ins.state.openDetailToPrint}>
+      <DialogTitle>
+        <Box display="flex" alignItems="center">
+          <Box flexGrow={1}>Hoja de checking</Box>
+          <Box>
+            <IconButton onClick={ins.handleChange("closet-checkpage")}>
+              <IconClose />
+            </IconButton>
+          </Box>
+        </Box>
+        <Divider my={0} />
+      </DialogTitle>
+
+      <DialogContent>
+        <Grid justify="space-between" container spacing={1}>
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Tipo de envío:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Fecha envío:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Estado pago:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Tipo empaque:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Typography variant="button" gutterBottom display="inline">
+              -
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <br />
+
+        <Button fullWidth variant="outlined" color="primary">
+          IMPRIMIR
+        </Button>
+        <br />
+        <br />
+      </DialogContent>
+    </Dialog>
   );
 }
 function FilterRows({ ins }) {
@@ -999,7 +1095,9 @@ class OrdersComponent extends React.Component {
     ordenes: [],
     openDetail: false,
     openDetailToSend: false,
+    openDetailToPrint: false,
     openFilters: false,
+    canPrintChecklist: false,
     drivers: [],
     paymentMethods: [
       { id: 1, name: "Efectivo" },
@@ -1060,7 +1158,7 @@ class OrdersComponent extends React.Component {
       {
         ordersWithoutOP: i.state.ordersWithoutOP + 1,
       },
-      () => {}
+      () => { }
     );
   };
   searchValue = (ev) => {
@@ -1104,13 +1202,13 @@ class OrdersComponent extends React.Component {
             {
               ordenesStatuses: xp,
             },
-            () => {}
+            () => { }
           );
           ir.setState(
             {
               allOrdersCount: res.data.data.length,
             },
-            () => {}
+            () => { }
           );
           // console.log(xp);
 
@@ -1179,7 +1277,8 @@ class OrdersComponent extends React.Component {
                 entry.fullfilment_details[0].otif_status,
                 entry.fullfilment_details[0].payment_method,
                 entry.fullfilment_details[0].payment_ref,
-                entry.os_id
+                entry.os_id,
+                entry.os_shipping_description
               )
             );
           });
@@ -1336,6 +1435,7 @@ class OrdersComponent extends React.Component {
   //   clearInterval(slideInterval);
   // }
   componentDidMount() {
+    // console.log(rpt);
     var tk = localStorage.getItem("token_sec");
     var ir = this;
     //window.location.reload(1);
@@ -1370,7 +1470,7 @@ class OrdersComponent extends React.Component {
           {
             drivers: dt,
           },
-          () => {}
+          () => { }
         );
       })
       .catch(function (error) {
@@ -1392,8 +1492,8 @@ class OrdersComponent extends React.Component {
     this.setState({
       [name]: event.target.value,
     });
-    // console.log(event.target.value);
-    // console.log(name);
+    console.log(event.target.value);
+    console.log(name);
     if (name.includes("dialog")) {
       this.setState({ openDetail: !this.state.openDetail });
       var rec = name;
@@ -1404,6 +1504,7 @@ class OrdersComponent extends React.Component {
     if (name.includes("close")) {
       this.setState({ openDetail: false });
     }
+
     // DETAILS TO SEND
     if (name.includes("dialots")) {
       this.setState({ openDetailToSend: !this.state.openDetailToSend });
@@ -1417,8 +1518,47 @@ class OrdersComponent extends React.Component {
       this.setState({ otifStatus: obj.otif_status });
       this.setState({ order_id: obj.order_id });
     }
+    //ChecklistToPrint
+    if (name.includes("dialoxs")) {
+      var rec = name;
+      rec = name.replace("dialoxs-", "");
+      let obj = this.state.ordenes.find((o) => o.idLS === rec);
+      console.log(obj);
+
+      rpt = rpt.replace("[VAROPLS]",rec);
+      rpt = rpt.replace("[VARCLIENTE]",obj.nombre_cliente);
+      rpt = rpt.replace("[VARCAPTUREDAMOUNT]",obj.monto_capturado);
+      rpt = rpt.replace("[VARIDFAC]",obj.trx);
+      rpt = rpt.replace("[VARNOTAPEDIDO]",obj.nota);
+      rpt = rpt.replace("[VARCN]",rec);
+      rpt = rpt.replace("[VARSN]",rec);
+      rpt = rpt.replace("[VARTIPOENVIO]",obj.os_shipping_description);
+      rpt = rpt.replace("[VARMONTOPEDIDO]",obj.monto_capturado);
+      
+      
+      
+      
+      
+      
+      
+      var win = window.open();      
+      win.document.open();
+      win.document.write(rpt);
+      win.document.close();
+      win.print();
+      // win.close();
+    }
+
+
     if (name.includes("closets")) {
       this.setState({ openDetailToSend: false });
+      this.setState({ openDetailToPrint: false });
+
+    }
+    // close-checkpage
+    if (name.includes("closet-checkpage")) {
+      this.setState({ openDetailToPrint: false });
+
     }
     if (name.includes("close-filters")) {
       this.setState({ openFilters: false });
@@ -1570,7 +1710,7 @@ class OrdersComponent extends React.Component {
             />
             {this.state.ordenesStatuses.map(
               (tile) =>
-                (tile.value == "processing" || tile.value == "new" || tile.value == "pending"  ? (
+                (tile.value == "processing" || tile.value == "new" || tile.value == "pending" ? (
                   this.state.st1 ? (
                     <Chip
                       mr={1}

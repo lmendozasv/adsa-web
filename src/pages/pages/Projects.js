@@ -1537,9 +1537,7 @@ class OrdersComponent extends React.Component {
       
       
       
-      
-      
-      
+    
       
       var win = window.open();      
       win.document.open();

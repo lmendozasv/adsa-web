@@ -1,31 +1,14 @@
 import React from "react";
 import styled, { withTheme } from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
-// import { Calendar, momentLocalizer } from 'react-big-calendar'
-// import react-big-calendar-like-google/lib/css/react-big-calendar.css
-// import "./Timeline.css";
+
 import Helmet from "react-helmet";
 import axios from "axios";
-// import Dayz from 'dayz';
-// import 'styles.css';
+
 import moment from "moment";
-// import date from 'moment';
-// import "../../vendor/roundedBarCharts";
-// import { Bar } from "react-chartjs-2";
+
 import { MoreVertical } from "react-feather";
 import { red, green, blue } from "@material-ui/core/colors";
-// import { DayPilot, DayPilotCalendar } from "@daypilot/daypilot-lite-react";
-// import Timeline from "react-calendar-timeline";
-// import BigCalendar from "react-big-calendar-like-google";
-// import withDragAndDrop from 'react-big-calendar-like-google/lib/addons/dragAndDrop';
-
-// import FullCalendar from '@fullcalendar/react'; // must go before plugins
-// // import momentPlugin from '@fullcalendar/moment'
-// import dayGridPlugin from '@fullcalendar/daygrid'
-// // import "@fullcalendar/daygrid/main.css";
-// import "@fullcalendar/daygrid/main.css";
-// import "@fullcalendar/timegrid/main.css";
-// import timeGridPlugin from "@fullcalendar/timegrid";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -93,7 +76,7 @@ const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ));
 
-// const DragAndDropCalendar = withDragAndDrop(BigCalendar);
+
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const Paper = styled(MuiPaper)(spacing);
@@ -531,51 +514,36 @@ function SalesRevenue({ ins }) {
               </Typography>
             </Grid>
 
-            {/* <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Tipo empaque:
-            </Typography>
-          </Grid>
 
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              -
-            </Typography>
-          </Grid> */}
+
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Typography variant="caption" gutterBottom display="inline">
+                Estado:
+              </Typography>
+            </Grid>
+
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+              <Typography variant="button" gutterBottom display="inline">
+                {ins.state.customerSelected}
+              </Typography>
+            </Grid>
+
+           
           </Grid>
 
           <br />
-{/* 
-          <Button fullWidth variant="outlined" color="primary">
-            Ok
-          </Button> */}
+
           <br />
           <br />
         </DialogContent>
       </Dialog>
 
       <CardHeader
-        // action={
-        //   // <BlurOn aria-label="settings">
-        //   //   <MoreVertical />
-        //   // </BlurOn>
-        // }
+       
         title={"Calendario de operaciones" + ins.state.st}
       />
       <CardContent>
-        {/* <DragAndDropCalendar */}
-        {/* <BigCalendar
-        selectable
-          events={ins.state.ordersList}
-          step={30}
-          timeslots={2}
-          defaultView="day"
-          onSelectEvent={event => alert(event.desc)}
-          onEventDrop={event => alert(event.desc)}
-          // views={['month','week', 'day', 'agenda']}
-          // titleAccessor="Tis"
-          // view={'week'}
-        /> */}
+        
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
           defaultView="timeGridDay"

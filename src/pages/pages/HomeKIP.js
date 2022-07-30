@@ -257,11 +257,11 @@ class ServicesList extends React.Component {
             translatedStatus ="Pickeado"
           }
           if(aStatus=="CLOSED"||aStatus=="FACTURADO"){
-            translatedStatus ="Nuevo"
+            translatedStatus ="Facturado"
           }
           if(aStatus=="COLLECTED"||aStatus=="A FACTURAR"){
-            translatedStatus ="Nuevo"
-          }
+            translatedStatus ="En Caja"
+          }          
           if(aStatus=="driver-asigned"){
             translatedStatus ="Driver asignado"
           }
@@ -345,17 +345,70 @@ class ServicesList extends React.Component {
     deliveryDateSelected: "",
     isDetailOpen:false,
     opSelected:"",
-    statusSelected:""
-    
-
+    statusSelected:"",
+    newStatus:""
   };
 
   estados = [
     {
-      "id":"READY",
+      "id":"new",
       "name":"Nuevo"
+    },
+    {
+      "id":"PICKEADO",
+      "name":"Pickeado"
+    },
+    {
+      "id":"CLOSED",
+      "name":"Facturado"
+    },    
+    {
+      "id":"COLLECTED",
+      "name":"En Caja"
+    },    
+    {
+      "id":"complete",
+      "name":"Entregado"
     }
   ]
+  handleUpdateStatusManual= (name) => (event) => {
+    // console.log(name);
+    // console.log(event.target.value);
+    // console.log(this.state.idSelected);
+    this.setState({
+      [name]: event.target.value,
+    });
+    var ids = this.state.idSelected;
+    var nstat = event.target.value;
+    var ins = this;
+    var tk = localStorage.getItem("token_sec");
+    axios
+        .post(
+          "https://kip-logistic-api.azurewebsites.net/updateStatusManual",
+          {
+            i: ids,
+            n: nstat,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + tk,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(function (res) {
+          console.log("Fin");          
+          //isDetailOpen
+          ins.setState({
+            isDetailOpen: false,
+          });
+        })
+        .catch(function (error) {
+          console.log(error);         
+          alert("Intente nuevamente"); 
+        });
+  }
 
   addHours(numOfHours, date = new Date()) {
     date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);  
@@ -403,6 +456,8 @@ class ServicesList extends React.Component {
     this.setState({ deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr});    
     this.setState({ deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date});
     this.setState({ statusSelected: e.event._def.extendedProps.allData.os_status});
+    this.setState({ idSelected: e.event._def.extendedProps.allData.id});
+    
     var translatedStatus = "";
     var aStatus = e.event._def.extendedProps.allData.os_status;
     if(aStatus=="READY"||aStatus==""||aStatus=="new"||aStatus=="processing"){
@@ -624,7 +679,7 @@ function SalesRevenue({ ins }) {
                 size="small"
                 fullWidth
                 // value={ins.state.orderSelectedDriver}
-                // onChange={ins.handleChange("orderSelectedDriver")}
+                onChange={ins.handleUpdateStatusManual("newStatus")}
                 variant="outlined"
               >
                 {ins.estados.map((tile) => (

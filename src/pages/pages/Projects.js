@@ -471,7 +471,7 @@ function EnhancedTable({ dataRows, ins }) {
                             Pickeado
                           />
                         )}
-                        {row.status === "A FACTURUAR" && (
+                        {row.status === "A FACTURAR" && (
                           <Chip
                             size="small"
                             mr={1}
@@ -1795,7 +1795,7 @@ class OrdersComponent extends React.Component {
                 ) : (
                   ""
                 )) ||
-                (tile.value == "A FACTURUAR" ? (
+                (tile.value == "A FACTURAR" ? (
                   this.state.st4 ? (
                     <Chip
                       mr={1}

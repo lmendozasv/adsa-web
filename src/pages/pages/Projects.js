@@ -442,7 +442,7 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.nombre_cliente}</TableCell>
                       <TableCell>
                         {
-                          row.status === "new" && (
+                          (row.status === "new"||row.status === "READY") && (
                             <Chip
                               size="small"
                               mr={1}

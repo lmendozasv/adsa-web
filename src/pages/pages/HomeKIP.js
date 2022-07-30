@@ -35,9 +35,11 @@ import {
   Table,
   TableBody,
   TableCell,
+  TextField as MuiTextField,
   TableHead,
   TableRow,
   Dialog,
+  MenuItem,
   IconButton,
   DialogTitle,
   DialogContent,
@@ -93,7 +95,11 @@ const Grid = styled(MuiGrid)(spacing);
 const LinearProgress = styled(MuiLinearProgress)(spacing);
 
 const Spacer = styled.div(spacing);
+const TextFieldSpacing = styled(MuiTextField)(spacing);
 
+const TextField = styled(TextFieldSpacing)`
+  //   width: ;
+`;
 const Centered = styled.div`
   text-align: center;
 `;
@@ -242,14 +248,37 @@ class ServicesList extends React.Component {
           if (entry.os_status.includes("complete")) { // DELIVERED 
             bg = "#58D68D";
           }
-
+          var translatedStatus = "";
+          var aStatus = entry.os_status;
+          if(aStatus=="READY"||aStatus==""||aStatus=="new"||aStatus=="processing"){
+            translatedStatus ="Nuevo"
+          }
+          if(aStatus=="PICKED"||aStatus=="PICKEADO"){
+            translatedStatus ="Pickeado"
+          }
+          if(aStatus=="CLOSED"||aStatus=="FACTURADO"){
+            translatedStatus ="Nuevo"
+          }
+          if(aStatus=="COLLECTED"||aStatus=="A FACTURAR"){
+            translatedStatus ="Nuevo"
+          }
+          if(aStatus=="driver-asigned"){
+            translatedStatus ="Driver asignado"
+          }
+          if(aStatus=="on-the-way"){
+            translatedStatus ="Proximo a entregar"
+          }
+          if(aStatus=="complete"||aStatus=="delivered"){
+            translatedStatus ="Entregado"
+          }
+          //updateStatusManual
           /*
           "cnt": 1,
           "shipping_date": "2022-06-27 12:56:23",
           "shipping_descr": "Kip - Agregar a pedido"
           */
           order_ship = {
-            title: entry.customer + "-" + entry.os_op + "-" + entry.os_status,
+            title: entry.customer + "-" + entry.os_op + "-" + translatedStatus,
             backgroundColor: bg,
             start: new Date(year, month, day, hrs),
             end: new Date(year, month, day, endhrs),
@@ -316,9 +345,18 @@ class ServicesList extends React.Component {
     deliveryDateSelected: "",
     isDetailOpen:false,
     opSelected:"",
-
+    statusSelected:""
+    
 
   };
+
+  estados = [
+    {
+      "id":"READY",
+      "name":"Nuevo"
+    }
+  ]
+
   addHours(numOfHours, date = new Date()) {
     date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);  
     return date;
@@ -364,6 +402,50 @@ class ServicesList extends React.Component {
     this.setState({ opSelected: ae[1] });
     this.setState({ deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr});    
     this.setState({ deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date});
+    this.setState({ statusSelected: e.event._def.extendedProps.allData.os_status});
+    var translatedStatus = "";
+    var aStatus = e.event._def.extendedProps.allData.os_status;
+    if(aStatus=="READY"||aStatus==""||aStatus=="new"||aStatus=="processing"){
+      translatedStatus ="Nuevo"
+    }
+    if(aStatus=="PICKED"||aStatus=="PICKEADO"){
+      translatedStatus ="Pickeado"
+    }
+    if(aStatus=="CLOSED"||aStatus=="FACTURADO"){
+      translatedStatus ="Nuevo"
+    }
+    if(aStatus=="COLLECTED"||aStatus=="A FACTURAR"){
+      translatedStatus ="Nuevo"
+    }
+    if(aStatus=="driver-asigned"){
+      translatedStatus ="Driver asignado"
+    }
+    if(aStatus=="on-the-way"){
+      translatedStatus ="Proximo a entregar"
+    }
+    if(aStatus=="complete"||aStatus=="delivered"){
+      translatedStatus ="Entregado"
+    }
+    this.setState({ statusSelected: translatedStatus});
+    // if (entry.os_status.includes("new")||entry.os_status.includes("processing")||entry.os_status.includes("READY")) { // RECIBIDO
+    //   bg = "#999999";
+    // }
+    // if (entry.os_status.includes("PICKED")||entry.os_status.includes("PICKEADO")) { // pickeado
+    //   bg = "#1F9EEB";
+    // }
+    // if (entry.os_status.includes("CLOSED")||entry.os_status.includes("FACTURADO")) { // facturado
+    //   bg = "#2f4538";
+    // }
+    // if (entry.os_status.includes("COLLECTED")||entry.os_status.includes("A FACTURAR")) { // EN CAJA
+    //   bg = "#F1C40F";
+    // }
+    // if (entry.os_status.includes("on-the-way")) { // EN RUTA
+    //   bg = "#D35400";
+    // }
+    // if (entry.os_status.includes("complete")) { // DELIVERED 
+    //   bg = "#58D68D";
+    // }
+    
   }
   
   render() {
@@ -515,17 +597,42 @@ function SalesRevenue({ ins }) {
             </Grid>
 
 
-
             <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
               <Typography variant="caption" gutterBottom display="inline">
-                Estado:
+                Estado actual:
               </Typography>
             </Grid>
 
             <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-              <Typography variant="button" gutterBottom display="inline">
-                {ins.state.customerSelected}
+            <Typography variant="caption" gutterBottom display="inline">
+                {ins.state.statusSelected}
               </Typography>
+            </Grid>
+
+
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Typography variant="caption" gutterBottom display="inline">
+                Nuevo estado:
+              </Typography>
+            </Grid>
+
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                // value={ins.state.orderSelectedDriver}
+                // onChange={ins.handleChange("orderSelectedDriver")}
+                variant="outlined"
+              >
+                {ins.estados.map((tile) => (
+                  <MenuItem key={tile.id} value={tile.id}>
+                    {tile.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
 
            

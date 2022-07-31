@@ -521,7 +521,7 @@ function FilterRows({ ins }) {
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-            Nuevo driver
+            Nuevo Kip car
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("close-filters")}>
@@ -1073,13 +1073,12 @@ class OrdersComponent extends React.Component {
       alert(this.state.selectedID);
       axios
       .post(
-        "https://kip-logistic-api.azurewebsites.net/cuDrivers",
+        "https://kip-logistic-api.azurewebsites.net/cuCars",
         {
           id: this.state.selectedID,
           name: this.state.selectedEditName,
-          lastname: this.state.selectedEditLastName,
-          login: this.state.selectedEditLogin,
-          passw: this.state.selectedEditPassword
+          plate: this.state.selectedEditLastName,
+          tachometer: this.state.selectedEditLogin
         },
         {
           headers: {

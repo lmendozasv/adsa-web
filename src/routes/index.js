@@ -81,7 +81,7 @@ const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/KipOrders"));
 const Drivers = async(() => import("../pages/pages/Drivers"));
-const Cars = async(() => import("../pages/pages/Drivers"));
+const Cars = async(() => import("../pages/pages/Cars"));
 const Calendar = async(() => import("../pages/pages/groupDetails"));
 const myCalendar = async(() => import("../pages/pages/mygroupDetails"));
 const myCalenda = async(() => import("../pages/pages/mygroupDetail"));

@@ -271,18 +271,18 @@ let EnhancedTableToolbar = (props) => {
       <Spacer />
       <div>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+          <Tooltip title="Eliminar">
+            <IconButton aria-label="Eliminar">
               <ArchiveIcon />
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filtros">
+          <Tooltip title="Agregar nuevo registro">
             <IconButton
               onClick={(event) => ins.applyFilter(event, "modal")}
-              aria-label="Filtros"
+              aria-label="Agregar nuevo registro"
             >
-              <FilterListIcon />
+              <AddIcon />
             </IconButton>
           </Tooltip>
         )}
@@ -353,7 +353,7 @@ function EnhancedTable({ dataRows, ins }) {
   return (
     <div>
       <Paper>
-        {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
+        {/* {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""} */}
         {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""}
         {ins.state.openFilters ? <FilterRows ins={ins} /> : ""}
         {ins.state.openDetailToPrint ? <PrintCheckPage ins={ins} /> : ""}
@@ -404,7 +404,7 @@ function EnhancedTable({ dataRows, ins }) {
                       <TableCell align="left">{row.login}</TableCell>
 
                       <TableCell padding="none" align="right">
-                        <Box mr={2}>                      
+                        <Box mr={2}>
                           <IconButton
                             onClick={ins.handleChange("dialots-" + row.id)}
                             aria-label="checklist"
@@ -600,7 +600,7 @@ function DetailsModalToSend({ ins }) {
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-            {ins.state.detailViewing.id}-{ins.state.detailViewing.id}
+            Editar - {ins.state.detailViewing.nombre+" "+ins.state.detailViewing.apellido}
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("closets")}>
@@ -617,11 +617,23 @@ function DetailsModalToSend({ ins }) {
               Nombres:
             </Typography>
           </Grid>
+         
 
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.nombre_cliente}
-            </Typography>
+            {/* <Typography variant="button" gutterBottom display="inline">
+              {ins.state.detailViewing.nombre}
+            </Typography> */}
+            <TextField
+                margin="normal"
+                required
+                size="small"
+                fullWidth
+                id="nombre"                         
+                value={ins.state.selectedEditName}                
+                onChange={ins.handleChange("selectedEditName")}
+                name="nombre"
+                autoComplete="name"
+              />
           </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
@@ -629,153 +641,65 @@ function DetailsModalToSend({ ins }) {
               Apellidos:
             </Typography>
           </Grid>
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.dt_envio}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Pago:
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            {/* <Typography variant="button" gutterBottom display="inline"> */}
-            {ins.state.detailViewing.trx.length > 0 ? (
-              <div>
-                {ins.state.detailViewing.trx} - ${" "}
-                {ins.state.detailViewing.monto_capturado} (FAC)
-              </div>
-            ) : (
-              <Grid justify="space-between" container spacing={1}>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <TextField
-                    id="outlined-select-currency0"
-                    select
-                    size="small"
-                    label="Método de pago"
-                    fullWidth
-                    value={ins.state.paymentMethodSelected}
-                    onChange={ins.handleChange("paymentMethodSelected")}
-                    variant="outlined"
-                  >
-                    {ins.state.paymentMethods.map((tile) => (
-                      <MenuItem key={tile.id} value={tile.id}>
-                        {tile.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                {ins.state.askref ? (
-                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                    <TextField
-                      id="outlined-select-currency0g"
-                      size="small"
-                      label="Referencia de pago"
-                      my={2}
-                      fullWidth
-                      value={ins.state.paymentMethodRef}
-                      onChange={ins.handleChange("paymentMethodRef")}
-                      variant="outlined"
-                    ></TextField>
-                  </Grid>
-                ) : (
-                  ""
-                )}
-              </Grid>
-            )}
-
-            {/* </Typography> */}
-          </Grid>
-
-          {/* https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17 */}
-          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Driver asignado:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Grid item xs={12} md={12} lg={12} xl={12}>
-              <Spacer m={2} />
-              <TextField
-                id="outlined-select-currency0"
-                select
-                label=""
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>           
+            <TextField
+                margin="normal"
+                required
                 size="small"
                 fullWidth
-                value={ins.state.orderSelectedDriver}
-                onChange={ins.handleChange("orderSelectedDriver")}
-                variant="outlined"
-              >
-                {ins.state.drivers.map((tile) => (
-                  <MenuItem key={tile.id} value={tile.id}>
-                    {tile.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
+                id="apellido"                         
+                value={ins.state.selectedEditLastName}                
+                onChange={ins.handleChange("selectedEditLastName")}
+                name="apellido"
+              />
           </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              OTIF:
+              Login:
             </Typography>
           </Grid>
-
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            {/* <Typography variant="button" gutterBottom display="inline">
+              {ins.state.detailViewing.login}
+            </Typography> */}
             <TextField
-              id="outlined-select-currency0"
-              select
-              label=""
-              size="small"
-              fullWidth
-              value={ins.state.otifStatus}
-              onChange={ins.handleChange("otifStatus")}
-              variant="outlined"
-            >
-              {ins.state.otifStatuses.map((tile) => (
-                <MenuItem key={tile.id} value={tile.id}>
-                  {tile.name}
-                </MenuItem>
-              ))}
-            </TextField>
-            {ins.state.asksubs ? (
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <TextField
-                  id="outlined-select-currency0g"
-                  size="small"
-                  label="Cantidad de sustitutos (SKU)"
-                  my={2}
-                  fullWidth
-                  value={ins.state.otifsubsv}
-                  onChange={ins.handleChange("otifsubsv")}
-                  variant="outlined"
-                ></TextField>
-              </Grid>
-            ) : (
-              ""
-            )}
+                margin="normal"
+                required
+                size="small"
+                fullWidth
+                id="login"                         
+                value={ins.state.selectedEditLogin}                
+                onChange={ins.handleChange("selectedEditLogin")}
+                name="login"
+                autoComplete="login"
+              />
+          </Grid>
+
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Password:
+            </Typography>
+          </Grid>
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            {/* <Typography variant="button" gutterBottom display="inline">
+              {ins.state.detailViewing.password}
+            </Typography> */}
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                size="small"
+                id="password"                         
+                value={ins.state.selectedEditPassword}                
+                onChange={ins.handleChange("selectedEditPassword")}
+                name="password"
+              />
           </Grid>
 
           <Divider my={6} />
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Entregas con misma fecha (
-              {ins.state.detailViewing.dt_envio.substring(0, 5)}) para el driver
-              seleccionado :
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            {ins.state.cargaDriver.map((tile) => (
-              <MenuItem key={tile.id} value={tile.id}>
-                {tile.name + " - " + tile.id}
-              </MenuItem>
-            ))}
-          </Grid>
 
-          {/* 000015911-1649984605 */}
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
               onClick={ins.handleChange("assignToDriver")}
@@ -783,144 +707,11 @@ function DetailsModalToSend({ ins }) {
               variant="contained"
               color="primary"
             >
-              <IconMoped />
-              ASIGNAR A DRIVER
+              Guardar
             </Button>
           </Grid>
           <Divider my={6} />
         </Grid>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function DetailsModal({ ins }) {
-  return (
-    <Dialog open={ins.state.openDetail}>
-      <DialogTitle>
-        <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>
-            {ins.state.detailViewing.idLS}-{ins.state.detailViewing.idMagento}
-          </Box>
-          <Box>
-            <IconButton onClick={ins.handleChange("close")}>
-              <IconClose />
-            </IconButton>
-          </Box>
-        </Box>
-        <Divider my={0} />
-      </DialogTitle>
-      <DialogContent>
-        <Grid justify="space-between" container spacing={1}>
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Cliente:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.nombre_cliente}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Ubicación:
-            </Typography>
-          </Grid>
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.ubicacion}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Teléfono:
-            </Typography>
-          </Grid>
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.tel}
-            </Typography>
-          </Grid>
-
-          {/* https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17 */}
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Coordenadas:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Link
-              variant="button"
-              gutterBottom
-              display="inline"
-              href={
-                "https://maps.google.com/?q=" + ins.state.detailViewing.ltlng
-              }
-              target="_blank"
-            >
-              Ver en Maps
-            </Link>
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Ubic. Google:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.glocation}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Empaque:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.empaque}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Nota:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.nota}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Divider my={1} />
-          </Grid>
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              ID FAC:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.trx} - ${" "}
-              {ins.state.detailViewing.monto_capturado}
-            </Typography>
-          </Grid>
-
-          <Divider my={5} />
-        </Grid>
-        {/* <Divider my={5} /> */}
       </DialogContent>
     </Dialog>
   );
@@ -969,10 +760,10 @@ class OrdersComponent extends React.Component {
     allOrdersCount: 0,
     ordersWithoutOP: 0,
 
-    selectedEditName:"",
-    selectedEditLastName:"",
-    selectedEditLogin:"",
-    selectedEditPassword:""
+    selectedEditName: "",
+    selectedEditLastName: "",
+    selectedEditLogin: "",
+    selectedEditPassword: ""
 
   };
   getStatuses = (items, prop) => {
@@ -1019,27 +810,27 @@ class OrdersComponent extends React.Component {
       }
 
       axios
-      .get(`https://kip-logistic-api.azurewebsites.net/drivers`, {
-        headers: {
-          Authorization: "Bearer " + tk,
-        },
-      })
-      .then((res) => {
-        var dt = [];
-        res.data.data.forEach(function (entry) {
-          dt.push(
-            createData(entry.id,entry.name,entry.lastname,entry.driver_login,entry.password)
+        .get(`https://kip-logistic-api.azurewebsites.net/drivers`, {
+          headers: {
+            Authorization: "Bearer " + tk,
+          },
+        })
+        .then((res) => {
+          var dt = [];
+          res.data.data.forEach(function (entry) {
+            dt.push(
+              createData(entry.id, entry.name, entry.lastname, entry.driver_login, entry.password)
+            );
+          });
+          ir.setState(
+            {
+              ordenes: dt,
+            },
+            () => {
+              console.log(ir.state.ordenes);
+            }
           );
         });
-        ir.setState(
-          {
-            ordenes: dt,
-          },
-          () => {        
-            console.log(ir.state.ordenes);
-          }
-        );
-      });
     } else {
       alert("Evento no controlado 193");
     }
@@ -1230,7 +1021,7 @@ class OrdersComponent extends React.Component {
     });
     console.log(event.target.value);
     console.log(name);
-    
+
     if (name.includes("close")) {
       this.setState({ openDetail: false });
     }
@@ -1245,13 +1036,13 @@ class OrdersComponent extends React.Component {
       let obj = this.state.ordenes.find((o) => o.id == rec);
       this.setState({ detailViewing: obj });
       console.log(obj);
-      
+
       this.setState({ selectedEditName: obj.nombre });
       this.setState({ selectedEditLastName: obj.apellido });
       this.setState({ selectedEditLogin: obj.login });
       this.setState({ selectedEditPassword: obj.password });
 
-      
+
     }
     //ChecklistToPrint
     if (name.includes("dialoxs")) {

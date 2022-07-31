@@ -116,13 +116,13 @@ const dashboardsRoutes = {
   children: [
     {
       path: "/jarvis/drivers",
-      name: "Drivers",
+      name: "Kip Drivers",
       component: Drivers,
       icon:<SportsMotorsportsIcon/>
     },
     {
       path: "/jarvis/cars",
-      name: "Cars",
+      name: "Kip Cars",
       component: Cars
     }
   ]

@@ -535,7 +535,7 @@ function FilterRows({ ins }) {
         <Grid justify="space-between" container spacing={1}>
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Nombres:
+              Vehículo:
             </Typography>
           </Grid>
 
@@ -555,7 +555,7 @@ function FilterRows({ ins }) {
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Apellidos:
+              Placa:
             </Typography>
           </Grid>
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
@@ -573,7 +573,7 @@ function FilterRows({ ins }) {
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Login:
+              Millaje:
             </Typography>
           </Grid>
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
@@ -593,27 +593,6 @@ function FilterRows({ ins }) {
             />
           </Grid>
 
-
-          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Password:
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            {/* <Typography variant="button" gutterBottom display="inline">
-            {ins.state.detailViewing.password}
-          </Typography> */}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              size="small"
-              id="password"
-              value={ins.state.selectedEditPassword}
-              onChange={ins.handleChange("selectedEditPassword")}
-              name="password"
-            />
-          </Grid>
 
           <Divider my={6} />
 
@@ -1070,7 +1049,7 @@ class OrdersComponent extends React.Component {
     
     if(name.includes("updateDriver")||name.includes("createDriver")){
       var ins = this;
-      alert(this.state.selectedID);
+      // alert(this.state.selectedID);
       axios
       .post(
         "https://kip-logistic-api.azurewebsites.net/cuCars",

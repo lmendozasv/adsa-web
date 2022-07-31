@@ -1092,7 +1092,7 @@ class OrdersComponent extends React.Component {
     
     if(name.includes("updateDriver")||name.includes("createDriver")){
       var ins = this;
-      alert(this.state.selectedID);
+      // alert(this.state.selectedID);
       axios
       .post(
         "https://kip-logistic-api.azurewebsites.net/cuDrivers",

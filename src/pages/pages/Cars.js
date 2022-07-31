@@ -612,6 +612,7 @@ function FilterRows({ ins }) {
     </Dialog>
   );
 }
+
 function DetailsModalToSend({ ins }) {
   return (
     <Dialog open={ins.state.openDetailToSend}>

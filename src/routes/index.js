@@ -4,7 +4,12 @@ import async from "../components/Async";
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import AddIcon from '@material-ui/icons/Add';
 import HomeIcon from '@material-ui/icons/Home';
-// import TodayIcon from '@mui/icons-material/DateRange';
+
+import SportsMotorsportsIcon from '@material-ui/icons/SportsMotorsports';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import ArrowRightAltIcon from '@material-ui/icons/Build';
+import BCIcon from '@material-ui/icons/BubbleChart';
+
 import {
   BookOpen,
   Briefcase,
@@ -13,7 +18,6 @@ import {
   CreditCard,
   Grid,
   Heart,
-  Layout,
   List,
   Map,
   Monitor,
@@ -75,7 +79,9 @@ const Pricing = async(() => import("../pages/pages/Pricing"));
 const Profile = async(() => import("../pages/pages/HomeKIP"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
-const Projects = async(() => import("../pages/pages/Projects"));
+const Projects = async(() => import("../pages/pages/KipOrders"));
+const Drivers = async(() => import("../pages/pages/Drivers"));
+const Cars = async(() => import("../pages/pages/Drivers"));
 const Calendar = async(() => import("../pages/pages/groupDetails"));
 const myCalendar = async(() => import("../pages/pages/mygroupDetails"));
 const myCalenda = async(() => import("../pages/pages/mygroupDetail"));
@@ -102,165 +108,42 @@ const Changelog = async(() => import("../pages/docs/Changelog"));
 const Presentation = async(() => import("../pages/docs/Presentation"));
 
 const dashboardsRoutes = {
-  id: "Dashboard",
-  path: "/dashboard",
+  id: "Configuraciones",
+  path: "/confs",
   header: "",
-  icon: <Sliders />,
+  icon: <ArrowRightAltIcon />,
   containsHome: true,
   children: [
     {
-      path: "/dashboard/default",
-      name: "Default",
-      component: Default
+      path: "/jarvis/drivers",
+      name: "Drivers",
+      component: Drivers,
+      icon:<SportsMotorsportsIcon/>
     },
     {
-      path: "/dashboard/analytics",
-      name: "Analytics",
-      component: Analytics
+      path: "/jarvis/cars",
+      name: "Cars",
+      component: Cars
     }
   ]
 };
 
 const pagesRoutes = {
-  id: "Pages",
-  path: "/pages",
-  icon: <Layout />,
-  children: [
-    {
-      path: "/pages/settings",
-      name: "Settings",
-      component: Settings
-    },
-    {
-      path: "/pages/pricing",
-      name: "Pricing",
-      component: Pricing
-    },
-    {
-      path: "/pages/blank",
-      name: "Blank Page",
-      component: Blank
-    }
-  ]
-};
-
-const profileRoutes = {
-  id: "Calendario de operaciones",
+  id: "Operaciones",
   path: "/",
-  icon: <CalendarIcon />,
-  component: Profile,
-  children: null
-};
-
-const groupDetails = {
-  id: "Detalle",
-  path: "/groupDetails",  
-  component: Calendar,
-  children: null
-};
-
-const mygroupDetails = {
-  id: "Detalle",
-  path: "/MygroupDetails",  
-  component: myCalendar,
-  children: null
-};
-const mygroupDetail = {
-  id: "Detalle",
-  path: "/MygroupDetail",  
-  component: myCalenda,
-  children: null
-};
-
-const groupDetailsJoinNow = {
-  id: "Detalle",
-  path: "/join",  
-  component: JoinToGroup,
-  children: null
-};
-
-// const groupDetailsPay = {
-//   id: "Pago",
-//   path: "/pay",  
-//   component: PayToJoin,
-//   children: null
-// };
-
-const UserProfile = {
-  id: "Perfil",
-  path: "/myprofile",  
-  component: userProfile,
-  children: null
-};
-
-
-const UserWallet = {
-  id: "Perfil",
-  path: "/mywallet",  
-  component: userWallet,
-  children: null
-};
-
-
-// const UserNotifications = {
-//   id: "Perfil",
-//   path: "/myNotifications",  
-//   component: userNotifications,
-//   children: null
-// };
-
-
-
-const projectsRoutes = {
-  id: "Bandeja de pedidos (Operaciones)",
-  path: "/orders",
-  icon: <Inbox />,
-  // badge: "",
-  component: Projects,
-  children: null
-};
-
-const invoiceRoutes = {
-  id: "Invoices",
-  path: "/invoices",
-  icon: <CreditCard />,
+  icon: <BCIcon />,
   children: [
     {
-      path: "/invoices",
-      name: "List",
-      component: InvoiceList
+      path: "/",
+      name: "Calendario de operaciones",
+      component: Profile
     },
     {
-      path: "/invoices/detail",
-      name: "Details",
-      component: InvoiceDetails
+      path: "/jarvis/orders",
+      name: "Panel de órdenes",
+      component: Projects
     }
   ]
-};
-
-const orderRoutes = {
-  id: "Nuevo grupo",
-  path: "/newGroup",
-  icon: <AddIcon />,
-  component: Orders,
-  children: null
-};
-
-const tasksRoutes = {
-  id: "Tasks",
-  path: "/tasks",
-  icon: <CheckSquare />,
-  badge: "17",
-  component: Tasks,
-  children: null
-};
-
-const calendarRoutes = {
-  id: "Calendar",
-  path: "/calendar",
-  icon: <CalendarIcon />,
-  component: Calendar,
-  children: null
 };
 
 const authRoutes = {
@@ -273,11 +156,6 @@ const authRoutes = {
       name: "Login",
       component: Login
     },
-    // {
-    //   path: "register",
-    //   name: "Registrate",
-    //   component: RegisterForm
-    // },
     {
       path: "/auth/reset-password",
       name: "Reset Password",
@@ -296,267 +174,18 @@ const authRoutes = {
   ]
 };
 
-const componentsRoutes = {
-  id: "Components",
-  path: "/components",
-  header: "Elements",
-  icon: <Grid />,
-  children: [
-    {
-      path: "/components/alerts",
-      name: "Alerts",
-      component: Alerts
-    },
-    {
-      path: "/components/avatars",
-      name: "Avatars",
-      component: Avatars
-    },
-    {
-      path: "/components/badges",
-      name: "Badges",
-      component: Badges
-    },
-    {
-      path: "/components/buttons",
-      name: "Buttons",
-      component: Buttons
-    },
-    {
-      path: "/components/cards",
-      name: "Cards",
-      component: Cards
-    },
-    {
-      path: "/components/chips",
-      name: "Chips",
-      component: Chips
-    },
-    {
-      path: "/components/dialogs",
-      name: "Dialogs",
-      component: Dialogs
-    },
-    {
-      path: "/components/expansion-panels",
-      name: "Expansion Panels",
-      component: ExpPanels
-    },
-    {
-      path: "/components/lists",
-      name: "Lists",
-      component: Lists
-    },
-    {
-      path: "/components/menus",
-      name: "Menus",
-      component: Menus
-    },
-    {
-      path: "/components/pagination",
-      name: "Pagination",
-      component: Pagination
-    },
-    {
-      path: "/components/progress",
-      name: "Progress",
-      component: Progress
-    },
-    {
-      path: "/components/snackbars",
-      name: "Snackbars",
-      component: Snackbars
-    },
-    {
-      path: "/components/tooltips",
-      name: "Tooltips",
-      component: Tooltips
-    }
-  ]
-};
-
-const formsRoutes = {
-  id: "Forms",
-  path: "/forms",
-  icon: <CheckSquare />,
-  children: [
-    {
-      path: "/forms/pickers",
-      name: "Pickers",
-      component: Pickers
-    },
-    {
-      path: "/forms/selection-controls",
-      name: "Selection Controls",
-      component: SelectionCtrls
-    },
-    {
-      path: "/forms/selects",
-      name: "Selects",
-      component: Selects
-    },
-    {
-      path: "/forms/text-fields",
-      name: "Text Fields",
-      component: TextFields
-    },
-    {
-      path: "/forms/dropzone",
-      name: "Dropzone",
-      component: Dropzone
-    },
-    {
-      path: "/forms/editors",
-      name: "Editors",
-      component: Editors
-    }
-  ]
-};
-
-const tablesRoutes = {
-  id: "Tables",
-  path: "/tables",
-  icon: <List />,
-  children: [
-    {
-      path: "/tables/simple-table",
-      name: "Simple Table",
-      component: SimpleTable
-    },
-    {
-      path: "/tables/advanced-table",
-      name: "Advanced Table",
-      component: AdvancedTable
-    }
-  ]
-};
-
-const iconsRoutes = {
-  id: "Icons",
-  path: "/icons",
-  icon: <Heart />,
-  children: [
-    {
-      path: "/icons/material-icons",
-      name: "Material Icons",
-      component: MaterialIcons
-    },
-    {
-      path: "/icons/feather-icons",
-      name: "Feather Icons",
-      component: FeatherIcons
-    }
-  ]
-};
-
-const chartRoutes = {
-  id: "Charts",
-  path: "/charts",
-  icon: <PieChart />,
-  component: Chartjs,
-  children: null
-};
-
-const mapsRoutes = {
-  id: "Maps",
-  path: "/maps",
-  icon: <Map />,
-  children: [
-    {
-      path: "/maps/google-maps",
-      name: "Google Maps",
-      component: GoogleMaps
-    },
-    {
-      path: "/maps/vector-maps",
-      name: "Vector Maps",
-      component: VectorMaps
-    }
-  ]
-};
-
-const presentationRoutes = {
-  id: "Presentation",
-  path: "/",
-  header: "Docs",
-  icon: <Monitor />,
-  component: Presentation,
-  children: null
-};
-
-const documentationRoutes = {
-  id: "Getting Started",
-  path: "/documentation",
-  icon: <BookOpen />,
-  component: Docs,
-  children: null
-};
-
-const changelogRoutes = {
-  id: "Changelog",
-  path: "/changelog",
-  badge: "v1.0.8",
-  icon: <List />,
-  component: Changelog,
-  children: null
-};
-
-// This route is not visisble in the sidebar
-const privateRoutes = {
-  id: "Private",
-  path: "/private",
-  component: Blank,
-  children: null
-};
 //rutas libres
 
-export const dashboard = [  
-  // dashboardsRoutes,
-  // pagesRoutes,
-  profileRoutes,
-  groupDetails,
-  groupDetailsJoinNow,
-  // groupDetailsPay,
-  mygroupDetails,
-  projectsRoutes,
-  // orderRoutes,
-  UserProfile,
-  UserWallet,
-  // UserNotifications,
-  // invoiceRoutes,
-  // tasksRoutes,
-  // calendarRoutes,
-  // componentsRoutes,
-  // chartRoutes,
-  // formsRoutes,
-  // tablesRoutes,
-  // iconsRoutes,
-  // mapsRoutes,
-  // presentationRoutes,
-  // documentationRoutes,
-  // changelogRoutes,
-  // privateRoutes
+export const dashboard = [    
+  // profileRoutes,  
+  dashboardsRoutes,
+  pagesRoutes,  
 ];
 //rutas con auth
 export const auth = [authRoutes];
 
 export default [
-  // dashboardsRoutes,
-  // pagesRoutes,
-  profileRoutes,  
-  projectsRoutes,
-  // orderRoutes,
-  // invoiceRoutes,
-  // tasksRoutes,
-  // calendarRoutes,
-  //authRoutes,
-  // componentsRoutes,
-  // chartRoutes,
-  // formsRoutes,
-  // tablesRoutes,
-  // iconsRoutes,
-  // mapsRoutes,
-  // presentationRoutes,
-  // documentationRoutes,
-  // changelogRoutes
+  pagesRoutes,
+  // profileRoutes,    
+  dashboardsRoutes,
 ];

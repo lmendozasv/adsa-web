@@ -1616,28 +1616,7 @@ class OrdersComponent extends React.Component {
       <React.Fragment>
         <Helmet title="Órdenes" />
 
-        {/* <Grid justify="space-between" container spacing={24}>
-          <Grid item>
-            <Typography variant="h3" gutterBottom display="inline">
-              {this.state.tix}
-            </Typography>
-
-            <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-              <Link component={NavLink} exact to="/">
-                Dashboard
-              </Link>
-              <Typography>Órdenes</Typography>
-            </Breadcrumbs>
-          </Grid>
-          <Grid item>
-            <div>
-              <Button variant="contained" color="primary">
-                <AddIcon />
-                Nueva órden
-              </Button>
-            </div>
-          </Grid>
-        </Grid> */}
+        
 
         <Grid container spacing={2}>
           <Grid item xs={10} sm={11} md={11} lg={11} xl={11}>

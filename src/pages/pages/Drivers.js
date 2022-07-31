@@ -522,7 +522,9 @@ function FilterRows({ ins }) {
     <Dialog open={ins.state.openFilters}>
       <DialogTitle>
         <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>Filtros</Box>
+          <Box flexGrow={1}>
+            Nuevo driver
+          </Box>
           <Box>
             <IconButton onClick={ins.handleChange("close-filters")}>
               <IconClose />
@@ -531,65 +533,104 @@ function FilterRows({ ins }) {
         </Box>
         <Divider my={0} />
       </DialogTitle>
-
       <DialogContent>
         <Grid justify="space-between" container spacing={1}>
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Tipo de envío:
+              Nombres:
             </Typography>
           </Grid>
 
+
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              -
-            </Typography>
+            <TextField
+              margin="normal"
+              required
+              size="small"
+              fullWidth
+              id="nombre"              
+              onChange={ins.handleChange("selectedEditName")}
+              name="nombre"
+              autoComplete="name"
+            />
           </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Fecha envío:
+              Apellidos:
             </Typography>
           </Grid>
-
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              -
-            </Typography>
+            <TextField
+              margin="normal"
+              required
+              size="small"
+              fullWidth
+              id="apellido"
+              
+              onChange={ins.handleChange("selectedEditLastName")}
+              name="apellido"
+            />
           </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Estado pago:
+              Login:
             </Typography>
+          </Grid>
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            {/* <Typography variant="button" gutterBottom display="inline">
+            {ins.state.detailViewing.login}
+          </Typography> */}
+            <TextField
+              margin="normal"
+              required
+              size="small"
+              fullWidth
+              id="login"
+              
+              onChange={ins.handleChange("selectedEditLogin")}
+              name="login"
+              autoComplete="login"
+            />
           </Grid>
 
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              -
-            </Typography>
-          </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Tipo empaque:
+              Password:
             </Typography>
+          </Grid>
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            {/* <Typography variant="button" gutterBottom display="inline">
+            {ins.state.detailViewing.password}
+          </Typography> */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              size="small"
+              id="password"
+              value={ins.state.selectedEditPassword}
+              onChange={ins.handleChange("selectedEditPassword")}
+              name="password"
+            />
           </Grid>
 
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Typography variant="button" gutterBottom display="inline">
-              -
-            </Typography>
+          <Divider my={6} />
+
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Button
+              onClick={ins.handleChange("createDriver")}
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              Guardar
+            </Button>
           </Grid>
+          <Divider my={6} />
         </Grid>
-
-        <br />
-
-        <Button fullWidth variant="outlined" color="primary">
-          APLICAR
-        </Button>
-        <br />
-        <br />
       </DialogContent>
     </Dialog>
   );
@@ -600,7 +641,7 @@ function DetailsModalToSend({ ins }) {
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-            Editar - {ins.state.detailViewing.nombre+" "+ins.state.detailViewing.apellido}
+            Editar - {ins.state.detailViewing.nombre + " " + ins.state.detailViewing.apellido}
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("closets")}>
@@ -617,23 +658,23 @@ function DetailsModalToSend({ ins }) {
               Nombres:
             </Typography>
           </Grid>
-         
+
 
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
             {/* <Typography variant="button" gutterBottom display="inline">
               {ins.state.detailViewing.nombre}
             </Typography> */}
             <TextField
-                margin="normal"
-                required
-                size="small"
-                fullWidth
-                id="nombre"                         
-                value={ins.state.selectedEditName}                
-                onChange={ins.handleChange("selectedEditName")}
-                name="nombre"
-                autoComplete="name"
-              />
+              margin="normal"
+              required
+              size="small"
+              fullWidth
+              id="nombre"
+              value={ins.state.selectedEditName}
+              onChange={ins.handleChange("selectedEditName")}
+              name="nombre"
+              autoComplete="name"
+            />
           </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
@@ -641,17 +682,17 @@ function DetailsModalToSend({ ins }) {
               Apellidos:
             </Typography>
           </Grid>
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>           
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
             <TextField
-                margin="normal"
-                required
-                size="small"
-                fullWidth
-                id="apellido"                         
-                value={ins.state.selectedEditLastName}                
-                onChange={ins.handleChange("selectedEditLastName")}
-                name="apellido"
-              />
+              margin="normal"
+              required
+              size="small"
+              fullWidth
+              id="apellido"
+              value={ins.state.selectedEditLastName}
+              onChange={ins.handleChange("selectedEditLastName")}
+              name="apellido"
+            />
           </Grid>
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
@@ -664,16 +705,16 @@ function DetailsModalToSend({ ins }) {
               {ins.state.detailViewing.login}
             </Typography> */}
             <TextField
-                margin="normal"
-                required
-                size="small"
-                fullWidth
-                id="login"                         
-                value={ins.state.selectedEditLogin}                
-                onChange={ins.handleChange("selectedEditLogin")}
-                name="login"
-                autoComplete="login"
-              />
+              margin="normal"
+              required
+              size="small"
+              fullWidth
+              id="login"
+              value={ins.state.selectedEditLogin}
+              onChange={ins.handleChange("selectedEditLogin")}
+              name="login"
+              autoComplete="login"
+            />
           </Grid>
 
 
@@ -687,22 +728,22 @@ function DetailsModalToSend({ ins }) {
               {ins.state.detailViewing.password}
             </Typography> */}
             <TextField
-                margin="normal"
-                required
-                fullWidth
-                size="small"
-                id="password"                         
-                value={ins.state.selectedEditPassword}                
-                onChange={ins.handleChange("selectedEditPassword")}
-                name="password"
-              />
+              margin="normal"
+              required
+              fullWidth
+              size="small"
+              id="password"
+              value={ins.state.selectedEditPassword}
+              onChange={ins.handleChange("selectedEditPassword")}
+              name="password"
+            />
           </Grid>
 
           <Divider my={6} />
 
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
-              onClick={ins.handleChange("assignToDriver")}
+              onClick={ins.handleChange("updateDriver")}
               fullWidth
               variant="contained"
               color="primary"
@@ -763,7 +804,8 @@ class OrdersComponent extends React.Component {
     selectedEditName: "",
     selectedEditLastName: "",
     selectedEditLogin: "",
-    selectedEditPassword: ""
+    selectedEditPassword: "",
+    selectedID:0,
 
   };
   getStatuses = (items, prop) => {
@@ -1041,55 +1083,51 @@ class OrdersComponent extends React.Component {
       this.setState({ selectedEditLastName: obj.apellido });
       this.setState({ selectedEditLogin: obj.login });
       this.setState({ selectedEditPassword: obj.password });
+      this.setState({ selectedID: obj.id});
+
+      // ins.state.detailViewing.apellido
 
 
+    } 
+    
+    if(name.includes("updateDriver")||name.includes("createDriver")){
+      var ins = this;
+      alert(this.state.selectedID);
+      axios
+      .post(
+        "https://kip-logistic-api.azurewebsites.net/cuDrivers",
+        {
+          id: this.state.selectedID,
+          name: this.state.selectedEditName,
+          lastname: this.state.selectedEditLastName,
+          login: this.state.selectedEditLogin,
+          passw: this.state.selectedEditPassword
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (res) {
+        ins.setState(
+          {
+            openDetailToSend: false,
+          },
+          () => {
+            alert("Registro actualizado correctamente");
+            window.location.reload();
+          }
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        // alert(error);
+      });
     }
-    //ChecklistToPrint
-    if (name.includes("dialoxs")) {
-      var rec = name;
-      rec = name.replace("dialoxs-", "");
-      let obj = this.state.ordenes.find((o) => o.idLS === rec);
-      console.log(obj);
 
-      var cnn = "";
-      var snn = "";
-
-      if (obj.nota.length > 0) {
-        cnn = "X";
-        snn = " ";
-      }
-      else {
-        cnn = " ";
-        snn = "X";
-      }
-
-
-      var idfac = "";
-      var dtenv = "";
-      dtenv = obj.dt_envio.split(" ");
-      idfac = obj.trx.split("-");
-      rpt = rpt.replace("[VAROPLS]", rec);
-      rpt = rpt.replace("[VARCLIENTE]", obj.nombre_cliente);
-      rpt = rpt.replace("[VARCAPTUREDAMOUNT]", obj.monto_capturado);
-      rpt = rpt.replace("[VARIDFAC]", idfac[1]);
-      rpt = rpt.replace("[VARNOTAPEDIDO]", obj.nota);
-      rpt = rpt.replace("[VARCN]", cnn);
-      rpt = rpt.replace("[VARSN]", snn);
-      rpt = rpt.replace("[VARTIPOENVIO]", obj.os_shipping_description);
-      rpt = rpt.replace("[VARMONTOPEDIDO]", obj.monto_capturado);
-
-      rpt = rpt.replace("[VARDIA]", dtenv[0]);
-      rpt = rpt.replace("[VARHORA]", dtenv[1]);
-
-
-
-      var win = window.open();
-      win.document.open();
-      win.document.write(rpt);
-      win.document.close();
-      win.print();
-      // win.close();
-    }
+   
 
 
     if (name.includes("closets")) {

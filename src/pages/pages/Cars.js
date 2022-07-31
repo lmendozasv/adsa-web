@@ -155,18 +155,16 @@ var rpt = "";
 
 function createData(
   id,
-  nombre,
-  apellido,
-  login,
-  password
+  plate,
+  name,
+  tachometer
 ) {
   // console.log(idLS);
   return {
     id,
-    nombre,
-    apellido,
-    login,
-    password
+    plate,
+    name,
+    tachometer
   };
 }
 
@@ -198,9 +196,9 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: "id", alignment: "left", label: "Id" },
-  { id: "name", alignment: "left", label: "Nombre" },
-  { id: "lastname", alignment: "left", label: "Apellido" },
-  { id: "driver_login", alignment: "left", label: "Login" },
+  { id: "plate", alignment: "left", label: "Placa" },
+  { id: "name", alignment: "left", label: "Vehículo" },
+  { id: "tachometer", alignment: "left", label: "Millaje" },
   { id: "actions", alignment: "right", label: "Acciones" },
 ];
 
@@ -399,9 +397,9 @@ function EnhancedTable({ dataRows, ins }) {
                       </TableCell>
 
                       <TableCell align="left">{row.id}</TableCell>
-                      <TableCell align="left">{row.nombre}</TableCell>
-                      <TableCell align="left">{row.apellido}</TableCell>
-                      <TableCell align="left">{row.login}</TableCell>
+                      <TableCell align="left">{row.plate}</TableCell>
+                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="left">{row.tachometer}</TableCell>
 
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
@@ -641,7 +639,7 @@ function DetailsModalToSend({ ins }) {
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-            Editar - {ins.state.detailViewing.nombre + " " + ins.state.detailViewing.apellido}
+            Editar - {ins.state.detailViewing.name + " " + ins.state.detailViewing.plate}
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("closets")}>
@@ -655,7 +653,7 @@ function DetailsModalToSend({ ins }) {
         <Grid justify="space-between" container spacing={1}>
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Nombres:
+              Vehículo:
             </Typography>
           </Grid>
 
@@ -679,7 +677,7 @@ function DetailsModalToSend({ ins }) {
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Apellidos:
+              Placa:
             </Typography>
           </Grid>
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
@@ -697,7 +695,7 @@ function DetailsModalToSend({ ins }) {
 
           <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
             <Typography variant="caption" gutterBottom display="inline">
-              Login:
+              Millaje:
             </Typography>
           </Grid>
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
@@ -718,26 +716,7 @@ function DetailsModalToSend({ ins }) {
           </Grid>
 
 
-          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Password:
-            </Typography>
-          </Grid>
-          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-            {/* <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.password}
-            </Typography> */}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              size="small"
-              id="password"
-              value={ins.state.selectedEditPassword}
-              onChange={ins.handleChange("selectedEditPassword")}
-              name="password"
-            />
-          </Grid>
+         
 
           <Divider my={6} />
 
@@ -852,7 +831,7 @@ class OrdersComponent extends React.Component {
       }
 
       axios
-        .get(`https://kip-logistic-api.azurewebsites.net/drivers`, {
+        .get(`https://kip-logistic-api.azurewebsites.net/cars`, {
           headers: {
             Authorization: "Bearer " + tk,
           },
@@ -861,7 +840,7 @@ class OrdersComponent extends React.Component {
           var dt = [];
           res.data.data.forEach(function (entry) {
             dt.push(
-              createData(entry.id, entry.name, entry.lastname, entry.driver_login, entry.password)
+              createData(entry.id, entry.plate, entry.name, entry.tachometer)
             );
           });
           ir.setState(
@@ -1079,10 +1058,9 @@ class OrdersComponent extends React.Component {
       this.setState({ detailViewing: obj });
       console.log(obj);
 
-      this.setState({ selectedEditName: obj.nombre });
-      this.setState({ selectedEditLastName: obj.apellido });
-      this.setState({ selectedEditLogin: obj.login });
-      this.setState({ selectedEditPassword: obj.password });
+      this.setState({ selectedEditName: obj.name });
+      this.setState({ selectedEditLastName: obj.plate });
+      this.setState({ selectedEditLogin: obj.tachometer });
       this.setState({ selectedID: obj.id});
 
       // ins.state.detailViewing.apellido

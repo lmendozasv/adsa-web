@@ -1555,11 +1555,11 @@ class OrdersComponent extends React.Component {
       rpt = rpt.replace("[VARDIA]", dtenv[0]);
       rpt = rpt.replace("[VARHORA]", dtenv[1]);
 
-      if (obj.empaque=="bolsas"){
+      if (obj.empaque==="bolsas"){
         rpt = rpt.replace("[VARBO]", "X");
         rpt = rpt.replace("[VARJA]", " ");
       }
-      if (obj.empaque=="java"){
+      if (obj.empaque==="java"){
         rpt = rpt.replace("[VARBO]", "X");
         rpt = rpt.replace("[VARJA]", " ");
       }

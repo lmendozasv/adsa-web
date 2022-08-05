@@ -558,13 +558,14 @@ function EnhancedTable({ dataRows, ins }) {
                           :""}
                           
 
-
+                          {row.status==="new"||row.status==="READY"?
                           <IconButton
                             onClick={ins.handleChange("dialoxs-" + row.idLS)}
                             aria-label="checklist"
                           >
                             <FactCheckIcon />
                           </IconButton>
+                           :""}
 
 
                         </Box>
@@ -1537,6 +1538,8 @@ class OrdersComponent extends React.Component {
 
       var idfac = "";
       var dtenv = "";
+      var tempaque ="";
+
       dtenv = obj.dt_envio.split(" ");
       idfac = obj.trx.split("-");
       rpt = rpt.replace("[VAROPLS]", rec);
@@ -1551,6 +1554,15 @@ class OrdersComponent extends React.Component {
 
       rpt = rpt.replace("[VARDIA]", dtenv[0]);
       rpt = rpt.replace("[VARHORA]", dtenv[1]);
+
+      if (obj.empaque=="bolsas"){
+        rpt = rpt.replace("[VARBO]", "X");
+        rpt = rpt.replace("[VARJA]", " ");
+      }
+      if (obj.empaque=="java"){
+        rpt = rpt.replace("[VARBO]", "X");
+        rpt = rpt.replace("[VARJA]", " ");
+      }
 
 
 

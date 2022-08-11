@@ -407,7 +407,8 @@ class ServicesList extends React.Component {
           }
         )
         .then(function (res) {
-          console.log("Fin");          
+          console.log("Fin");      
+          window.location.reload();    
           //isDetailOpen
           ins.setState({
             isDetailOpen: false,
@@ -457,6 +458,7 @@ class ServicesList extends React.Component {
           }
         )
         .then(function (res) {
+          window.location.reload();
           console.log("Fin");
         })
         .catch(function (error) {
@@ -494,6 +496,7 @@ class ServicesList extends React.Component {
         )
         .then(function (res) {
           console.log("Fin");
+
         })
         .catch(function (error) {
           console.log(error);          

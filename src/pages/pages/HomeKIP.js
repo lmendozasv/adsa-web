@@ -15,7 +15,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-
+import { DatePicker, TimePicker, DateTimePicker, MuiPickersUtilsProvider, } from '@material-ui/pickers';
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
@@ -371,6 +371,15 @@ class ServicesList extends React.Component {
       "name":"Entregado"
     }
   ]
+  handleUpdateDateManual= (name) => (event) => {
+    this.setState({
+      [name]: event.target.value,
+    });
+    console.log(name);
+    console.log(event.target.value);
+    this.handleChangeDeliveryDateAndTime(this.state.idSelected,event.target.value);
+  }
+
   handleUpdateStatusManual= (name) => (event) => {
     // console.log(name);
     // console.log(event.target.value);
@@ -414,9 +423,51 @@ class ServicesList extends React.Component {
     date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);  
     return date;
   }
+  handleChangeDeliveryDateAndTime(i,s){
+    // 2022-08-10 14:00:00 needs
+    // 2022-08-19T15:35 enter 
+    // alert(i);
+    // alert(s);
+    // alert(s);
+    s = s.replace(" ","T");
+    s+=":00";
+    // alert(s);
+    const date = new Date(s);    
+    var nHours = this.addHours(6,date);
+
+    var nTime = String(nHours.getHours()).padStart(2, '0') + ":" + String(nHours.getMinutes()).padStart(2, '0')+":00";
+    var nDateM = nHours.getMonth()+1;
+    var nDateD = nHours.getDate();
+    var nDateY = nHours.getYear()+1900;    
+    var aDT = nDateY+"-"+String(nDateM).padStart(2, '0')+"-"+String(nDateD).padStart(2, '0') + " " + nTime ;
+    var tk = localStorage.getItem("token_sec");
+    axios
+        .post(
+          "https://kip-logistic-api.azurewebsites.net/updateDeliveryDateTime",
+          {
+            i: i,
+            n: aDT,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + tk,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(function (res) {
+          console.log("Fin");
+        })
+        .catch(function (error) {
+          console.log(error);          
+        });
+    // alert(nHours);
+  }
   handleChangeDeliveryTime(s) {
+    // alert(s.event.start);
     var nHours = this.addHours(6,s.event.start);
-    console.log(nHours.getHours());
+    // console.log(nHours.getHours());
     // alert(nHours.getHours());
     var nTime = String(nHours.getHours()).padStart(2, '0') + ":" + String(s.event.start.getMinutes()).padStart(2, '0')+":00";
     var nDateM = s.event.start.getMonth()+1;
@@ -455,6 +506,7 @@ class ServicesList extends React.Component {
     this.setState({ opSelected: ae[1] });
     this.setState({ deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr});    
     this.setState({ deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date});
+    // alert(e.event._def.extendedProps.allData.os_status);
     this.setState({ statusSelected: e.event._def.extendedProps.allData.os_status});
     this.setState({ idSelected: e.event._def.extendedProps.allData.id});
     
@@ -467,7 +519,7 @@ class ServicesList extends React.Component {
       translatedStatus ="Pickeado"
     }
     if(aStatus=="CLOSED"||aStatus=="FACTURADO"){
-      translatedStatus ="Nuevo"
+      translatedStatus ="Facturado"
     }
     if(aStatus=="COLLECTED"||aStatus=="A FACTURAR"){
       translatedStatus ="Nuevo"
@@ -688,6 +740,38 @@ function SalesRevenue({ ins }) {
                   </MenuItem>
                 ))}
               </TextField>
+            </Grid>
+
+
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Typography variant="caption" gutterBottom display="inline">
+                Nueva fecha de entrega:
+              </Typography>
+            </Grid>
+
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            {/* <DateTimePicker            
+            label=""
+            variant="outlined"
+            size="small"
+            renderInput={(params) => <TextField {...params} />}
+            // value={selectedDate}
+            // onChange={setSelectedDate}
+          /> */}
+          <form noValidate>
+            <TextField
+              id="datetime-local"
+              label=""
+              size="small"
+              variant="outlined"
+              type="datetime-local"
+              onChange={ins.handleUpdateDateManual("newDate")}
+              // defaultValue="2017-05-24T10:30"
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
+          </form>
             </Grid>
 
            

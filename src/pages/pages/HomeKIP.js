@@ -231,7 +231,6 @@ class ServicesList extends React.Component {
           // VERDE = ENTREGADO
           // MORADO = ENTREGADO TARDE
 
-
           if (entry.os_status.includes("new")||entry.os_status.includes("processing")||entry.os_status.includes("READY")) { // RECIBIDO
             bg = "#999999";
           }

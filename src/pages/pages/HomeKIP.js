@@ -245,7 +245,7 @@ class ServicesList extends React.Component {
           if (entry.os_status.includes("on-the-way")) { // EN RUTA
             bg = "#D35400";
           }
-          if (entry.os_status.includes("complete")) { // DELIVERED 
+          if (entry.os_status.includes("complete")||entry.os_status.includes("delivered")) { // DELIVERED 
             bg = "#58D68D";
           }
           var translatedStatus = "";
@@ -270,6 +270,7 @@ class ServicesList extends React.Component {
           }
           if(aStatus=="complete"||aStatus=="delivered"){
             translatedStatus ="Entregado"
+            // translatedStatus =aStatus
           }
           //updateStatusManual
           /*

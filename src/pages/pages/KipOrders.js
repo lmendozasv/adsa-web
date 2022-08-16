@@ -1547,7 +1547,7 @@ class OrdersComponent extends React.Component {
       rpt = rpt.replace("[VAROPLS]", rec);
       rpt = rpt.replace("[VARCLIENTE]", obj.nombre_cliente);
       rpt = rpt.replace("[VARCAPTUREDAMOUNT]", obj.monto_capturado);
-      rpt = rpt.replace("[VARIDFAC]", idfac[1]);
+      rpt = rpt.replace("[VARIDFAC]", idfac[0]);
       rpt = rpt.replace("[VARNOTAPEDIDO]", obj.nota);
       rpt = rpt.replace("[VARCN]", cnn);
       rpt = rpt.replace("[VARSN]", snn);
@@ -1716,7 +1716,8 @@ class OrdersComponent extends React.Component {
             />
             {this.state.ordenesStatuses.map(
               (tile) =>
-                (tile.value == "processing" || tile.value == "new" || tile.value == "pending" || tile.value == "READY" ? (
+                // (tile.value == "processing" || tile.value == "new" || tile.value == "pending" || tile.value == "READY" ? (
+                (["processing","new","pending"].indexOf(tile.value) >0 ? (
                   this.state.st1 ? (
                     <Chip
                       mr={1}
@@ -1726,16 +1727,7 @@ class OrdersComponent extends React.Component {
                       fullWidth
                       onClick={(event) => this.applyFilter(event, "new")}
                     />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Nuevos"}
-                      Nuevos
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "new")}
-                    />
-                  )
+                  ) : ""
                 ) : (
                   ""
                 )) ||
@@ -1808,7 +1800,8 @@ class OrdersComponent extends React.Component {
                 ) : (
                   ""
                 )) ||
-                (tile.value == "FACTURADO" || tile.value == "CLOSED" ? (
+                // (tile.value == "FACTURADO" || tile.value == "CLOSED" ? (
+                  (["FACTURADO","CLOSED"].indexOf(tile.value) >0 ? (
                   this.state.st5 ? (
                     <Chip
                       mr={1}
@@ -1819,14 +1812,7 @@ class OrdersComponent extends React.Component {
                       onClick={(event) => this.applyFilter(event, "facturado")}
                     />
                   ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Facturado"}
-                      Facturado
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "facturado")}
-                    />
+                    ""
                   )
                 ) : (
                   ""
@@ -1883,7 +1869,8 @@ class OrdersComponent extends React.Component {
                 ) : (
                   ""
                 )) ||
-                (tile.value == "delivered" || tile.value == "complete" ? (
+                (["delivered","complete"].indexOf(tile.value) >0 ? (
+                // (tile.value == "delivered" || tile.value == "complete" ? (
                   this.state.st8 ? (
                     <Chip
                       mr={1}

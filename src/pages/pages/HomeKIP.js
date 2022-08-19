@@ -577,16 +577,15 @@ class ServicesList extends React.Component {
             </Box>
           </Grid> */}
 
-          <Grid item xl={4}>
+          {/* <Grid item xl={4}>
             <Box>
               <Typography variant="h4">OTIF Hoy (Preview)</Typography>
               <Paper m={4}>
-                <Earnings ins={this} />
-                {/* <Products/> */}
-                {/* OTIF (Hoy) */}
+                <Earnings ins={this} />               
               </Paper>
             </Box>
-          </Grid>
+          </Grid> */}
+
         </Grid>
       </React.Fragment>
     );
@@ -799,12 +798,16 @@ function SalesRevenue({ ins }) {
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
           defaultView="timeGridDay"
+          minTime="05:00"
+          maxTime="19:00"
           header={{
-            // left: "prev,next",
-            left:"title",
+            left: "prev,next",
+            // left:"title",
             // center: "title",
             right: "timeGridDay,listDay"
           }}
+          // height={"10vh"}
+          aspectRatio={1.8}
           droppable={true}
           initialView="dayGridMonth"
           weekends={true}
@@ -812,9 +815,10 @@ function SalesRevenue({ ins }) {
           editable={true}
           selectable={true}
           selectMirror={true}
-          dayMaxEvents={true}
+          // dayMaxEvents={true}
           eventDrop={event => ins.handleChangeDeliveryTime(event)}
           eventClick={eventClickInfo=>ins.handleClick(eventClickInfo)}
+          
         />
       </CardContent>
 

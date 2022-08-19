@@ -592,6 +592,7 @@ class ServicesList extends React.Component {
   }
 }
 
+
 function Earnings({ ins }) {
   return (
     <Box position="relative">

@@ -561,7 +561,7 @@ class ServicesList extends React.Component {
     
   }
   
-  
+
   render() {
     return (
       <React.Fragment>
@@ -801,7 +801,7 @@ function SalesRevenue({ ins }) {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
           defaultView="timeGridDay"
           minTime="05:00"
-          maxTime="19:00"
+          maxTime="20:00"
           header={{
             left: "prev,next",
             // left:"title",

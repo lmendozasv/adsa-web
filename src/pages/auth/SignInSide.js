@@ -486,7 +486,7 @@ class LoginComponent extends React.Component {
             {/* </Avatar> */}
 
             <Typography component="h1" variant="h1">
-              Bienvenido a Jarvis
+              Bienvenido
             </Typography>
             
             {this.state.isLoadingData ? <CircularProgress /> : ""}

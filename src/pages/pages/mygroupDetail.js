@@ -383,10 +383,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#48D597",
+    color: "#172449",
   },
   iconHover: {
-    color: "#48D597",
+    color: "#172449",
   },
 })(Rating);
 
@@ -419,7 +419,7 @@ function UserProfile({ data, ins }) {
               variant="rounded"
               style={{
                 border: "1.0px double #001e3c",
-                boxShadow: "3px 3px #48D597",
+                boxShadow: "3px 3px #172449",
               }}
               src={data.pic_url}
               aria-label="recipe"
@@ -458,7 +458,7 @@ function UserProfile({ data, ins }) {
           textAlign="center"
           fontSize="caption.fontSize"
           fontWeight="fontWeightRegular"
-          color="#48D597"
+          color="#172449"
           m={1}
         >
           {data.group_name} ({data.cluster_code})

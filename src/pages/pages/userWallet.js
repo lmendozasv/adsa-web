@@ -411,10 +411,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#48D597",
+    color: "#172449",
   },
   iconHover: {
-    color: "#48D597",
+    color: "#172449",
   },
 })(Rating);
 
@@ -575,7 +575,7 @@ function UserProfile({ data, ins }) {
               variant="rounded"
               style={{
                 border: "1.0px double #001e3c",
-                boxShadow: "3px 3px #48D597",
+                boxShadow: "3px 3px #172449",
                 cursor: "pointer",
               }}
               src={ins.state.pic_url}
@@ -646,7 +646,7 @@ function UserProfile({ data, ins }) {
           textAlign="center"
           fontSize="caption.fontSize"
           fontWeight="fontWeightRegular"
-          color="#48D597"
+          color="#172449"
           m={1}
         >
           {/* {data.group_name} ({data.cluster_code}) */}
@@ -837,7 +837,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -863,7 +863,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#48D597"
+                color="#172449"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -875,7 +875,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#48D597"
+                color="#172449"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -901,7 +901,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -932,7 +932,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               $

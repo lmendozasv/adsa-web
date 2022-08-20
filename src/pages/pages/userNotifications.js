@@ -254,7 +254,7 @@ class JoinToGroup extends React.Component {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#48D597"
+          color="#172449"
         >
           Por favor, rellena los campos de tu tarjeta de débito o crédito
         </Box> */}
@@ -276,7 +276,7 @@ class JoinToGroup extends React.Component {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#48D597"
+          color="#172449"
         >
           <b>
           <Typography variant="body2" gutterBottom display="block">
@@ -347,7 +347,7 @@ class JoinToGroup extends React.Component {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#48D597"
+          color="#172449"
         >
           Por favor, rellena los campos de tu tarjeta de débito o crédito
         </Box>
@@ -617,10 +617,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#48D597",
+    color: "#172449",
   },
   iconHover: {
-    color: "#48D597",
+    color: "#172449",
   },
 })(Rating);
 
@@ -1004,7 +1004,7 @@ function UserProfile({ data, ins, relations }) {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightRegular"
-          color="#48D597"
+          color="#172449"
         >
           Agrega o selecciona un método de pago para enviar el monto
           automáticamente
@@ -1081,7 +1081,7 @@ function UserProfile({ data, ins, relations }) {
         //   textAlign="left"
         //   fontSize="button.fontSize"
         //   fontWeight="fontWeightBold"
-        //   color="#48D597"
+        //   color="#172449"
         //   gutterBottom
         // >
         //   Agrega una nueva forma de pago
@@ -1292,7 +1292,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#48D597"
+                color="#172449"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -1320,7 +1320,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -1350,7 +1350,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -1370,7 +1370,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="center"              
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               ¿Tienes un cupón? Agrégalo aquí
@@ -1381,7 +1381,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               
@@ -1413,7 +1413,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}

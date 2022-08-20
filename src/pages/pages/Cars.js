@@ -121,7 +121,7 @@ const Chip = styled(MuiChip)`
   ${spacing};
   // 0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid)
   background: ${(props) => props.totalPedidos && "#B6EED5"};
-  background: ${(props) => props.Nuevos && "#48D597"};
+  background: ${(props) => props.Nuevos && "#172449"};
   background: ${(props) => props.Checklist && "#C68F3C"};
   background: ${(props) => props.Pickeado && "#7761F6"};
   background: ${(props) => props.EnCaja && "#FFE100"};
@@ -138,7 +138,7 @@ const InfoChip = styled(MuiChip)`
   ${spacing};
 
   background: ${(props) => props.info && "#fff"};
-  background: ${(props) => props.shipped && "#48D597"};
+  background: ${(props) => props.shipped && "#172449"};
   background: ${(props) => props.processing && orange[700]};
   background: ${(props) => props.cancelled && red[500]};
   color: ${(props) => props.theme.palette.common.black};

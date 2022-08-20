@@ -205,7 +205,7 @@ const SidebarSection = styled(Typography)`
 
 const SidebarFooter = styled.div`
   background-color: ${props =>
-    "#48D597"} !important;
+    "#172449"} !important;
   padding: ${props => props.theme.spacing(2.75)}px
     ${props => props.theme.spacing(4)}px;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
@@ -344,8 +344,8 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
       >
         {/* <BrandIcon />  */}
         <img         
-        src={"https://firebasestorage.googleapis.com/v0/b/kip-sv-qa.appspot.com/o/okka.png?alt=media&token=e3d597d3-10c3-41e4-bd4b-3e8947795e99"}
-        alt="KIP"        
+        src={"https://firebasestorage.googleapis.com/v0/b/marketplace-109e9.appspot.com/o/HEADER.png?alt=media&token=a33cd45f-d960-48ce-89d2-31e0df8f0844"}
+        alt="ADSA"        
         style=
         {
           {maxHeight: "100%",

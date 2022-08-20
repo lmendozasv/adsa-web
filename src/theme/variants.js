@@ -264,30 +264,30 @@ const darkVariant = {
   name: "Dark",
   palette: {
     primary: {
-      main: "#48D597",
+      main: "#172449",
       contrastText: "#FFF"
     },
     secondary: {
       main: "#001e3c",
-      contrastText: "#48D597"
+      contrastText: "#172449"
     },
     kipRed: {
       main: "#EF3340",
-      contrastText: "#48D597"
+      contrastText: "#172449"
     }
   },
   header: {
     color: "#001e3c",
     background: "#FFF",
     search: {
-      color: "#48D597"
+      color: "#172449"
     },
     indicator: {
-      background: "#48D597"
+      background: "#172449"
     },
     kipRed: {
       main: "#EF3340",
-      contrastText: "#48D597"
+      contrastText: "#172449"
     }
   },
   sidebar: {
@@ -295,7 +295,7 @@ const darkVariant = {
     background: "#FFF",
     header: {
       color: "#FFF",
-      background: "#48D597",
+      background: "#172449",
       brand: {
         color: blue[500]
       }

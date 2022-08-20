@@ -16,8 +16,8 @@ function App({ theme }) {
   return (
     <React.Fragment>
       <Helmet
-        titleTemplate="%s | KIP"
-        defaultTitle="KIP"
+        titleTemplate="%s | ADSA"
+        defaultTitle="ADSA"
       />
       <StylesProvider injectFirst>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

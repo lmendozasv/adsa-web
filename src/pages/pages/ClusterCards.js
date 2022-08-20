@@ -282,10 +282,10 @@ const StyledBadge = withStyles((theme) => ({
 
 const StyledRating = withStyles({
   iconFilled: {
-    color: "#48D597",
+    color: "#172449",
   },
   iconHover: {
-    color: "#48D597",
+    color: "#172449",
   },
 })(Rating);
 
@@ -486,7 +486,7 @@ export default function SingleLineGridList({ dataList, instx, context }) {
                         className={classes.avatar}         
                         style={{
                           border: '1.0px double #001e3c',
-                          boxShadow: "3px 3px #48D597"
+                          boxShadow: "3px 3px #172449"
 
                        }}               
                       >

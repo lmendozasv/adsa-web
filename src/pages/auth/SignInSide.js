@@ -30,8 +30,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://KIP.net/">
-        KIP
+      <Link color="inherit" href="https://codity.tech/">
+        CODITY
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -87,7 +87,7 @@ const style = (theme) => ({
   },
   image: {
     backgroundImage:
-      "url(/adsadigital.png)",
+      "url(https://firebasestorage.googleapis.com/v0/b/marketplace-109e9.appspot.com/o/adsadigital.png?alt=media&token=5157f277-865b-4a4e-b19a-8dfbc8ce0424)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -351,7 +351,7 @@ class LoginComponent extends React.Component {
     ix.setState({ isLoadingData: true });
     var us_ = ix.state.usuario;
     var pw_ = ix.state.password;
-    var otp_ = ix.state.otp;
+    // var otp_ = ix.state.otp;
     var isValid = true;
     //console.log(us_);
     if (us_.length > 0 && isValid) {
@@ -374,8 +374,7 @@ class LoginComponent extends React.Component {
       "https://kip-logistic-api.azurewebsites.net/auth",
       {
         u: us_,
-        p: pw_,
-        o: otp_
+        p: pw_
       },
       {
         headers: {          
@@ -519,19 +518,7 @@ class LoginComponent extends React.Component {
                 error={this.state.pwxStatus}
                 onChange={this.handleChange("pw")}
               />
-               <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="otp"
-                label="2FA OTP"
-                helperText={this.state.userStatus}
-                error={this.state.userStatus}
-                onChange={this.handleChange("otp")}
-                name="otp"
-                autoFocus
-              />
+              
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Recordarme"

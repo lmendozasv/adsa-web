@@ -59,12 +59,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: "10px",
       padding: "10px",
       backgroundColor: "#fff",
-      color:"#48D597",
+      color:"#172449",
       width: "90%",
       //height: "50px",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
-      border: "1px solid #48D597",
+      border: "1px solid #172449",
       borderRadius: "10px",
       "&:after": {
         content: "''",
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position: "absolute",
         width: "0",
         height: "0",
-        borderTop: "17px solid #48D597",
+        borderTop: "17px solid #172449",
         borderLeft: "16px solid transparent",
         borderRight: "16px solid transparent",
         top: "-1px",
@@ -154,7 +154,7 @@ export const MessageLeft = (props) => {
           variant="rounded"
               style={{
                 border: "1.0px double #001e3c",
-                boxShadow: "1px 1px #48D597",
+                boxShadow: "1px 1px #172449",
               }}
         ></Avatar>
         <div>

@@ -209,10 +209,10 @@ const StyledBadge = withStyles((theme) => ({
 
 const StyledRating = withStyles({
   iconFilled: {
-    color: "#48D597",
+    color: "#172449",
   },
   iconHover: {
-    color: "#48D597",
+    color: "#172449",
   },
 })(Rating);
 

@@ -331,10 +331,10 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledRatings = withStyles({
   iconFilled: {
-    color: "#48D597",
+    color: "#172449",
   },
   iconHover: {
-    color: "#48D597",
+    color: "#172449",
   },
 })(Rating);
 
@@ -415,7 +415,7 @@ function UserProfile({ data, ins, relations }) {
           textAlign="left"
           fontSize="button.fontSize"
           fontWeight="fontWeightBold"
-          color="#48D597"
+          color="#172449"
           gutterBottom
         >
           Selecciona tu relación con {data.user_name} (Administrador del grupo)
@@ -588,7 +588,7 @@ function GroupDataDetails({ data, ins }) {
                 textAlign="right"
                 fontSize="button.fontSize"
                 fontWeight="fontWeightBold"
-                color="#48D597"
+                color="#172449"
                 m={1}
               >
                 <Typography variant="button" component="span">
@@ -614,7 +614,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -644,7 +644,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="button.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               <Typography variant="button" component="span">
@@ -676,7 +676,7 @@ function GroupDataDetails({ data, ins }) {
               textAlign="right"
               fontSize="h2.fontSize"
               fontWeight="fontWeightBold"
-              color="#48D597"
+              color="#172449"
               m={1}
             >
               ${(parseFloat(data.service_price) + parseFloat(data.commission))/100}

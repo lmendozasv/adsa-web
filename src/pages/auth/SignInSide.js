@@ -87,7 +87,7 @@ const style = (theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://firebasestorage.googleapis.com/v0/b/marketplace-109e9.appspot.com/o/adsadigital.png?alt=media&token=5157f277-865b-4a4e-b19a-8dfbc8ce0424)",
+      "url(https://firebasestorage.googleapis.com/v0/b/marketplace-109e9.appspot.com/o/adsadigital2.png?alt=media&token=0fb018dd-3480-4981-b16f-6384c1870f48)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"

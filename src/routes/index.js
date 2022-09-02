@@ -80,6 +80,7 @@ const Profile = async(() => import("../pages/pages/CajaADSA"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Projects = async(() => import("../pages/pages/ClientesADSA"));
+const Solicitudes = async(() => import("../pages/pages/SolicitudesADSA"));
 const Drivers = async(() => import("../pages/pages/Drivers"));
 const Cars = async(() => import("../pages/pages/Cars"));
 const Calendar = async(() => import("../pages/pages/groupDetails"));
@@ -140,8 +141,13 @@ const pagesRoutes = {
     },
     {
       path: "/adsa/clientes",
-      name: "Registro de clientes",
+      name: "Clientes",
       component: Projects
+    },
+    {
+      path: "/adsa/solicitudes",
+      name: "Solicitud de servicios",
+      component: Solicitudes
     }
   ]
 };

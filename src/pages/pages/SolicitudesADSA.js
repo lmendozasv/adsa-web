@@ -1172,7 +1172,7 @@ class OrdersComponent extends React.Component {
         .then(function (res) {
           var dt = [];
           // const unique = [...new Set(res.data.data.map(item => item.os_state))];
-          var xp = ir.getStatuses(res.data, "service_status");
+          var xp = ir.getStatuses(res.data.data, "os_state");
           console.log(xp);
           // alert(res.data.data.length);
           ir.setState(

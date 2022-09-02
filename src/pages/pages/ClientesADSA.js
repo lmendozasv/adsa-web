@@ -234,7 +234,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "idLS", alignment: "left", label: "OP en LS" },
+  { id: "idLS", alignment: "left", label: "Cód. Cliente" },
   { id: "dt_pedido", alignment: "left", label: "Fecha pedido" },
   { id: "dt_envio", alignment: "left", label: "Fecha envío" },
   { id: "nombre_cliente", alignment: "left", label: "Cliente" },
@@ -304,7 +304,7 @@ let EnhancedTableToolbar = (props) => {
           </Typography>
         ) : (
           <Typography variant="caption" id="tableTitle">
-            Órdenes
+            Clientes
           </Typography>
         )}
       </ToolbarTitle>
@@ -1637,7 +1637,7 @@ class OrdersComponent extends React.Component {
             <TextField
               id="outlined-select-currency0gsearch"
               size="small"
-              label="Buscar en pedidos"
+              label="Buscar clientes"
               fullWidth
               variant="outlined"
               value={this.state.searchTerm}
@@ -1676,7 +1676,7 @@ class OrdersComponent extends React.Component {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <br />
-            Este día (Filtros rápidos):
+            Estado de suministros (Vista rápida):
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             {/* 
@@ -1709,7 +1709,7 @@ class OrdersComponent extends React.Component {
             <Chip
               mr={1}
               mb={1}
-              label={this.state.allOrdersCount + " Pedidos en total"}
+              label={this.state.allOrdersCount + " Suministros activos"}
               totalPedidos
               fullWidth
               onClick={(event) => this.applyFilter(event, "total")}
@@ -1944,7 +1944,7 @@ class OrdersComponent extends React.Component {
               <Chip
                 mr={1}
                 mb={1}
-                label={this.state.ordersWithoutOP + " SIN OP"}
+                label={this.state.ordersWithoutOP + " en mora"}
                 variant="outlined"
                 onClick={(event) => this.applyFilter(event, "no-op")}
               />
@@ -1952,7 +1952,7 @@ class OrdersComponent extends React.Component {
               <Chip
                 mr={1}
                 mb={1}
-                label={this.state.ordersWithoutOP + " SIN OP"}
+                label={this.state.ordersWithoutOP + " en mora"}
                 variant="outlined"
                 onDelete={(event) => this.applyFilter(event, "no-op")}
               />

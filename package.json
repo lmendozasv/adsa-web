@@ -1,7 +1,7 @@
 {
-  "name": "KIP-app",
+  "name": "ADSA-app",
   "version": "1.0.8",
-  "description": "KIP App",
+  "description": "ADSA App",
   "author": "Ismael Rivas <ismael@codity.tech>",
   "engines": {
     "node": "14.x",
@@ -51,11 +51,13 @@
     "fullcalendar": "^5.11.0",
     "google-map-react": "1.1.7",
     "heroku-ssl-redirect": "^0.1.1",
+    "inquirer": "^9.1.1",
     "interactjs": "^1.10.17",
     "jss": "10.1.1",
     "material-ui-dropzone": "2.4.9",
     "material-ui-search-bar": "^1.0.0",
     "moment": "^2.29.3",
+    "mysql": "^2.18.1",
     "notistack": "^1.0.6",
     "polished": "3.5.1",
     "prop-types": "15.7.2",

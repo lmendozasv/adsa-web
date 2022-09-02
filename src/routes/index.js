@@ -76,10 +76,10 @@ const InvoiceList = async(() => import("../pages/pages/InvoiceList"));
 //const Orders = async(() => import("../pages/pages/Orders")); //ESTE COMPONENTE SIRVE PARA UNA LISTA
 const Orders = async(() => import("../pages/pages/NewGroup"));
 const Pricing = async(() => import("../pages/pages/Pricing"));
-const Profile = async(() => import("../pages/pages/HomeKIP"));
+const Profile = async(() => import("../pages/pages/CajaADSA"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
-const Projects = async(() => import("../pages/pages/KipOrders"));
+const Projects = async(() => import("../pages/pages/ClientesADSA"));
 const Drivers = async(() => import("../pages/pages/Drivers"));
 const Cars = async(() => import("../pages/pages/Cars"));
 const Calendar = async(() => import("../pages/pages/groupDetails"));
@@ -108,21 +108,21 @@ const Changelog = async(() => import("../pages/docs/Changelog"));
 const Presentation = async(() => import("../pages/docs/Presentation"));
 
 const dashboardsRoutes = {
-  id: "Configuraciones",
+  id: "Reportes",
   path: "/confs",
   header: "",
   icon: <ArrowRightAltIcon />,
   containsHome: true,
   children: [
     {
-      path: "/jarvis/drivers",
-      name: "Kip Drivers",
+      path: "/adsa/pagos",
+      name: "Reporte pagos",
       component: Drivers,
       icon:<SportsMotorsportsIcon/>
     },
     {
-      path: "/jarvis/cars",
-      name: "Kip Cars",
+      path: "/adsa/corte",
+      name: "Corte",
       component: Cars
     }
   ]
@@ -135,12 +135,12 @@ const pagesRoutes = {
   children: [
     {
       path: "/",
-      name: "Calendario de operaciones",
+      name: "Caja",
       component: Profile
     },
     {
-      path: "/jarvis/orders",
-      name: "Panel de órdenes",
+      path: "/adsa/clientes",
+      name: "Registro de clientes",
       component: Projects
     }
   ]

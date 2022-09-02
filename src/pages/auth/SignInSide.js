@@ -368,88 +368,13 @@ class LoginComponent extends React.Component {
       ix.setState({ pwxStatus: "Campo requerido" });
       isValid = false;
     }
-    if (isValid) {
-      axios
-    .post(
-      "https://kip-logistic-api.azurewebsites.net/auth",
-      {
-        u: us_,
-        p: pw_
-      },
-      {
-        headers: {          
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    .then(function (response) {
-      var dt = [];
-      console.log(response);
-      var al = "";
-      al = response.data.firstname+" "+response.data.lastname;
-      localStorage.setItem("actxp", al);
-      localStorage.setItem("token_sec", response.data.token);
-      localStorage.setItem("token", response.data.token);
-      console.log(response.data.token);
+    if (isValid && us_=="admin"&&pw_=="pw") {
+      localStorage.setItem("actxp", "s");
+      localStorage.setItem("token_sec", "TOK");
+      localStorage.setItem("token", "S");
+      // console.log(response.data.token);
       window.location.reload();
-      localStorage.setItem("unx", al);
-      // response.data.data.forEach(function (entry) {
-      //   //console.log(entry);
-      //   var itemx = {
-      //     id: entry.id,
-      //     rel_name: entry.rel_name,
-      //   };
-      //   console.log(itemx);
-      //   dt.push(itemx);
-      // });
-      // console.log(response.data.data);
-      //ins.setState({ dataRelations: dt });
-    })
-    .catch(function (error) {
-      console.log("Incorrect");
-      ix.setState({ isLoadingData: false });
-      alert("No se ha podido iniciar sesión, intente nuevamente");
-      console.log(error);
-    });
-      // firebase
-      //   .auth()
-      //   .signInWithEmailAndPassword(us_, pw_)
-      //   .then(function (result) {
-      //     console.log(result.user);
-      //     localStorage.setItem("actxp", "0");
-      //   })
-      //   .catch(function (error) {
-      //     ix.setState({ isLoadingData: false });
-      //     if (
-      //       error.message ===
-      //       "There is no user record corresponding to this identifier. The user may have been deleted."
-      //     ) {
-      //       alert(
-      //         "Lo sentimos, no se ha encontrado una cuenta con el correo electrónico ingresado."
-      //       );
-      //     }
-
-      //     if (error.message === "The email address is badly formatted.") {
-      //       alert("El correo electrónico ingresado no es válido");
-      //     }
-      //     //The user account has been disabled by an administrator.
-      //     if (
-      //       error.message ===
-      //       "The user account has been disabled by an administrator."
-      //     ) {
-      //       alert("Estimado cliente, esta cuenta ha sido deshabilitada");
-      //     }
-      //     //Datos incorrectos,  si no recuerdas los detalles, intenta re-establecer tu contraseña
-      //     if (
-      //       error.message ===
-      //       "The password is invalid or the user does not have a password."
-      //     ) {
-      //       alert(
-      //         "Datos incorrectos,  si no recuerdas los detalles, intenta re-establecer tu contraseña"
-      //       );
-      //     }
-      //   });
+      localStorage.setItem("unx", "SS");          
     } else {
       ix.setState({ isLoadingData: false });
     }

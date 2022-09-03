@@ -452,10 +452,12 @@ class ServicesList extends React.Component {
       var adds = this.state.address;
       var nam = this.state.nombres + " " + this.state.apellidos;
 
+      var namsxx = this.state.PersonName.toString();
+
       rpt = rpt.replace("[CODIGOUSUARIO]", cousu);
       rpt = rpt.replace("[NOMBREUSUARIO]", nam);
       rpt = rpt.replace("[DIRUSER]", adds);
-      rpt = rpt.replace("[MESFAC]", "JULIO/22-AGOSTO/22");
+      rpt = rpt.replace("[MESFAC]", namsxx);
       rpt = rpt.replace("[ABONO1]", "$ 0.00");
       rpt = rpt.replace("[ABONO1]", "$ 0.00");
 
@@ -1065,7 +1067,7 @@ function SalesRevenue({ ins }) {
         >
           {ins.estados.map((tile) => (
             <MenuItem key={tile.id} value={tile.name}>
-              <Checkbox checked={tile.indexOf(tile.name) > -1} />
+              <Checkbox checked={ins.state.PersonName.indexOf(tile.name) > -1} />
               <ListItemText primary={tile.name} />
             </MenuItem>
           ))}

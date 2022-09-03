@@ -1308,7 +1308,7 @@ class OrdersComponent extends React.Component {
             openDetailToSend: false,
           },
           () => {
-            alert("Orden actualizada correctamente");
+            alert("Registro actualizada correctamente");
             window.location.reload();
           }
         );

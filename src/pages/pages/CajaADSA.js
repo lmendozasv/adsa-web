@@ -155,7 +155,7 @@ const TableWrapper = styled.div`
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 `;
 
-
+var rpt = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Luis Mendoza'/> <meta name='created' content='2022-09-03T14:42:26'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-09-03T14:44:58'/> <meta name='AppVersion' content='16.0300'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } </style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='4' width='86'></colgroup> <tr> <td height='21' align='left' valign=bottom><font color='#000000'>[CODIGOUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[NOMBREUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[DIRUSER]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[MESFAC]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONOTOTAL]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[USUARIO]</font></td> </tr> </table>  </body> </html>";
 
 class ServicesList extends React.Component {
   _isMounted = false;
@@ -359,7 +359,17 @@ class ServicesList extends React.Component {
 
     nombres:"",
     apellidos:"",
+    region:"",
+    lastpay:"",
+    address:"",
+    derecho:"0.00",
+    multa:"0.00",
+
   };
+
+
+
+
 
   estados = [
     {
@@ -386,6 +396,30 @@ class ServicesList extends React.Component {
     });
     console.log(event.target.value);
     console.log(name);
+    if (name=="print"){
+     
+      var cousu = this.state.searchCode;
+      var adds = this.state.address;
+      var nam = this.state.nombres + " " + this.state.apellidos;
+
+      rpt = rpt.replace("[CODIGOUSUARIO]", cousu);
+      rpt = rpt.replace("[NOMBREUSUARIO]", nam);
+      rpt = rpt.replace("[DIRUSER]", adds);
+      rpt = rpt.replace("[MESFAC]", "JULIO/22,AGOSTO/22");
+      rpt = rpt.replace("[ABONO1]", "$ 0.00");
+      rpt = rpt.replace("[ABONO2]", "$ 0.00");
+      rpt = rpt.replace("[ABONO3]", "$ 0.00");
+      rpt = rpt.replace("[ABONO4]", "$ 0.00");
+      rpt = rpt.replace("[ABONOTOTAL]", "$ 0.00");
+      rpt = rpt.replace("[USUARIO]", "ADMIN-DEMO");
+
+      
+      var win = window.open();
+      win.document.open();
+      win.document.write(rpt);
+      win.document.close();
+      win.print();
+    }
   }
 
   handleUpdateStatusManual = (name) => (event) => {
@@ -417,8 +451,46 @@ class ServicesList extends React.Component {
       .then(function (res) {
         console.log(res.data[0]);
         var row = res.data[0];
+        var reg = "";
+        if (ids.substring(0,2)=="01"){
+          reg = "Cantón las Delicias";
+        }
+        if (ids.substring(0,2)=="02"){
+          reg = "Cantón Rosario";
+        }
+        if (ids.substring(0,2)=="03"){
+          reg = "Cantón Ánimas";
+        }
+        ins.setState({
+          region: reg,
+        });
         ins.setState({
           nombres: row.names,
+        });
+        ins.setState({
+          apellidos: row.lastnames,
+        });
+        ins.setState({
+          lastpay: row.lastpay,
+        });
+        ins.setState({
+          address: row.address,
+        });
+        ins.setState({
+          lastpay: row.lastpay,
+        });
+        var estadox = "";
+        if (row.service_status=="1"){
+          estadox ="Activo";
+        }
+        if (row.service_status=="2"){
+          estadox ="Corte";
+        }
+        if (row.service_status=="3"){
+          estadox ="Desactivado";
+        }
+        ins.setState({
+          estado: estadox,
         });
         // window.location.reload();
 
@@ -869,6 +941,7 @@ function SalesRevenue({ ins }) {
                 variant="outlined"                
                 required
                 fullWidth
+                value={ins.state.apellidos}
                 id="email"
                 disabled
                 size="small"
@@ -887,9 +960,10 @@ function SalesRevenue({ ins }) {
                 // required
                 fullWidth
                 id="email"
+                value={ins.state.region}
                 disabled
                 size="small"
-                label="Región"
+                label="Región (Cantón)"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -914,6 +988,7 @@ function SalesRevenue({ ins }) {
                 id="email"
                 disabled
                 size="small"
+                value={ins.state.estado}
                 label="Estado"
                 name="email"
               />
@@ -925,6 +1000,7 @@ function SalesRevenue({ ins }) {
                 fullWidth
                 id="email"
                 disabled
+                value={ins.state.lastpay}
                 size="small"
                 label="Últ. mes pagado"
                 name="email"
@@ -936,6 +1012,7 @@ function SalesRevenue({ ins }) {
                 fullWidth
                 id="email"
                 disabled
+                value={ins.state.address}
                 size="small"
                 label="Dirección del suministro"
                 name="email"
@@ -1005,14 +1082,14 @@ function SalesRevenue({ ins }) {
               <ListItem>
                 <ListItemText
                   primary="Pago de derecho"
-                  secondary="(Pendiente $100)"
+                  secondary="Pendiente $ 100.00"
                 />
                 <TextField
                 variant="outlined"
                 
                 id="email"
                 
-                value={ins.state.nombres}
+                value={ins.state.derecho}
                 size="small"
                 label="$ Abono"
                 name="email"              
@@ -1029,7 +1106,7 @@ function SalesRevenue({ ins }) {
                 <TextField
                 variant="outlined"                
                 id="mt"                
-                value={ins.state.nombres}
+                // value={ins.state.nombres}
                 size="small"
                 label="Cant. M3"                              
               />
@@ -1043,7 +1120,7 @@ function SalesRevenue({ ins }) {
                 <TextField
                 variant="outlined"                
                 id="email"                
-                value={ins.state.nombres}
+                value={ins.state.multa}
                 size="small"
                 label="$ Abono"
                 name="email"              
@@ -1061,12 +1138,13 @@ function SalesRevenue({ ins }) {
           </Grid>
 
 
-          <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}>
+          <Grid justify="flex-start" container xs={12} sm={12} md={12} lg={6} xl={12}>
           <hr />
           <Button
               variant="outlined"
               color="secondary"
               startIcon={<LocalPrintshopIcon />}
+              onClick={ins.handleChange("print")}
             >
               Comprobante de pago
             </Button>

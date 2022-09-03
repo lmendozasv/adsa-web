@@ -171,9 +171,9 @@ class ServicesList extends React.Component {
     var ins = this;
     this.updateCalendarViewTask();
 
-    setInterval(function () {
-      ins.updateCalendarViewTask();
-    }, 10000);
+    // setInterval(function () {
+    //   ins.updateCalendarViewTask();
+    // }, 10000);
 
 
   }
@@ -354,29 +354,21 @@ class ServicesList extends React.Component {
     isDetailOpen: false,
     opSelected: "",
     statusSelected: "",
-    newStatus: ""
+    newStatus: "",
+    searchCode:"",
+
+    nombres:"",
+    apellidos:"",
   };
 
   estados = [
     {
       "id": "08",
-      "name": "Agosto"
+      "name": "Julio-2022"
     },
     {
       "id": "09",
-      "name": "Sepptiembre"
-    },
-    {
-      "id": "10",
-      "name": "Octubre"
-    },
-    {
-      "id": "11",
-      "name": "Noviembre"
-    },
-    {
-      "id": "12",
-      "name": "Diciembre"
+      "name": "Agosto-2022"
     }
   ]
   handleUpdateDateManual = (name) => (event) => {
@@ -388,6 +380,14 @@ class ServicesList extends React.Component {
     this.handleChangeDeliveryDateAndTime(this.state.idSelected, event.target.value);
   }
 
+  handleChange = (name) => (event) => {
+    this.setState({
+      [name]: event.target.value,
+    });
+    console.log(event.target.value);
+    console.log(name);
+  }
+
   handleUpdateStatusManual = (name) => (event) => {
     // console.log(name);
     // console.log(event.target.value);
@@ -395,16 +395,16 @@ class ServicesList extends React.Component {
     this.setState({
       [name]: event.target.value,
     });
-    var ids = this.state.idSelected;
+    
     var nstat = event.target.value;
     var ins = this;
+    var ids = ins.state.searchCode;
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
         "https://adsa-api.herokuapp.com/search",
         {
-          i: ids,
-          n: nstat,
+          id: ids.trim()
         },
         {
           headers: {
@@ -415,8 +415,13 @@ class ServicesList extends React.Component {
         }
       )
       .then(function (res) {
-        console.log("Fin");
-        window.location.reload();
+        console.log(res.data[0]);
+        var row = res.data[0];
+        ins.setState({
+          nombres: row.names,
+        });
+        // window.location.reload();
+
         //isDetailOpen
         ins.setState({
           isDetailOpen: false,
@@ -743,7 +748,7 @@ function SalesRevenue({ ins }) {
                 size="small"
                 fullWidth
                 // value={ins.state.orderSelectedDriver}
-                onChange={ins.handleUpdateStatusManual("newStatus")}
+                // onChange={ins.handleUpdateStatusManual("newStatus")}
                 variant="outlined"
               >
                 {ins.estados.map((tile) => (
@@ -800,13 +805,13 @@ function SalesRevenue({ ins }) {
 
           <Grid item xs={10} sm={10} md={2} lg={2} xl={2}>
             <InputMask
-              mask="009-9999"
+              mask="09-9999"
               disabled={false}
               maskChar=" "
               label="# Cliente"
               size="small"
-            // value={this.state.celular}
-            // onChange={this.handleChange("celular")}
+            value={ins.state.searchCode}
+            onChange={ins.handleChange("searchCode")}
             >
               {() => (
                 <TextField
@@ -825,7 +830,7 @@ function SalesRevenue({ ins }) {
               variant="contained"
               color="primary"
             // className={classes.submit}
-            onClick={this.handleSubmit(this)}
+            onClick={ins.handleUpdateStatusManual(ins)}
             >
               Buscar
             </Button>
@@ -852,6 +857,7 @@ function SalesRevenue({ ins }) {
                 fullWidth
                 id="email"
                 disabled
+                value={ins.state.nombres}
                 size="small"
                 label="Nombres"
                 name="email"              
@@ -883,7 +889,7 @@ function SalesRevenue({ ins }) {
                 id="email"
                 disabled
                 size="small"
-                label="Cantón"
+                label="Región"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -979,6 +985,7 @@ function SalesRevenue({ ins }) {
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
+          xl={6}
           value={[]}
           // onChange={handleChange}
           // input={<OutlinedInput label="Tag" />}
@@ -998,30 +1005,61 @@ function SalesRevenue({ ins }) {
               <ListItem>
                 <ListItemText
                   primary="Pago de derecho"
-                  secondary="2"
+                  secondary="(Pendiente $100)"
                 />
-                b
+                <TextField
+                variant="outlined"
+                
+                id="email"
+                
+                value={ins.state.nombres}
+                size="small"
+                label="$ Abono"
+                name="email"              
+              />
+
 
               </ListItem>
               <Divider />
               <ListItem>
                 <ListItemText
                   primary="M3 a exonerar"
-                  secondary="3"
+                  secondary=""
                 />
-                c
+                <TextField
+                variant="outlined"                
+                id="mt"                
+                value={ins.state.nombres}
+                size="small"
+                label="Cant. M3"                              
+              />
               </ListItem>
               <Divider />
               <ListItem>
                 <ListItemText
                   primary="Pago de multa"
-                  secondary="3"
+                  secondary=""
                 />
-                c
+                <TextField
+                variant="outlined"                
+                id="email"                
+                value={ins.state.nombres}
+                size="small"
+                label="$ Abono"
+                name="email"              
+              />
               </ListItem>
 
             </List>
           </Grid>
+
+
+          <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}>
+          {/* <hr /> */}
+          <Typography variant="h4">Total a pagar : $ 0.00 </Typography>
+
+          </Grid>
+
 
           <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}>
           <hr />

@@ -824,7 +824,7 @@ function DetailsModal({ ins }) {
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-          {ins.state.detailViewing.service_id}-{ins.state.detailViewing.names}
+          {ins.state.detailViewing.id}-{ins.state.detailViewing.names} {ins.state.detailViewing.lastnames}
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("close")}>

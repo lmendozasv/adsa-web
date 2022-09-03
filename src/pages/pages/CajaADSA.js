@@ -373,12 +373,36 @@ class ServicesList extends React.Component {
 
   estados = [
     {
-      "id": "08",
+      "id": "06",
+      "name": "Junio-2022"
+    },
+    {
+      "id": "07",
       "name": "Julio-2022"
     },
     {
-      "id": "09",
+      "id": "08",
       "name": "Agosto-2022"
+    },
+    {
+      "id": "09",
+      "name": "Septiembre-2022"
+    },
+    {
+      "id": "10",
+      "name": "Octubre-2022"
+    },
+    {
+      "id": "11",
+      "name": "Noviembre-2022"
+    },
+    {
+      "id": "12",
+      "name": "Diciembre-2022"
+    },
+    {
+      "id": "01",
+      "name": "Enero-2023"
     }
   ]
   handleUpdateDateManual = (name) => (event) => {
@@ -391,11 +415,23 @@ class ServicesList extends React.Component {
   }
 
   handleChange = (name) => (event) => {
+
     this.setState({
       [name]: event.target.value,
     });
     console.log(event.target.value);
     console.log(name);
+
+    if (name=="multiple"){
+      const {
+        target: { value },
+      } = event;
+      this.setPersonName(
+        typeof value === 'string' ? value.split(',') : value,
+      );
+
+    }
+
     if (name=="print"){
      
       var cousu = this.state.searchCode;
@@ -405,13 +441,20 @@ class ServicesList extends React.Component {
       rpt = rpt.replace("[CODIGOUSUARIO]", cousu);
       rpt = rpt.replace("[NOMBREUSUARIO]", nam);
       rpt = rpt.replace("[DIRUSER]", adds);
-      rpt = rpt.replace("[MESFAC]", "JULIO/22,AGOSTO/22");
+      rpt = rpt.replace("[MESFAC]", "JULIO/22-AGOSTO/22");
       rpt = rpt.replace("[ABONO1]", "$ 0.00");
+      rpt = rpt.replace("[ABONO1]", "$ 0.00");
+
       rpt = rpt.replace("[ABONO2]", "$ 0.00");
       rpt = rpt.replace("[ABONO3]", "$ 0.00");
       rpt = rpt.replace("[ABONO4]", "$ 0.00");
+
+      rpt = rpt.replace("[ABONO2]", "$ 0.00");
+      rpt = rpt.replace("[ABONO3]", "$ 0.00");
+      rpt = rpt.replace("[ABONO4]", "$ 0.00");
+
       rpt = rpt.replace("[ABONOTOTAL]", "$ 0.00");
-      rpt = rpt.replace("[USUARIO]", "ADMIN-DEMO");
+      rpt = rpt.replace("[USUARIO]", "ADMIN");
 
       
       var win = window.open();
@@ -725,6 +768,7 @@ function Earnings({ ins }) {
 }
 
 function SalesRevenue({ ins }) {
+  const [personName, setPersonName] = React.useState([]);
   return (
     // <FullCalendar
     //     plugins={[ dayGridPlugin ]}
@@ -1064,7 +1108,7 @@ function SalesRevenue({ ins }) {
           multiple
           xl={6}
           value={[]}
-          // onChange={handleChange}
+          onChange={ins.handleChange("multiple")}
           // input={<OutlinedInput label="Tag" />}
           renderValue={(selected) => selected.join(', ')}
           // MenuProps={MenuProps}

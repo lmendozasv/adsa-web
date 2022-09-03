@@ -169,6 +169,15 @@ const MenuProps = {
 
 var rpt = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Luis Mendoza'/> <meta name='created' content='2022-09-03T14:42:26'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-09-03T14:44:58'/> <meta name='AppVersion' content='16.0300'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } </style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='4' width='86'></colgroup> <tr> <td height='21' align='left' valign=bottom><font color='#000000'>[CODIGOUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[NOMBREUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[DIRUSER]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[MESFAC]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONOTOTAL]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[USUARIO]</font></td> </tr> </table>  </body> </html>";
 
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
 class ServicesList extends React.Component {
   _isMounted = false;
   constructor(props) {
@@ -376,18 +385,15 @@ class ServicesList extends React.Component {
     address:"",
     derecho:"0.00",
     multa:"0.00",
-    PersonName:[]
+    PersonName:[],
+    totalpagar:"$ 0.00"
   };
 
 
 
 
 
-  estados = [
-    {
-      "id": "06",
-      "name": "Junio-2022"
-    },
+  estados = [    
     {
       "id": "07",
       "name": "Julio-2022"
@@ -443,7 +449,19 @@ class ServicesList extends React.Component {
       this.setState({
         PersonName: typeof value === 'string' ? value.split(',') : value,
       });
+      // totalpagar
+
       console.log(this.state.PersonName);
+      console.log(this.state.PersonName.length+1);
+      console.log((this.state.PersonName.length+1)*10);
+      var total = (this.state.PersonName.length+1)*10;
+      total=total+1;
+      total = formatter.format(total);
+      this.setState({
+        totalpagar: total
+      });
+      // alert(total);
+
     }
 
     if (name=="print"){
@@ -453,13 +471,16 @@ class ServicesList extends React.Component {
       var nam = this.state.nombres + " " + this.state.apellidos;
 
       var namsxx = this.state.PersonName.toString();
+      // var totx  = (namsxx.length * 10)+1 ;
+      // var t = "$ "+totx.toString();
+      var t = this.state.totalpagar;
 
       rpt = rpt.replace("[CODIGOUSUARIO]", cousu);
       rpt = rpt.replace("[NOMBREUSUARIO]", nam);
       rpt = rpt.replace("[DIRUSER]", adds);
       rpt = rpt.replace("[MESFAC]", namsxx);
-      rpt = rpt.replace("[ABONO1]", "$ 0.00");
-      rpt = rpt.replace("[ABONO1]", "$ 0.00");
+      rpt = rpt.replace("[ABONO1]", t);
+      rpt = rpt.replace("[ABONO1]", t);
 
       rpt = rpt.replace("[ABONO2]", "$ 0.00");
       rpt = rpt.replace("[ABONO3]", "$ 0.00");
@@ -469,7 +490,7 @@ class ServicesList extends React.Component {
       rpt = rpt.replace("[ABONO3]", "$ 0.00");
       rpt = rpt.replace("[ABONO4]", "$ 0.00");
 
-      rpt = rpt.replace("[ABONOTOTAL]", "$ 0.00");
+      rpt = rpt.replace("[ABONOTOTAL]", t);
       rpt = rpt.replace("[USUARIO]", "ADMIN");
 
       
@@ -1129,7 +1150,7 @@ function SalesRevenue({ ins }) {
 
           <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}>
           {/* <hr /> */}
-          <Typography variant="h4">Total a pagar : $ 0.00 </Typography>
+          <Typography variant="h4">Total a pagar : {ins.state.totalpagar} </Typography>
 
           </Grid>
 

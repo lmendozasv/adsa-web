@@ -401,7 +401,7 @@ class ServicesList extends React.Component {
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
-        "https://kip-logistic-api.azurewebsites.net/updateStatusManual",
+        "https://adsa-api.herokuapp.com/search",
         {
           i: ids,
           n: nstat,
@@ -825,7 +825,7 @@ function SalesRevenue({ ins }) {
               variant="contained"
               color="primary"
             // className={classes.submit}
-            // onClick={this.handleSubmit(this)}
+            onClick={this.handleSubmit(this)}
             >
               Buscar
             </Button>
@@ -1023,9 +1023,9 @@ function SalesRevenue({ ins }) {
             </List>
           </Grid>
 
-          {/* <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}> */}
-          {/* <hr /> */}
-          {/* <Button
+          <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}>
+          <hr />
+          <Button
               variant="outlined"
               color="secondary"
               startIcon={<LocalPrintshopIcon />}
@@ -1033,7 +1033,7 @@ function SalesRevenue({ ins }) {
               Comprobante de pago
             </Button>
 
-          </Grid> */}
+          </Grid>
 
 
         </Grid>

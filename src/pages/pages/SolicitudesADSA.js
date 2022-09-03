@@ -130,17 +130,14 @@ const Paper = styled(MuiPaper)(spacing);
 const Chip = styled(MuiChip)`
   ${spacing};
   // 0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid)
-  background: ${(props) => props.totalPedidos && "#B6EED5"};
-  background: ${(props) => props.Nuevos && "#172449"};
-  background: ${(props) => props.Checklist && "#C68F3C"};
-  background: ${(props) => props.Pickeado && "#7761F6"};
-  background: ${(props) => props.EnCaja && "#FFE100"};
-  background: ${(props) => props.Facturado && "#1F9EEB"};
-  background: ${(props) => props.Asignado && "#E4DFFD"};
-  background: ${(props) => props.EnCamino && "#F9A000"};
-  background: ${(props) => props.Entregado && "#EF3340"};
-  background: ${(props) => props.Cancelado && "#ECECEC"};
-  background: ${(props) => props.Espera && "#ECECEC"};
+  background: ${(props) => props.AlDia && "#B6EED5"};
+  background: ${(props) => props.Mora && "#EF3340"};
+  background: ${(props) => props.PPago && "#F8C471"};
+
+  background: ${(props) => props.Activo && "#B6EED5"};
+  background: ${(props) => props.Corte && "#EF3340"};
+  background: ${(props) => props.Desactivado && "#DBDBDB"};
+  
   color: ${(props) => props.theme.palette.common.black};
 `;
 
@@ -167,19 +164,31 @@ var rpt = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html>
 function createData(
   id,
   debt,
-  names,
+  namesjoin,
   service_id,
   service_status,
-  start_date_service
+  start_date_service,
+  address,
+  is_founder,
+  phone_number,
+  is_whatsapp,
+  names,
+  lastnames
 ) {
   // console.log(idLS);
   return {
   id,
   debt,
-  names,
+  namesjoin,
   service_id,
   service_status,
-  start_date_service
+  start_date_service,
+  address,
+  is_founder,
+  phone_number,
+  is_whatsapp,
+  names,
+  lastnames
   };
 }
 
@@ -210,10 +219,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "service_id", alignment: "left", label: "Cód. Cliente" },
+  { id: "service_id", alignment: "left", label: "Solicitud #" },
   { id: "names", alignment: "left", label: "Cliente" },
-  { id: "service_status", alignment: "left", label: "E.Servicio" },
-  { id: "start_date_service", alignment: "left", label: "Fecha Inicio" }
+  { id: "start_date_service", alignment: "left", label: "F. Solicitud" },
+  { id: "", alignment: "right", label: "Detalles" }
 ];
 
 
@@ -366,9 +375,9 @@ function EnhancedTable({ dataRows, ins }) {
     <div>
       <Paper>
         {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
-        {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""}
-        {ins.state.openFilters ? <FilterRows ins={ins} /> : ""}
-        {ins.state.openDetailToPrint ? <PrintCheckPage ins={ins} /> : ""}
+        {/* {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""} */}
+        {/* {ins.state.openFilters ? <FilterRows ins={ins} /> : ""} */}
+        {/* {ins.state.openDetailToPrint ? <PrintCheckPage ins={ins} /> : ""} */}
         <EnhancedTableToolbar numSelected={selected.length} ins={ins} />
         <TableContainer>
           <Table
@@ -410,136 +419,22 @@ function EnhancedTable({ dataRows, ins }) {
                         />
                       </TableCell>
 
-                      <TableCell align="left">#{row.idLS}</TableCell>
-                      <TableCell align="left">{row.dt_pedido}</TableCell>
-                      <TableCell align="left">{row.dt_envio}</TableCell>
-                      <TableCell align="left">{row.nombre_cliente}</TableCell>
-                      <TableCell>
-                        {
-                          (row.status === "new"||row.status === "READY") && (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label="Nuevo"
-                              Nuevos
-                            />
-                          )
-                        }
+                      <TableCell align="left">{row.id}</TableCell>
+                      <TableCell align="left">{row.names}</TableCell>                                            
 
-                        {row.status === "checklist" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Checklist"
-                            Checklist
-                          />
-                        )}
-                        {row.status === "PICKEADO" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Pickeado"
-                            Pickeado
-                          />
-                        )}
-                        {row.status === "A FACTURAR" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="En caja"
-                            EnCaja
-                          />
-                        )}
-                        {row.status === "FACTURADO" ||
-                          (row.status === "CLOSED" && (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label="Facturado"
-                              Facturado
-                            />
-                          ))}
-                        {row.status === "driver-assigned" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Asignado"
-                            Asignado
-                          />
-                        )}
-                        {row.status === "on-the-way" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="En camino"
-                            EnCamino
-                          />
-                        )}
-                        {row.status === "delivered" ||
-                          (row.status === "complete" && (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label="Entregado"
-                              Entregado
-                            />
-                          ))}
-                        {row.status === "cancelled" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="Cancelado"
-                            Cancelado
-                          />
-                        )}
-                        {row.status === "holded" && (
-                          <Chip
-                            size="small"
-                            mr={1}
-                            mb={1}
-                            label="En espera"
-                            Espera
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell align="right">$ {row.monto}</TableCell>
-                      <TableCell align="right">{row.cupon}</TableCell>
 
+                    
+                      <TableCell align="left">{row.start_date_service}</TableCell>
+                      
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton
-                            onClick={ins.handleChange("dialog-" + row.idLS)}
+                            onClick={ins.handleChange("dialog-" + row.id)}
                             aria-label="details"
                           >
                             <RemoveRedEyeIcon />
                           </IconButton>
-                          {row.status==="CLOSED"?
-                          <IconButton
-                          onClick={ins.handleChange("dialots-" + row.idLS)}
-                          aria-label="delete"
-                        >
-                          <ArrowForwardIosIcon />
-                        </IconButton>
-                          :""}
                           
-
-                          {row.status==="new"||row.status==="READY"?
-                          <IconButton
-                            onClick={ins.handleChange("dialoxs-" + row.idLS)}
-                            aria-label="checklist"
-                          >
-                            <FactCheckIcon />
-                          </IconButton>
-                           :""}
 
 
                         </Box>
@@ -929,7 +824,7 @@ function DetailsModal({ ins }) {
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-            {ins.state.detailViewing.idLS}-{ins.state.detailViewing.idMagento}
+          {ins.state.detailViewing.service_id}-{ins.state.detailViewing.names}
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("close")}>
@@ -941,27 +836,83 @@ function DetailsModal({ ins }) {
       </DialogTitle>
       <DialogContent>
         <Grid justify="space-between" container spacing={1}>
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Cliente:
-            </Typography>
-          </Grid>
 
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.nombre_cliente}
-            </Typography>
-          </Grid>
+
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Ubicación:
+              Nombres:
+            </Typography>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>                    
+            <TextField
+                variant="outlined"
+                fullWidth
+                id="email"
+                value={ins.state.detailViewing.names}
+                size="small"
+                label="Nombres"
+                name="email"              
+              />                        
+          </Grid>
+
+          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Apellidos:
+            </Typography>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>                    
+            <TextField
+                variant="outlined"
+                fullWidth
+                id="email"
+                value={ins.state.detailViewing.lastnames}
+                size="small"
+                label="Apellidos"
+                name="email"              
+              />                        
+          </Grid>
+
+          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Dirección:
             </Typography>
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.ubicacion}
+          <TextField
+                variant="outlined"
+                fullWidth
+                id="email"
+                value={ins.state.detailViewing.address}
+                size="small"
+                label="Dirección"
+                name="email"              
+              /> 
+          </Grid>
+
+
+          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Región:
             </Typography>
+          </Grid>
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+          <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                value={ins.state.region}
+                onChange={ins.handleChange("region")}
+                variant="outlined"
+              >
+                {ins.state.regiones.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+              </TextField>
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
@@ -970,84 +921,152 @@ function DetailsModal({ ins }) {
             </Typography>
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.tel}
-            </Typography>
+          <TextField
+                variant="outlined"
+                fullWidth
+                id="email"                
+                size="small"
+                value={ins.state.detailViewing.phone_number}
+                label="Teléfono"
+                name="email"              
+              /> 
           </Grid>
 
           {/* https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17 */}
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Coordenadas:
+              WhatsApp:
             </Typography>
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Link
-              variant="button"
-              gutterBottom
-              display="inline"
-              href={
-                "https://maps.google.com/?q=" + ins.state.detailViewing.ltlng
-              }
-              target="_blank"
-            >
-              Ver en Maps
-            </Link>
+          <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                value={ins.state.tieneWha}
+                onChange={ins.handleChange("tieneWha")}
+                variant="outlined"
+              >
+                {ins.state.isWha.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+              </TextField>
+          </Grid>
+
+          
+
+          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Derecho pagado:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+          <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                value={ins.state.pagoDerecho }
+                onChange={ins.handleChange("pagoDerecho")}
+                variant="outlined"
+              >
+                {ins.state.isWha.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+              </TextField>
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Ubic. Google:
+              F.Solicitud:
             </Typography>
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
             <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.glocation}
+              {ins.state.detailViewing.start_date_service}
             </Typography>
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Empaque:
+              Estado actual:
             </Typography>
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+          {
+          ins.state.detailViewing.service_status=="0"?
             <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.empaque}
-            </Typography>
+            Solicitud de servicio ingresada
+          </Typography>:
+          ""
+          }
+          {
+          ins.state.detailViewing.service_status=="1"?
+            <Typography variant="button" gutterBottom display="inline">
+            Activo
+          </Typography>:
+          ""
+          }          
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Nota:
+              Nuevo estado:
             </Typography>
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.nota}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Divider my={1} />
-          </Grid>
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              ID FAC:
-            </Typography>
+            <Grid item xs={12} md={12} lg={12} xl={12}>
+              <Spacer m={2} />
+              <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                value={ins.state.orderSelectedDriver}
+                onChange={ins.handleChange("orderSelectedDriver")}
+                variant="outlined"
+              >
+                {ins.state.paymentMethods.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+              </TextField>
+            </Grid>
           </Grid>
 
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.trx} - ${" "}
-              {ins.state.detailViewing.monto_capturado}
-            </Typography>
-          </Grid>
 
           <Divider my={5} />
+
+
+
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Button
+              onClick={ins.handleChange("assignToDriver")}
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              {/* <IconMoped /> */}
+              ACTUALIZAR
+            </Button>
+          </Grid>
+
+
+
         </Grid>
         {/* <Divider my={5} /> */}
       </DialogContent>
@@ -1077,8 +1096,17 @@ class OrdersComponent extends React.Component {
     canPrintChecklist: false,
     drivers: [],
     paymentMethods: [
-      { id: 1, name: "Efectivo" },
-      { id: 2, name: "Link de pago" },
+      { id: 1, name: "Solicitud aprobada" },
+      { id: 3, name: "Solicitud denegada" },
+    ],
+    isWha: [
+      { id: 1, name: "Si" },
+      { id: 2, name: "No" }
+    ],
+    regiones: [
+      { id: "001", name: "Cantón las Delicias" },
+      { id: "002", name: "Cantón Rosario" },
+      { id: "003", name: "Cantón Ánimas" }
     ],
     otifStatuses: [
       { id: 1, name: "Completo" },
@@ -1086,6 +1114,8 @@ class OrdersComponent extends React.Component {
       { id: 3, name: "Incompleto" },
     ],
     cargaDriver: [],
+    tieneWha:0,
+    pagoDerecho:0,
     orderSelectedDriver: "",
     paymentMethodSelected: "",
     paymentMethodRef: "",
@@ -1156,7 +1186,7 @@ class OrdersComponent extends React.Component {
 
       axios
         .get(
-          "https://adsa-api.herokuapp.com/customers",
+          "https://adsa-api.herokuapp.com/requests",
           {
             f: fie,
             v: searchVal,
@@ -1172,7 +1202,7 @@ class OrdersComponent extends React.Component {
         .then(function (res) {
           var dt = [];
           // const unique = [...new Set(res.data.data.map(item => item.os_state))];
-          var xp = ir.getStatuses(res.data.data, "os_state");
+          var xp = ir.getStatuses(res.data, "service_status");
           console.log(xp);
           // alert(res.data.data.length);
           ir.setState(
@@ -1183,7 +1213,7 @@ class OrdersComponent extends React.Component {
           );
           ir.setState(
             {
-              allOrdersCount: res.data.data.length,
+              allOrdersCount: res.data.length,
             },
             () => { }
           );
@@ -1195,10 +1225,16 @@ class OrdersComponent extends React.Component {
               createData(
                 entry.id,
                 entry.debt,
-                entry.names,
+                entry.namesjoin,
                 entry.service_id,
                 entry.service_status,
-                entry.start_date_service                
+                entry.start_date_service,
+                entry.address,
+                entry.is_founder,
+                entry.phone_number,
+                entry.is_whatsapp,
+                entry.names,
+                entry.lastnames                
               )
             );
           });
@@ -1254,33 +1290,15 @@ class OrdersComponent extends React.Component {
     }
   };
   saveDetailsAndShip(ins) {
-    //paymentMethod,paymentMethodRef,driverId,otifID
-    var paymentMethod = ins.state.paymentMethodSelected;
-    var paymentMethodRef = ins.state.paymentMethodRef;
-    var orderSelectedDriver = ins.state.orderSelectedDriver;
-    var otifStatus = ins.state.otifStatus;
-    var otifsubs = ins.state.otifsubsv;
-    var oid = ins.state.order_id;
-
-    var day = ins.state.detailViewing.dt_envio.substring(0, 2);
-    var month = ins.state.detailViewing.dt_envio.substring(3, 5);
-    var year = new Date().getFullYear();
-    var hour = ins.state.detailViewing.dt_envio.substring(6, 8);
-
+    
+    var customer_id = ins.state.detailViewing.id;
+    var nstate = ins.state.orderSelectedDriver;
     axios
-      .get(
-        "https://kip-logistic-api.azurewebsites.net/addDetails",
+      .post(
+        "https://adsa-api.herokuapp.com/ustatus",
         {
-          driver_id: orderSelectedDriver,
-          otif_status: otifStatus,
-          payment_method: paymentMethod,
-          payment_ref: paymentMethodRef,
-          order_id: oid,
-          day: day,
-          month: month,
-          year: year,
-          hour: hour,
-          otifsubs: otifsubs,
+          id: customer_id,
+          u: nstate
         },
         {
           headers: {
@@ -1361,9 +1379,9 @@ class OrdersComponent extends React.Component {
     //window.location.reload(1);
     var op = this;
 
-    setInterval(function () {
-      op.searchValue("initial");
-    }, 10000); //SINCRONIZADOR
+    // setInterval(function () {
+    //   op.searchValue("initial");
+    // }, 10000); //SINCRONIZADOR
 
     // alert("DIDMOUNT");
     this.searchValue("initial");
@@ -1409,11 +1427,13 @@ class OrdersComponent extends React.Component {
     });
     console.log(event.target.value);
     console.log(name);
+    console.log(this.state.ordenes);
     if (name.includes("dialog")) {
       this.setState({ openDetail: !this.state.openDetail });
       var rec = name;
       rec = name.replace("dialog-", "");
-      let obj = this.state.ordenes.find((o) => o.idLS === rec);
+      let obj = this.state.ordenes.find((o) => o.id == rec);
+      console.log(rec);
       this.setState({ detailViewing: obj });
     }
     if (name.includes("close")) {
@@ -1426,12 +1446,12 @@ class OrdersComponent extends React.Component {
       var rec = name;
       rec = name.replace("dialots-", "");
       let obj = this.state.ordenes.find((o) => o.idLS === rec);
-      this.setState({ detailViewing: obj });
-      this.setState({ orderSelectedDriver: obj.driver_id });
-      this.setState({ paymentMethodSelected: obj.payment_method });
-      this.setState({ paymentMethodRef: obj.payment_ref });
-      this.setState({ otifStatus: obj.otif_status });
-      this.setState({ order_id: obj.order_id });
+      // this.setState({ detailViewing: obj });
+      // this.setState({ orderSelectedDriver: obj.driver_id });
+      // this.setState({ paymentMethodSelected: obj.payment_method });
+      // this.setState({ paymentMethodRef: obj.payment_ref });
+      // this.setState({ otifStatus: obj.otif_status });
+      // this.setState({ order_id: obj.order_id });
     }
     //ChecklistToPrint
     if (name.includes("dialoxs")) {
@@ -1507,11 +1527,11 @@ class OrdersComponent extends React.Component {
     }
     if (name == "orderSelectedDriver") {
       // alert("consultar:"+event.target.value);
-      this.getDriverLoad(
-        this.state.detailViewing.idLS,
-        event.target.value,
-        this
-      );
+      // this.getDriverLoad(
+      //   this.state.detailViewing.idLS,
+      //   event.target.value,
+      //   this
+      // );
     }
 
     if (name == "paymentMethodSelected") {
@@ -1589,7 +1609,7 @@ class OrdersComponent extends React.Component {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <br />
-            Estado de suministros (Vista rápida):
+            Estado de solicitudes (Vista rápida):
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             {/* 
@@ -1622,7 +1642,7 @@ class OrdersComponent extends React.Component {
             <Chip
               mr={1}
               mb={1}
-              label={this.state.allOrdersCount + " Suministros activos"}
+              label={this.state.allOrdersCount + " Solicitudes"}
               totalPedidos
               fullWidth
               onClick={(event) => this.applyFilter(event, "total")}
@@ -1630,12 +1650,12 @@ class OrdersComponent extends React.Component {
             {this.state.ordenesStatuses.map(
               (tile) =>
                 // (tile.value == "processing" || tile.value == "new" || tile.value == "pending" || tile.value == "READY" ? (
-                (["processing","new","pending"].indexOf(tile.value) >0 ? (
-                  this.state.st1 ? (
+                (["1",1,].indexOf(tile.value) >0 ? (
+                  this.service_status.st1 ? (
                     <Chip
                       mr={1}
                       mb={1}
-                      label={tile.count + " Nuevos"}
+                      label={tile.count + " Activos"}
                       Nuevos
                       fullWidth
                       onClick={(event) => this.applyFilter(event, "new")}
@@ -1644,232 +1664,37 @@ class OrdersComponent extends React.Component {
                 ) : (
                   ""
                 )) ||
-                (tile.value == "checklist" ? (
-                  this.state.st2 ? (
+                (["2",2].indexOf(tile.value) >0 ? (
+                  this.service_status.st1 ? (
                     <Chip
                       mr={1}
                       mb={1}
-                      label={tile.count + " Checklist"}
-                      Checklist
+                      label={tile.count + " Cortados"}
+                      Nuevos
                       fullWidth
-                      onClick={(event) => this.applyFilter(event, "checklist")}
+                      onClick={(event) => this.applyFilter(event, "new")}
                     />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Checklist"}
-                      Checklist
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "checklist")}
-                    />
-                  )
+                  ) : ""
                 ) : (
                   ""
-                )) ||
-                (tile.value == "PICKEADO" ? (
-                  this.state.st3 ? (
+                ))
+                ||
+                (["3",3].indexOf(tile.value) >0 ? (
+                  this.service_status.st1 ? (
                     <Chip
                       mr={1}
                       mb={1}
-                      label={tile.count + " Pickeado"}
-                      Pickeado
+                      label={tile.count + " Desactivados"}
+                      Nuevos
                       fullWidth
-                      onClick={(event) => this.applyFilter(event, "PICKEADO")}
+                      onClick={(event) => this.applyFilter(event, "new")}
                     />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Pickeado"}
-                      Pickeado
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "PICKEADO")}
-                    />
-                  )
-                ) : (
-                  ""
-                )) ||
-                (tile.value == "A FACTURAR" ? (
-                  this.state.st4 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " En caja"}
-                      EnCaja
-                      fullWidth
-                      onClick={(event) => this.applyFilter(event, "facturar")}
-                    />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " En caja"}
-                      EnCaja
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "facturar")}
-                    />
-                  )
-                ) : (
-                  ""
-                )) ||
-                // (tile.value == "FACTURADO" || tile.value == "CLOSED" ? (
-                  (["FACTURADO","CLOSED"].indexOf(tile.value) >0 ? (
-                  this.state.st5 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Facturado"}
-                      Facturado
-                      fullWidth
-                      onClick={(event) => this.applyFilter(event, "facturado")}
-                    />
-                  ) : (
-                    ""
-                  )
-                ) : (
-                  ""
-                )) ||
-                (tile.value == "driver-assigned" ? (
-                  this.state.st6 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Asignado"}
-                      Asignado
-                      fullWidth
-                      onClick={(event) =>
-                        this.applyFilter(event, "driver-assigned")
-                      }
-                    />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Asignado"}
-                      Asignado
-                      fullWidth
-                      onDelete={(event) =>
-                        this.applyFilter(event, "driver-assigned")
-                      }
-                    />
-                  )
-                ) : (
-                  ""
-                )) ||
-                (tile.value == "on-the-way" ? (
-                  this.state.st7 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " En camino"}
-                      EnCamino
-                      fullWidth
-                      onClick={(event) => this.applyFilter(event, "on-the-way")}
-                    />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " En camino"}
-                      EnCamino
-                      fullWidth
-                      onDelete={(event) =>
-                        this.applyFilter(event, "on-the-way")
-                      }
-                    />
-                  )
-                ) : (
-                  ""
-                )) ||
-                (["delivered","complete"].indexOf(tile.value) >0 ? (
-                // (tile.value == "delivered" || tile.value == "complete" ? (
-                  this.state.st8 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Entregado"}
-                      Entregado
-                      fullWidth
-                      onClick={(event) => this.applyFilter(event, "delivered")}
-                    />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Entregado"}
-                      Entregado
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "delivered")}
-                    />
-                  )
-                ) : (
-                  ""
-                )) ||
-                (tile.value == "cancelled" ? (
-                  this.state.st9 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Cancelado"}
-                      Cancelado
-                      fullWidth
-                      onClick={(event) => this.applyFilter(event, "cancelled")}
-                    />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " Cancelado"}
-                      Cancelado
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "cancelled")}
-                    />
-                  )
-                ) : (
-                  ""
-                )) ||
-                (tile.value == "holded" || tile.value == "hold" ? (
-                  this.state.st10 ? (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " En espera"}
-                      EnEspera
-                      fullWidth
-                      onClick={(event) => this.applyFilter(event, "holded")}
-                    />
-                  ) : (
-                    <Chip
-                      mr={1}
-                      mb={1}
-                      label={tile.count + " En espera"}
-                      EnEspera
-                      fullWidth
-                      onDelete={(event) => this.applyFilter(event, "holded")}
-                    />
-                  )
+                  ) : ""
                 ) : (
                   ""
                 ))
             )}
-            {this.state.st11 ? (
-              <Chip
-                mr={1}
-                mb={1}
-                label={this.state.ordersWithoutOP + " en mora"}
-                variant="outlined"
-                onClick={(event) => this.applyFilter(event, "no-op")}
-              />
-            ) : (
-              <Chip
-                mr={1}
-                mb={1}
-                label={this.state.ordersWithoutOP + " en mora"}
-                variant="outlined"
-                onDelete={(event) => this.applyFilter(event, "no-op")}
-              />
-            )}
+            
 
             {/* Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid) */}
           </Grid>

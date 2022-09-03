@@ -116,15 +116,15 @@ const dashboardsRoutes = {
   containsHome: true,
   children: [
     {
-      path: "/adsa/pagos",
+      path: "#",
       name: "Reporte pagos",
-      component: Drivers,
+      component: null,
       icon:<SportsMotorsportsIcon/>
     },
     {
-      path: "/adsa/corte",
-      name: "Corte",
-      component: Cars
+      path: "#",
+      name: "Cortes",
+      component: null
     }
   ]
 };

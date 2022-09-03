@@ -155,6 +155,18 @@ const TableWrapper = styled.div`
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 `;
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
 var rpt = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Luis Mendoza'/> <meta name='created' content='2022-09-03T14:42:26'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-09-03T14:44:58'/> <meta name='AppVersion' content='16.0300'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } </style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='4' width='86'></colgroup> <tr> <td height='21' align='left' valign=bottom><font color='#000000'>[CODIGOUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[NOMBREUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[DIRUSER]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[MESFAC]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONOTOTAL]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[USUARIO]</font></td> </tr> </table>  </body> </html>";
 
 class ServicesList extends React.Component {
@@ -364,7 +376,7 @@ class ServicesList extends React.Component {
     address:"",
     derecho:"0.00",
     multa:"0.00",
-
+    PersonName:[]
   };
 
 
@@ -423,13 +435,15 @@ class ServicesList extends React.Component {
     console.log(name);
 
     if (name=="multiple"){
+
       const {
         target: { value },
       } = event;
-      this.setPersonName(
-        typeof value === 'string' ? value.split(',') : value,
-      );
 
+      this.setState({
+        PersonName: typeof value === 'string' ? value.split(',') : value,
+      });
+      console.log(this.state.PersonName);
     }
 
     if (name=="print"){
@@ -719,56 +733,8 @@ class ServicesList extends React.Component {
 }
 
 
-function Earnings({ ins }) {
-  return (
-    <Box position="relative">
-      <Card mb={6} pt={2}>
-        <CardContent>
-          <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">{ins.state.otif}%</Box>
-          </Typography>
-          <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            OTIF
-          </Typography>
-
-          <StatsIcon>
-            <BlurOn />
-          </StatsIcon>
-          {/* <LinearProgress
-            variant="determinate"
-            value={75}
-            color="secondary"
-            mt={4}
-          /> */}
-        </CardContent>
-      </Card>
-
-      <Card mb={6} pt={2}>
-        <CardContent>
-          <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">{ins.state.otifc}%</Box>
-          </Typography>
-          <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            OTIF con complementos
-          </Typography>
-
-          <StatsIcon>
-            <Circle />
-          </StatsIcon>
-          {/* <LinearProgress
-            variant="determinate"
-            value={75}
-            color="secondary"
-            mt={4}
-          /> */}
-        </CardContent>
-      </Card>
-    </Box>
-  );
-}
-
 function SalesRevenue({ ins }) {
-  const [personName, setPersonName] = React.useState([]);
+  // const [personName, setPersonName] = React.useState([]);
   return (
     // <FullCalendar
     //     plugins={[ dayGridPlugin ]}
@@ -1084,38 +1050,22 @@ function SalesRevenue({ ins }) {
                 <ListItemText
                   primary="Servicio de agua"
                   secondary="Seleccione periodo"
-                />
-                {/* <Select
-                  id="outlined-select-currency0"
-                  // select
-                  multiple
-                  label=""
-                  size="small"
-                  variant="outlined"
-                  xs={12} sm={12} md={12} lg={12} xl={12}
-                  value={[]}
-                >
-                  {ins.estados.map((tile) => (
-                    <MenuItem key={tile.id} value={tile.id}>
-                      {tile.name}
-                    </MenuItem>
-                  ))}
-                </Select> */}
+                />                
 
 <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
           xl={6}
-          value={[]}
+          value={ins.state.PersonName}
           onChange={ins.handleChange("multiple")}
           // input={<OutlinedInput label="Tag" />}
           renderValue={(selected) => selected.join(', ')}
-          // MenuProps={MenuProps}
+          MenuProps={MenuProps}
         >
           {ins.estados.map((tile) => (
             <MenuItem key={tile.id} value={tile.name}>
-              <Checkbox checked={tile.id.indexOf(tile.name) > -1} />
+              <Checkbox checked={tile.indexOf(tile.name) > -1} />
               <ListItemText primary={tile.name} />
             </MenuItem>
           ))}

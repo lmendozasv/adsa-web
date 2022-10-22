@@ -368,7 +368,8 @@ class LoginComponent extends React.Component {
       ix.setState({ pwxStatus: "Campo requerido" });
       isValid = false;
     }
-    if (isValid && (us_=="admin"&&pw_=="proyectodeaguaAdmin")||(us_=="tecnico"&&pw_=="tecnicoDeAgua")||(us_=="secretaria"&&pw_=="secretariaADSA")) {
+    
+    if (isValid && (us_=="admin"&&pw_=="proyectodeaguaAdmin")||(us_=="tecnico"&&pw_=="tecnicoDeADSA")||(us_=="secretaria"&&pw_=="secretariaADSA")) {
       localStorage.setItem("actxp", "s");
       localStorage.setItem("token_sec", "TOK");
       localStorage.setItem("token", "S");

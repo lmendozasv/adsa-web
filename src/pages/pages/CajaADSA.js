@@ -560,8 +560,8 @@ class ServicesList extends React.Component {
       // var totx  = (namsxx.length * 10)+1 ;
       // var t = "$ "+totx.toString();
       var t = this.state.totalpagar;
-
-      rpt = rpt.replace("[CODIGOUSUARIO]", cousu);
+      var hex_print = Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0");
+      rpt = rpt.replace("[CODIGOUSUARIO]", cousu + " - " + hex_print.toUpperCase());
       rpt = rpt.replace("[NOMBREUSUARIO]", nam);
       rpt = rpt.replace("[DIRUSER]", adds);
       rpt = rpt.replace("[MESFAC]", namsxx);

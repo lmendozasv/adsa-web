@@ -83,6 +83,9 @@ const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ));
 
+const fontColor = {
+  style: { color: 'rgb(50, 50, 50)' }
+}
 
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -550,15 +553,26 @@ class ServicesList extends React.Component {
         ins.setState({
           apellidos: row.lastnames,
         });
+        var rlastpay = "";
+        // row.lastpay
+        var mes = "";
+        var ano = "";
+        
+        if (row.lastpay.length>0){
+          var allstr = row.lastpay.split("-");
+          mes = allstr[1];
+          ano = allstr[2];          
+          rlastpay = mes+"/"+ano;  
+        }
         ins.setState({
-          lastpay: row.lastpay,
+          lastpay: rlastpay,
         });
         ins.setState({
           address: row.address,
         });
-        ins.setState({
-          lastpay: row.lastpay,
-        });
+        // ins.setState({
+        //   lastpay: row.lastpay,
+        // });
         var estadox = "";
         if (row.service_status=="1"){
           estadox ="Activo";
@@ -947,7 +961,7 @@ function SalesRevenue({ ins }) {
             </Alert> */}
           </Grid>
 
-          <Grid container spacing={1} xs={12} sm={12} md={12} lg={6} xl={6}>
+          <Grid container spacing={1} xs={12} sm={12} md={12} lg={6} xl={6} m={1}>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Box mt={5}>
                 <Typography variant="button">Datos de cliente</Typography>
@@ -961,7 +975,7 @@ function SalesRevenue({ ins }) {
                 variant="outlined"
                 fullWidth
                 id="email"
-                disabled
+                // disabled
                 value={ins.state.nombres}
                 size="small"
                 label="Nombres"
@@ -976,7 +990,7 @@ function SalesRevenue({ ins }) {
                 fullWidth
                 value={ins.state.apellidos}
                 id="email"
-                disabled
+                // disabled
                 size="small"
                 label="Apellidos"
                 name="email"
@@ -994,7 +1008,7 @@ function SalesRevenue({ ins }) {
                 fullWidth
                 id="email"
                 value={ins.state.region}
-                disabled
+                // disabled
                 size="small"
                 label="Región (Cantón)"
                 name="email"
@@ -1005,7 +1019,7 @@ function SalesRevenue({ ins }) {
 
           </Grid>
 
-          <Grid container spacing={1} xs={12} sm={12} md={12} lg={6} xl={6}>
+          <Grid container spacing={1} xs={12} sm={12} md={12} lg={6} xl={6} m={1}>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Box mt={5}>
                 <Typography variant="button">Datos de suministro</Typography>
@@ -1018,12 +1032,13 @@ function SalesRevenue({ ins }) {
               <TextField
                 variant="outlined"
                 fullWidth
-                id="email"
-                disabled
+                id="estado"
+                // disabled
+                inputProps={fontColor}
                 size="small"
                 value={ins.state.estado}
-                label="Estado"
-                name="email"
+                // label="Estado"
+                name="estado"
               />
             </Grid>
 
@@ -1032,7 +1047,7 @@ function SalesRevenue({ ins }) {
                 variant="outlined"                         
                 fullWidth
                 id="email"
-                disabled
+                // disabled
                 value={ins.state.lastpay}
                 size="small"
                 label="Últ. mes pagado"
@@ -1044,7 +1059,7 @@ function SalesRevenue({ ins }) {
                 variant="outlined"                         
                 fullWidth
                 id="email"
-                disabled
+                // disabled
                 value={ins.state.address}
                 size="small"
                 label="Dirección del suministro"

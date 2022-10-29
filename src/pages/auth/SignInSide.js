@@ -373,6 +373,7 @@ class LoginComponent extends React.Component {
       localStorage.setItem("actxp", "s");
       localStorage.setItem("token_sec", "TOK");
       localStorage.setItem("token", "S");
+      localStorage.setItem("username", us_);
       // console.log(response.data.token);
       window.location.reload();
       localStorage.setItem("unx", "SS");          

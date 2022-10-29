@@ -1229,7 +1229,7 @@ function SalesRevenue({ ins }) {
             />
 
             <Typography fullWidth variant="button">
-              3- Revise los detalles y presione agregar
+              3- Revise los detalles y presione el botón "Confirmar"
             </Typography>
 
             <hr />
@@ -1240,19 +1240,28 @@ function SalesRevenue({ ins }) {
 
             <br />
 
+            <Typography fullWidth variant="button">
+              4- Agregar una nota (Opcional)
+            </Typography>
+
+            <hr />
+
             {ins.state.cargos.length > 0 && ins.state.abono_cargo.length > 1 ? (
               <Button
+              fullWidth
                 variant="contained"
                 color="primary"
                 onClick={ins.handleChange("addCharge")}
               >
-                Confirmar cargo y agregar
+                Confirmar
               </Button>
             ) : (
               ""
             )}
             {/* <hr /> */}
+              <br/>
               Cargos a cobrar
+              <br/>
             {ins.state.lista_cargos_visual.map((tile) => (
               <Typography fullWidth variant="h6">
                 {tile}

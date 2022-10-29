@@ -423,6 +423,8 @@ class ServicesList extends React.Component {
     cargos: [],
     abono_cargo: "",
     lista_cargos_confirmados: [],
+    lista_cargos_tipo: [],
+    lista_cargos_monto: [],
   };
 
   estados = [
@@ -474,8 +476,46 @@ class ServicesList extends React.Component {
     console.log(event.target.value);
     console.log(name);
 
-    if (name=="addCharge"){
-      
+    if (name == "addCharge") {
+      // lista_cargos_tipo
+      // lista_cargos_monto
+      var oldValues_tipo = this.state.lista_cargos_tipo;
+      var oldValues_monto = this.state.lista_cargos_monto;
+
+      oldValues_tipo.push(this.state.cargos);
+      oldValues_monto.push(parseFloat(this.state.abono_cargo).toFixed(2));
+
+      this.setState({
+        lista_cargos_tipo: oldValues_tipo,
+      });
+
+      this.setState({
+        lista_cargos_monto: oldValues_monto,
+      });
+
+      console.log(this.state.lista_cargos_monto);
+      console.log(this.state.lista_cargos_tipo);
+
+      this.setState({
+        cargos: "",
+      });
+
+      this.setState({
+        abono_cargo: "",
+      });
+      var sum=0;
+      for (let i = 0; i < this.state.lista_cargos_monto.length; i++) {
+        var valx = this.state.lista_cargos_monto[i];
+        var converted = parseFloat(valx).toFixed(2);
+        console.log(valx);
+        console.log(typeof valx);
+        console.log(typeof converted);
+        sum += parseFloat(valx);
+      }
+      console.log(sum);
+      this.setState({
+        totalpagar: parseFloat(sum).toFixed(2),
+      });
     }
 
     if (name == "multiple") {
@@ -1202,15 +1242,20 @@ function SalesRevenue({ ins }) {
             <hr />
 
             <Typography fullWidth variant="button">
-              {ins.state.cargos} - {ins.state.abono_cargo}
+              {ins.state.cargos} - $ {ins.state.abono_cargo}
             </Typography>
             <br />
-            {ins.state.cargos.length > 0 && ins.state.abono_cargo.length > 1
-              ? <Button variant="contained" color="primary" onClick={ins.handleChange("addCharge")}>
-              Confirmar cargo y agregar
-            </Button>
-              : ""}
-            
+            {ins.state.cargos.length > 0 && ins.state.abono_cargo.length > 1 ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={ins.handleChange("addCharge")}
+              >
+                Confirmar cargo y agregar
+              </Button>
+            ) : (
+              ""
+            )}
 
             {/* <List dense={true}>
 
@@ -1317,15 +1362,18 @@ function SalesRevenue({ ins }) {
             xl={12}
           >
             {/* <hr /> */}
-            {ins.state.lista_cargos_confirmados.size>0?"si":"no"}
-            <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<LocalPrintshopIcon />}
-              onClick={ins.handleChange("print")}
-            >
-              Comprobante de pago
-            </Button>
+            {ins.state.lista_cargos_monto.length > 0 ? (
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<LocalPrintshopIcon />}
+                onClick={ins.handleChange("print")}
+              >
+                Comprobante de pago
+              </Button>
+            ) : (
+              ""
+            )}
           </Grid>
         </Grid>
       </CardContent>

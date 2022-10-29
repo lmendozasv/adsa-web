@@ -6,11 +6,11 @@ import Helmet from "react-helmet";
 import axios from "axios";
 import InputMask from "react-input-mask";
 import moment from "moment";
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';//Checkbox
-import Checkbox from '@material-ui/core/Checkbox';
+import ListItem from "@material-ui/core/ListItem";
+import List from "@material-ui/core/List";
+import ListItemText from "@material-ui/core/ListItemText";
+import Select from "@material-ui/core/Select"; //Checkbox
+import Checkbox from "@material-ui/core/Checkbox";
 import { MoreVertical } from "react-feather";
 import { red, green, blue } from "@material-ui/core/colors";
 import Alert from "@material-ui/lab/Alert";
@@ -18,12 +18,17 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import { DatePicker, TimePicker, DateTimePicker, MuiPickersUtilsProvider, } from '@material-ui/pickers';
+import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-import LocalPrintshopIcon from '@material-ui/icons/LocalPrintshop';
+import LocalPrintshopIcon from "@material-ui/icons/LocalPrintshop";
 
 import {
   Avatar as MuiAvatar,
@@ -50,6 +55,8 @@ import {
   DialogContent,
   Paper as MuiPaper,
   CardHeader,
+  FormControl,
+  InputLabel,
   Typography,
 } from "@material-ui/core";
 import BlurOn from "@material-ui/icons/FiberManualRecord";
@@ -84,9 +91,8 @@ const NavLink = React.forwardRef((props, ref) => (
 ));
 
 const fontColor = {
-  style: { color: 'rgb(50, 50, 50)' }
-}
-
+  style: { color: "rgb(50, 50, 50)" },
+};
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const Paper = styled(MuiPaper)(spacing);
@@ -169,12 +175,12 @@ const MenuProps = {
   },
 };
 
+var rpt =
+  "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Luis Mendoza'/> <meta name='created' content='2022-09-03T14:42:26'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-09-03T14:44:58'/> <meta name='AppVersion' content='16.0300'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } </style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='4' width='86'></colgroup> <tr> <td height='21' align='left' valign=bottom><font color='#000000'>[CODIGOUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[NOMBREUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[DIRUSER]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[MESFAC]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONOTOTAL]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[USUARIO]</font></td> </tr> </table>  </body> </html>";
 
-var rpt = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Luis Mendoza'/> <meta name='created' content='2022-09-03T14:42:26'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-09-03T14:44:58'/> <meta name='AppVersion' content='16.0300'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } </style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='4' width='86'></colgroup> <tr> <td height='21' align='left' valign=bottom><font color='#000000'>[CODIGOUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[NOMBREUSUARIO]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[DIRUSER]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[MESFAC]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO1]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO2]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO3]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONO4]</font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[ABONOTOTAL]</font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> </tr> <tr> <td height='21' align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'><br></font></td> <td align='left' valign=bottom><font color='#000000'>[USUARIO]</font></td> </tr> </table>  </body> </html>";
-
-var formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
+var formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
 
   // These options are needed to round to whole numbers if that's what you want.
   //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
@@ -190,7 +196,6 @@ class ServicesList extends React.Component {
   componentDidMount() {
     console.log(this.props);
 
-
     this._isMounted = true;
     var ins = this;
     this.updateCalendarViewTask();
@@ -198,8 +203,6 @@ class ServicesList extends React.Component {
     // setInterval(function () {
     //   ins.updateCalendarViewTask();
     // }, 10000);
-
-
   }
   updateCalendarViewTask() {
     console.log("UPDATING");
@@ -255,52 +258,78 @@ class ServicesList extends React.Component {
             // GRIS = RECIBIDO
             // CELESTE = PICKEADO
             // VERDE MUSGO = COMPLETO, FACTURADO
-            // AMARILLO = EN CAJA 
+            // AMARILLO = EN CAJA
             // NARANJA = EN RUTA
             // VERDE = ENTREGADO
             // MORADO = ENTREGADO TARDE
 
-
-            if (entry.os_status.includes("new") || entry.os_status.includes("processing") || entry.os_status.includes("READY")) { // RECIBIDO
+            if (
+              entry.os_status.includes("new") ||
+              entry.os_status.includes("processing") ||
+              entry.os_status.includes("READY")
+            ) {
+              // RECIBIDO
               bg = "#999999";
             }
-            if (entry.os_status.includes("PICKED") || entry.os_status.includes("PICKEADO")) { // pickeado
+            if (
+              entry.os_status.includes("PICKED") ||
+              entry.os_status.includes("PICKEADO")
+            ) {
+              // pickeado
               bg = "#1F9EEB";
             }
-            if (entry.os_status.includes("CLOSED") || entry.os_status.includes("FACTURADO")) { // facturado
+            if (
+              entry.os_status.includes("CLOSED") ||
+              entry.os_status.includes("FACTURADO")
+            ) {
+              // facturado
               bg = "#2f4538";
             }
-            if (entry.os_status.includes("COLLECTED") || entry.os_status.includes("A FACTURAR")) { // EN CAJA
+            if (
+              entry.os_status.includes("COLLECTED") ||
+              entry.os_status.includes("A FACTURAR")
+            ) {
+              // EN CAJA
               bg = "#F1C40F";
             }
-            if (entry.os_status.includes("on-the-way")) { // EN RUTA
+            if (entry.os_status.includes("on-the-way")) {
+              // EN RUTA
               bg = "#D35400";
             }
-            if (entry.os_status.includes("complete") || entry.os_status.includes("delivered")) { // DELIVERED 
+            if (
+              entry.os_status.includes("complete") ||
+              entry.os_status.includes("delivered")
+            ) {
+              // DELIVERED
               bg = "#58D68D";
             }
             var translatedStatus = "";
             var aStatus = entry.os_status;
-            if (aStatus == "READY" || aStatus == "" || aStatus == "new" || aStatus == "processing") {
-              translatedStatus = "Nuevo"
+            if (
+              aStatus == "READY" ||
+              aStatus == "" ||
+              aStatus == "new" ||
+              aStatus == "processing"
+            ) {
+              translatedStatus = "Nuevo";
             }
             if (aStatus == "PICKED" || aStatus == "PICKEADO") {
-              translatedStatus = "Pickeado"
+              translatedStatus = "Pickeado";
             }
             if (aStatus == "CLOSED" || aStatus == "FACTURADO") {
-              translatedStatus = "Facturado"
+              translatedStatus = "Facturado";
             }
             if (aStatus == "COLLECTED" || aStatus == "A FACTURAR") {
-              translatedStatus = "En Caja"
+              translatedStatus = "En Caja";
             }
             if (aStatus == "driver-asigned") {
-              translatedStatus = "Driver asignado"
+              translatedStatus = "Driver asignado";
             }
             if (aStatus == "on-the-way") {
-              translatedStatus = "Proximo a entregar"
+              translatedStatus = "Proximo a entregar";
             }
             if (aStatus == "complete" || aStatus == "delivered") {
-              translatedStatus = "Entregado"
+              translatedStatus = "Entregado";
               // translatedStatus =aStatus
             }
             //updateStatusManual
@@ -310,7 +339,8 @@ class ServicesList extends React.Component {
             "shipping_descr": "Kip - Agregar a pedido"
             */
             order_ship = {
-              title: entry.customer + "-" + entry.os_op + "-" + translatedStatus,
+              title:
+                entry.customer + "-" + entry.os_op + "-" + translatedStatus,
               backgroundColor: bg,
               start: new Date(year, month, day, hrs),
               end: new Date(year, month, day, endhrs),
@@ -319,7 +349,7 @@ class ServicesList extends React.Component {
               allData: entry,
               durationEditable: false,
               // overlap:false,
-              borderColor: bg
+              borderColor: bg,
             };
             eventsAll.push(order_ship);
           });
@@ -379,96 +409,98 @@ class ServicesList extends React.Component {
     opSelected: "",
     statusSelected: "",
     newStatus: "",
-    searchCode:"",
+    searchCode: "",
 
-    nombres:"",
-    apellidos:"",
-    region:"",
-    lastpay:"",
-    address:"",
-    derecho:"0.00",
-    multa:"0.00",
-    PersonName:[],
-    totalpagar:"$ 0.00"
+    nombres: "",
+    apellidos: "",
+    region: "",
+    lastpay: "",
+    address: "",
+    derecho: "0.00",
+    multa: "0.00",
+    PersonName: [],
+    totalpagar: "$ 0.00",
+    cargos: [],
+    abono_cargo: "",
+    lista_cargos_confirmados: [],
   };
 
-
-
-
-
-  estados = [    
+  estados = [
     {
-      "id": "07",
-      "name": "Julio-2022"
+      id: "07",
+      name: "Julio-2022",
     },
     {
-      "id": "08",
-      "name": "Agosto-2022"
+      id: "08",
+      name: "Agosto-2022",
     },
     {
-      "id": "09",
-      "name": "Septiembre-2022"
+      id: "09",
+      name: "Septiembre-2022",
     },
     {
-      "id": "10",
-      "name": "Octubre-2022"
+      id: "10",
+      name: "Octubre-2022",
     },
     {
-      "id": "11",
-      "name": "Noviembre-2022"
+      id: "11",
+      name: "Noviembre-2022",
     },
     {
-      "id": "12",
-      "name": "Diciembre-2022"
+      id: "12",
+      name: "Diciembre-2022",
     },
     {
-      "id": "01",
-      "name": "Enero-2023"
-    }
-  ]
+      id: "01",
+      name: "Enero-2023",
+    },
+  ];
   handleUpdateDateManual = (name) => (event) => {
     this.setState({
       [name]: event.target.value,
     });
     console.log(name);
     console.log(event.target.value);
-    this.handleChangeDeliveryDateAndTime(this.state.idSelected, event.target.value);
-  }
+    this.handleChangeDeliveryDateAndTime(
+      this.state.idSelected,
+      event.target.value
+    );
+  };
 
   handleChange = (name) => (event) => {
-
     this.setState({
       [name]: event.target.value,
     });
     console.log(event.target.value);
     console.log(name);
 
-    if (name=="multiple"){
+    if (name=="addCharge"){
+      
+    }
 
+    if (name == "multiple") {
       const {
         target: { value },
       } = event;
 
       this.setState({
-        PersonName: typeof value === 'string' ? value.split(',') : value,
+        PersonName: typeof value === "string" ? value.split(",") : value,
       });
       // totalpagar
 
       console.log(this.state.PersonName);
-      console.log(this.state.PersonName.length+1);
-      console.log((this.state.PersonName.length+1)*10);
-      var total = (this.state.PersonName.length+1)*10;
-      total=total+1;
+      console.log(this.state.PersonName.length + 1);
+      console.log((this.state.PersonName.length + 1) * 10);
+      var total = (this.state.PersonName.length + 1) * 10;
+      total = total + 1;
       total = formatter.format(total);
       this.setState({
-        totalpagar: total
+        totalpagar: total,
       });
       // alert(total);
-
     }
 
-    if (name=="print"){
-     
+    if (name == "print") {
       var cousu = this.state.searchCode;
       var adds = this.state.address;
       var nam = this.state.nombres + " " + this.state.apellidos;
@@ -496,14 +528,13 @@ class ServicesList extends React.Component {
       rpt = rpt.replace("[ABONOTOTAL]", t);
       rpt = rpt.replace("[USUARIO]", "ADMIN");
 
-      
       var win = window.open();
       win.document.open();
       win.document.write(rpt);
       win.document.close();
       win.print();
     }
-  }
+  };
 
   handleUpdateStatusManual = (name) => (event) => {
     // console.log(name);
@@ -512,7 +543,7 @@ class ServicesList extends React.Component {
     this.setState({
       [name]: event.target.value,
     });
-    
+
     var nstat = event.target.value;
     var ins = this;
     var ids = ins.state.searchCode;
@@ -521,7 +552,7 @@ class ServicesList extends React.Component {
       .post(
         "https://adsa-api.herokuapp.com/search",
         {
-          id: ids.trim()
+          id: ids.trim(),
         },
         {
           headers: {
@@ -535,13 +566,13 @@ class ServicesList extends React.Component {
         console.log(res.data[0]);
         var row = res.data[0];
         var reg = "";
-        if (ids.substring(0,2)=="01"){
+        if (ids.substring(0, 2) == "01") {
           reg = "Cantón las Delicias";
         }
-        if (ids.substring(0,2)=="02"){
+        if (ids.substring(0, 2) == "02") {
           reg = "Cantón Rosario";
         }
-        if (ids.substring(0,2)=="03"){
+        if (ids.substring(0, 2) == "03") {
           reg = "Cantón Ánimas";
         }
         ins.setState({
@@ -557,12 +588,12 @@ class ServicesList extends React.Component {
         // row.lastpay
         var mes = "";
         var ano = "";
-        
-        if (row.lastpay.length>0){
+
+        if (row.lastpay.length > 0) {
           var allstr = row.lastpay.split("-");
           mes = allstr[1];
-          ano = allstr[2];          
-          rlastpay = mes+"/"+ano;  
+          ano = allstr[2];
+          rlastpay = mes + "/" + ano;
         }
         ins.setState({
           lastpay: rlastpay,
@@ -574,14 +605,14 @@ class ServicesList extends React.Component {
         //   lastpay: row.lastpay,
         // });
         var estadox = "";
-        if (row.service_status=="1"){
-          estadox ="Activo";
+        if (row.service_status == "1") {
+          estadox = "Activo";
         }
-        if (row.service_status=="2"){
-          estadox ="Corte";
+        if (row.service_status == "2") {
+          estadox = "Corte";
         }
-        if (row.service_status=="3"){
-          estadox ="Desactivado";
+        if (row.service_status == "3") {
+          estadox = "Desactivado";
         }
         ins.setState({
           estado: estadox,
@@ -597,7 +628,7 @@ class ServicesList extends React.Component {
         console.log(error);
         alert("Intente nuevamente");
       });
-  }
+  };
 
   addHours(numOfHours, date = new Date()) {
     date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
@@ -605,7 +636,7 @@ class ServicesList extends React.Component {
   }
   handleChangeDeliveryDateAndTime(i, s) {
     // 2022-08-10 14:00:00 needs
-    // 2022-08-19T15:35 enter 
+    // 2022-08-19T15:35 enter
     // alert(i);
     // alert(s);
     // alert(s);
@@ -615,11 +646,22 @@ class ServicesList extends React.Component {
     const date = new Date(s);
     var nHours = this.addHours(6, date);
 
-    var nTime = String(nHours.getHours()).padStart(2, '0') + ":" + String(nHours.getMinutes()).padStart(2, '0') + ":00";
+    var nTime =
+      String(nHours.getHours()).padStart(2, "0") +
+      ":" +
+      String(nHours.getMinutes()).padStart(2, "0") +
+      ":00";
     var nDateM = nHours.getMonth() + 1;
     var nDateD = nHours.getDate();
     var nDateY = nHours.getYear() + 1900;
-    var aDT = nDateY + "-" + String(nDateM).padStart(2, '0') + "-" + String(nDateD).padStart(2, '0') + " " + nTime;
+    var aDT =
+      nDateY +
+      "-" +
+      String(nDateM).padStart(2, "0") +
+      "-" +
+      String(nDateD).padStart(2, "0") +
+      " " +
+      nTime;
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
@@ -650,11 +692,22 @@ class ServicesList extends React.Component {
     var nHours = this.addHours(6, s.event.start);
     // console.log(nHours.getHours());
     // alert(nHours.getHours());
-    var nTime = String(nHours.getHours()).padStart(2, '0') + ":" + String(s.event.start.getMinutes()).padStart(2, '0') + ":00";
+    var nTime =
+      String(nHours.getHours()).padStart(2, "0") +
+      ":" +
+      String(s.event.start.getMinutes()).padStart(2, "0") +
+      ":00";
     var nDateM = s.event.start.getMonth() + 1;
     var nDateD = s.event.start.getDate();
     var nDateY = s.event.start.getYear() + 1900;
-    var aDT = nDateY + "-" + String(nDateM).padStart(2, '0') + "-" + String(nDateD).padStart(2, '0') + " " + nTime;
+    var aDT =
+      nDateY +
+      "-" +
+      String(nDateM).padStart(2, "0") +
+      "-" +
+      String(nDateD).padStart(2, "0") +
+      " " +
+      nTime;
     console.log(aDT);
     //update db
     var tk = localStorage.getItem("token_sec");
@@ -675,7 +728,6 @@ class ServicesList extends React.Component {
       )
       .then(function (res) {
         console.log("Fin");
-
       })
       .catch(function (error) {
         console.log(error);
@@ -686,34 +738,45 @@ class ServicesList extends React.Component {
     var ae = e.event.title.split("-");
     this.setState({ customerSelected: ae[0] });
     this.setState({ opSelected: ae[1] });
-    this.setState({ deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr });
-    this.setState({ deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date });
+    this.setState({
+      deliveryTypeSelected: e.event._def.extendedProps.allData.shipping_descr,
+    });
+    this.setState({
+      deliveryDateSelected: e.event._def.extendedProps.allData.shipping_date,
+    });
     // alert(e.event._def.extendedProps.allData.os_status);
-    this.setState({ statusSelected: e.event._def.extendedProps.allData.os_status });
+    this.setState({
+      statusSelected: e.event._def.extendedProps.allData.os_status,
+    });
     this.setState({ idSelected: e.event._def.extendedProps.allData.id });
 
     var translatedStatus = "";
     var aStatus = e.event._def.extendedProps.allData.os_status;
-    if (aStatus == "READY" || aStatus == "" || aStatus == "new" || aStatus == "processing") {
-      translatedStatus = "Nuevo"
+    if (
+      aStatus == "READY" ||
+      aStatus == "" ||
+      aStatus == "new" ||
+      aStatus == "processing"
+    ) {
+      translatedStatus = "Nuevo";
     }
     if (aStatus == "PICKED" || aStatus == "PICKEADO") {
-      translatedStatus = "Pickeado"
+      translatedStatus = "Pickeado";
     }
     if (aStatus == "CLOSED" || aStatus == "FACTURADO") {
-      translatedStatus = "Facturado"
+      translatedStatus = "Facturado";
     }
     if (aStatus == "COLLECTED" || aStatus == "A FACTURAR") {
-      translatedStatus = "Nuevo"
+      translatedStatus = "Nuevo";
     }
     if (aStatus == "driver-asigned") {
-      translatedStatus = "Driver asignado"
+      translatedStatus = "Driver asignado";
     }
     if (aStatus == "on-the-way") {
-      translatedStatus = "Proximo a entregar"
+      translatedStatus = "Proximo a entregar";
     }
     if (aStatus == "complete" || aStatus == "delivered") {
-      translatedStatus = "Entregado"
+      translatedStatus = "Entregado";
     }
     this.setState({ statusSelected: translatedStatus });
     // if (entry.os_status.includes("new")||entry.os_status.includes("processing")||entry.os_status.includes("READY")) { // RECIBIDO
@@ -731,12 +794,10 @@ class ServicesList extends React.Component {
     // if (entry.os_status.includes("on-the-way")) { // EN RUTA
     //   bg = "#D35400";
     // }
-    // if (entry.os_status.includes("complete")) { // DELIVERED 
+    // if (entry.os_status.includes("complete")) { // DELIVERED
     //   bg = "#58D68D";
     // }
-
   }
-
 
   render() {
     return (
@@ -762,13 +823,11 @@ class ServicesList extends React.Component {
               </Paper>
             </Box>
           </Grid> */}
-
         </Grid>
       </React.Fragment>
     );
   }
 }
-
 
 function SalesRevenue({ ins }) {
   // const [personName, setPersonName] = React.useState([]);
@@ -780,19 +839,16 @@ function SalesRevenue({ ins }) {
     //     weekends={false}
     //   />
 
-
-
-
     <Card mb={1}>
-
-
       <Dialog open={ins.state.isDetailOpen}>
         <DialogTitle>
           <Box display="flex" alignItems="center">
-            <Box flexGrow={1}>{ins.state.customerSelected} - {ins.state.opSelected}</Box>
+            <Box flexGrow={1}>
+              {ins.state.customerSelected} - {ins.state.opSelected}
+            </Box>
             <Box>
               <IconButton
-                onClick={o => ins.setState({ isDetailOpen: false })}
+                onClick={(o) => ins.setState({ isDetailOpen: false })}
               >
                 <IconClose />
               </IconButton>
@@ -839,7 +895,6 @@ function SalesRevenue({ ins }) {
               </Typography>
             </Grid>
 
-
             <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
               <Typography variant="caption" gutterBottom display="inline">
                 Estado actual:
@@ -851,7 +906,6 @@ function SalesRevenue({ ins }) {
                 {ins.state.statusSelected}
               </Typography>
             </Grid>
-
 
             <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
               <Typography variant="caption" gutterBottom display="inline">
@@ -878,7 +932,6 @@ function SalesRevenue({ ins }) {
               </TextField>
             </Grid>
 
-
             <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
               <Typography variant="caption" gutterBottom display="inline">
                 Nueva fecha de entrega:
@@ -886,7 +939,6 @@ function SalesRevenue({ ins }) {
             </Grid>
 
             <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
-
               <form noValidate>
                 <TextField
                   id="datetime-local"
@@ -897,13 +949,11 @@ function SalesRevenue({ ins }) {
                   onChange={ins.handleUpdateDateManual("newDate")}
                   // defaultValue="2017-05-24T10:30"
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                 />
               </form>
             </Grid>
-
-
           </Grid>
 
           <br />
@@ -913,15 +963,10 @@ function SalesRevenue({ ins }) {
         </DialogContent>
       </Dialog>
 
-      <CardHeader
-
-        title={"Caja ADSA " + ins.state.st}
-      />
+      <CardHeader title={"Caja ADSA " + ins.state.st} />
 
       <CardContent>
-
         <Grid container spacing={1}>
-
           <Grid item xs={10} sm={10} md={2} lg={2} xl={2}>
             <InputMask
               mask="09-9999"
@@ -929,8 +974,8 @@ function SalesRevenue({ ins }) {
               maskChar=" "
               label="# Cliente"
               size="small"
-            value={ins.state.searchCode}
-            onChange={ins.handleChange("searchCode")}
+              value={ins.state.searchCode}
+              onChange={ins.handleChange("searchCode")}
             >
               {() => (
                 <TextField
@@ -948,8 +993,8 @@ function SalesRevenue({ ins }) {
               fullWidth
               variant="contained"
               color="primary"
-            // className={classes.submit}
-            onClick={ins.handleUpdateStatusManual(ins)}
+              // className={classes.submit}
+              onClick={ins.handleUpdateStatusManual(ins)}
             >
               Buscar
             </Button>
@@ -961,7 +1006,16 @@ function SalesRevenue({ ins }) {
             </Alert> */}
           </Grid>
 
-          <Grid container spacing={1} xs={12} sm={12} md={12} lg={6} xl={6} m={1}>
+          <Grid
+            container
+            spacing={1}
+            xs={12}
+            sm={12}
+            md={12}
+            lg={6}
+            xl={6}
+            m={1}
+          >
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Box mt={5}>
                 <Typography variant="button">Datos de cliente</Typography>
@@ -979,13 +1033,13 @@ function SalesRevenue({ ins }) {
                 value={ins.state.nombres}
                 size="small"
                 label="Nombres"
-                name="email"              
+                name="email"
               />
             </Grid>
 
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
               <TextField
-                variant="outlined"                
+                variant="outlined"
                 required
                 fullWidth
                 value={ins.state.apellidos}
@@ -998,7 +1052,6 @@ function SalesRevenue({ ins }) {
                 autoFocus
               />
             </Grid>
-
 
             <Grid item xs={12} sm={12} md={6} lg={12} xl={6}>
               <TextField
@@ -1016,10 +1069,18 @@ function SalesRevenue({ ins }) {
                 autoFocus
               />
             </Grid>
-
           </Grid>
 
-          <Grid container spacing={1} xs={12} sm={12} md={12} lg={6} xl={6} m={1}>
+          <Grid
+            container
+            spacing={1}
+            xs={12}
+            sm={12}
+            md={12}
+            lg={6}
+            xl={6}
+            m={1}
+          >
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Box mt={5}>
                 <Typography variant="button">Datos de suministro</Typography>
@@ -1044,7 +1105,7 @@ function SalesRevenue({ ins }) {
 
             <Grid item xs={12} sm={12} md={6} lg={6} xl={3}>
               <TextField
-                variant="outlined"                         
+                variant="outlined"
                 fullWidth
                 id="email"
                 // disabled
@@ -1056,7 +1117,7 @@ function SalesRevenue({ ins }) {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
-                variant="outlined"                         
+                variant="outlined"
                 fullWidth
                 id="email"
                 // disabled
@@ -1066,23 +1127,92 @@ function SalesRevenue({ ins }) {
                 name="email"
               />
             </Grid>
-
-            
           </Grid>
-
 
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Box mt={1}>
-              <Typography variant="button">Detalle de pago</Typography>
+              <Typography variant="button">
+                Detalle de pago (Consola temporal de cobro abierto)
+              </Typography>
             </Box>
             <hr />
           </Grid>
 
-
-
-
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <List dense={true}>
+            <Typography variant="button">
+              1- Seleccione el tipo de cargo
+            </Typography>
+            <FormControl size="small" fullWidth>
+              {/* <InputLabel ml={1} id="demo-simple-select-label">Seleccione el tipo de cargo</InputLabel> */}
+              <Select
+                size="small"
+                // labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                variant="outlined"
+                // value={age}
+                // label="Seleccione el tipo de cargo"
+                onChange={ins.handleChange("cargos")}
+              >
+                <MenuItem value="Abono a derecho">Abono a derecho</MenuItem>
+                <MenuItem value="Pago de cuota">Pago de cuota</MenuItem>
+                <MenuItem value="Pago de multa">Pago de multa</MenuItem>
+              </Select>
+            </FormControl>
+
+            <Typography fullWidth variant="button">
+              2- Ingrese el monto (En dólares) a abonar al cargo seleccionado
+            </Typography>
+            <TextField
+              variant="outlined"
+              fullWidth
+              id="email"
+              // label = "$"
+              value={ins.state.abono_cargo}
+              onChange={ins.handleChange("abono_cargo")}
+              size="small"
+              name="email"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            {/* <InputMask
+              mask="$ 99.99"
+              disabled={false}
+              maskChar=" "
+              size="small" 
+              value={ins.state.abono_cargo}
+              onChange={ins.handleChange("abono_cargo")}
+            >
+              {() => (
+                <TextField
+                  // label="$"
+                  margin="normal"                  
+                  required
+                  size="small" 
+                  fullWidth
+                  variant="outlined"
+                />
+              )}
+            </InputMask> */}
+            <Typography fullWidth variant="button">
+              3- Revise los detalles y presione agregar
+            </Typography>
+
+            <hr />
+
+            <Typography fullWidth variant="button">
+              {ins.state.cargos} - {ins.state.abono_cargo}
+            </Typography>
+            <br />
+            {ins.state.cargos.length > 0 && ins.state.abono_cargo.length > 1
+              ? <Button variant="contained" color="primary" onClick={ins.handleChange("addCharge")}>
+              Confirmar cargo y agregar
+            </Button>
+              : ""}
+            
+
+            {/* <List dense={true}>
 
               <ListItem>
                 <ListItemText
@@ -1159,20 +1289,36 @@ function SalesRevenue({ ins }) {
               />
               </ListItem>
 
-            </List>
+            </List> */}
           </Grid>
 
-
-          <Grid justify="flex-end" container xs={12} sm={12} md={12} lg={6} xl={12}>
-          {/* <hr /> */}
-          <Typography variant="h4">Total a pagar : {ins.state.totalpagar} </Typography>
-
+          <Grid
+            justify="flex-end"
+            container
+            xs={12}
+            sm={12}
+            md={12}
+            lg={6}
+            xl={12}
+          >
+            {/* <hr /> */}
+            <Typography variant="h4">
+              Total a pagar : {ins.state.totalpagar}{" "}
+            </Typography>
           </Grid>
 
-
-          <Grid justify="flex-start" container xs={12} sm={12} md={12} lg={6} xl={12}>
-          <hr />
-          <Button
+          <Grid
+            justify="flex-start"
+            container
+            xs={12}
+            sm={12}
+            md={12}
+            lg={6}
+            xl={12}
+          >
+            {/* <hr /> */}
+            {ins.state.lista_cargos_confirmados.size>0?"si":"no"}
+            <Button
               variant="outlined"
               color="secondary"
               startIcon={<LocalPrintshopIcon />}
@@ -1180,12 +1326,8 @@ function SalesRevenue({ ins }) {
             >
               Comprobante de pago
             </Button>
-
           </Grid>
-
-
         </Grid>
-
       </CardContent>
 
       {/* <CardContent>
@@ -1195,7 +1337,6 @@ function SalesRevenue({ ins }) {
       </CardContent> */}
     </Card>
   );
-};
-
+}
 
 export default ServicesList;

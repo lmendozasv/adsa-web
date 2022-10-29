@@ -425,7 +425,7 @@ class ServicesList extends React.Component {
     lista_cargos_confirmados: [],
     lista_cargos_tipo: [],
     lista_cargos_monto: [],
-    lista_cargos_visual:[],
+    lista_cargos_visual: [],
   };
 
   estados = [
@@ -486,7 +486,11 @@ class ServicesList extends React.Component {
 
       oldValues_tipo.push(this.state.cargos);
       oldValues_monto.push(parseFloat(this.state.abono_cargo).toFixed(2));
-      oldValues_visual.push(this.state.cargos+" - $"+parseFloat(this.state.abono_cargo).toFixed(2));
+      oldValues_visual.push(
+        this.state.cargos +
+          " - $" +
+          parseFloat(this.state.abono_cargo).toFixed(2)
+      );
 
       this.setState({
         lista_cargos_tipo: oldValues_tipo,
@@ -1223,25 +1227,7 @@ function SalesRevenue({ ins }) {
                 shrink: true,
               }}
             />
-            {/* <InputMask
-              mask="$ 99.99"
-              disabled={false}
-              maskChar=" "
-              size="small" 
-              value={ins.state.abono_cargo}
-              onChange={ins.handleChange("abono_cargo")}
-            >
-              {() => (
-                <TextField
-                  // label="$"
-                  margin="normal"                  
-                  required
-                  size="small" 
-                  fullWidth
-                  variant="outlined"
-                />
-              )}
-            </InputMask> */}
+
             <Typography fullWidth variant="button">
               3- Revise los detalles y presione agregar
             </Typography>
@@ -1265,9 +1251,8 @@ function SalesRevenue({ ins }) {
             ) : (
               ""
             )}
-            <hr />
-            
-            
+            {/* <hr /> */}
+              Cargos a cobrar
             {ins.state.lista_cargos_visual.map((tile) => (
               <Typography fullWidth variant="h6">
                 {tile}

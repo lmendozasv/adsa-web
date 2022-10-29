@@ -425,6 +425,7 @@ class ServicesList extends React.Component {
     lista_cargos_confirmados: [],
     lista_cargos_tipo: [],
     lista_cargos_monto: [],
+    lista_cargos_visual:[],
   };
 
   estados = [
@@ -481,9 +482,11 @@ class ServicesList extends React.Component {
       // lista_cargos_monto
       var oldValues_tipo = this.state.lista_cargos_tipo;
       var oldValues_monto = this.state.lista_cargos_monto;
+      var oldValues_visual = this.state.lista_cargos_visual;
 
       oldValues_tipo.push(this.state.cargos);
       oldValues_monto.push(parseFloat(this.state.abono_cargo).toFixed(2));
+      oldValues_visual.push(this.state.cargos+" - $"+parseFloat(this.state.abono_cargo).toFixed(2));
 
       this.setState({
         lista_cargos_tipo: oldValues_tipo,
@@ -491,6 +494,10 @@ class ServicesList extends React.Component {
 
       this.setState({
         lista_cargos_monto: oldValues_monto,
+      });
+
+      this.setState({
+        lista_cargos_visual: oldValues_visual,
       });
 
       console.log(this.state.lista_cargos_monto);
@@ -503,7 +510,7 @@ class ServicesList extends React.Component {
       this.setState({
         abono_cargo: "",
       });
-      var sum=0;
+      var sum = 0;
       for (let i = 0; i < this.state.lista_cargos_monto.length; i++) {
         var valx = this.state.lista_cargos_monto[i];
         var converted = parseFloat(valx).toFixed(2);
@@ -514,7 +521,7 @@ class ServicesList extends React.Component {
       }
       console.log(sum);
       this.setState({
-        totalpagar: parseFloat(sum).toFixed(2),
+        totalpagar: "$ " + parseFloat(sum).toFixed(2),
       });
     }
 
@@ -1241,10 +1248,12 @@ function SalesRevenue({ ins }) {
 
             <hr />
 
-            <Typography fullWidth variant="button">
+            <Typography fullWidth variant="h4">
               {ins.state.cargos} - $ {ins.state.abono_cargo}
             </Typography>
+
             <br />
+
             {ins.state.cargos.length > 0 && ins.state.abono_cargo.length > 1 ? (
               <Button
                 variant="contained"
@@ -1256,6 +1265,14 @@ function SalesRevenue({ ins }) {
             ) : (
               ""
             )}
+            <hr />
+            
+            
+            {ins.state.lista_cargos_visual.map((tile) => (
+              <Typography fullWidth variant="h6">
+                {tile}
+              </Typography>
+            ))}
 
             {/* <List dense={true}>
 
@@ -1369,7 +1386,7 @@ function SalesRevenue({ ins }) {
                 startIcon={<LocalPrintshopIcon />}
                 onClick={ins.handleChange("print")}
               >
-                Comprobante de pago
+                Procesar pago
               </Button>
             ) : (
               ""

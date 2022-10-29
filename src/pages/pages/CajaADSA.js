@@ -1209,7 +1209,6 @@ function SalesRevenue({ ins }) {
                 <MenuItem value="Pago de multa">Pago de multa</MenuItem>
               </Select>
             </FormControl>
-
             <Typography fullWidth variant="button">
               2- Ingrese el monto (En dólares) a abonar al cargo seleccionado
             </Typography>
@@ -1227,28 +1226,22 @@ function SalesRevenue({ ins }) {
                 shrink: true,
               }}
             />
+            
+
+              
 
             <Typography fullWidth variant="button">
               3- Revise los detalles y presione el botón "Confirmar"
             </Typography>
-
             <hr />
-
             <Typography fullWidth variant="h4">
               {ins.state.cargos} - $ {ins.state.abono_cargo}
             </Typography>
-
             <br />
-
-            <Typography fullWidth variant="button">
-              4- Agregar una nota (Opcional)
-            </Typography>
-
             <hr />
-
             {ins.state.cargos.length > 0 && ins.state.abono_cargo.length > 1 ? (
               <Button
-              fullWidth
+                fullWidth
                 variant="contained"
                 color="primary"
                 onClick={ins.handleChange("addCharge")}
@@ -1259,15 +1252,14 @@ function SalesRevenue({ ins }) {
               ""
             )}
             {/* <hr /> */}
-              <br/>
-              Cargos a cobrar
-              <br/>
+            <br />
+            Cargos a cobrar
+            <br />
             {ins.state.lista_cargos_visual.map((tile) => (
               <Typography fullWidth variant="h6">
                 {tile}
               </Typography>
             ))}
-
             {/* <List dense={true}>
 
               <ListItem>
@@ -1346,6 +1338,24 @@ function SalesRevenue({ ins }) {
               </ListItem>
 
             </List> */}
+            <br/>
+            <br/>
+            <Typography fullWidth variant="button">
+              4- Agregar una nota (Por ejemplo: Pago de cuota septiembre 2022)
+            </Typography>
+
+            <TextField
+                variant="outlined"
+                fullWidth
+                id="email"
+                // disabled
+                value={ins.state.nota}
+                size="small"
+                // label="Dirección del suministro"
+                name="email"
+              />
+<br/>
+            <br/>
           </Grid>
 
           <Grid
@@ -1354,7 +1364,7 @@ function SalesRevenue({ ins }) {
             xs={12}
             sm={12}
             md={12}
-            lg={6}
+            lg={12}
             xl={12}
           >
             {/* <hr /> */}

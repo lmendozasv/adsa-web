@@ -429,6 +429,7 @@ class ServicesList extends React.Component {
     lista_cargos_visual: [],
     advancedSearchDialogModal: false,
     searchTerm: "",
+    searchResults: [],
   };
 
   estados = [
@@ -570,6 +571,8 @@ class ServicesList extends React.Component {
         "[CODIGOUSUARIO]",
         cousu + " - " + hex_print.toUpperCase()
       );
+      this.setState({hexcode : hex_print.toUpperCase()});
+
       rpt = rpt.replace("[NOMBREUSUARIO]", nam);
       rpt = rpt.replace("[DIRUSER]", adds);
       rpt = rpt.replace("[MESFAC]", namsxx);
@@ -592,14 +595,150 @@ class ServicesList extends React.Component {
       win.document.write(rpt);
       win.document.close();
       win.print();
+      // call webservice for provisional payments
+      var ins = this;
+      var ids = ins.state.searchTerm;
+      var tk = localStorage.getItem("token_sec");
+      // user,dt_created,payment_total_value,payment_json,payment_note,customer_id,hex_print
+    //   customer_id = params.get("customer_id")
+    // chargesList = params.get("charges")
+    // amountsList = params.get("amounts")
+    // total = params.get("total")
+    // user = params.get("user")
+    // note = params.get("note")
+    // printCode = params.get("print_code")
+    console.log(this.state.lista_cargos_monto);
+    console.log(this.state.lista_cargos_tipo);
+      axios
+        .post(
+          "https://adsa-api.herokuapp.com/pago_transitorio",
+          {
+            customer_id: ins.state.customerID,
+            charges: ins.state.lista_cargos_tipo,
+            amounts: ins.state.lista_cargos_monto,
+            total: ins.state.totalpagar,
+            user: "ADMIN",
+            note: ins.state.nota,
+            print_code: ins.state.hexcode,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + tk,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(function (res) {
+          // console.log(res.data);
+          // ins.setState({ searchResults: res.data });
+          alert("Pago registrado con éxito");
+        });
     }
   };
-  
+  selectCustomerFromSearch = (name) => (event) => {
+    // alert("selected"+name);
+    // alert(name.names);
+    this.setState({ advancedSearchDialogModal: false });
+    var ins = this;
+    // console.log(res.data[0]);
+    var row = name;
+    var reg = "";
+    var ids = name.service_id;
+    // alert(name.service_id);
+    if (ids.substring(0, 2) == "01") {
+      reg = "Cantón las Delicias";
+    }
+    if (ids.substring(0, 2) == "02") {
+      reg = "Cantón Rosario";
+    }
+    if (ids.substring(0, 2) == "03") {
+      reg = "Cantón Ánimas";
+    }
+    // alert(reg);
+    ins.setState({
+      region: reg,
+    });
+    ins.setState({
+      nombres: row.names,
+    });
+    ins.setState({
+      apellidos: row.lastnames,
+    });
+    var rlastpay = "";
+    // row.lastpay
+    var mes = "";
+    var ano = "";
+    try {
+      if (row.lastpay.length > 0) {
+        var allstr = row.lastpay.split("-");
+        mes = allstr[1];
+        ano = allstr[2];
+        rlastpay = mes + "/" + ano;
+      }
+      ins.setState({
+        lastpay: rlastpay,
+      });
+      ins.setState({
+        address: row.address,
+      });
+    } catch (err) {
+      ins.setState({
+        lastpay: "",
+      });
+      ins.setState({
+        address: "",
+      });
+    }
+    // ins.setState({
+    //   lastpay: row.lastpay,
+    // });
+    var estadox = "";
+    if (row.service_status == "1") {
+      estadox = "Activo";
+    }
+    if (row.service_status == "2") {
+      estadox = "Corte";
+    }
+    if (row.service_status == "3") {
+      estadox = "Desactivado";
+    }
+    ins.setState({
+      estado: estadox,
+    });
+    // window.location.reload();
+
+    //isDetailOpen
+    ins.setState({
+      isDetailOpen: false,
+    });
+  };
   searchCustomer = (name) => (event) => {
+    // alert("as");
+    var nstat = event.target.value;
+    var ins = this;
+    var ids = ins.state.searchTerm;
+    var tk = localStorage.getItem("token_sec");
+    axios
+      .post(
+        "https://adsa-api.herokuapp.com/asearch",
+        {
+          id: ids.trim(),
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (res) {
+        console.log(res.data);
+        ins.setState({ searchResults: res.data });
+      });
+  };
 
-  }
-
-  
   handleAdvancedSearch = (name) => (event) => {
     this.setState({
       advancedSearchDialogModal: !this.state.advancedSearchDialogModal,
@@ -646,6 +785,9 @@ class ServicesList extends React.Component {
         if (ids.substring(0, 2) == "03") {
           reg = "Cantón Ánimas";
         }
+        ins.setState({
+          customerID: res.data[0].service_id,
+        });
         ins.setState({
           region: reg,
         });
@@ -919,69 +1061,65 @@ function SalesRevenue({ ins }) {
     //   />
 
     <Card mb={1}>
-
-
-
-
-
-
-
-
       <Dialog open={ins.state.advancedSearchDialogModal}>
         <DialogTitle>
           <Box display="flex" alignItems="center">
-            <Box flexGrow={1}>
-            Búsqueda avanzada (DUI, Nombre, Apellido)
-            </Box>
+            <Box flexGrow={1}>Búsqueda avanzada (DUI, Nombre, Apellido)</Box>
             <Box>
               <IconButton
-                onClick={(o) => ins.setState({ advancedSearchDialogModal: false })}
+                onClick={(o) =>
+                  ins.setState({ advancedSearchDialogModal: false })
+                }
               >
                 <IconClose />
               </IconButton>
             </Box>
           </Box>
-          
         </DialogTitle>
-       
+
         <DialogContent>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                id="busquecacriterio"
-                onChange={(e) => ins.setState({ searchTerm: e.target.value })}                
-                value={ins.state.searchTerm}
-                size="small"
-                label="Ingrese valor a buscar (DUI, Nombre, Apellido)"
-                name="busquedacriterio"
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <hr></hr>
-              </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              id="busquecacriterio"
+              onChange={(e) => ins.setState({ searchTerm: e.target.value })}
+              value={ins.state.searchTerm}
+              size="small"
+              label="Ingrese valor a buscar (DUI, Nombre, Apellido)"
+              name="busquedacriterio"
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <hr></hr>
+            Clientes encontrados: (Click en el cliente para seleccionarlo)
+            <br></br>
+            <br></br>
+            {ins.state.searchResults.map((tile) => (
               <Button
+                fullWidth
+                alignItems="left"
+                onClick={ins.selectCustomerFromSearch(tile)}
+              >
+                {tile.service_id} | {tile.names}-{tile.lastnames}
+              </Button>
+            ))}
+            <br></br>
+            <br></br>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Button
               variant="contained"
               color="primary"
-              onClick={(o) => ins.searchCustomer()}
-              >
-                Buscar
-              </Button>
-              </Grid>
-
+              // onClick={(o) => ins.searchCustomer()}
+              onClick={ins.searchCustomer("dialog-")}
+              // onClick={(o) => ins.searchCustomer({ isDetailOpen: false })}
+            >
+              Buscar
+            </Button>
+          </Grid>
         </DialogContent>
       </Dialog>
-
-
-
-
-
-
-
-
-
-
 
       <Dialog open={ins.state.isDetailOpen}>
         <DialogTitle>
@@ -1119,6 +1257,7 @@ function SalesRevenue({ ins }) {
               size="small"
               value={ins.state.searchCode}
               onChange={ins.handleChange("searchCode")}
+              autoFocus
             >
               {() => (
                 <TextField
@@ -1186,7 +1325,7 @@ function SalesRevenue({ ins }) {
                 // disabled
                 value={ins.state.nombres}
                 size="small"
-                label="Nombres"
+                // label="Nombres"
                 name="email"
               />
             </Grid>
@@ -1200,10 +1339,10 @@ function SalesRevenue({ ins }) {
                 id="email"
                 // disabled
                 size="small"
-                label="Apellidos"
+                // label="Apellidos"
                 name="email"
                 autoComplete="email"
-                autoFocus
+                // autoFocus
               />
             </Grid>
 
@@ -1220,7 +1359,7 @@ function SalesRevenue({ ins }) {
                 label="Región (Cantón)"
                 name="email"
                 autoComplete="email"
-                autoFocus
+                // autoFocus
               />
             </Grid>
           </Grid>

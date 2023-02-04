@@ -53,6 +53,7 @@ import {
   Archive as ArchiveIcon,
   FilterList as FilterListIcon,
   List as RemoveRedEyeIcon,
+  Edit as EditIcon,
   NavigateNext as ArrowForwardIosIcon,
   Close as IconClose,
   SportsMotorsports as IconMoped,
@@ -505,6 +506,13 @@ function EnhancedTable({ dataRows, ins }) {
                             <RemoveRedEyeIcon />
                           </IconButton>
                           
+
+                          <IconButton
+                            onClick={ins.handleChange("dialog-" + row.id)}
+                            aria-label="edit"
+                          >
+                            <EditIcon />
+                          </IconButton>
 
 
                         </Box>

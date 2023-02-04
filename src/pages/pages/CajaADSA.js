@@ -599,6 +599,7 @@ class ServicesList extends React.Component {
 
   }
 
+  
   handleAdvancedSearch = (name) => (event) => {
     this.setState({
       advancedSearchDialogModal: !this.state.advancedSearchDialogModal,

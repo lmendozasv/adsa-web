@@ -58,6 +58,7 @@ import {
   FormControl,
   InputLabel,
   Typography,
+  DialogActions,
 } from "@material-ui/core";
 import BlurOn from "@material-ui/icons/FiberManualRecord";
 import { spacing } from "@material-ui/system";
@@ -426,6 +427,8 @@ class ServicesList extends React.Component {
     lista_cargos_tipo: [],
     lista_cargos_monto: [],
     lista_cargos_visual: [],
+    advancedSearchDialogModal: false,
+    searchTerm: "",
   };
 
   estados = [
@@ -560,8 +563,13 @@ class ServicesList extends React.Component {
       // var totx  = (namsxx.length * 10)+1 ;
       // var t = "$ "+totx.toString();
       var t = this.state.totalpagar;
-      var hex_print = Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0");
-      rpt = rpt.replace("[CODIGOUSUARIO]", cousu + " - " + hex_print.toUpperCase());
+      var hex_print = Math.floor(Math.random() * 0xffffff)
+        .toString(16)
+        .padEnd(6, "0");
+      rpt = rpt.replace(
+        "[CODIGOUSUARIO]",
+        cousu + " - " + hex_print.toUpperCase()
+      );
       rpt = rpt.replace("[NOMBREUSUARIO]", nam);
       rpt = rpt.replace("[DIRUSER]", adds);
       rpt = rpt.replace("[MESFAC]", namsxx);
@@ -585,6 +593,17 @@ class ServicesList extends React.Component {
       win.document.close();
       win.print();
     }
+  };
+  
+  searchCustomer = (name) => (event) => {
+
+  }
+
+  handleAdvancedSearch = (name) => (event) => {
+    this.setState({
+      advancedSearchDialogModal: !this.state.advancedSearchDialogModal,
+    });
+    console.log(this.state.advancedSearchDialogModal);
   };
 
   handleUpdateStatusManual = (name) => (event) => {
@@ -639,19 +658,27 @@ class ServicesList extends React.Component {
         // row.lastpay
         var mes = "";
         var ano = "";
-
-        if (row.lastpay.length > 0) {
-          var allstr = row.lastpay.split("-");
-          mes = allstr[1];
-          ano = allstr[2];
-          rlastpay = mes + "/" + ano;
+        try {
+          if (row.lastpay.length > 0) {
+            var allstr = row.lastpay.split("-");
+            mes = allstr[1];
+            ano = allstr[2];
+            rlastpay = mes + "/" + ano;
+          }
+          ins.setState({
+            lastpay: rlastpay,
+          });
+          ins.setState({
+            address: row.address,
+          });
+        } catch (err) {
+          ins.setState({
+            lastpay: "",
+          });
+          ins.setState({
+            address: "",
+          });
         }
-        ins.setState({
-          lastpay: rlastpay,
-        });
-        ins.setState({
-          address: row.address,
-        });
         // ins.setState({
         //   lastpay: row.lastpay,
         // });
@@ -891,6 +918,70 @@ function SalesRevenue({ ins }) {
     //   />
 
     <Card mb={1}>
+
+
+
+
+
+
+
+
+      <Dialog open={ins.state.advancedSearchDialogModal}>
+        <DialogTitle>
+          <Box display="flex" alignItems="center">
+            <Box flexGrow={1}>
+            Búsqueda avanzada (DUI, Nombre, Apellido)
+            </Box>
+            <Box>
+              <IconButton
+                onClick={(o) => ins.setState({ advancedSearchDialogModal: false })}
+              >
+                <IconClose />
+              </IconButton>
+            </Box>
+          </Box>
+          
+        </DialogTitle>
+       
+        <DialogContent>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="busquecacriterio"
+                onChange={(e) => ins.setState({ searchTerm: e.target.value })}                
+                value={ins.state.searchTerm}
+                size="small"
+                label="Ingrese valor a buscar (DUI, Nombre, Apellido)"
+                name="busquedacriterio"
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <hr></hr>
+              </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Button
+              variant="contained"
+              color="primary"
+              onClick={(o) => ins.searchCustomer()}
+              >
+                Buscar
+              </Button>
+              </Grid>
+
+        </DialogContent>
+      </Dialog>
+
+
+
+
+
+
+
+
+
+
+
       <Dialog open={ins.state.isDetailOpen}>
         <DialogTitle>
           <Box display="flex" alignItems="center">
@@ -1014,7 +1105,7 @@ function SalesRevenue({ ins }) {
         </DialogContent>
       </Dialog>
 
-      <CardHeader title={"Caja ADSA " + ins.state.st} />
+      <CardHeader title={"Facturación ADSA " + ins.state.st} />
 
       <CardContent>
         <Grid container spacing={1}>
@@ -1048,6 +1139,17 @@ function SalesRevenue({ ins }) {
               onClick={ins.handleUpdateStatusManual(ins)}
             >
               Buscar
+            </Button>
+          </Grid>
+          <Grid item xs={2} sm={2} md={2} lg={1} xl={1}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              // className={classes.submit}
+              onClick={ins.handleAdvancedSearch("advancedSearchModal")}
+            >
+              B. Avanzada
             </Button>
           </Grid>
 
@@ -1179,12 +1281,11 @@ function SalesRevenue({ ins }) {
               />
             </Grid>
           </Grid>
-
+          <br />
+          <br />
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Box mt={1}>
-              <Typography variant="button">
-                Detalle de pago (Consola temporal de cobro abierto)
-              </Typography>
+              <Typography variant="button">Detalle de pago</Typography>
             </Box>
             <hr />
           </Grid>
@@ -1207,6 +1308,8 @@ function SalesRevenue({ ins }) {
                 <MenuItem value="Abono a derecho">Abono a derecho</MenuItem>
                 <MenuItem value="Pago de cuota">Pago de cuota</MenuItem>
                 <MenuItem value="Pago de multa">Pago de multa</MenuItem>
+                <MenuItem value="Pago de prima">Pago de prima</MenuItem>
+                {/* <MenuItem value="Mora">Mora</MenuItem> */}
               </Select>
             </FormControl>
             <Typography fullWidth variant="button">
@@ -1226,10 +1329,6 @@ function SalesRevenue({ ins }) {
                 shrink: true,
               }}
             />
-            
-
-              
-
             <Typography fullWidth variant="button">
               3- Revise los detalles y presione el botón "Confirmar"
             </Typography>
@@ -1338,24 +1437,23 @@ function SalesRevenue({ ins }) {
               </ListItem>
 
             </List> */}
-            <br/>
-            <br/>
+            <br />
+            <br />
             <Typography fullWidth variant="button">
               4- Agregar una nota (Por ejemplo: Pago de cuota septiembre 2022)
             </Typography>
-
             <TextField
-                variant="outlined"
-                fullWidth
-                id="email"
-                // disabled
-                value={ins.state.nota}
-                size="small"
-                // label="Dirección del suministro"
-                name="email"
-              />
-<br/>
-            <br/>
+              variant="outlined"
+              fullWidth
+              id="email"
+              // disabled
+              value={ins.state.nota}
+              size="small"
+              // label="Dirección del suministro"
+              name="email"
+            />
+            <br />
+            <br />
           </Grid>
 
           <Grid

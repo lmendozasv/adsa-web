@@ -611,7 +611,7 @@ class ServicesList extends React.Component {
     console.log(this.state.lista_cargos_tipo);
       axios
         .post(
-          "https://adsa-api.herokuapp.com/pago_transitorio",
+          "https://adsa-api-zu7qtahjbq-uc.a.run.app/pago_transitorio",
           {
             customer_id: ins.state.customerID,
             charges: ins.state.lista_cargos_tipo,
@@ -721,7 +721,7 @@ class ServicesList extends React.Component {
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
-        "https://adsa-api.herokuapp.com/asearch",
+        "https://adsa-api-zu7qtahjbq-uc.a.run.app/asearch",
         {
           id: ids.trim(),
         },
@@ -760,7 +760,7 @@ class ServicesList extends React.Component {
     var tk = localStorage.getItem("token_sec");
     axios
       .post(
-        "https://adsa-api.herokuapp.com/search",
+        "https://adsa-api-zu7qtahjbq-uc.a.run.app/search",
         {
           id: ids.trim(),
         },

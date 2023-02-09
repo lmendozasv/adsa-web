@@ -1191,7 +1191,7 @@ class OrdersComponent extends React.Component {
 
       axios
         .get(
-          "https://adsa-api.herokuapp.com/customers",
+          "https://adsa-api-zu7qtahjbq-uc.a.run.app/customers",
           {
             f: fie,
             v: searchVal,
@@ -1298,7 +1298,7 @@ class OrdersComponent extends React.Component {
     var nstate = ins.state.orderSelectedDriver;
     axios
       .post(
-        "https://adsa-api.herokuapp.com/ustatus",
+        "https://adsa-api-zu7qtahjbq-uc.a.run.app/ustatus",
         {
           id: customer_id,
           u: nstate

@@ -347,6 +347,7 @@ class LoginComponent extends React.Component {
 
   }
   handleSubmit = (name) => (event) => {
+    alert("submit");
     var ix = this;
     ix.setState({ isLoadingData: true });
     var us_ = ix.state.usuario;
@@ -457,7 +458,7 @@ class LoginComponent extends React.Component {
                 className={classes.submit}
                 onClick={this.handleSubmit(this)}
               >
-                Iniciar sesión
+                Iniciar sessión
               </Button>
 
               {/* <Grid container>

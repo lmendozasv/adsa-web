@@ -370,7 +370,7 @@ class LoginComponent extends React.Component {
       isValid = false;
     }
     
-    if (isValid && (us_=="admin"&&pw_=="proyectodeaguaAdmin")||(us_=="tecnico"&&pw_=="tecnicoDeADSA")||(us_=="secretaria"&&pw_=="secretariaADSA")) {
+    if (isValid && (us_=="admin"&&pw_=="proyectodeaguaAdmin")||(us_=="tecnico"&&pw_=="tecnicoDeADSA")||(us_=="secretaria"&&pw_=="secretariaADSA")  ||(us_=="auditoria"&&pw_=="auditoria$2010")  ||(us_=="usuariojd"&&pw_=="juntadirectiva$2010")   ||(us_=="abogadoadsa"&&pw_=="abogadoAdsa$2010") ) {
       localStorage.setItem("actxp", "s");
       localStorage.setItem("token_sec", "TOK");
       localStorage.setItem("token", "S");

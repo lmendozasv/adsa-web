@@ -5,20 +5,13 @@ import axios from "axios";
 import SearchBar from "material-ui-search-bar";
 import Helmet from "react-helmet";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import ReactToPrint from 'react-to-print';
-
-
-
-
-
-
-
-
-
-
-
+import ReactToPrint from "react-to-print";
+import PropTypes from "prop-types";
+import InputMask from "react-input-mask";
 import {
   Box,
+  Tab,
+  Tabs,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -51,16 +44,16 @@ import { green, orange, red } from "@material-ui/core/colors";
 import {
   Add as AddIcon,
   Archive as ArchiveIcon,
-  FilterList as FilterListIcon,
+  Add as FilterListIcon,
   List as RemoveRedEyeIcon,
   Edit as EditIcon,
   NavigateNext as ArrowForwardIosIcon,
   Close as IconClose,
-  SportsMotorsports as IconMoped,
+  Save as IconMoped,
   Search as SearchIcon,
   CancelRounded as CancelRoundedIcon,
   FilterAlt as FilterAltIcon,
-  AssignmentTurnedIn as FactCheckIcon
+  AssignmentTurnedIn as FactCheckIcon,
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
@@ -138,7 +131,7 @@ const Chip = styled(MuiChip)`
   background: ${(props) => props.Activo && "#B6EED5"};
   background: ${(props) => props.Corte && "#EF3340"};
   background: ${(props) => props.Desactivado && "#DBDBDB"};
-  
+
   color: ${(props) => props.theme.palette.common.black};
 `;
 
@@ -159,8 +152,8 @@ const Spacer = styled.div`
 const ToolbarTitle = styled.div`
   min-width: 150px;
 `;
-var rpt = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Jose Escobar'/> <meta name='created' content='2022-03-17T12:51:11'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-07-29T23:10:00'/> <meta name='AppVersion' content='16.0300'/> <meta name='ContentTypeId' content='0x010100599EB5C541CFC44F8102F36FD5798F89'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:x-small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } @media print{body{width: 90%;}}</style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='11' width='68'></colgroup> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>COORD. LOGISTICA</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=2 color='#000000'>#OP DE LS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><font color='#000000'>[VAROPLS]</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>FECHA Y HORA ENVIO:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>F: [VARDIA] H: [VARHORA] ( )</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=2 color='#000000'>CLIENTE:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><font color='#000000'>[VARCLIENTE]</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CAPTURED AMOUNT Y <br>TRANSACION ID<br>(en comentario pedido)</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=2 align='left' valign=middle bgcolor='#FFFFFF'><b><font size=3 color='#000000'>$[VARCAPTUREDAMOUNT]</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle bgcolor='#FFFFFF'><font size=4 color='#000000'>[VARIDFAC]</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=2 color='#000000'>CONTROL PEDIDOS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>VERIFICAR DIRECCIÓN:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>TIPO FACTURA:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>TK / FCF / CCF / FCF-E</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 rowspan=2 height='25' align='left' valign=top bgcolor='#FFFFFF'><b><font color='#000000'>Nota de pedido: [VARNOTAPEDIDO]</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 height='42' align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>BOLSA ([VARBO])<br>JABA ([VARJA])</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>CON NOTA ([VARCN])<br>SIN NOTA ([VARSN])</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 rowspan=2 align='center' valign=middle bgcolor='#FFFFFF'><b><font size=4 color='#000000'>[VARTIPOENVIO]</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=bottom bgcolor='#FFFFFF'><b><font size=4 color='#000000'>$ [VARMONTOPEDIDO]</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>PICKERS</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' height='21' align='left' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>PICKER 1:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>PICKER 2:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT. ITEMS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><font color='#000000'><br></font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='32' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>CÓDIGO LS</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>DESCRIPCIÓN PRODUCTO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT.<br>PEDIDO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT.<br>FALTA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>VINO<br>EN BP?</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>ERROR<br>INVENTARIO</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 height='20' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>ESTADO DE PEDIDO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>REVISO FECHA VENCIMIENTO?</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>PRODUCTOS LIMPIOS</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>REVISO NOTA PEDIDO</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='38' align='center' valign=middle><b><font color='#000000'>COMPLETO / INCOMPLETO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>FACTURADOR</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000' colspan=3 rowspan=2 height='40' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>NOMBRE FACTURADOR</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>COBRO VIA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>MONTO<br>FACTURADO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CANTIDAD DE JABAS</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>ESTANTES</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 1</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 2</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 3</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000' colspan=3 rowspan=3 height='60' align='left' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) FAC</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=3 align='left' valign=middle><b><font size=5 color='#000000'>$</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) LINK DE PAGO</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) EFECTIVO</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>CONTROL SALIDA</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='39' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>NOMBRE CONTROL DE SALIDA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>MONTO FINAL<br>COBRADO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'># DE REFERENCIA <br>FAC</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'># DE TRANSACCION<br>LINK DE PAGO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>PAGO EN EFECTIVO<br>QUIEN AUTORIZA</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='38' align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle><b><font size=4 color='#000000'>$</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=bottom><font size=1 color='#000000'>(PEDIR A CONSERJES)</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>SELLOS</font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 rowspan=5 align='center' valign=bottom><b><font size=1 color='#000000'>SELLO DE CLIENTE NUEVO, KIPPER PLUS O KIPPER VIP</font></b></td> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 rowspan=5 align='center' valign=bottom><b><font size=1 color='#000000'>SELLO DE HORA DE ENTREGA, FLASH O EXPRESS</font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000' align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> </table> </body> </html>";
-
+var rpt =
+  "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0 Transitional//EN'> <html> <head> <meta http-equiv='content-type' content='text/html; charset=iso-8859-1'/> <title></title> <meta name='generator' content='https://conversiontools.io' /> <meta name='author' content='Jose Escobar'/> <meta name='created' content='2022-03-17T12:51:11'/> <meta name='changedby' content='Luis Mendoza'/> <meta name='changed' content='2022-07-29T23:10:00'/> <meta name='AppVersion' content='16.0300'/> <meta name='ContentTypeId' content='0x010100599EB5C541CFC44F8102F36FD5798F89'/> <meta name='DocSecurity' content='0'/> <meta name='HyperlinksChanged' content='false'/> <meta name='LinksUpToDate' content='false'/> <meta name='ScaleCrop' content='false'/> <meta name='ShareDoc' content='false'/> <style type='text/css'> body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:'Calibri'; font-size:x-small } a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em; } a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em; } comment { display:none; } @media print{body{width: 90%;}}</style> </head> <body> <table cellspacing='0' border='0'> <colgroup span='11' width='68'></colgroup> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>COORD. LOGISTICA</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=2 color='#000000'>#OP DE LS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><font color='#000000'>[VAROPLS]</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>FECHA Y HORA ENVIO:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>F: [VARDIA] H: [VARHORA] ( )</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=2 color='#000000'>CLIENTE:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><font color='#000000'>[VARCLIENTE]</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CAPTURED AMOUNT Y <br>TRANSACION ID<br>(en comentario pedido)</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=2 align='left' valign=middle bgcolor='#FFFFFF'><b><font size=3 color='#000000'>$[VARCAPTUREDAMOUNT]</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle bgcolor='#FFFFFF'><font size=4 color='#000000'>[VARIDFAC]</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font size=2 color='#000000'>CONTROL PEDIDOS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>VERIFICAR DIRECCIÓN:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='right' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>TIPO FACTURA:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>TK / FCF / CCF / FCF-E</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 rowspan=2 height='25' align='left' valign=top bgcolor='#FFFFFF'><b><font color='#000000'>Nota de pedido: [VARNOTAPEDIDO]</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 height='42' align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>BOLSA ([VARBO])<br>JABA ([VARJA])</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle bgcolor='#FFFFFF'><b><font color='#000000'>CON NOTA ([VARCN])<br>SIN NOTA ([VARSN])</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 rowspan=2 align='center' valign=middle bgcolor='#FFFFFF'><b><font size=4 color='#000000'>[VARTIPOENVIO]</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=bottom bgcolor='#FFFFFF'><b><font size=4 color='#000000'>$ [VARMONTOPEDIDO]</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>PICKERS</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' height='21' align='left' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>PICKER 1:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>PICKER 2:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT. ITEMS:</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><font color='#000000'><br></font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='32' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=3 color='#000000'>CÓDIGO LS</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>DESCRIPCIÓN PRODUCTO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT.<br>PEDIDO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>CANT.<br>FALTA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>VINO<br>EN BP?</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='center' valign=middle bgcolor='#D9D9D9'><b><font size=1 color='#000000'>ERROR<br>INVENTARIO</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 height='21' align='right' valign=middle><b><font size=3 color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=5 align='center' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 height='20' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>ESTADO DE PEDIDO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>REVISO FECHA VENCIMIENTO?</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>PRODUCTOS LIMPIOS</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>REVISO NOTA PEDIDO</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='38' align='center' valign=middle><b><font color='#000000'>COMPLETO / INCOMPLETO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 align='center' valign=middle><b><font color='#000000'>SI / NO</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>FACTURADOR</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000' colspan=3 rowspan=2 height='40' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>NOMBRE FACTURADOR</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>COBRO VIA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>MONTO<br>FACTURADO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CANTIDAD DE JABAS</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>ESTANTES</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 1</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 2</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' align='left' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>CUARTO 3</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000' colspan=3 rowspan=3 height='60' align='left' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) FAC</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=3 align='left' valign=middle><b><font size=5 color='#000000'>$</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' rowspan=3 align='center' valign=middle><font color='#000000'><br></font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) LINK DE PAGO</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 align='left' valign=middle><font color='#000000'>( ) EFECTIVO</font></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>CONTROL SALIDA</font></b></td> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='39' align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>NOMBRE CONTROL DE SALIDA</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>MONTO FINAL<br>COBRADO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'># DE REFERENCIA <br>FAC</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'># DE TRANSACCION<br>LINK DE PAGO</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle bgcolor='#D9D9D9'><b><font color='#000000'>PAGO EN EFECTIVO<br>QUIEN AUTORIZA</font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=3 rowspan=2 height='38' align='center' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle><b><font size=4 color='#000000'>$</font></b></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='left' valign=middle><font color='#000000'><br></font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=bottom><font size=1 color='#000000'>(PEDIR A CONSERJES)</font></td> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=2 rowspan=2 align='center' valign=middle><b><font color='#000000'><br></font></b></td> </tr> <tr> </tr> <tr> <td style='border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=11 height='14' align='center' valign=middle bgcolor='#595959'><b><font color='#FFFFFF'>SELLOS</font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 rowspan=5 align='center' valign=bottom><b><font size=1 color='#000000'>SELLO DE CLIENTE NUEVO, KIPPER PLUS O KIPPER VIP</font></b></td> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000' colspan=4 rowspan=5 align='center' valign=bottom><b><font size=1 color='#000000'>SELLO DE HORA DE ENTREGA, FLASH O EXPRESS</font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> <td align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> <tr> <td style='border-bottom: 1px solid #000000; border-left: 1px solid #000000' height='20' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000' align='left' valign=top><b><font color='#000000'><br></font></b></td> <td style='border-bottom: 1px solid #000000' align='left' valign=top><b><font color='#000000'><br></font></b></td> </tr> </table> </body> </html>";
 
 function createData(
   id,
@@ -172,20 +165,28 @@ function createData(
   address,
   is_founder,
   phone_number,
-  is_whatsapp
+  is_whatsapp,
+  namesa,
+  lastnamesa,
+  beneficiary,
+  doc_id
 ) {
   // console.log(idLS);
   return {
-  id,
-  debt,
-  names,
-  service_id,
-  service_status,
-  start_date_service,
-  address,
-  is_founder,
-  phone_number,
-  is_whatsapp
+    id,
+    debt,
+    names,
+    service_id,
+    service_status,
+    start_date_service,
+    address,
+    is_founder,
+    phone_number,
+    is_whatsapp,
+    namesa,
+    lastnamesa,
+    beneficiary,
+    doc_id
   };
 }
 
@@ -221,11 +222,8 @@ const headCells = [
   { id: "service_status_service", alignment: "left", label: "E. Servicio" },
   { id: "service_status_account", alignment: "left", label: "E. Cuenta" },
   { id: "start_date_service", alignment: "left", label: "F. Contrato" },
-  { id: "", alignment: "right", label: "Detalles" }
+  { id: "", alignment: "right", label: "Detalles" },
 ];
-
-
-
 
 function EnhancedTableHead(props) {
   const {
@@ -302,7 +300,11 @@ let EnhancedTableToolbar = (props) => {
               onClick={(event) => ins.applyFilter(event, "modal")}
               aria-label="Filtros"
             >
-              <FilterListIcon />
+              {/* Agregar nuevo cliente */}
+              {/* <FilterListIcon/> */}
+
+              {/* </FilterListIcon> */}
+              {/* kkk */}
             </IconButton>
           </Tooltip>
         )}
@@ -357,9 +359,11 @@ function EnhancedTable({ dataRows, ins }) {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    // alert("HANDLECHANGEPAGE:"+newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    // alert("handle change rows",event.target.value);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -372,12 +376,19 @@ function EnhancedTable({ dataRows, ins }) {
 
   return (
     <div>
+      <Button variant="outlined" onClick={ins.handleChange("nuevocliente")}>
+        Agregar nuevo cliente
+      </Button>
+      <br />
       <Paper>
         {ins.state.openDetail ? <DetailsModal ins={ins} /> : ""}
+        {ins.state.openNewCustomerModal ? <NewCustomerForm ins={ins} /> : ""}
+        {ins.state.openEditCustomerModal ? <editCustomerForm ins={ins} /> : ""}
         {/* {ins.state.openDetailToSend ? <DetailsModalToSend ins={ins} /> : ""} */}
         {/* {ins.state.openFilters ? <FilterRows ins={ins} /> : ""} */}
         {/* {ins.state.openDetailToPrint ? <PrintCheckPage ins={ins} /> : ""} */}
-        <EnhancedTableToolbar numSelected={selected.length} ins={ins} />
+        {/* <EnhancedTableToolbar numSelected={selected.length} ins={ins} /> */}
+
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -419,102 +430,94 @@ function EnhancedTable({ dataRows, ins }) {
                       </TableCell>
 
                       <TableCell align="left">{row.service_id}</TableCell>
-                      <TableCell align="left">{row.names}</TableCell>                                            
+                      <TableCell align="left">{row.names}</TableCell>
 
-
-                      <TableCell>                        
-                        {
-                          row.service_status =="1" ?(
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={"Activo"}
-                              Activo
-                            />
-                          ):
-                          ("")
-                        }             
-                        {
-                          (row.service_status=="2" ) ? (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={"Corte"}
-                              Corte
-                            />
-                          ):("")
-                        }       
-                        {
-                          (row.service_status=="3" ) && (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={"Desactivado"}
-                              Desactivado
-                            />
-                          )
-                        }                        
+                      <TableCell>
+                        {row.service_status == "1" ? (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label={"Activo"}
+                            Activo
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {row.service_status == "2" ? (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label={"Corte"}
+                            Corte
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {row.service_status == "3" && (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label={"Desactivado"}
+                            Desactivado
+                          />
+                        )}
                       </TableCell>
 
-                      <TableCell>                        
-                        {
-                          row.debt>1 ?(
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={"Mora ("+row.debt+" Cuota/s)"}
-                              Mora
-                            />
-                          ):
-                          ("")
-                        }             
-                        {
-                          (row.debt==1 ) ? (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={"Pendiente de pago"}
-                              PPago
-                            />
-                          ):("")
-                        }       
-                        {
-                          (row.debt==0 ) && (
-                            <Chip
-                              size="small"
-                              mr={1}
-                              mb={1}
-                              label={"Solvente"}
-                              AlDia
-                            />
-                          )
-                        }                        
+                      <TableCell>
+                        {row.debt > 1 ? (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label={"Mora (" + row.debt + " Cuota/s)"}
+                            Mora
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {row.debt == 1 ? (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label={"Pendiente de pago"}
+                            PPago
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {row.debt == 0 && (
+                          <Chip
+                            size="small"
+                            mr={1}
+                            mb={1}
+                            label={"Solvente"}
+                            AlDia
+                          />
+                        )}
                       </TableCell>
-                      <TableCell align="left">{row.start_date_service}</TableCell>
-                      
+                      <TableCell align="left">
+                        {row.start_date_service}
+                      </TableCell>
+
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton
+                          {/* <IconButton
                             onClick={ins.handleChange("dialog-" + row.id)}
                             aria-label="details"
                           >
                             <RemoveRedEyeIcon />
-                          </IconButton>
-                          
+                          </IconButton> */}
 
                           <IconButton
-                            onClick={ins.handleChange("dialog-" + row.id)}
+                            onClick={ins.handleChange("dialogEDIT-" + row.id)}
                             aria-label="edit"
                           >
                             <EditIcon />
                           </IconButton>
-
-
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -695,6 +698,776 @@ function FilterRows({ ins }) {
       </DialogContent>
     </Dialog>
   );
+}
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+function editCustomerForm({ ins }) {
+  return (
+    <Dialog open={ins.state.openEditCustomerModal}>
+      <DialogTitle>
+        <Box display="flex" alignItems="center">
+          <Box flexGrow={1}>Editar cliente</Box>
+          <Box>
+            <IconButton onClick={ins.handleChange("closets")}>
+              <IconClose />
+            </IconButton>
+          </Box>
+        </Box>
+        <Divider my={0} />
+      </DialogTitle>
+      <DialogContent>
+        <Grid justify="space-between" container spacing={1}>
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Cód cliente:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <InputMask
+              mask="09-9999"
+              // disabled={false}
+              maskChar=" "
+              disabled
+              // label="# Cliente"
+              size="small"
+              value={ins.state.detailViewing.service_id}
+              onChange={ins.handleChange("newCustomer.code")}
+              autoFocus
+            >
+              {() => (
+                <TextField
+                  label="# Cliente"
+                  fullWidth
+                  disabled
+                  size="small"
+                  variant="outlined"
+                />
+              )}
+            </InputMask>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Nombres:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={ins.state.newCustomer.name}
+              onChange={ins.handleChange("newCustomer.name")}
+            />
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Apellidos:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              fullWidth
+              variant="outlined"
+              size="small"
+              value={ins.state.newCustomer.lastname}
+              onChange={ins.handleChange("newCustomer.lastname")}
+            />
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Dirección:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              fullWidth
+              multiline
+              variant="outlined"
+              size="small"
+              value={ins.state.newCustomer.address}
+              onChange={ins.handleChange("newCustomer.address")}
+            />
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Fecha inicio servicio:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              type="date"
+              defaultValue="today"
+              sx={{ width: 220 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              // multiline
+              variant="outlined"
+              size="small"
+              value={ins.state.newCustomer.start_date}
+              onChange={ins.handleChange("newCustomer.start_date")}
+            />
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Estado:
+            </Typography>
+          </Grid>
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Spacer m={2} />
+            <TextField
+              id="outlined-select-currency0"
+              select
+              label=""
+              size="small"
+              fullWidth
+              value={ins.state.newCustomer.status}
+              onChange={ins.handleChange("newCustomer.status")}
+              variant="outlined"
+            >
+              {ins.state.paymentMethods.map((tile) => (
+                <MenuItem key={tile.id} value={tile.id}>
+                  {tile.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Derecho pagado:
+            </Typography>
+          </Grid>
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <Grid item xs={12} md={12} lg={12} xl={12}>
+              <Spacer m={2} />
+              <TextField
+                id="outlined-select-currency0"
+                select
+                label=""
+                size="small"
+                fullWidth
+                value={ins.state.newCustomer.is_founder}
+                onChange={ins.handleChange("newCustomer.is_founder")}
+                variant="outlined"
+              >
+                {ins.state.derechoPagado.map((tile) => (
+                  <MenuItem key={tile.id} value={tile.id}>
+                    {tile.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              # Teléfono:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <InputMask
+              mask="9999 9999"
+              disabled={false}
+              maskChar=" "
+              size="small"
+              value={ins.state.newCustomer.phone_number}
+              onChange={ins.handleChange("newCustomer.phone_number")}
+              autoFocus
+            >
+              {() => (
+                <TextField
+                  // label="# Cliente"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
+              )}
+            </InputMask>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              # Tiene WhatsApps:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <TextField
+              id="outlined-select-currency0"
+              select
+              label=""
+              size="small"
+              fullWidth
+              value={ins.state.newCustomer.is_whatsapp}
+              onChange={ins.handleChange("newCustomer.is_whatsapp")}
+              variant="outlined"
+            >
+              {ins.state.derechoPagado.map((tile) => (
+                <MenuItem key={tile.id} value={tile.id}>
+                  {tile.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+            <Typography variant="caption" gutterBottom display="inline">
+              # DUI:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+            <InputMask
+              mask="99999999-9"
+              disabled={false}
+              maskChar=" "
+              size="small"
+              value={ins.state.NCdoc_id}
+              onChange={ins.handleChange("NCdoc_id")}
+              autoFocus
+            >
+              {() => (
+                <TextField
+                  // label="# Cliente"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
+              )}
+            </InputMask>
+          </Grid>
+
+          <Divider my={6} />
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Button
+              onClick={ins.handleChange("editCustomerDetails")}
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              <IconMoped />
+              GUARDAR
+            </Button>
+          </Grid>
+          <Divider my={6} />
+        </Grid>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function NewCustomerForm({ ins }) {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Dialog open={ins.state.openNewCustomerModal}>
+      <DialogTitle>
+        <Box display="flex" alignItems="center">
+          <Box flexGrow={1}>Ficha cliente nuevo</Box>
+          <Box>
+            <IconButton onClick={ins.handleChange("closets")}>
+              <IconClose />
+            </IconButton>
+          </Box>
+        </Box>
+        {/* <Divider my={0} /> */}
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Cliente" {...a11yProps(0)} />
+              <Tab label="Beneficiario" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+          
+            <Box sx={{ width: "100%" }} mt={5}>
+              <Grid justify="space-between" container spacing={1}>
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Código cliente:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="09-9999"
+                    disabled={false}
+                    maskChar=" "
+                    // label="# Cliente"
+                    size="small"
+                    value={ins.state.NCcode}
+                    onChange={ins.handleChange("NCcode")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        label="# Cliente existente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Nombres:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    value={ins.state.NCname}
+                    onChange={ins.handleChange("NCname")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Apellidos:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NClastname}
+                    onChange={ins.handleChange("NClastname")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Dirección:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    fullWidth
+                    multiline
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NCaddress}
+                    onChange={ins.handleChange("NCaddress")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Fecha inicio servicio:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    type="date"
+                    defaultValue="today"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    // multiline
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NCstart_date}
+                    onChange={ins.handleChange("NCstart_date")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Estado:
+                  </Typography>
+                </Grid>
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <Spacer m={2} />
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label=""
+                    size="small"
+                    fullWidth
+                    value={ins.state.NCstatus}
+                    onChange={ins.handleChange("NCstatus")}
+                    variant="outlined"
+                  >
+                    {ins.state.paymentMethods.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Derecho pagado:
+                  </Typography>
+                </Grid>
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <Grid item xs={12} md={12} lg={12} xl={12}>
+                    <Spacer m={2} />
+                    <TextField
+                      id="outlined-select-currency0"
+                      select
+                      label=""
+                      size="small"
+                      fullWidth
+                      value={ins.state.NCis_founder}
+                      onChange={ins.handleChange("NCis_founder")}
+                      variant="outlined"
+                    >
+                      {ins.state.derechoPagado.map((tile) => (
+                        <MenuItem key={tile.id} value={tile.id}>
+                          {tile.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    # Teléfono:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="9999 9999"
+                    disabled={false}
+                    maskChar=" "
+                    size="small"
+                    value={ins.state.NCphone_number}
+                    onChange={ins.handleChange("NCphone_number")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        // label="# Cliente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    # Tiene WhatsApp:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label=""
+                    size="small"
+                    fullWidth
+                    value={ins.state.NCis_whatsapp}
+                    onChange={ins.handleChange("NCis_whatsapp")}
+                    variant="outlined"
+                  >
+                    {ins.state.derechoPagado.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    DUI:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="99999999-9"
+                    disabled={false}
+                    maskChar=" "
+                    size="small"
+                    value={ins.state.NCdoc_id}
+                    onChange={ins.handleChange("NCdoc_id")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        // label="# Cliente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+
+                <Divider my={6} />
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Button
+                    onClick={ins.handleChange("saveNewCustomer")}
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    <IconMoped />
+                    GUARDAR
+                  </Button>
+                </Grid>
+                <Divider my={6} />
+              </Grid>
+            </Box>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+          <Box sx={{ width: "100%" }} mt={5}>
+              <Grid justify="space-between" container spacing={1}>
+                
+
+
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Nombres:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    value={ins.state.NCBname}
+                    onChange={ins.handleChange("NCBname")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Apellidos:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NCBlastname}
+                    onChange={ins.handleChange("NCBlastname")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Dirección:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    fullWidth
+                    multiline
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NCBaddress}
+                    onChange={ins.handleChange("NCBaddress")}
+                  />
+                </Grid>
+               
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    # Teléfono:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="9999 9999"
+                    disabled={false}
+                    maskChar=" "
+                    size="small"
+                    value={ins.state.NCBphone_number}
+                    onChange={ins.handleChange("NCBphone_number")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        // label="# Cliente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    # Tiene WhatsApp:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label=""
+                    size="small"
+                    fullWidth
+                    value={ins.state.NCBis_whatsapp}
+                    onChange={ins.handleChange("NCBis_whatsapp")}
+                    variant="outlined"
+                  >
+                    {ins.state.derechoPagado.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    DUI:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="99999999-9"
+                    disabled={false}
+                    maskChar=" "
+                    size="small"
+                    value={ins.state.NCBdoc_id}
+                    onChange={ins.handleChange("NCBdoc_id")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        // label="# Cliente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+                
+                <Box mt={15}/>
+
+                {/* <Divider my={6} /> */}
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Button
+                    onClick={ins.handleChange("saveNewCustomer")}
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    <IconMoped />
+                    GUARDAR
+                  </Button>
+                </Grid>
+                <Divider my={6} />
+              </Grid>
+            </Box>
+
+          </TabPanel>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function customerDataFormx({ ins }) {
+  return <div>hola</div>;
 }
 function DetailsModalToSend({ ins }) {
   return (
@@ -897,12 +1670,21 @@ function DetailsModalToSend({ ins }) {
 }
 
 function DetailsModal({ ins }) {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
+    // EDITANDO NUEVO
     <Dialog open={ins.state.openDetail}>
       <DialogTitle>
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>
-          {ins.state.detailViewing.service_id}-{ins.state.detailViewing.names}
+            {ins.state.detailViewing.service_id} |{" "}
+            {ins.state.detailViewing.lastnamesa},{" "}
+            {ins.state.detailViewing.namesa} ({ins.state.detailViewing.id})
           </Box>
           <Box>
             <IconButton onClick={ins.handleChange("close")}>
@@ -913,28 +1695,75 @@ function DetailsModal({ ins }) {
         <Divider my={0} />
       </DialogTitle>
       <DialogContent>
+
+
+      <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Cliente" {...a11yProps(0)} />
+              <Tab label="Beneficiario" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+          <Box sx={{ width: "100%" }} mt={5}>
+
+        
         <Grid justify="space-between" container spacing={1}>
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Cliente:
+              Nombres:
             </Typography>
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.names}
-            </Typography>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={ins.state.NCnamesa}
+              onChange={ins.handleChange("NCnamesa")}
+            />
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Dir:
+             Apellidos:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={ins.state.NClastnamesa}
+              onChange={ins.handleChange("NClastnamesa")}
+            />
+          </Grid>
+
+          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+            <Typography variant="caption" gutterBottom display="inline">
+              Dirección:
             </Typography>
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.address}
-            </Typography>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={ins.state.NCaddress}
+              onChange={ins.handleChange("NCaddress")}
+            />
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
@@ -943,9 +1772,15 @@ function DetailsModal({ ins }) {
             </Typography>
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.phone_number}
-            </Typography>
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={ins.state.NCphone_number}
+              onChange={ins.handleChange("NCphone_number")}
+            />
           </Grid>
 
           {/* https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17 */}
@@ -956,88 +1791,68 @@ function DetailsModal({ ins }) {
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            {ins.state.detailViewing.is_whatsapp=="1"?
-            <Typography variant="button" gutterBottom display="inline">
-            Si
-          </Typography>:
-          <Typography variant="button" gutterBottom display="inline">
-          No
-        </Typography>}
+            <TextField
+              id="outlined-select-currency0"
+              select
+              size="small"
+              fullWidth
+              value={ins.state.NCis_whatsapp}
+              onChange={ins.handleChange("NCis_whatsapp")}
+              variant="outlined"
+            >
+              {ins.state.derechoPagado.map((tile) => (
+                <MenuItem key={tile.id} value={tile.id}>
+                  {tile.name}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Meses vencidos:
+              Der. pagado:
             </Typography>
           </Grid>
 
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.debt} Meses
-            </Typography>
+            {ins.state.detailViewing.is_founder == "1" ? (
+              <Typography variant="button" gutterBottom display="inline">
+                Si
+              </Typography>
+            ) : (
+              <Typography variant="button" gutterBottom display="inline">
+                No
+              </Typography>
+            )}
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              Derecho pagado:
+              F. Inic. servicio:
             </Typography>
           </Grid>
-
+          {/* mendoza */}
           <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-          {ins.state.detailViewing.is_founder=="1"?
-            <Typography variant="button" gutterBottom display="inline">
-            Si
-          </Typography>:
-          <Typography variant="button" gutterBottom display="inline">
-          No
-        </Typography>}
+            <TextField
+              id="standard-basic"
+              // label="Cliente"
+              type="date"
+              defaultValue={ins.state.NCstart_date}
+              sx={{ width: 220 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              variant="outlined"
+              size="small"
+              // value={ins.state.NCstart_date}
+              onChange={ins.handleChange("NCstart_date")}
+            />
           </Grid>
 
           <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
             <Typography variant="caption" gutterBottom display="inline">
-              F.Inicio:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-            <Typography variant="button" gutterBottom display="inline">
-              {ins.state.detailViewing.start_date_service}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Estado actual:
-            </Typography>
-          </Grid>
-
-          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-          {
-          ins.state.detailViewing.service_status=="1"?
-            <Typography variant="button" gutterBottom display="inline">
-            Activo
-          </Typography>:
-          ""
-          }
-          {
-          ins.state.detailViewing.service_status=="2"?
-            <Typography variant="button" gutterBottom display="inline">
-            Corte
-          </Typography>:
-          ""
-          }
-          {
-          ins.state.detailViewing.service_status=="3"?
-            <Typography variant="button" gutterBottom display="inline">
-            Desactivado
-          </Typography>:
-          ""
-          }
-          </Grid>
-
-          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-            <Typography variant="caption" gutterBottom display="inline">
-              Nuevo estado:
+              Est. Servicio:
             </Typography>
           </Grid>
 
@@ -1055,35 +1870,234 @@ function DetailsModal({ ins }) {
                 variant="outlined"
               >
                 {ins.state.paymentMethods.map((tile) => (
-                      <MenuItem key={tile.id} value={tile.id}>
-                        {tile.name}
-                      </MenuItem>
-                    ))}
+                  <MenuItem key={tile.id} value={tile.id}>
+                    {tile.name}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
           </Grid>
 
 
-          <Divider my={5} />
 
 
+          <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+            <Typography variant="caption" gutterBottom display="inline">
+              # DUI:
+            </Typography>
+          </Grid>
+
+          <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+            <InputMask
+              mask="99999999-9"
+              disabled={false}
+              maskChar=" "
+              size="small"
+              value={ins.state.NCdoc_id}
+              onChange={ins.handleChange("NCdoc_id")}
+              autoFocus
+            >
+              {() => (
+                <TextField
+                  // label="# Cliente"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
+              )}
+            </InputMask>
+          </Grid>
+
+
+
+
+
+
+          <Divider my={8} />
 
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
-              onClick={ins.handleChange("assignToDriver")}
+              onClick={ins.handleChange("saveEditCustomer")}
               fullWidth
               variant="contained"
               color="primary"
             >
               {/* <IconMoped /> */}
-              ACTUALIZAR
+              ACTUALIZAR DATOS
             </Button>
           </Grid>
-
-
-
         </Grid>
+        </Box>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Box sx={{ width: "100%" }} mt={5}>
+            
+
+
+
+          <Grid justify="space-between" container spacing={1}>
+                
+
+
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Nombres:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    value={ins.state.NCnamesb}
+                    onChange={ins.handleChange("NCnamesb")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Apellidos:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NClastnamesb}
+                    onChange={ins.handleChange("NClastnamesb")}
+                  />
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    Dirección:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="standard-basic"
+                    // label="Cliente"
+                    fullWidth
+                    multiline
+                    variant="outlined"
+                    size="small"
+                    value={ins.state.NCaddressb}
+                    onChange={ins.handleChange("NCaddressb")}
+                  />
+                </Grid>
+               
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    # Teléfono:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="9999 9999"
+                    disabled={false}
+                    maskChar=" "
+                    size="small"
+                    value={ins.state.NCphoneb}
+                    onChange={ins.handleChange("NCphoneb")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        // label="# Cliente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    # Tiene WhatsApp:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <TextField
+                    id="outlined-select-currency0"
+                    select
+                    label=""
+                    size="small"
+                    fullWidth
+                    value={ins.state.NCis_whatsappb}
+                    onChange={ins.handleChange("NCis_whatsappb")}
+                    variant="outlined"
+                  >
+                    {ins.state.derechoPagado.map((tile) => (
+                      <MenuItem key={tile.id} value={tile.id}>
+                        {tile.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                  <Typography variant="caption" gutterBottom display="inline">
+                    DUI:
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+                  <InputMask
+                    mask="99999999-9"
+                    disabled={false}
+                    maskChar=" "
+                    size="small"
+                    value={ins.state.NCdoc_idb}
+                    onChange={ins.handleChange("NCdoc_idb")}
+                    autoFocus
+                  >
+                    {() => (
+                      <TextField
+                        // label="# Cliente"
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+                
+                <Box mt={15}/>
+
+                {/* <Divider my={6} /> */}
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Button
+                    onClick={ins.handleChange("saveEditCustomer")}
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    <IconMoped />
+                    ACTUALIZAR DATOS 
+                  </Button>
+                </Grid>
+                <Divider my={6} />
+              </Grid>
+
+
+
+            </Box>
+        </TabPanel>
         {/* <Divider my={5} /> */}
+        </Box>
       </DialogContent>
     </Dialog>
   );
@@ -1092,7 +2106,7 @@ function DetailsModal({ ins }) {
 class OrdersComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.getDriverLoad = this.getDriverLoad.bind(this);
+    // this.getDriverLoad = this.getDriverLoad.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
     this.searchValue = this.searchValue.bind(this);
@@ -1111,14 +2125,15 @@ class OrdersComponent extends React.Component {
     canPrintChecklist: false,
     drivers: [],
     paymentMethods: [
+      // {id: 0,name:"Seleccione"},
       { id: 1, name: "Activo" },
       { id: 2, name: "Corte" },
       { id: 3, name: "Desactivado" },
     ],
-    otifStatuses: [
-      { id: 1, name: "Completo" },
-      { id: 2, name: "Con sustitutos" },
-      { id: 3, name: "Incompleto" },
+    derechoPagado: [
+      // {id: 0,name:"Seleccione"},
+      { id: 1, name: "Si" },
+      { id: 2, name: "No" },
     ],
     cargaDriver: [],
     orderSelectedDriver: "",
@@ -1145,6 +2160,12 @@ class OrdersComponent extends React.Component {
     st9: true,
     st10: true,
     st11: true,
+
+    openNewCustomerModal: false,
+    openEditCustomerModal: false,
+    newCustomer: {},
+    nc: {}, //new customer,
+    ActiveTabCreate: 2,
   };
   getStatuses = (items, prop) => {
     var results = {};
@@ -1170,7 +2191,7 @@ class OrdersComponent extends React.Component {
       {
         ordersWithoutOP: i.state.ordersWithoutOP + 1,
       },
-      () => { }
+      () => {}
     );
   };
   searchValue = (ev) => {
@@ -1214,18 +2235,18 @@ class OrdersComponent extends React.Component {
             {
               ordenesStatuses: xp,
             },
-            () => { }
+            () => {}
           );
           ir.setState(
             {
               allOrdersCount: res.data.length,
             },
-            () => { }
+            () => {}
           );
           // console.log(xp);
 
           ir.setState({ ordersWithoutOP: 0 });
-          res.data.forEach(function (entry) {            
+          res.data.forEach(function (entry) {
             dt.push(
               createData(
                 entry.id,
@@ -1237,7 +2258,11 @@ class OrdersComponent extends React.Component {
                 entry.address,
                 entry.is_founder,
                 entry.phone_number,
-                entry.is_whatsapp                
+                entry.is_whatsapp,
+                entry.namesa,
+                entry.lastnamesa,
+                entry.beneficiary,
+                entry.doc_id
               )
             );
           });
@@ -1292,8 +2317,168 @@ class OrdersComponent extends React.Component {
       // Si existe algun filtro, entonces: 1- hacer backup de todas las ordenes 2- filtrar las que estan
     }
   };
-  saveDetailsAndShip(ins) {
+  updateCustomer(ins) {
+    ins.saveDetailsAndShip(ins);
+    var tk = localStorage.getItem("token_sec");
+    var nstate = ins.state.nc;
+    var code = ins.state.NCcode;
+
+    var name = ins.state.NCnamesa;
+    var lastName = ins.state.NClastnamesa;
+    var address = ins.state.NCaddress;
+    var startDate = ins.state.NCstart_date;
+    var nstate = ins.state.NCstatus;
+    var phone = ins.state.NCphone_number;
+    var is_founder = ins.state.NCis_founder;
+    var is_whatsapp = ins.state.NCis_whatsapp;
+    var doc_id = ins.state.NCdoc_id;
+    var customer_id = ins.state.detailViewing.id;
+    // NCdoc_id
+
+    // BENEFICIARIOS
+
+    //       this.setState({ NCdoc_idb: obj.beneficiary[0].doc_id });
+
+
+    var bid = ins.state.NCbid;
+    var bname = ins.state.NCnamesb;
+    var blastname = ins.state.NClastnamesb;
+    var bphone = ins.state.NCphoneb;
+    var baddress = ins.state.NCaddressb;
+    var bis_whatsapp = ins.state.NCis_whatsappb;
+    var docid = ins.state.NCdoc_idb;
+    // alert(bname);
+    // UPDATE CUSTOMERS
+    axios
+      .put(
+        "https://adsa-api-zu7qtahjbq-uc.a.run.app/customers",
+        {
+          code: code,
+          names: name,
+          lastnames: lastName,
+          address: address,
+          start_date_service: startDate,
+          service_status: nstate,
+          phone_number: phone,
+          is_founder: is_founder,
+          is_whatsapp: is_whatsapp,
+          doc_id: doc_id,
+          id: customer_id,
+
+          bid:bid,
+          bname:bname,
+          blastname:blastname,
+          bphone_number:bphone,
+          baddress:baddress,
+          bis_whatsapp:bis_whatsapp,
+          bdoc_id:docid
+
+
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (res) {
+        ins.setState(
+          {
+            openNewCustomer: false,
+          },
+          () => {
+            alert("Registro actualizado correctamente");
+            window.location.reload();
+          }
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert(error);
+      });
+  }
+  createNewCustomer(ins) {
+    // alert("createNewCustomer");
+    var tk = localStorage.getItem("token_sec");
+    var nstate = ins.state.nc;
+    // console.log(nstate);
+
+    var code = ins.state.NCcode;
+    var name = ins.state.NCname;
+    var lastName = ins.state.NClastname;
+    var address = ins.state.NCaddress;
+    var startDate = ins.state.NCstart_date;
+    var nstate = ins.state.NCstatus;
+    var phone = ins.state.NCphone_number;
+    var is_founder = ins.state.NCis_founder;
+    var is_whatsapp = ins.state.NCis_whatsapp;
+    var doc_id = ins.state.NCdoc_id;
+    // CREATE CUSTOMERS
+
+    //CREATE BENEFICIARY
+    var bName = ins.state.NCBname;
+    var bLastName = ins.state.NCBlastname;
+    var bAddress = ins.state.NCBaddress;
+    var bPhone = ins.state.NCBphone_number;
+    var bDoc_id = ins.state.NCBdoc_id;
+    var bIs_whatsapp = ins.state.NCBis_whatsapp;
     
+    
+    axios
+      .post(
+        "https://adsa-api-zu7qtahjbq-uc.a.run.app/customers",
+        {
+          code: code,
+          names: name,
+          lastnames: lastName,
+          address: address,
+          start_date_service: startDate,
+          service_status: nstate,
+          phone_number: phone,
+          is_founder: is_founder,
+          is_whatsapp: is_whatsapp,
+          doc_id: doc_id,
+          bname:bName,
+          blastname:bLastName,
+          baddress:bAddress,
+          bphone_number:bPhone,
+          bdoc_id:bDoc_id,
+          bis_whatsapp:bIs_whatsapp
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + tk,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (res) {
+        ins.setState(
+          {
+            openNewCustomer: false,
+          },
+          () => {
+            alert("Registro creado correctamente");
+            window.location.reload();
+          }
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert(error);
+      });
+  }
+
+  editCustomerDetails(ins) {
+    // alert("Editar Cliente");
+    ins.updateCustomer(ins);
+
+  }
+
+  saveDetailsAndShip(ins) {
     var customer_id = ins.state.detailViewing.id;
     var nstate = ins.state.orderSelectedDriver;
     axios
@@ -1301,7 +2486,7 @@ class OrdersComponent extends React.Component {
         "https://adsa-api-zu7qtahjbq-uc.a.run.app/ustatus",
         {
           id: customer_id,
-          u: nstate
+          u: nstate,
         },
         {
           headers: {
@@ -1326,52 +2511,52 @@ class OrdersComponent extends React.Component {
         // alert(error);
       });
   }
-  getDriverLoad(osOP, driver_id, ins) {
-    axios
-      .post(
-        "https://kip-logistic-api.azurewebsites.net/drivers",
-        {
-          driver_id: driver_id,
-          opid: osOP,
-          day: "",
-          month: "",
-          year: "",
-          hour: "",
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(function (res) {
-        var dt = [];
-        res.data.data.forEach(function (entry) {
-          var vx = "";
-          vx = {
-            id: entry.delivery_date,
-            name: entry.op,
-          };
-          dt.push(vx);
-          // console.log(entry);
-        });
+  // getDriverLoad(osOP, driver_id, ins) {
+  //   axios
+  //     .post(
+  //       "https://kip-logistic-api.azurewebsites.net/drivers",
+  //       {
+  //         driver_id: driver_id,
+  //         opid: osOP,
+  //         day: "",
+  //         month: "",
+  //         year: "",
+  //         hour: "",
+  //       },
+  //       {
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then(function (res) {
+  //       var dt = [];
+  //       res.data.data.forEach(function (entry) {
+  //         var vx = "";
+  //         vx = {
+  //           id: entry.delivery_date,
+  //           name: entry.op,
+  //         };
+  //         dt.push(vx);
+  //         // console.log(entry);
+  //       });
 
-        ins.setState(
-          {
-            cargaDriver: dt,
-          },
-          () => {
-            // console.log(ins.state.cargaDriver);
-          }
-        );
-        console.log("Fin");
-      })
-      .catch(function (error) {
-        console.log(error);
-        // alert(error);
-      });
-  }
+  //       ins.setState(
+  //         {
+  //           cargaDriver: dt,
+  //         },
+  //         () => {
+  //           // console.log(ins.state.cargaDriver);
+  //         }
+  //       );
+  //       console.log("Fin");
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //       // alert(error);
+  //     });
+  // }
   // componentWillUnmount() {
   //   clearInterval(slideInterval);
   // }
@@ -1411,14 +2596,13 @@ class OrdersComponent extends React.Component {
           {
             drivers: dt,
           },
-          () => { }
+          () => {}
         );
       })
       .catch(function (error) {
         console.log(error);
       });
   }
-
 
   clearSearch = () => {
     this.setState({ searchTerm: "" });
@@ -1433,14 +2617,79 @@ class OrdersComponent extends React.Component {
     console.log(this.state.ordenes);
     if (name.includes("dialog")) {
       this.setState({ openDetail: !this.state.openDetail });
+
+      if (name.includes("dialogEDIT")) {
+        // alert("edit");
+        this.setState({
+          openEditCustomerModal: !this.state.openEditCustomerModal,
+        });
+      }
+      // this.setState({ openEditCustomerModal: !this.state.openEditCustomerModal });
       var rec = name;
       rec = name.replace("dialog-", "");
+      rec = name.replace("dialogEDIT-", "");
       let obj = this.state.ordenes.find((o) => o.id == rec);
       console.log(rec);
+      console.log("editando");
+      console.log(obj);
       this.setState({ detailViewing: obj });
+      this.setState({ NCis_whatsapp: obj.is_whatsapp });
+      // COPIAR A EDITABLES
+      // ins.state.detailViewing.namesa
+      this.setState({ NCnamesa: obj.namesa });
+      this.setState({ NClastnamesa: obj.lastnamesa });
+      this.setState({ NCaddress: obj.address });
+      this.setState({ NCstart_date: obj.start_date_service });
+
+      this.setState({ NCphone_number: obj.phone_number });
+      this.setState({ NCis_whatsapp: obj.is_whatsapp });
+      this.setState({ NCisFounder: obj.is_founder });
+      this.setState({ orderSelectedDriver: obj.service_status });
+      this.setState({ NCdoc_id: obj.doc_id });
+
+      
+      try {
+        if (obj.beneficiary[0].names){        
+          this.setState({ NCbid: obj.beneficiary[0].id });
+          this.setState({ NCnamesb: obj.beneficiary[0].names });
+          this.setState({ NClastnamesb: obj.beneficiary[0].last_names });
+          this.setState({ NCphoneb: obj.beneficiary[0].phone });
+          this.setState({ NCis_whatsappb: obj.beneficiary[0].is_whatsapp });
+          this.setState({ NCdoc_idb: obj.beneficiary[0].doc_id });
+          this.setState({ NCaddressb: obj.beneficiary[0].address });
+        }
+      } catch (error) {
+        console.error(error);        
+        this.setState({ NCnamesb: "" });
+        this.setState({ NClastnamesb: "" });
+        this.setState({ NCphoneb: "" });
+        this.setState({ NCis_whatsappb: "" });
+        this.setState({ NCdoc_idb: "" });
+        this.setState({ NCaddressb: "" });
+      }
+      
+      
+      //convert ins.state.NCstart_date to 2021-01-12 yyyy-mm-dd
+      var allDate = obj.start_date_service;
+      if (allDate.length > 0) {
+        // alert(allDate);
+        var todo = allDate.split("-");
+        var dia = todo[0];
+        var mes = todo[1];
+        var anio = todo[2];
+        var fecha = anio + "-" + mes + "-" + dia;
+        this.setState({ NCstart_date: fecha });
+      }
+
+      // alert(obj.start_date_service);
+
+      // NCis_whatsapp
     }
     if (name.includes("close")) {
       this.setState({ openDetail: false });
+    }
+    if (name.includes("nuevocliente")) {
+      this.setState({ openNewCustomerModal: !this.state.openNewCustomerModal });
     }
 
     // DETAILS TO SEND
@@ -1469,16 +2718,14 @@ class OrdersComponent extends React.Component {
       if (obj.nota.length > 0) {
         cnn = "X";
         snn = " ";
-      }
-      else {
+      } else {
         cnn = " ";
         snn = "X";
       }
 
-
       var idfac = "";
       var dtenv = "";
-      var tempaque ="";
+      var tempaque = "";
 
       dtenv = obj.dt_envio.split(" ");
       idfac = obj.trx.split("-");
@@ -1495,16 +2742,14 @@ class OrdersComponent extends React.Component {
       rpt = rpt.replace("[VARDIA]", dtenv[0]);
       rpt = rpt.replace("[VARHORA]", dtenv[1]);
 
-      if (obj.empaque==="bolsas"){
+      if (obj.empaque === "bolsas") {
         rpt = rpt.replace("[VARBO]", "X");
         rpt = rpt.replace("[VARJA]", " ");
       }
-      if (obj.empaque==="java"){
+      if (obj.empaque === "java") {
         rpt = rpt.replace("[VARBO]", "X");
         rpt = rpt.replace("[VARJA]", " ");
       }
-
-
 
       var win = window.open();
       win.document.open();
@@ -1514,16 +2759,14 @@ class OrdersComponent extends React.Component {
       // win.close();
     }
 
-
     if (name.includes("closets")) {
       this.setState({ openDetailToSend: false });
       this.setState({ openDetailToPrint: false });
-
+      this.setState({ openNewCustomerModal: false });
     }
     // close-checkpage
     if (name.includes("closet-checkpage")) {
       this.setState({ openDetailToPrint: false });
-
     }
     if (name.includes("close-filters")) {
       this.setState({ openFilters: false });
@@ -1561,14 +2804,18 @@ class OrdersComponent extends React.Component {
       // alert("assignToDriver");
       this.saveDetailsAndShip(this);
     }
+    if (name == "saveNewCustomer") {
+      this.createNewCustomer(this);
+    }
+    if (name == "saveEditCustomer") {
+      this.editCustomerDetails(this);
+    }
   };
   render() {
     // const { classes } = this.props;
     return (
       <React.Fragment>
         <Helmet title="Clientes" />
-
-        
 
         {/* <Grid container spacing={2}>
           <Grid item xs={10} sm={11} md={11} lg={11} xl={11}>
@@ -1653,7 +2900,7 @@ class OrdersComponent extends React.Component {
             {this.state.ordenesStatuses.map(
               (tile) =>
                 // (tile.value == "processing" || tile.value == "new" || tile.value == "pending" || tile.value == "READY" ? (
-                (["1",1,].indexOf(tile.value) >0 ? (
+                (["1", 1].indexOf(tile.value) > 0 ? (
                   this.service_status.st1 ? (
                     <Chip
                       mr={1}
@@ -1663,11 +2910,13 @@ class OrdersComponent extends React.Component {
                       fullWidth
                       onClick={(event) => this.applyFilter(event, "new")}
                     />
-                  ) : ""
+                  ) : (
+                    ""
+                  )
                 ) : (
                   ""
                 )) ||
-                (["2",2].indexOf(tile.value) >0 ? (
+                (["2", 2].indexOf(tile.value) > 0 ? (
                   this.service_status.st1 ? (
                     <Chip
                       mr={1}
@@ -1677,12 +2926,13 @@ class OrdersComponent extends React.Component {
                       fullWidth
                       onClick={(event) => this.applyFilter(event, "new")}
                     />
-                  ) : ""
+                  ) : (
+                    ""
+                  )
                 ) : (
                   ""
-                ))
-                ||
-                (["3",3].indexOf(tile.value) >0 ? (
+                )) ||
+                (["3", 3].indexOf(tile.value) > 0 ? (
                   this.service_status.st1 ? (
                     <Chip
                       mr={1}
@@ -1692,12 +2942,13 @@ class OrdersComponent extends React.Component {
                       fullWidth
                       onClick={(event) => this.applyFilter(event, "new")}
                     />
-                  ) : ""
+                  ) : (
+                    ""
+                  )
                 ) : (
                   ""
                 ))
             )}
-            
 
             {/* Este día:    0 Pedidos | 2 Nuevos | 0 Checklist (Invalid) | 0 Pickeando | 0 En Caja(Invalid) | 5 Facturado | 4 Asignado| 6 Entregado | 1 Cancelado | 1 Espera (Invalid) */}
           </Grid>

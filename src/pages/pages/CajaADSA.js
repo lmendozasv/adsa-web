@@ -1028,6 +1028,11 @@ class ServicesList extends React.Component {
         {/* <Typography variant="h4">Bienvenido</Typography>
         <Spacer m={5} /> */}
         <Grid container mt={0}>
+        <Button 
+      variant="outlined" 
+      color="secondary"
+      onClick={o=>{alert("Se realizará el corte de caja a partir de este momento");alert("Corte de caja, realizado con éxito")}}
+      >Cierre de caja</Button>
           {/* <Grid item xs={12} lg={6} xl={12}>
             <Box>
               <Paper m={4}>
@@ -1636,7 +1641,8 @@ function SalesRevenue({ ins }) {
           </Grid>
         </Grid>
       </CardContent>
-
+ 
+      
       {/* <CardContent>
         <ChartWrapper>
           <Bar data={data} options={options} />
